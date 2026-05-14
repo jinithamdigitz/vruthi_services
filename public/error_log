@@ -1,0 +1,22 @@
+[08-Apr-2026 20:58:15 UTC] PHP Warning:  require(/home/kochidig/public_html/solarmaster/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/kochidig/public_html/solarmaster/public/index.php on line 14
+[08-Apr-2026 20:58:15 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/kochidig/public_html/solarmaster/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home/kochidig/public_html/solarmaster/public/index.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/kochidig/public_html/solarmaster/public/index.php on line 14
+[08-Apr-2026 20:58:53 UTC] PHP Warning:  require(/home/kochidig/public_html/solarmaster/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/kochidig/public_html/solarmaster/public/index.php on line 14
+[08-Apr-2026 20:58:53 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/kochidig/public_html/solarmaster/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home/kochidig/public_html/solarmaster/public/index.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/kochidig/public_html/solarmaster/public/index.php on line 14
+[08-Apr-2026 21:01:42 UTC] PHP Warning:  require(/home/kochidig/public_html/solarmaster/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/kochidig/public_html/solarmaster/public/index.php on line 14
+[08-Apr-2026 21:01:42 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/kochidig/public_html/solarmaster/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home/kochidig/public_html/solarmaster/public/index.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/kochidig/public_html/solarmaster/public/index.php on line 14
+[23-Apr-2026 07:05:54 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\OurProductController::show() in /home/kochidig/public_html/solarmaster/app/Http/Controllers/Admin/OurProductController.php on line 101
+[23-Apr-2026 07:06:40 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\OurProductController::show() in /home/kochidig/public_html/solarmaster/app/Http/Controllers/Admin/OurProductController.php on line 101
+[23-Apr-2026 07:07:20 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\OurProductController::show() in /home/kochidig/public_html/solarmaster/app/Http/Controllers/Admin/OurProductController.php on line 101
+[23-Apr-2026 07:07:42 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\OurProductController::show() in /home/kochidig/public_html/solarmaster/app/Http/Controllers/Admin/OurProductController.php on line 101
+[23-Apr-2026 07:23:14 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\OurProductController::show() in /home/kochidig/public_html/solarmaster/app/Http/Controllers/Admin/OurProductController.php on line 101
+[23-Apr-2026 07:29:56 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\OurProductController::show() in /home/kochidig/public_html/solarmaster/app/Http/Controllers/Admin/OurProductController.php on line 101
+[30-Apr-2026 07:21:27 UTC] PHP Fatal error:  Cannot declare class App\Models\Post, because the name is already in use in /home/kochidig/public_html/solarmaster/app/Http/Controllers/Admin/PostController.php on line 9
