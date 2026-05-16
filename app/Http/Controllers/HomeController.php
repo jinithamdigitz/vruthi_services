@@ -282,13 +282,8 @@ class HomeController extends Controller
         $firstPhone = $phones->first()?->title;
 
 
-        $productListCategory = PostCategory::where('slug', 'product-list')->first();
-        
-        $ourproducts = OurProduct::all();
 
-        if ($productListCategory) {
-            $heroProducts = Post::where('post_category_id', $productListCategory->id)->latest()->take(3)->get();
-        }
+        
 
         return view('index', [
             'aboutushome' => $aboutushome,
@@ -332,9 +327,9 @@ class HomeController extends Controller
             'ourExpertise' => $ourExpertise,
             'features' => $features,
             'testimonials' => $testimonials,
-            'heroProducts' => $heroProducts,
+          
             'phone' => $firstPhone,
-            'ourproducts'=>$ourproducts,
+           
         ]);
     }
 
