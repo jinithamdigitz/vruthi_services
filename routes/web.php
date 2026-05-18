@@ -42,6 +42,8 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\FacultyController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\CareerJobController;
+use App\Http\Controllers\CareersController;
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -56,6 +58,8 @@ Route::post('/admin/upload', [UploadController::class, 'store'])
 
 // In routes/web.php - CORRECT WAY
 Route::get('/faculty', [App\Http\Controllers\HomeController::class, 'faculty'])->name('home.faculty');
+
+Route::get('/careers', [CareersController::class, 'index'])->name('home.faculty');
 // NOT home.faculty
 // ============ NEW ENQUIRY ADMIN ROUTE (ADDED) ============
 // Route for admin enquiries - using auth middleware
@@ -70,12 +74,16 @@ Route::prefix('admin')
 // ============ NOTE: The route below might conflict with the one above ============
 // Both use the same path '/admin/enquiries' with 'auth' middleware
 // Keeping both - they are identical so no conflict
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get(
         '/enquiries',
         [EnquiryAdminController::class, 'index']
     )
         ->name('admin.enquiry.index');
+		
+		// routes/web.php
+
+Route::resource('career-jobs', CareerJobController::class);
 
     Route::get(
         '/enquiries/show/{id}',
