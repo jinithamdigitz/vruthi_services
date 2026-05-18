@@ -2,270 +2,149 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
 use Illuminate\Http\Request;
-use App\Models\ServiceImage;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
+use App\Models\Service;
 use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
+    /**
+     * Display a listing of the services.
+     */
     public function index()
     {
-        $services = Service::latest()->paginate(10);
+        $services = Service::orderBy('id', 'desc')->paginate(10);
         return view('admin.services.index', compact('services'));
     }
 
+    /**
+     * Show the form for creating a new service.
+     */
     public function create()
     {
         return view('admin.services.create');
     }
 
-    // ✅ COMMON FUNCTION (SEO NAME GENERATOR)
-    private function generateSeoName($title)
-    {
-        $prefix = 'printing-services-kerala';
-
-        // limit title length (important)
-        $titleSlug = Str::slug(Str::limit($title, 40, ''));
-
-        return $prefix . '-' . $titleSlug;
-    }
-
+    /**
+     * Store a newly created service in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'nullable',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'title' => 'required|string|max:255',
+            'body' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'keyword' => 'nullable|string|max:255',
         ]);
 
-        // Slug
-        $slug = Str::slug($request->title);
-        $originalSlug = $slug;
-        $count = 1;
-        while (Service::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $count++;
-        }
+        $service = new Service();
+        $service->title = $request->title;
+        $service->slug = Str::slug($request->title);
+        $service->body = $request->body;
+        $service->keyword = $request->keyword;
 
-        // 🔥 MAIN IMAGE
-        $imageName = null;
-
+        // Handle image upload
         if ($request->hasFile('image')) {
-
             $image = $request->file('image');
-            $extension = $image->getClientOriginalExtension();
-
-            $baseName = $this->generateSeoName($request->title);
-
-            $imageName = $baseName . '.' . $extension;
-            $path = public_path('uploads/services/' . $imageName);
-
-            $count = 1;
-            while (file_exists($path)) {
-                $imageName = $baseName . '-' . $count . '.' . $extension;
-                $path = public_path('uploads/services/' . $imageName);
-                $count++;
-            }
-
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/services'), $imageName);
+            $service->image = 'uploads/services/' . $imageName;
         }
 
-        $service = Service::create([
-            'title' => $request->title,
-            'slug' => $slug,
-            'description' => $request->description,
-            'image' => $imageName,
-        ]);
+        $service->save();
 
-        // 🔥 GALLERY
-        if ($request->hasFile('gallery')) {
-
-            foreach ($request->file('gallery') as $galleryImage) {
-
-                $extension = $galleryImage->getClientOriginalExtension();
-
-                $baseName = $this->generateSeoName($request->title);
-
-                $name = $baseName . '.' . $extension;
-                $path = public_path('uploads/service-gallery/' . $name);
-
-                $count = 1;
-                while (file_exists($path)) {
-                    $name = $baseName . '-' . $count . '.' . $extension;
-                    $path = public_path('uploads/service-gallery/' . $name);
-                    $count++;
-                }
-
-                $galleryImage->move(public_path('uploads/service-gallery'), $name);
-
-                ServiceImage::create([
-                    'service_id' => $service->id,
-                    'image' => $name
-                ]);
-            }
-        }
-
-        return redirect()->route('admin.services.index')
-            ->with('success', 'Service created successfully');
+        return redirect()->route('services.index')
+            ->with('success', 'Service created successfully.');
     }
 
-    public function show(Service $service)
+    /**
+     * Display the specified service.
+     */
+    public function show($id)
     {
-        $service->load('images');
+        $service = Service::findOrFail($id);
         return view('admin.services.show', compact('service'));
     }
 
-    public function edit(Service $service)
+    /**
+     * Show the form for editing the specified service.
+     */
+    public function edit($id)
     {
-        $service->load('images');
+        $service = Service::findOrFail($id);
         return view('admin.services.edit', compact('service'));
     }
 
-    public function update(Request $request, Service $service)
+    /**
+     * Update the specified service in storage.
+     */
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|max:255',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'title' => 'required|string|max:255',
+            'body' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'keyword' => 'nullable|string|max:255',
         ]);
 
-        // Slug update
-        if ($service->title !== $request->title) {
-            $slug = Str::slug($request->title);
-            $originalSlug = $slug;
-            $count = 1;
-            while (Service::where('slug', $slug)->where('id', '!=', $service->id)->exists()) {
-                $slug = $originalSlug . '-' . $count++;
-            }
-            $service->slug = $slug;
-        }
+        $service = Service::findOrFail($id);
+        $service->title = $request->title;
+        $service->slug = Str::slug($request->title);
+        $service->body = $request->body;
+        $service->keyword = $request->keyword;
 
-        // 🔥 MAIN IMAGE UPDATE
-        $imageName = $service->image;
-
+        // Handle image upload
         if ($request->hasFile('image')) {
-
-            if ($service->image && file_exists(public_path('uploads/services/' . $service->image))) {
-                unlink(public_path('uploads/services/' . $service->image));
+            // Delete old image if exists
+            if ($service->image && file_exists(public_path($service->image))) {
+                unlink(public_path($service->image));
             }
-
+            
             $image = $request->file('image');
-            $extension = $image->getClientOriginalExtension();
-
-            $baseName = $this->generateSeoName($request->title);
-
-            $imageName = $baseName . '.' . $extension;
-            $path = public_path('uploads/services/' . $imageName);
-
-            $count = 1;
-            while (file_exists($path)) {
-                $imageName = $baseName . '-' . $count . '.' . $extension;
-                $path = public_path('uploads/services/' . $imageName);
-                $count++;
-            }
-
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/services'), $imageName);
+            $service->image = 'uploads/services/' . $imageName;
         }
 
-        $service->update([
-            'title' => $request->title,
-            'slug' => $service->slug,
-            'image' => $imageName,
-        ]);
+        $service->save();
 
-        return redirect()->route('admin.services.index')
-            ->with('success', 'Service updated successfully');
+        return redirect()->route('services.index')
+            ->with('success', 'Service updated successfully.');
     }
 
-    // 🔥 BULK RENAME EXISTING IMAGES
-    public function renameSeoImages()
+    /**
+     * Remove the specified service from storage.
+     */
+    public function destroy($id)
     {
-        $services = Service::all();
-
-        foreach ($services as $service) {
-
-            // MAIN IMAGE
-            if ($service->image) {
-
-                $oldPath = public_path('uploads/services/' . $service->image);
-
-                if (file_exists($oldPath)) {
-
-                    $ext = pathinfo($oldPath, PATHINFO_EXTENSION);
-                    $baseName = $this->generateSeoName($service->title);
-
-                    $newName = $baseName . '.' . $ext;
-                    $newPath = public_path('uploads/services/' . $newName);
-
-                    $count = 1;
-                    while (file_exists($newPath)) {
-                        $newName = $baseName . '-' . $count . '.' . $ext;
-                        $newPath = public_path('uploads/services/' . $newName);
-                        $count++;
-                    }
-
-                    rename($oldPath, $newPath);
-
-                    $service->image = $newName;
-                    $service->save();
-                }
-            }
-
-            // GALLERY
-            foreach ($service->images as $img) {
-
-                $oldPath = public_path('uploads/service-gallery/' . $img->image);
-
-                if (file_exists($oldPath)) {
-
-                    $ext = pathinfo($oldPath, PATHINFO_EXTENSION);
-                    $baseName = $this->generateSeoName($service->title);
-
-                    $newName = $baseName . '.' . $ext;
-                    $newPath = public_path('uploads/service-gallery/' . $newName);
-
-                    $count = 1;
-                    while (file_exists($newPath)) {
-                        $newName = $baseName . '-' . $count . '.' . $ext;
-                        $newPath = public_path('uploads/service-gallery/' . $newName);
-                        $count++;
-                    }
-
-                    rename($oldPath, $newPath);
-
-                    $img->image = $newName;
-                    $img->save();
-                }
-            }
+        $service = Service::findOrFail($id);
+        
+        // Delete image if exists
+        if ($service->image && file_exists(public_path($service->image))) {
+            unlink(public_path($service->image));
         }
-
-        return "✅ Service images renamed successfully";
-    }
-
-    public function destroy(Service $service)
-    {
-        if ($service->image && file_exists(public_path('uploads/services/' . $service->image))) {
-            unlink(public_path('uploads/services/' . $service->image));
-        }
-
-        foreach ($service->images as $gallery) {
-            if ($gallery->image && file_exists(public_path('uploads/service-gallery/' . $gallery->image))) {
-                unlink(public_path('uploads/service-gallery/' . $gallery->image));
-            }
-        }
-
+        
         $service->delete();
 
-        return redirect()->route('admin.services.index')
-            ->with('success', 'Service deleted successfully');
+        return redirect()->route('services.index')
+            ->with('success', 'Service deleted successfully.');
     }
 
-    public function serviceDetail($slug)
+    /**
+     * Display the specified service by slug (for frontend).
+     */
+    public function showBySlug($slug)
     {
-        $service = Service::with('images')->where('slug', $slug)->firstOrFail();
-        return view('service-detail', compact('service'));
+        $service = Service::where('slug', $slug)->firstOrFail();
+        return view('services.show', compact('service'));
+    }
+
+    /**
+     * Get all services for frontend.
+     */
+    public function frontendIndex()
+    {
+        $services = Service::all();
+        return view('services.index', compact('services'));
     }
 }

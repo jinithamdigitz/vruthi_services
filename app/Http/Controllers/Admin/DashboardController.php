@@ -15,13 +15,13 @@ class DashboardController extends Controller
         $totalPosts = Post::count();
         $totalUsers = User::count();
         $totalCategories = PostCategory::count();
-        $totalProducts = OurProduct::count();
+    
         
         return view('admin.dashboard', compact(
             'totalPosts', 
             'totalUsers', 
             'totalCategories',
-            'totalProducts'
+           
         ));
     }
 

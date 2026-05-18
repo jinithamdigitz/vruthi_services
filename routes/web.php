@@ -18,7 +18,6 @@ use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\LocationController;
-use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ContactRequestController;
 use App\Http\Controllers\ScrapRequestController;
 use App\Http\Controllers\Admin\AdminScrapRequestController;
@@ -41,6 +40,9 @@ use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\OurProductController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\FacultyController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ContactController;
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('ourproduct', OurProductController::class);
@@ -50,7 +52,7 @@ Route::post('/admin/upload', [UploadController::class, 'store'])
     ->name('admin.upload')
     ->middleware(['auth']);
 
-Route::get('/products-services', [HomeController::class, 'productPage'])->name('product.page');
+
 
 // In routes/web.php - CORRECT WAY
 Route::get('/faculty', [App\Http\Controllers\HomeController::class, 'faculty'])->name('home.faculty');
@@ -151,7 +153,6 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about-us', [HomeController::class, 'about'])->name('home.about');
-Route::get('/services', [HomeController::class, 'services'])->name('home.services');
 Route::get('/projectlisting', [HomeController::class, 'projectlisting'])->name('home.projectlisting');
 
 
@@ -201,8 +202,6 @@ Route::prefix('admin')
 ========================================= */
 Route::get('/course/{slug}', [HomeController::class, 'courseDetail'])->name('course.detail');
 
-
-Route::get('/service-details/{slug}', [HomeController::class, 'serviceDetails'])->name('home.servicedetails');
 
 Route::get('/calculator', [SolarCalculatorController::class, 'index'])->name('calculator');
 Route::post('/calculator', [SolarCalculatorController::class, 'store'])->name('calculator.store');
@@ -280,10 +279,6 @@ Route::get('/privacy', [PagesController::class, 'privacy'])->name('privacy');
 
 Auth::routes();
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('services', ServiceController::class);
-});
-
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -338,7 +333,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 });
 
 Route::get('/admin/rename-seo-images', [PageController::class, 'renameSeoImages']);
-Route::get('/admin/rename-service-images', [ServiceController::class, 'renameSeoImages']);
 Route::get('/admin/rename-category-images', [ProjectCategoryController::class, 'renameSeoImages']);
 Route::get('/admin/rename-project-images', [ProjectController::class, 'renameSeoImages']);
 
@@ -371,4 +365,31 @@ Route::get('/{slug}', function ($slug) {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('faculties', FacultyController::class);
+});
+
+
+// Admin routes (with auth middleware)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/services', [ServiceController::class, 'index'])->name('services.index');
+    Route::get('/admin/services/create', [ServiceController::class, 'create'])->name('services.create');
+    Route::post('/admin/services', [ServiceController::class, 'store'])->name('services.store');
+    Route::get('/admin/services/{id}', [ServiceController::class, 'show'])->name('services.show');
+    Route::get('/admin/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+    Route::put('/admin/services/{id}', [ServiceController::class, 'update'])->name('services.update');
+    Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+});
+
+// Frontend routes
+Route::get('/services', [ServiceController::class, 'frontendIndex'])->name('frontend.services');
+Route::get('/services/{slug}', [ServiceController::class, 'showBySlug'])->name('service.detail');
+
+
+Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
+
+// Admin routes (add to your existing admin middleware group)
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/contacts', [ContactController::class, 'index'])->name('admin.contacts.index');
+    Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('admin.contacts.show');
+    Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
+    Route::post('/contacts/{id}/read', [ContactController::class, 'markAsRead'])->name('admin.contacts.mark-read');
 });

@@ -38,10 +38,11 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        View::composer('*', function ($view) {
-            $services = Service::orderBy('title')->get();
-            $view->with('services', $services);
-        });
+        /**
+         * Create a new controller instance.
+         *
+         * @return void
+         */
     }
 
     /**
@@ -53,142 +54,42 @@ class HomeController extends Controller
     {
         $seo = $this->getSeoForCurrentRoute();
 
-        $category = PostCategory::where('slug', 'banner')->first();
-        $banner = [];
+        $category = PostCategory::where('slug', 'home-banner')->first();
+        $homebanner = [];
         if ($category) {
-            $banner = Post::where('post_category_id', $category->id)->get();
+            $homebanner = Post::where('post_category_id', $category->id)->first();
         }
 
-        $category = PostCategory::where('slug', 'energy-safety-solutions')->first();
-        $energysafetysolutions = [];
+        $category = PostCategory::where('slug', 'about-us-title')->first();
+        $aboutUSTitle = [];
         if ($category) {
-            $energysafetysolutions = Post::where('post_category_id', $category->id)->get();
+            $aboutUSTitle = Post::where('post_category_id', $category->id)->first();
         }
 
-        $category = PostCategory::where('slug', 'achievements-and-milestones')->first();
-        $achievementsandmilestones = [];
+        $category = PostCategory::where('slug', 'home-about-us')->first();
+        $about_us = [];
         if ($category) {
-            $achievementsandmilestones = Post::where('post_category_id', $category->id)->get();
+            $about_us = Post::where('post_category_id', $category->id)->first();
         }
 
-        $category = PostCategory::where('slug', 'home-y-choose')->first();
-        $homeychoose = [];
+        $category = PostCategory::where('slug', 'service-title')->first();
+        $service_title = [];
         if ($category) {
-            $homeychoose = Post::where('post_category_id', $category->id)->get();
+            $service_title = Post::where('post_category_id', $category->id)->first();
         }
 
-        $category = PostCategory::where('slug', 'achievements-so-far')->first();
-        $achievementssofar = [];
+        $services = Service::limit(5)->get();
+
+        $category = PostCategory::where('slug', 'featured-work-title')->first();
+        $featured_work_title = [];
         if ($category) {
-            $achievementssofar = Post::where('post_category_id', $category->id)->get();
+            $featured_work_title = Post::where('post_category_id', $category->id)->first();
         }
 
-        $category = PostCategory::where('slug', 'who-we-are')->first();
-        $whoweare = [];
+        $category = PostCategory::where('slug', 'featured-work')->first();
+        $featured_work = [];
         if ($category) {
-            $whoweare = Post::where('post_category_id', $category->id)->first();
-        }
-
-        $category = PostCategory::where('slug', 'why-solar')->first();
-        $whysolar = [];
-        if ($category) {
-            $whysolar = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'what-we-offer')->first();
-        $whatweoffer = [];
-        if ($category) {
-            $whatweoffer = Post::where('post_category_id', $category->id)->first();
-        }
-
-        $category = PostCategory::where('slug', 'installation-process')->first();
-        $installationprocess = [];
-        if ($category) {
-            $installationprocess = Post::where('post_category_id', $category->id)->first();
-        }
-
-        $category = PostCategory::where('slug', 'meet-our-team')->first();
-        $meetourteam = [];
-        if ($category) {
-            $meetourteam = Post::where('post_category_id', $category->id)->first();
-        }
-
-        $category = PostCategory::where('slug', 'solar-power-plants')->first();
-        $solarpowerplants = [];
-        if ($category) {
-            $solarpowerplants = Post::where('post_category_id', $category->id)->first();
-        }
-
-        $category = PostCategory::where('slug', 'sponsors')->first();
-        $sponsors = [];
-        if ($category) {
-            $sponsors = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'call-to-action')->first();
-        $calltoaction = [];
-        if ($category) {
-            $calltoaction = Post::where('post_category_id', $category->id)->first();
-        }
-
-        $category = PostCategory::where('slug', 'printingservice')->first();
-        $printingservice = [];
-        if ($category) {
-            $printingservice = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'brand')->first();
-        $brand = [];
-        if ($category) {
-            $brand = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'faqsection')->first();
-        $faqsection = [];
-        if ($category) {
-            $faqsection = Post::where('post_category_id', $category->id)->first();
-        }
-
-        $category = PostCategory::where('slug', 'casestudies')->first();
-        $casestudies = [];
-        if ($category) {
-            $casestudies = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'whychoose')->first();
-        $whychoose = [];
-        if ($category) {
-            $whychoose = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'slider')->first();
-        $slider = collect();
-        if ($category) {
-            $slider = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'commitment')->first();
-        $commitment = collect();
-        if ($category) {
-            $commitment = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'about-s')->first();
-        $abouts = collect();
-        if ($category) {
-            $abouts = Post::where('post_category_id', $category->id)->first();
-        }
-
-        $category = PostCategory::where('slug', 'about-us-home')->first();
-        $aboutushome = null;
-        if ($category) {
-            $aboutushome = Post::where('post_category_id', $category->id)->first();
-        }
-
-        $category = PostCategory::where('slug', 'features')->first();
-        $features = collect();
-        if ($category) {
-            $features = Post::where('post_category_id', $category->id)->get();
+            $featured_work = Post::where('post_category_id', $category->id)->get();
         }
 
         $category = PostCategory::where('slug', 'counter')->first();
@@ -197,22 +98,16 @@ class HomeController extends Controller
             $counters = Post::where('post_category_id', $category->id)->get();
         }
 
-        $category = PostCategory::where('slug', 'whychooseus')->first();
+        $category = PostCategory::where('slug', 'why-choose-us')->first();
         $whychooseus = collect();
         if ($category) {
-            $whychooseus = Post::where('post_category_id', $category->id)->get();
+            $whychooseus = Post::where('post_category_id', $category->id)->first();
         }
 
-        $category = PostCategory::where('slug', 'facilities')->first();
-        $facilities = collect();
+        $category = PostCategory::where('slug', 'why-choose-us-title')->first();
+        $whychooseustitle = collect();
         if ($category) {
-            $facilities = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'gallery')->first();
-        $gallery = collect();
-        if ($category) {
-            $gallery = Post::where('post_category_id', $category->id)->get();
+            $whychooseustitle = Post::where('post_category_id', $category->id)->first();
         }
 
         $category = PostCategory::where('slug', 'testimonials')->first();
@@ -221,32 +116,17 @@ class HomeController extends Controller
             $testimonials = Post::where('post_category_id', $category->id)->get();
         }
 
-        $category = PostCategory::where('slug', 'Highlights')->first();
-        $Highlights = collect();
+        $category = PostCategory::where('slug', 'testimonials-title')->first();
+        $testimonialstitle = [];
         if ($category) {
-            $Highlights = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'faq')->first();
-        $faq = collect();
-        if ($category) {
-            $faq = Post::where('post_category_id', $category->id)->get();
+            $testimonialstitle = Post::where('post_category_id', $category->id)->first();
         }
 
 
-        $programs = Program::orderBy('id', 'desc')->get();
-        $events = Event::all();
-
-        $category = PostCategory::where('slug', 'commondonation')->first();
-        $commondonation = collect();
+        $category = PostCategory::where('slug', 'cta')->first();
+        $ctasection = [];
         if ($category) {
-            $commondonation = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'companies')->first();
-        $companies = collect();
-        if ($category) {
-            $companies = Post::where('post_category_id', $category->id)->get();
+            $ctasection = Post::where('post_category_id', $category->id)->first();
         }
 
         $category = PostCategory::where('slug', 'our-expertise')->first();
@@ -261,16 +141,8 @@ class HomeController extends Controller
             $features = Post::where('post_category_id', $category->id)->get();
         }
 
-        $category = PostCategory::where('slug', 'testimonials')->first();
-        $testimonials = collect();
 
-        if ($category) {
-            $testimonials = Post::where('post_category_id', $category->id)->get();
-        }
 
-        $services = Service::latest()->get();
-        $locations = Location::orderBy('location')->get();
-        $calculators = SolarCalculator::latest()->get();
 
         $category = PostCategory::where('slug', 'phone')->first();
 
@@ -282,54 +154,25 @@ class HomeController extends Controller
         $firstPhone = $phones->first()?->title;
 
 
-
-        
-
         return view('index', [
-            'aboutushome' => $aboutushome,
-            'energysafetysolutions' => $energysafetysolutions,
-            'achievementsandmilestones' => $achievementsandmilestones,
-            'homeychoose' => $homeychoose,
-            'achievementssofar' => $achievementssofar,
-            'whoweare' => $whoweare,
-            'whysolar' => $whysolar,
-            'meetourteam' => $meetourteam,
-            'solarpowerplants' => $solarpowerplants,
-            'whatweoffer' => $whatweoffer,
-            'installationprocess' => $installationprocess,
-            'sponsors' => $sponsors,
-            'calltoaction' => $calltoaction,
-            'printingservice' => $printingservice,
-            'brand' => $brand,
-            'faqsection' => $faqsection,
-            'casestudies' => $casestudies,
-            'slider' => $slider,
-            'commitment' => $commitment,
-            'abouts' => $abouts,
+            'homebanner' => $homebanner,
+            'aboutUSTitle' => $aboutUSTitle,
+            'about_us' => $about_us,
             'features' => $features,
             'counters' => $counters,
-            'whychooseus' => $whychooseus,
-            'facilities' => $facilities,
-            'gallery' => $gallery,
             'testimonials' => $testimonials,
-            'faq' => $faq,
-            'highlights' => $Highlights,
-            'programs' => $programs,
-            'events' => $events,
-            'commondonation' => $commondonation,
-            'companies' => $companies,
-            'banner' => $banner,
-            'whychoose' => $whychoose,
-            'services' => $services,
-            'location' => $locations,
+            'testimonialstitle' => $testimonialstitle,
+            'ctasection' => $ctasection,
             'seo' => $seo,
-            'calculators' => $calculators,
             'ourExpertise' => $ourExpertise,
             'features' => $features,
-            'testimonials' => $testimonials,
-          
             'phone' => $firstPhone,
-           
+            'service_title' => $service_title,
+            'services' => $services,
+            'featured_work_title' => $featured_work_title,
+            'featured_work' => $featured_work,
+            'whychooseus' => $whychooseus,
+            'whychooseustitle' => $whychooseustitle,
         ]);
     }
 
@@ -338,44 +181,6 @@ class HomeController extends Controller
     //    return view('index', ['calculators' => $calculators]);
     // }
 
-    public function serviceDetails($slug)
-    {
-        $seo = $this->getSeoForCurrentRoute();
-
-        // CHANGE THIS LINE - from findOrFail($slug) to where slug
-        $service = Service::with('images')->where('slug', $slug)->firstOrFail();
-
-        $services  = Service::orderBy('title')->get();
-        $locations = Location::orderBy('location')->get();
-
-        $category = PostCategory::where('slug', 'service-benefits')->first();
-        $benefits = collect();
-        if ($category) {
-            $benefits = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'brand')->first();
-        $brand = collect();
-        if ($category) {
-            $brand = Post::where('post_category_id', $category->id)->get();
-        }
-
-        $category = PostCategory::where('slug', 'highlights')->first();
-        $highlights = collect();
-        if ($category) {
-            $highlights = Post::where('post_category_id', $category->id)->get();
-        }
-
-        return view('servicedetails', compact(
-            'service',
-            'services',
-            'locations',
-            'benefits',
-            'brand',
-            'highlights',
-            'seo'
-        ));
-    }
 
     public static function getphone()
     {
@@ -411,27 +216,28 @@ class HomeController extends Controller
         return Post::where('post_category_id', $category->id)->get();
     }
 
-    public static function getemail1()
-    {
-        $editpost = PostCategory::where('slug', 'email')->first();
-        if (!$editpost) return null;
-        $email = Post::where('post_category_id', $editpost->id)->first();
-        return $email ? $email->title : null;
-    }
+public static function gettimings()
+{
+    $editpost = PostCategory::where('slug', 'timings')->first();  // Changed from 'timing' to 'timings'
+    if (!$editpost) return null;
+    $timing = Post::where('post_category_id', $editpost->id)->first();
+    return $timing ? $timing->title : null;
+}
 
     public static function getalladdress()
     {
+        // Try with lowercase first
         $editpost = PostCategory::where('slug', 'address')->first();
-        if (!$editpost) return collect();
-        return Post::where('post_category_id', $editpost->id)->get();
-    }
 
-    public static function gettimings()
-    {
-        $editpost = PostCategory::where('slug', 'timing')->first();
+        // If not found, try with capital A
+        if (!$editpost) {
+            $editpost = PostCategory::where('slug', 'Address')->first();
+        }
+
         if (!$editpost) return collect();
         return Post::where('post_category_id', $editpost->id)->get();
     }
+   
 
     public static function getsocialicons()
     {
@@ -649,36 +455,36 @@ class HomeController extends Controller
 
 
 
-public function faculty()
-{
-    $seo = $this->getSeoForCurrentRoute();
-    
-    // Get all faculty members from the faculties table
-    $faculties = Faculty::orderBy('id', 'desc')->get();
-    
-    // Get counter posts
-    $category = PostCategory::where('slug', 'counter')->first();
-    $counters = collect();
-    if ($category) {
-        $counters = Post::where('post_category_id', $category->id)->get();
+    public function faculty()
+    {
+        $seo = $this->getSeoForCurrentRoute();
+
+        // Get all faculty members from the faculties table
+        $faculties = Faculty::orderBy('id', 'desc')->get();
+
+        // Get counter posts
+        $category = PostCategory::where('slug', 'counter')->first();
+        $counters = collect();
+        if ($category) {
+            $counters = Post::where('post_category_id', $category->id)->get();
+        }
+
+        // Get teaching approach section
+        $teachingApproach = null;
+        $category = PostCategory::where('slug', 'teaching-approach')->first();
+        if ($category) {
+            $teachingApproach = Post::where('post_category_id', $category->id)->first();
+        }
+
+        // Get teaching approach cards
+        $teachingApproachCards = collect();
+        $category = PostCategory::where('slug', 'teaching-approach-cards')->first();
+        if ($category) {
+            $teachingApproachCards = Post::where('post_category_id', $category->id)->get();
+        }
+
+        return view('faculty', compact('faculties', 'counters', 'seo', 'teachingApproach', 'teachingApproachCards'));
     }
-    
-    // Get teaching approach section
-    $teachingApproach = null;
-    $category = PostCategory::where('slug', 'teaching-approach')->first();
-    if ($category) {
-        $teachingApproach = Post::where('post_category_id', $category->id)->first();
-    }
-    
-    // Get teaching approach cards
-    $teachingApproachCards = collect();
-    $category = PostCategory::where('slug', 'teaching-approach-cards')->first();
-    if ($category) {
-        $teachingApproachCards = Post::where('post_category_id', $category->id)->get();
-    }
-    
-    return view('faculty', compact('faculties', 'counters', 'seo', 'teachingApproach', 'teachingApproachCards'));
-}
 
     public function services()
     {
@@ -734,40 +540,40 @@ public function faculty()
     }
 
 
-public function courses()
-{
-    $seo = $this->getSeoForCurrentRoute();
-    
-    // Get all courses (latest first)
-    $courses = Course::latest()->paginate(12);
-    
-    // Get popular courses - only if 'views' column exists
-    $popularCourses = collect();
-    try {
-        $popularCourses = Course::orderBy('views', 'desc')->limit(6)->get();
-    } catch (\Exception $e) {
-        // If 'views' column doesn't exist, just get latest courses
-        $popularCourses = Course::latest()->limit(6)->get();
+    public function courses()
+    {
+        $seo = $this->getSeoForCurrentRoute();
+
+        // Get all courses (latest first)
+        $courses = Course::latest()->paginate(12);
+
+        // Get popular courses - only if 'views' column exists
+        $popularCourses = collect();
+        try {
+            $popularCourses = Course::orderBy('views', 'desc')->limit(6)->get();
+        } catch (\Exception $e) {
+            // If 'views' column doesn't exist, just get latest courses
+            $popularCourses = Course::latest()->limit(6)->get();
+        }
+
+        return view('courses', compact(
+            'courses',
+            'popularCourses',
+            'seo'
+        ));
     }
-    
-    return view('courses', compact(
-        'courses', 
-        'popularCourses',
-        'seo'
-    ));
-}
 
-public function courseDetail($slug)
-{
-    $course = Course::where('slug', $slug)->firstOrFail();
+    public function courseDetail($slug)
+    {
+        $course = Course::where('slug', $slug)->firstOrFail();
 
-    $courses = Course::where('id', '!=', $course->id)
-        ->latest()
-        ->take(4)
-        ->get();
+        $courses = Course::where('id', '!=', $course->id)
+            ->latest()
+            ->take(4)
+            ->get();
 
-    return view('coursedetail', compact('course', 'courses'));
-}
+        return view('coursedetail', compact('course', 'courses'));
+    }
 
     public function facilities()
     {
@@ -821,53 +627,53 @@ public function courseDetail($slug)
 
 
     /**
- * Show project details
- */
-public function projectDetails($slug)
-{
-    // Find the project by slug
-    $project = Post::where('slug', $slug)
-        ->whereHas('category', function($query) {
-            $query->where('slug', 'projectlisting');
-        })
-        ->firstOrFail();
-    
-    // Get SEO data
-    $seo = $this->getSeoForCurrentRoute();
-    
-    // Get brand posts for layout
-    $category = PostCategory::where('slug', 'brand')->first();
-    $brand = collect();
-    if ($category) {
-        $brand = Post::where('post_category_id', $category->id)->get();
+     * Show project details
+     */
+    public function projectDetails($slug)
+    {
+        // Find the project by slug
+        $project = Post::where('slug', $slug)
+            ->whereHas('category', function ($query) {
+                $query->where('slug', 'projectlisting');
+            })
+            ->firstOrFail();
+
+        // Get SEO data
+        $seo = $this->getSeoForCurrentRoute();
+
+        // Get brand posts for layout
+        $category = PostCategory::where('slug', 'brand')->first();
+        $brand = collect();
+        if ($category) {
+            $brand = Post::where('post_category_id', $category->id)->get();
+        }
+
+        // Get related projects (same category, exclude current)
+        $relatedProjects = Post::where('post_category_id', $project->post_category_id)
+            ->where('id', '!=', $project->id)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // Get project images - IMPORTANT: Use MultiplePostImage model
+        $multiImages = MultiplePostImage::where('post_id', $project->id)->get();
+
+        // Get services for layout
+        $services = Service::orderBy('title')->get();
+
+        // Debug: Log to check if images are found
+        \Log::info('Project ID: ' . $project->id);
+        \Log::info('Multi Images Count: ' . $multiImages->count());
+
+        return view('projectdetails', compact(
+            'project',
+            'seo',
+            'brand',
+            'relatedProjects',
+            'multiImages',
+            'services'
+        ));
     }
-    
-    // Get related projects (same category, exclude current)
-    $relatedProjects = Post::where('post_category_id', $project->post_category_id)
-        ->where('id', '!=', $project->id)
-        ->latest()
-        ->take(3)
-        ->get();
-    
-    // Get project images - IMPORTANT: Use MultiplePostImage model
-    $multiImages = MultiplePostImage::where('post_id', $project->id)->get();
-    
-    // Get services for layout
-    $services = Service::orderBy('title')->get();
-    
-    // Debug: Log to check if images are found
-    \Log::info('Project ID: ' . $project->id);
-    \Log::info('Multi Images Count: ' . $multiImages->count());
-    
-    return view('projectdetails', compact(
-        'project', 
-        'seo', 
-        'brand', 
-        'relatedProjects',
-        'multiImages',
-        'services'
-    ));
-}
 
 
 
@@ -918,7 +724,7 @@ public function projectDetails($slug)
     public function productDetails($slug)
     {
         $product = OurProduct::where('slug', $slug)->first();
-        $id=$product->id;
+        $id = $product->id;
         if (!$product) {
             return redirect()->route('product.page')
                 ->with('error', 'Product not found');

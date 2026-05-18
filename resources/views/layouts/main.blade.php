@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,10 +13,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-   <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/main.css" />
 
-  
+
 </head>
+
 <body>
 
   <!-- =============================================
@@ -24,7 +26,7 @@
   <nav class="navbar navbar-expand-lg navbar-outline" id="mainNav">
     <div class="container">
       <a class="navbar-brand" href="index.html">
-        <img src="Outline_Architects_Logo.png" alt="Outline Architects | Project Management" class="logo-img" />
+        <img src="{{ asset('assets/img/Outline_Architects_Logo.png') }}" alt="Outline Architects | Project Management" class="logo-img" />
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
         <i class="bi bi-list fs-4"></i>
@@ -58,42 +60,7 @@
     </div>
   </nav>
 
-  <!-- =============================================
-       HERO SECTION
-       ============================================= -->
-  <section class="home-hero" id="home-hero">
-    <div class="home-hero__left">
-      <div class="home-hero__content">
-        <p class="home-hero__breadcrumb animate-fade-up">
-          Architecture &nbsp;/&nbsp; Interior Design &nbsp;/&nbsp; <span>Project Management</span>
-        </p>
-        <h1 class="home-hero__title animate-fade-up delay-100">
-          Designing Spaces.<br/><em>Inspiring Business.</em>
-        </h1>
-        <p class="home-hero__sub animate-fade-up delay-200">
-          We create innovative office and commercial interiors that elevate experiences and reflect your brand.
-        </p>
-        <div class="home-hero__actions animate-fade-up delay-300">
-          <a href="#home-services" class="btn-outline-custom btn-primary-custom">
-            Our Services &nbsp;<i class="bi bi-arrow-right"></i>
-          </a>
-          <a href="#home-portfolio" class="btn-outline-custom hero-btn-ghost">
-            View Portfolio
-          </a>
-        </div>
-        <div class="mt-4 animate-fade-up delay-400">
-          <button class="play-btn">
-            <span class="play-btn__circle"><i class="bi bi-play-fill"></i></span>
-            &nbsp;See How We Work
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="home-hero__right">
-      <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&q=85" alt="Outline Architects - Modern Office Interior" />
-    </div>
-  </section>
-
+ 
   @yield('content')
 
   <!-- Orange thin solid divider -->
@@ -108,7 +75,7 @@
         <!-- Brand -->
         <div class="col-lg-4 col-md-6">
           <div class="mb-3">
-            <img src="Outline_Architects_Logo.png" alt="Outline Architects | Project Management" class="footer-logo-img" />
+            <img src="{{ asset('assets/img/Outline_Architects_Logo.png') }}" alt="Outline Architects | Project Management" class="footer-logo-img" />
           </div>
           <p class="footer-tagline">We design and deliver innovative office and commercial interiors with creativity, precision and passion.</p>
           <div class="social-links mt-4">
@@ -150,11 +117,16 @@
           <p class="footer-follow-text">Stay connected with us on social media for updates, project showcases and design inspiration.</p>
           <div class="mt-3">
             <div class="footer-contact-item">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
               <span class="footer-small-contact">7th Floor, Inspire Tower, Pune 411045</span>
             </div>
             <div class="footer-contact-item">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
               <span class="footer-small-contact">+91 98765-43210</span>
             </div>
           </div>
@@ -187,6 +159,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const nav = document.getElementById('mainNav');
+
     function handleNavScroll() {
       nav.classList.toggle('scrolled', window.scrollY > 60);
     }
@@ -197,7 +170,10 @@
     window.addEventListener('scroll', () => {
       scrollBtn.classList.toggle('visible', window.scrollY > 400);
     });
-    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    scrollBtn.addEventListener('click', () => window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    }));
 
     const dots = document.querySelectorAll('.testimonial-dots span');
     if (dots.length) {
@@ -217,7 +193,9 @@
           observer.unobserve(e.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, {
+      threshold: 0.12
+    });
 
     document.querySelectorAll('.service-card, .project-card, .testimonial-card, .home-stats__item, .home-about__badge').forEach(el => {
       el.style.opacity = '0';
@@ -227,4 +205,5 @@
     });
   </script>
 </body>
+
 </html>

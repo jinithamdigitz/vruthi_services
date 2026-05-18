@@ -8,17 +8,9 @@ class Service extends Model
 {
     protected $fillable = [
         'title',
-        'description',
+        'slug',
+        'body',
         'image',
-        'text1',
-        'text2',
-        'text3'
+        'keyword'
     ];
-
-    public function images()
-{
-    return $this->hasMany(ServiceImage::class);
-}
-
-
 }

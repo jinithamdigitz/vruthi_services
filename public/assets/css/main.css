@@ -108,7 +108,7 @@ body {
     font-family: var(--font-body);
     font-size: var(--fs-base);
     font-weight: var(--fw-regular);
-    color: var(--color-gray-text);
+    color: var(--color-darker)!important;
     line-height: 1.7;
     background-color: var(--color-bg-white);
     overflow-x: hidden;
@@ -226,7 +226,14 @@ ul {
 .section-title {
     font-family: var(--font-heading);
     font-weight: var(--fw-bold);
-    color: var(--color-dark);
+    color: var(--color-darker) !important; /* Black */
+    line-height: 1.2;
+}
+
+.service-section-title {
+    font-family: var(--font-heading);
+    font-weight: var(--fw-bold);
+    color: var(--color-bg-white) !important; /* Brand orange */
     line-height: 1.2;
 }
 
@@ -252,10 +259,10 @@ ul {
 
 .section-subtitle {
     font-size: var(--fs-md);
-    color: var(--color-gray-text);
     line-height: 1.8;
     max-width: 560px;
 }
+
 
 /* ============================================
    BUTTONS
@@ -442,7 +449,7 @@ ul {
     transform: scale(1.05);
 }
 
-/* Service Card */
+/* Service Card - Base (Light version) */
 .service-card {
     padding: var(--space-lg) var(--space-md);
     border: 1px solid var(--color-border);
@@ -475,7 +482,6 @@ ul {
 
 .service-card__text {
     font-size: var(--fs-sm);
-    color: var(--color-gray-text);
     line-height: 1.7;
     margin-bottom: var(--space-sm);
 }
@@ -533,7 +539,6 @@ ul {
 
 .testimonial-card__text {
     font-size: var(--fs-sm);
-    color: var(--color-gray-text);
     line-height: 1.8;
     font-style: italic;
     margin-bottom: var(--space-md);
@@ -612,7 +617,6 @@ ul {
 
 .icon-box__content p {
     font-size: var(--fs-sm);
-    color: var(--color-gray-text);
     margin: 0;
 }
 
@@ -622,7 +626,7 @@ ul {
     align-items: center;
     gap: 10px;
     font-size: var(--fs-sm);
-    color: var(--color-gray-text);
+    color: var(--color-darker)!important;
     margin-bottom: 12px;
 }
 
@@ -635,17 +639,17 @@ ul {
 }
 
 /* ============================================
-   NAV BAR
+   NAV BAR - Fixed transparent with scroll effect
    ============================================ */
 .navbar-outline {
-    background-color: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(10px);
-    padding: 0;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
-    position: sticky;
+    position: fixed !important;
     top: 0;
-    z-index: 1000;
-    transition: box-shadow var(--transition-base);
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    background: transparent !important;
+    transition: background var(--transition-base), box-shadow var(--transition-base);
+    padding: 0;
 }
 
 .navbar-outline .navbar-brand img {
@@ -656,7 +660,7 @@ ul {
     font-family: var(--font-body);
     font-size: var(--fs-sm);
     font-weight: var(--fw-medium);
-    color: var(--color-dark) !important;
+    color: rgba(255, 255, 255, 0.88) !important;
     padding: 1.5rem 1rem !important;
     letter-spacing: 0.02em;
     transition: color var(--transition-fast);
@@ -694,6 +698,41 @@ ul {
     box-shadow: none;
 }
 
+.navbar-outline .navbar-toggler i {
+    color: #fff !important;
+}
+
+.navbar-outline .dropdown-menu {
+    border: none;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 8px;
+    margin-top: 0;
+    background: #1E1F27;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar-outline .dropdown-item {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: rgba(255, 255, 255, 0.8) !important;
+    border-radius: var(--radius-sm);
+    padding: 8px 14px;
+    transition: all var(--transition-fast);
+}
+
+.navbar-outline .dropdown-item:hover {
+    background: rgba(200, 98, 42, 0.12);
+    color: var(--color-primary) !important;
+}
+
+/* Scrolled state - added via JavaScript */
+.navbar-outline.scrolled {
+    background: rgba(26, 27, 34, 0.96) !important;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
 .navbar-cta {
     padding: 10px 22px !important;
     background: var(--color-primary);
@@ -710,29 +749,6 @@ ul {
 .navbar-cta:hover {
     background: var(--color-primary-dark) !important;
     color: #fff !important;
-}
-
-/* Dropdown */
-.navbar-outline .dropdown-menu {
-    border: none;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-lg);
-    padding: 8px;
-    margin-top: 0;
-}
-
-.navbar-outline .dropdown-item {
-    font-size: var(--fs-sm);
-    font-weight: var(--fw-medium);
-    color: var(--color-dark);
-    border-radius: var(--radius-sm);
-    padding: 8px 14px;
-    transition: all var(--transition-fast);
-}
-
-.navbar-outline .dropdown-item:hover {
-    background: rgba(200, 98, 42, 0.08);
-    color: var(--color-primary);
 }
 
 /* ============================================
@@ -1084,49 +1100,6 @@ ul {
     }
 }
 
-.navbar-outline {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1050;
-    background: transparent !important;
-    transition: background var(--transition-base), box-shadow var(--transition-base);
-}
-
-.navbar-outline.scrolled {
-    background: rgba(26, 27, 34, 0.96) !important;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 2px 30px rgba(0, 0, 0, 0.25) !important;
-}
-
-.navbar-outline .nav-link {
-    color: rgba(255, 255, 255, 0.88) !important;
-}
-
-.navbar-outline .nav-link:hover,
-.navbar-outline .nav-link.active {
-    color: var(--color-primary) !important;
-}
-
-.navbar-outline .navbar-toggler i {
-    color: #fff !important;
-}
-
-.navbar-outline .dropdown-menu {
-    background: #1E1F27;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.navbar-outline .dropdown-item {
-    color: rgba(255, 255, 255, 0.8) !important;
-}
-
-.navbar-outline .dropdown-item:hover {
-    background: rgba(200, 98, 42, 0.12);
-    color: var(--color-primary) !important;
-}
-
 /* CHANGE 2: Vibrant logo */
 .logo-img {
     max-height: 48px;
@@ -1381,7 +1354,8 @@ ul {
     display: block;
 }
 
-.service-card {
+/* Service Card - Dark version for #home-services section */
+#home-services .service-card {
     background: rgba(255, 255, 255, 0.04) !important;
     border: 1px solid rgba(255, 255, 255, 0.10) !important;
     backdrop-filter: blur(6px);
@@ -1390,19 +1364,19 @@ ul {
     transition: background var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
 }
 
-.service-card:hover {
+#home-services .service-card:hover {
     background: rgba(200, 98, 42, 0.10) !important;
     border-color: var(--color-primary) !important;
     transform: translateY(-4px);
 }
 
-.service-card__icon {
+#home-services .service-card__icon {
     color: var(--color-primary);
     margin-bottom: 14px;
     font-size: 1.6rem;
 }
 
-.service-card__title {
+#home-services .service-card__title {
     font-family: var(--font-heading);
     font-weight: var(--fw-semibold);
     font-size: var(--fs-md);
@@ -1410,7 +1384,7 @@ ul {
     margin-bottom: 8px;
 }
 
-.service-card__text {
+#home-services .service-card__text {
     font-size: var(--fs-sm);
     color: rgba(255, 255, 255, 0.6);
     line-height: 1.7;
@@ -1437,7 +1411,7 @@ ul {
     transition: background var(--transition-fast), color var(--transition-fast);
 }
 
-.service-card:hover .service-arrow {
+#home-services .service-card:hover .service-arrow {
     background: var(--color-primary);
     color: #fff;
 }
@@ -1528,7 +1502,7 @@ ul {
 
 .home-why__promise p {
     font-size: var(--fs-xs);
-    color: var(--color-gray-text);
+    color: var(--color-darker)!important;
     margin: 0;
     line-height: 1.6;
 }
@@ -1586,7 +1560,6 @@ ul {
 .home-cta__bg {
     position: absolute;
     inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&q=80');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -1757,4 +1730,75 @@ ul {
 
 #scrollTop:hover {
     transform: translateY(-3px);
+}
+/* Make icons/images orange */
+.service-card__icon-img img.icon-orange {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    filter: invert(48%) sepia(79%) saturate(600%) hue-rotate(345deg) brightness(95%) contrast(92%) !important;
+    transition: filter var(--transition-fast);
+}
+
+.service-card:hover .service-card__icon-img img.icon-orange {
+    filter: invert(40%) sepia(91%) saturate(1200%) hue-rotate(345deg) brightness(85%) contrast(95%) !important;
+}
+
+/* For Bootstrap icons as fallback */
+.service-card__icon i {
+    color: var(--color-primary) !important;
+    font-size: 2rem;
+}
+
+.service-card__icon-img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--space-sm);
+}
+
+.home-why__checklist ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.home-why__checklist li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--fs-sm);
+    color: var(--color-gray-text);
+    margin-bottom: 12px;
+}
+
+.home-why__checklist li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C8622A' stroke-width='2.5'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") no-repeat center/contain;
+}
+.home-stats__icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.stats-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: invert(48%) sepia(79%) saturate(600%) hue-rotate(345deg) brightness(95%) contrast(92%);
+}
+.cta-title-orange {
+    color: var(--color-primary) !important;
+}
+
+section.home-cta .cta-body-white,
+section.home-cta p.cta-body-white,
+.home-cta .cta-body-white {
+    color: var(--color-bg-light) !important;
 }
