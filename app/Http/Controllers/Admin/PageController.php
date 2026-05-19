@@ -28,7 +28,16 @@ class PageController extends Controller
         $category = PostCategory::where('slug', $slug)->first();
         $categoryId = $category?->id;
         $categories = PostCategory::pluck('name', 'id');
+		
+		if($slug!="careers-banner"&&$slug!="career-highlights")
+		{
+		
         $galleryCategories = GalleryCategory::active()->pluck('name', 'id');
+		
+		}else
+		{
+			 $galleryCategories =[];
+		}
 
         return view('admin.pages.create', compact('categories', 'categoryId', 'slug', 'galleryCategories'));
     }

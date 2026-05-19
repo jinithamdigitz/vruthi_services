@@ -59,7 +59,12 @@ Route::post('/admin/upload', [UploadController::class, 'store'])
 // In routes/web.php - CORRECT WAY
 Route::get('/faculty', [App\Http\Controllers\HomeController::class, 'faculty'])->name('home.faculty');
 
-Route::get('/careers', [CareersController::class, 'index'])->name('home.faculty');
+Route::get('/careers', [CareersController::class, 'index'])->name('careers.index');
+
+// Route with ID parameter
+Route::get('/applytojob/{id}', [CareersController::class, 'apply'])->name('careers.apply');
+
+Route::post('/submit-application', [CareersController::class, 'submitApplication'])->name('careers.submit-application');
 // NOT home.faculty
 // ============ NEW ENQUIRY ADMIN ROUTE (ADDED) ============
 // Route for admin enquiries - using auth middleware

@@ -1402,29 +1402,84 @@
                             </ul>
                         </li>
 						<li class="nav-header">Careers</li>
-						<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="nav-icon bi bi-briefcase-fill"></i>
-						<p>
-							 Jobs
-							<i class="nav-arrow bi bi-chevron-right"></i>
-						</p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="{{ route('career-jobs.index') }}" class="nav-link">
-								<i class="nav-icon bi bi-circle"></i>
-								<p>List</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="{{ route('career-jobs.create') }}" class="nav-link">
-								<i class="nav-icon bi bi-circle"></i>
-								<p>Create</p>
-							</a>
-						</li>
-					</ul>
-				</li>
+									<li class="nav-item">
+								<a href="#" class="nav-link">
+									<i class="nav-icon bi bi-briefcase-fill"></i>
+									<p>
+										 Jobs
+										<i class="nav-arrow bi bi-chevron-right"></i>
+									</p>
+								</a>
+								<ul class="nav nav-treeview">
+									<li class="nav-item">
+										<a href="{{ route('career-jobs.index') }}" class="nav-link">
+											<i class="nav-icon bi bi-circle"></i>
+											<p>List</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="{{ route('career-jobs.create') }}" class="nav-link">
+											<i class="nav-icon bi bi-circle"></i>
+											<p>Create</p>
+										</a>
+									</li>
+								</ul>
+							</li>
+							
+									<li class="nav-item">
+								<a href="#" class="nav-link">
+									<i class="nav-icon bi bi-briefcase-fill"></i>
+									<p>
+										Job Page Banner
+										<i class="nav-arrow bi bi-chevron-right"></i>
+									</p>
+								</a>
+								<ul class="nav nav-treeview">
+									  <li class="nav-item">
+                                    <a href="{{ route('admin.page.create', ['slug' => 'careers-banner']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                     </li>
+										<li class="nav-item">
+											<a href="{{ route('admin.page.index', ['slug' => 'careers-banner']) }}"
+												class="nav-link">
+												<i class="nav-icon bi bi-circle"></i>
+												<p>List</p>
+											</a>
+										</li>
+								</ul>
+							</li>
+							
+								<li class="nav-item">
+								<a href="#" class="nav-link">
+									<i class="nav-icon bi bi-briefcase-fill"></i>
+									<p>
+										Job Page Highlights
+										<i class="nav-arrow bi bi-chevron-right"></i>
+									</p>
+								</a>
+								<ul class="nav nav-treeview">
+									  <li class="nav-item">
+                                    <a href="{{ route('admin.page.create', ['slug' => 'career-highlights']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                     </li>
+										<li class="nav-item">
+											<a href="{{ route('admin.page.index', ['slug' => 'career-highlights']) }}"
+												class="nav-link">
+												<i class="nav-icon bi bi-circle"></i>
+												<p>List</p>
+											</a>
+										</li>
+								</ul>
+							</li>
+							
+							
+							
                         <li class="nav-header">Settings</li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
