@@ -1,251 +1,316 @@
 @extends('layouts.main')
 
-@section('hero_title', 'About Solar Masters')
-@section('hero_text', 'Learn about our mission and solar expertise')
+@section('title', 'About Us | Outline Architects')
+
 
 @section('content')
 
-   <!-- =========================================
-         ABOUT - HERO SECTION
-    ========================================== -->
-    <section class="about-hero-section">
-        <div class="container">
-            <div class="row align-items-center about-hero-row">
-                <div class="col-lg-5">
-                    <div class="about-content">
-                        <p class="section-label">
-                            <i class="bi bi-person-circle"></i>
-                            ABOUT US
-                        </p>
-                        <h1 class="about-title">
-                            About
-                            <span>Paradigm Learning</span>
-                        </h1>
-                        <p class="about-description">
-                            We're on a mission to transform lives through accessible, practical, and future-ready education that empowers learners to achieve their dreams.
-                        </p>
-                        <div class="about-feature-card">
-                            <div class="about-feature-icon">
-                                <i class="bi bi-mortarboard-fill"></i>
-                            </div>
-                            <div>
-                                <h5 class="about-feature-title">Education That Empowers</h5>
-                                <p class="about-feature-desc">We democratize quality education and make learning accessible to everyone, everywhere.</p>
-                            </div>
-                        </div>
-                        <div class="about-feature-card">
-                            <div class="about-feature-icon">
-                                <i class="bi bi-bullseye"></i>
-                            </div>
-                            <div>
-                                <h5 class="about-feature-title">Skills That Matter</h5>
-                                <p class="about-feature-desc">Our courses are designed with industry experts to ensure you learn what truly matters.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="about-image-wrapper">
-                        <img src="banner.png" alt="About Banner" class="img-fluid about-image" />
+
+
+<!-- =============================================
+       HERO SECTION
+       ============================================= -->
+<section class="home-hero" id="home-hero">
+  <div class="home-hero__left">
+    <div class="home-hero__content">
+      <p class="home-hero__breadcrumb animate-fade-up">
+        Architecture &nbsp;/&nbsp; Interior Design &nbsp;/&nbsp; <span>Project Management</span>
+      </p>
+
+      <h1 class="home-hero__title animate-fade-up delay-100">
+        @if($homebanner && $homebanner->title)
+        {!! $homebanner->title !!}
+        @endif
+      </h1>
+
+      <p class="home-hero__sub animate-fade-up delay-200">
+        @if($homebanner && $homebanner->body)
+        {{ strip_tags($homebanner->body) }}
+        @endif
+      </p>
+
+      <div class="home-hero__actions animate-fade-up delay-300">
+        <a href="#home-services" class="btn-outline-custom btn-primary-custom">
+          Our Services &nbsp;<i class="bi bi-arrow-right"></i>
+        </a>
+        <a href="#home-portfolio" class="btn-outline-custom hero-btn-ghost">
+          View Portfolio
+        </a>
+      </div>
+
+      <div class="mt-4 animate-fade-up delay-400">
+        <button class="play-btn" onclick="openVideoModal('https://www.youtube.com/watch?v=your-video-id')">
+          <span class="play-btn__circle"><i class="bi bi-play-fill"></i></span>
+          &nbsp;See How We Work
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="home-hero__right">
+    @if($homebanner && $homebanner->image)
+    <img src="{{ asset($homebanner->image) }}" alt="{{ $homebanner->title ?? 'Outline Architects' }}" />
+    @endif
+  </div>
+</section>
+<!-- =============================================
+       STATS SECTION
+       ============================================= -->
+<section class="home-stats" id="home-stats">
+  <div class="container home-stats__inner">
+    <div class="row text-center">
+      @foreach($counters as $counter)
+      <div class="col-6 col-md-3 home-stats__item">
+        <div class="home-stats__icon mx-auto">
+          @if($counter->image)
+          <img src="{{ asset($counter->image) }}" alt="{{ $counter->title }}" class="stats-icon-img">
+          @endif
+        </div>
+        @if($counter->title)
+        <div class="stat-box__number stat-box__number--light">{{ $counter->title }}</div>
+        @endif
+        @if($counter->body)
+        <div class="stat-box__label stat-box__label--light">{!! $counter->body !!}</div>
+        @endif
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+
+
+{{-- ════════════════════════════════════════════
+     OUR STORY
+════════════════════════════════════════════ --}}
+@if($ourStoryTitle && $ourStory)
+<section class="about-pg__story section-pad">
+    <div class="container">
+        <div class="row align-items-center g-5">
+
+            {{-- Image LEFT --}}
+            <div class="col-lg-6 order-lg-1 order-2">
+                <div class="about-pg__story-img-wrap">
+                    <img src="{{ $ourStory->image }}"
+                        alt="{{ $ourStoryTitle->title }}"
+                        loading="lazy">
+
+                    {{-- Floating promise card --}}
+                    <div class="about-pg__story-promise">
+                        <p>{!! $ourStoryTitle->body !!}</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- =========================================
-         HOME - STATS SECTION
-    ========================================= -->
-    <section class="home-stats-section">
-        <div class="container">
-            <div class="row home-stats-row gy-4">
-                @foreach ($counters as $counter)
-                    <div class="col-6 col-md-3">
-                        <div class="home-stats-card">
-                            <div class="home-stats-icon home-stats-icon-blue">
-                                <i class="bi bi-people-fill"></i>
-                            </div>
-                            <div class="home-stats-info">
-                                <h4 class="home-stats-number">{{ $counter->title }}</h4>
-                                <p class="home-stats-label">{!! $counter->body !!}</p>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+            {{-- Copy RIGHT --}}
+            <div class="col-lg-6 order-lg-2 order-1">
+                <span class="section-label">{{ $ourStoryTitle->title }}</span>
+                <h2 class="section-title section-title--lg mb-3">
+                    {!! $ourStory->title !!}
+                </h2>
+                <hr class="divider-primary">
+
+                <div class="about-pg__story-body">
+                    <p>{!! $ourStory->body !!}</p>
+                </div>
+
+                <a href="{{ $ourStory->button_url ?? route('home.index') }}" class="btn-outline-custom btn-secondary-custom mt-2">
+                    {{ $ourStory->button_text }} <span class="arrow">→</span>
+                </a>
             </div>
-        </div>
-    </section>
 
-   <section class="about-mission-section">
+        </div>
+    </div>
+</section>
+@endif
+
+{{-- ════════════════════════════════════════════
+     VALUES / PRINCIPLES
+════════════════════════════════════════════ --}}
+@if($ourValueTitle && $ourValues && $ourValues->count() > 0)
+<section class="about-pg__values section-pad">
     <div class="container">
 
-        <div class="about-section-header text-center">
-            <h2 class="about-global-heading">
-                Our Mission & Vision
-            </h2>
+        {{-- Section header --}}
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <span class="section-label">{{ $ourValueTitle->title }}</span>
+                <h2 class="about-pg__values-title mt-1">{!! $ourValueTitle->body !!}</h2>
+            </div>
         </div>
 
-        <div class="row gy-4">
-
-            @foreach($commitment as $item)
-
-                <div class="col-lg-6">
-
-                    <div class="about-mission-card">
-
-                        @if($item->image)
-                            <div class="about-mission-image mb-3">
-
-                                <img src="{{ asset($item->image) }}">
-
-                            </div>
-                        @endif
-
-                        <div>
-
-                            <h4 class="about-mission-title">
-                                {{ $item->title }}
-                            </h4>
-
-                            <p class="about-mission-desc">
-                                {!! $item->body !!}
-                            </p>
-
-                        </div>
-
+        {{-- Value cards --}}
+        <div class="row g-4 justify-content-center">
+            @foreach($ourValues as $value)
+            <div class="col-sm-6 col-lg-4 col-xl">
+                <div class="about-pg__value-card">
+                    <div class="about-pg__value-icon">
+                        <img src="{{ asset($value->image) }}" alt="{{ $value->title }}">
                     </div>
-
+                    <h5>{{ $value->title }}</h5>
+                    <p>{!! $value->body !!}</p>
                 </div>
-
+            </div>
             @endforeach
+        </div>
+    </div>
+</section>
+@endif
 
+{{-- ════════════════════════════════════════════
+     TEAM
+════════════════════════════════════════════ --}}
+<section class="about-pg__team section-pad">
+    <div class="container">
+
+        <div class="row mb-5">
+            <div class="col-12">
+                <span class="section-label">Meet Our Leadership</span>
+                <h2 class="section-title section-title--lg mt-1">The Minds Behind the Vision</h2>
+            </div>
         </div>
 
+        <div class="row g-4">
+
+            {{-- Team Member 1 --}}
+            <div class="col-sm-6 col-xl-3">
+                <div class="about-pg__team-card">
+                    <div class="about-pg__team-img-wrap">
+                        <img src="{{ asset('images/team/rahul-sharma.jpg') }}"
+                            alt="Rahul Sharma" loading="lazy">
+                    </div>
+                    <div class="about-pg__team-body">
+                        <h5>Rahul Sharma</h5>
+                        <span class="about-pg__team-role">Founder &amp; CEO</span>
+                        <p>Visionary leader with 20+ years of experience in architecture and project management.</p>
+                        <a href="#" class="about-pg__team-linkedin" aria-label="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Team Member 2 --}}
+            <div class="col-sm-6 col-xl-3">
+                <div class="about-pg__team-card">
+                    <div class="about-pg__team-img-wrap">
+                        <img src="{{ asset('images/team/anita-verma.jpg') }}"
+                            alt="Anita Verma" loading="lazy">
+                    </div>
+                    <div class="about-pg__team-body">
+                        <h5>Anita Verma</h5>
+                        <span class="about-pg__team-role">Design Director</span>
+                        <p>Creative strategist passionate about transforming ideas into extraordinary spaces.</p>
+                        <a href="#" class="about-pg__team-linkedin" aria-label="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Team Member 3 --}}
+            <div class="col-sm-6 col-xl-3">
+                <div class="about-pg__team-card">
+                    <div class="about-pg__team-img-wrap">
+                        <img src="{{ asset('images/team/karan-mehta.jpg') }}"
+                            alt="Karan Mehta" loading="lazy">
+                    </div>
+                    <div class="about-pg__team-body">
+                        <h5>Karan Mehta</h5>
+                        <span class="about-pg__team-role">Project Director</span>
+                        <p>Expert in delivering complex projects with precision, quality, and on-time execution.</p>
+                        <a href="#" class="about-pg__team-linkedin" aria-label="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Team Member 4 --}}
+            <div class="col-sm-6 col-xl-3">
+                <div class="about-pg__team-card">
+                    <div class="about-pg__team-img-wrap">
+                        <img src="{{ asset('images/team/neha-iyer.jpg') }}"
+                            alt="Neha Iyer" loading="lazy">
+                    </div>
+                    <div class="about-pg__team-body">
+                        <h5>Neha Iyer</h5>
+                        <span class="about-pg__team-role">Operations Director</span>
+                        <p>Drives operational excellence and ensures seamless project delivery across teams.</p>
+                        <a href="#" class="about-pg__team-linkedin" aria-label="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </section>
 
-    <!-- =========================================
-         ABOUT - CORE VALUES SECTION
-    ========================================== -->
-    <section class="about-core-values-section">
-        <div class="container">
-            <div class="about-section-header text-center">
-                <h2 class="about-global-heading">Our Core Values</h2>
-            </div>
-            <div class="row gy-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="about-value-card">
-                        <div class="about-value-icon about-value-icon-blue">
-                            <i class="bi bi-star"></i>
-                        </div>
-                        <h5 class="about-value-title">Excellence</h5>
-                        <p class="about-value-desc">We are committed to delivering high-quality education that exceeds expectations.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="about-value-card">
-                        <div class="about-value-icon about-value-icon-green">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <h5 class="about-value-title">Integrity</h5>
-                        <p class="about-value-desc">We operate with honesty, transparency and respect in everything we do.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="about-value-card">
-                        <div class="about-value-icon about-value-icon-yellow">
-                            <i class="bi bi-lightbulb"></i>
-                        </div>
-                        <h5 class="about-value-title">Innovation</h5>
-                        <p class="about-value-desc">We embrace creativity and innovation to deliver the best learning experiences.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="about-value-card">
-                        <div class="about-value-icon about-value-icon-purple">
-                            <i class="bi bi-heart"></i>
-                        </div>
-                        <h5 class="about-value-title">Impact</h5>
-                        <p class="about-value-desc">We are driven by making a positive difference in learners' lives and communities.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- =========================================
-         ABOUT - JOURNEY SECTION
-    ========================================== -->
-    <section class="about-journey-section">
-        <div class="container">
-            <div class="about-section-header text-center">
-                <h2 class="about-global-heading">Our Journey</h2>
-            </div>
-            <div class="row gy-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="about-journey-card">
-                        <div class="about-journey-dot about-journey-dot-blue"></div>
-                        <div class="about-journey-icon about-journey-icon-blue">
-                            <i class="bi bi-rocket-takeoff"></i>
-                        </div>
-                        <h6 class="about-journey-year">2018</h6>
-                        <h5 class="about-journey-title">The Beginning</h5>
-                        <p class="about-journey-desc">Paradigm Learning was founded with a vision to make quality education accessible to all.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="about-journey-card">
-                        <div class="about-journey-dot about-journey-dot-green"></div>
-                        <div class="about-journey-icon about-journey-icon-green">
-                            <i class="bi bi-book"></i>
-                        </div>
-                        <h6 class="about-journey-year">2019</h6>
-                        <h5 class="about-journey-title">Growing Together</h5>
-                        <p class="about-journey-desc">Launched our first courses and onboarded our first 1,000 amazing learners.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="about-journey-card">
-                        <div class="about-journey-dot about-journey-dot-yellow"></div>
-                        <div class="about-journey-icon about-journey-icon-yellow">
-                            <i class="bi bi-people"></i>
-                        </div>
-                        <h6 class="about-journey-year">2021</h6>
-                        <h5 class="about-journey-title">Expanding Horizons</h5>
-                        <p class="about-journey-desc">Introduced advanced programs and reached 10,000+ students worldwide.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="about-journey-card">
-                        <div class="about-journey-dot about-journey-dot-purple"></div>
-                        <div class="about-journey-icon about-journey-icon-purple">
-                            <i class="bi bi-trophy"></i>
-                        </div>
-                        <h6 class="about-journey-year">2024 & Beyond</h6>
-                        <h5 class="about-journey-title">Building the Future</h5>
-                        <p class="about-journey-desc">Continuing to innovate and empower learners for a brighter tomorrow.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- =============================================
+       CTA SECTION
+       ============================================= -->
+<section class="home-cta" id="home-cta">
+  @if($ctasection && $ctasection->image)
+  <div class="home-cta__bg" style="background-image: url('{{ asset($ctasection->image) }}');"></div>
+  @endif
+  <div class="home-cta__bg-overlay"></div>
+  <div class="container home-cta__content text-center">
+    <span class="section-label cta-label">Let's Build Together</span>
+    @if($ctasection && $ctasection->title)
+    <h2 class="section-title section-title--xl section-title--light mt-2 mb-3 cta-title-orange">
+      {{ $ctasection->title }}
+    </h2>
+    @endif
+    @if($ctasection && $ctasection->body)
+    <p class="cta-body-white">
+      {{ strip_tags($ctasection->body) }}
+    </p>
+    @endif
+    <a href="#home-contact" class="btn-outline-custom btn-primary-custom cta-btn">
+      Get In Touch &nbsp;<i class="bi bi-arrow-right"></i>
+    </a>
+  </div>
+</section>
 
-    <!-- =========================================
-         ABOUT - CTA SECTION
-    ========================================== -->
-    <section class="about-cta-section">
-        <div class="container">
-            <div class="row align-items-center gy-4">
-                <div class="col-lg-8">
-                    <h2 class="about-cta-heading">Ready to Unlock Your Future?</h2>
-                    <p class="about-cta-sub">Join thousands of learners and start your journey today.</p>
-                </div>
-                <div class="col-lg-4 text-lg-end">
-                    <a href="#" class="btn-custom btn-cta-white">Explore Courses <i class="bi bi-arrow-right ms-1"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    
 @endsection
+
+
+<script>
+    /* About page — counter animation on scroll */
+    (function() {
+        'use strict';
+
+        function animateCounter(el, target, duration) {
+            var start = 0;
+            var increment = target / (duration / 16);
+            var timer = setInterval(function() {
+                start += increment;
+                if (start >= target) {
+                    start = target;
+                    clearInterval(timer);
+                }
+                el.textContent = Math.floor(start) + '+';
+            }, 16);
+        }
+
+        var counters = document.querySelectorAll('.about-pg__stat-num');
+        if (!counters.length) return;
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting && !entry.target.dataset.counted) {
+                    entry.target.dataset.counted = '1';
+                    var raw = entry.target.textContent.replace(/\D/g, '');
+                    animateCounter(entry.target, parseInt(raw, 10), 1400);
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+
+        counters.forEach(function(c) {
+            observer.observe(c);
+        });
+    })();
+</script>

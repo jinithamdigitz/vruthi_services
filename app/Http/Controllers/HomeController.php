@@ -216,13 +216,13 @@ class HomeController extends Controller
         return Post::where('post_category_id', $category->id)->get();
     }
 
-public static function gettimings()
-{
-    $editpost = PostCategory::where('slug', 'timings')->first();  // Changed from 'timing' to 'timings'
-    if (!$editpost) return null;
-    $timing = Post::where('post_category_id', $editpost->id)->first();
-    return $timing ? $timing->title : null;
-}
+    public static function gettimings()
+    {
+        $editpost = PostCategory::where('slug', 'timings')->first();  // Changed from 'timing' to 'timings'
+        if (!$editpost) return null;
+        $timing = Post::where('post_category_id', $editpost->id)->first();
+        return $timing ? $timing->title : null;
+    }
 
     public static function getalladdress()
     {
@@ -237,7 +237,7 @@ public static function gettimings()
         if (!$editpost) return collect();
         return Post::where('post_category_id', $editpost->id)->get();
     }
-   
+
 
     public static function getsocialicons()
     {
@@ -272,85 +272,44 @@ public static function gettimings()
 
     public function about()
     {
-        $seo = $this->getSeoForCurrentRoute();
-        $category = PostCategory::where('slug', 'about-s')->first();
-        $abouts = $category ? Post::where('post_category_id', $category->id)->first() : null;
-
-        $category = PostCategory::where('slug', 'printingservice')->first();
-        $printingservice = $category ? Post::where('post_category_id', $category->id)->get() : collect();
-
-        $category = PostCategory::where('slug', 'features')->first();
-        $features = $category ? Post::where('post_category_id', $category->id)->get() : collect();
-
-        $category = PostCategory::where('slug', 'commitment')->first();
-        $commitment = $category ? Post::where('post_category_id', $category->id)->get() : collect();
-
-        $category = PostCategory::where('slug', 'highlights')->first();
-        $highlights = collect();
+        $category = PostCategory::where('slug', 'home-banner')->first();
+        $homebanner = [];
         if ($category) {
-            $highlights = Post::where('post_category_id', $category->id)->get();
+            $homebanner = Post::where('post_category_id', $category->id)->first();
         }
 
-        $category = PostCategory::where('slug', 'casestudies')->first();
-        $casestudies = collect();
+        $category = PostCategory::where('slug', 'cta')->first();
+        $ctasection = [];
         if ($category) {
-            $casestudies = Post::where('post_category_id', $category->id)->get();
+            $ctasection = Post::where('post_category_id', $category->id)->first();
         }
-
-        $category = PostCategory::where('slug', 'our-journey')->first();
-        $ourjourney = collect();
-        if ($category) {
-            $ourjourney = Post::where('post_category_id', $category->id)->get();
-        }
-
         $category = PostCategory::where('slug', 'counter')->first();
         $counters = collect();
         if ($category) {
             $counters = Post::where('post_category_id', $category->id)->get();
         }
-
-        $category = PostCategory::where('slug', 'our-expertise')->first();
-        $ourexpertise = collect();
+         $category = PostCategory::where('slug', 'our-story-title')->first();
+        $ourStoryTitle = [];
         if ($category) {
-            $ourexpertise = Post::where('post_category_id', $category->id)->get();
+            $ourStoryTitle = Post::where('post_category_id', $category->id)->first();
         }
-
-        $category = PostCategory::where('slug', 'why-choose-us')->first();
-        $whychooseus = collect();
+         $category = PostCategory::where('slug', 'our-story')->first();
+        $ourStory = [];
         if ($category) {
-            $whychooseus = Post::where('post_category_id', $category->id)->get();
+            $ourStory = Post::where('post_category_id', $category->id)->first();
         }
-
-
-        $category = PostCategory::where('slug', 'brand')->first();
-        $brand = collect();
+         $category = PostCategory::where('slug', 'our-value-title')->first();
+        $ourValueTitle = [];
         if ($category) {
-            $brand = Post::where('post_category_id', $category->id)->get();
+            $ourValueTitle = Post::where('post_category_id', $category->id)->first();
+        }
+         $category = PostCategory::where('slug', 'our-values')->first();
+        $ourValues = [];
+        if ($category) {
+            $ourValues = Post::where('post_category_id', $category->id)->get();
         }
 
-        $keyfeaturesCategory = PostCategory::where('slug', 'key-features')->first();
-
-        $keyfeatures = [];
-
-        if ($keyfeaturesCategory) {
-            $keyfeatures = Post::where('post_category_id', $keyfeaturesCategory->id)->get();
-        }
-
-        return view('about', [
-            'abouts' => $abouts,
-            'printingservice' => $printingservice,
-            'features' => $features,
-            'commitment' => $commitment,
-            'highlights' => $highlights,
-            'counters' => $counters,
-            'casestudies' => $casestudies,
-            'brand' => $brand,
-            'seo' => $seo,
-            'ourjourney' => $ourjourney,
-            'ourexpertise' => $ourexpertise,
-            'whychooseus' => $whychooseus,
-            'keyfeatures' => $keyfeatures,
-        ]);
+        return view('about', ['homebanner' => $homebanner, 'ctasection' => $ctasection, 'counters' => $counters, 'ourStoryTitle' => $ourStoryTitle, 'ourStory' => $ourStory, 'ourValueTitle' => $ourValueTitle, 'ourValues' => $ourValues]);
     }
 
 

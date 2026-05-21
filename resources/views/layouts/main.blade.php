@@ -61,6 +61,8 @@
   </nav>
 
  
+
+  
   @yield('content')
 
   <!-- Orange thin solid divider -->

@@ -44,6 +44,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\CareerJobController;
 use App\Http\Controllers\CareersController;
+use App\Http\Controllers\MemberController;
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -54,8 +55,6 @@ Route::post('/admin/upload', [UploadController::class, 'store'])
     ->name('admin.upload')
     ->middleware(['auth']);
 
-
-
 // In routes/web.php - CORRECT WAY
 Route::get('/faculty', [App\Http\Controllers\HomeController::class, 'faculty'])->name('home.faculty');
 
@@ -65,7 +64,7 @@ Route::get('/careers', [CareersController::class, 'index'])->name('careers.index
 Route::get('/applytojob/{id}', [CareersController::class, 'apply'])->name('careers.apply');
 
 Route::post('/submit-application', [CareersController::class, 'submitApplication'])->name('careers.submit-application');
-// NOT home.faculty
+
 // ============ NEW ENQUIRY ADMIN ROUTE (ADDED) ============
 // Route for admin enquiries - using auth middleware
 Route::prefix('admin')
@@ -76,9 +75,6 @@ Route::prefix('admin')
     });
 // ============ END NEW ENQUIRY ADMIN ROUTE ============
 
-// ============ NOTE: The route below might conflict with the one above ============
-// Both use the same path '/admin/enquiries' with 'auth' middleware
-// Keeping both - they are identical so no conflict
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get(
         '/enquiries',
@@ -87,8 +83,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         ->name('admin.enquiry.index');
 		
 		// routes/web.php
-
-Route::resource('career-jobs', CareerJobController::class);
+        Route::resource('career-jobs', CareerJobController::class);
 
     Route::get(
         '/enquiries/show/{id}',
@@ -165,21 +160,19 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+
+// ============ IMPORTANT: Move these routes BEFORE the dynamic slug route ============
 Route::get('/about-us', [HomeController::class, 'about'])->name('home.about');
 Route::get('/projectlisting', [HomeController::class, 'projectlisting'])->name('home.projectlisting');
-
 
 /*=========================================
    COURSES PAGE
 ========================================= */
-
 Route::get('/courselisting', [HomeController::class, 'courses'])->name('courses');
-
 
 Route::prefix('admin')
     ->name('admin.')
     ->group(function () {
-
         // Course Listing
         Route::get('/courses', [CourseController::class, 'index'])
             ->name('courses.index');
@@ -209,12 +202,10 @@ Route::prefix('admin')
             ->name('courses.destroy');
     });
 
-
 /* =========================================
    COURSE DETAIL PAGE
 ========================================= */
 Route::get('/course/{slug}', [HomeController::class, 'courseDetail'])->name('course.detail');
-
 
 Route::get('/calculator', [SolarCalculatorController::class, 'index'])->name('calculator');
 Route::post('/calculator', [SolarCalculatorController::class, 'store'])->name('calculator.store');
@@ -360,26 +351,9 @@ Route::get('/captcha-image', [CaptchaController::class, 'generate'])->name('capt
 
 Route::delete('/admin/ourproduct/delete-image/{id}', [App\Http\Controllers\Admin\OurProductController::class, 'destroyMultipleImage'])->name('admin.ourproduct.delete-image');
 
-// ============ DYNAMIC SLUG ROUTE - MUST BE LAST ============
-Route::get('/{slug}', function ($slug) {
-    $product = OurProduct::where('slug', $slug)->first();
-    if ($product) {
-        return app(HomeController::class)->productDetails($slug);
-    }
-
-    $blog = Post::where('slug', $slug)->first();
-    if ($blog) {
-        return app(HomeController::class)->blogDetails($slug);
-    }
-
-    abort(404);
-})->name('dynamic.slug');
-
-
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('faculties', FacultyController::class);
 });
-
 
 // Admin routes (with auth middleware)
 Route::middleware(['auth'])->group(function () {
@@ -396,7 +370,6 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/services', [ServiceController::class, 'frontendIndex'])->name('frontend.services');
 Route::get('/services/{slug}', [ServiceController::class, 'showBySlug'])->name('service.detail');
 
-
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 
 // Admin routes (add to your existing admin middleware group)
@@ -406,3 +379,27 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
     Route::post('/contacts/{id}/read', [ContactController::class, 'markAsRead'])->name('admin.contacts.mark-read');
 });
+
+
+
+
+Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
+    Route::resource('members', MemberController::class);
+});
+
+// ============ DYNAMIC SLUG ROUTE - MUST BE LAST ============
+Route::get('/{slug}', function ($slug) {
+    // First check if it's a product
+    $product = OurProduct::where('slug', $slug)->first();
+    if ($product) {
+        return app(HomeController::class)->productDetails($slug);
+    }
+
+    // Then check if it's a blog
+    $blog = Post::where('slug', $slug)->first();
+    if ($blog) {
+        return app(HomeController::class)->blogDetails($slug);
+    }
+
+    abort(404);
+})->name('dynamic.slug');
