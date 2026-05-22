@@ -365,10 +365,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/services/{id}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 });
-
-// Frontend routes
-Route::get('/services', [ServiceController::class, 'frontendIndex'])->name('frontend.services');
-Route::get('/services/{slug}', [ServiceController::class, 'showBySlug'])->name('service.detail');
+Route::get('/services', [App\Http\Controllers\HomeController::class, 'service'])->name('services.index');
 
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 

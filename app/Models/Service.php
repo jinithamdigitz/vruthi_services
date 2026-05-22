@@ -11,6 +11,7 @@ class Service extends Model
         'slug',
         'body',
         'image',
+        'icon_image',
         'keyword'
     ];
 }

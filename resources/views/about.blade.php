@@ -155,6 +155,8 @@
 </section>
 @endif
 
+<hr class="orange-hr">
+
 {{-- ════════════════════════════════════════════
      TEAM
 ════════════════════════════════════════════ --}}
@@ -163,86 +165,30 @@
 
         <div class="row mb-5">
             <div class="col-12">
-                <span class="section-label">Meet Our Leadership</span>
-                <h2 class="section-title section-title--lg mt-1">The Minds Behind the Vision</h2>
+                <span class="section-label">{{ $memberTitle['title'] }}</span>
+                <h2 class="section-title section-title--lg mt-1">{!! $memberTitle['body'] !!}</h2>
             </div>
         </div>
 
         <div class="row g-4">
-
-            {{-- Team Member 1 --}}
+            @foreach($members as $member)
             <div class="col-sm-6 col-xl-3">
                 <div class="about-pg__team-card">
                     <div class="about-pg__team-img-wrap">
-                        <img src="{{ asset('images/team/rahul-sharma.jpg') }}"
-                            alt="Rahul Sharma" loading="lazy">
+                        <img src="{{ asset($member->image) }}" 
+                            alt="{{ $member->name }}" 
+                            loading="lazy">
                     </div>
                     <div class="about-pg__team-body">
-                        <h5>Rahul Sharma</h5>
-                        <span class="about-pg__team-role">Founder &amp; CEO</span>
-                        <p>Visionary leader with 20+ years of experience in architecture and project management.</p>
-                        <a href="#" class="about-pg__team-linkedin" aria-label="LinkedIn">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
+                        <h5>{{ $member->name }}</h5>
+                        <span class="about-pg__team-role">{{ $member->designation }}</span>
+                        <p>{{ $member->description }}</p>
                     </div>
                 </div>
             </div>
-
-            {{-- Team Member 2 --}}
-            <div class="col-sm-6 col-xl-3">
-                <div class="about-pg__team-card">
-                    <div class="about-pg__team-img-wrap">
-                        <img src="{{ asset('images/team/anita-verma.jpg') }}"
-                            alt="Anita Verma" loading="lazy">
-                    </div>
-                    <div class="about-pg__team-body">
-                        <h5>Anita Verma</h5>
-                        <span class="about-pg__team-role">Design Director</span>
-                        <p>Creative strategist passionate about transforming ideas into extraordinary spaces.</p>
-                        <a href="#" class="about-pg__team-linkedin" aria-label="LinkedIn">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Team Member 3 --}}
-            <div class="col-sm-6 col-xl-3">
-                <div class="about-pg__team-card">
-                    <div class="about-pg__team-img-wrap">
-                        <img src="{{ asset('images/team/karan-mehta.jpg') }}"
-                            alt="Karan Mehta" loading="lazy">
-                    </div>
-                    <div class="about-pg__team-body">
-                        <h5>Karan Mehta</h5>
-                        <span class="about-pg__team-role">Project Director</span>
-                        <p>Expert in delivering complex projects with precision, quality, and on-time execution.</p>
-                        <a href="#" class="about-pg__team-linkedin" aria-label="LinkedIn">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Team Member 4 --}}
-            <div class="col-sm-6 col-xl-3">
-                <div class="about-pg__team-card">
-                    <div class="about-pg__team-img-wrap">
-                        <img src="{{ asset('images/team/neha-iyer.jpg') }}"
-                            alt="Neha Iyer" loading="lazy">
-                    </div>
-                    <div class="about-pg__team-body">
-                        <h5>Neha Iyer</h5>
-                        <span class="about-pg__team-role">Operations Director</span>
-                        <p>Drives operational excellence and ensures seamless project delivery across teams.</p>
-                        <a href="#" class="about-pg__team-linkedin" aria-label="LinkedIn">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
+            @endforeach
         </div>
+        
     </div>
 </section>
 

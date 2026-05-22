@@ -135,8 +135,8 @@
             <div class="service-card">
               <div class="d-flex align-items-start gap-3">
                 <div class="service-card__icon-img flex-shrink-0">
-                  @if($service->image)
-                  <img src="{{ asset($service->image) }}" alt="{{ $service->title }}">
+                  @if($service->icon_image)
+                  <img src="{{ asset($service->icon_image) }}" alt="{{ $service->title }}">
                   @endif
                 </div>
                 <div class="home-services__card-link flex-grow-1">
@@ -160,8 +160,8 @@
           <div class="col-sm-6">
             <div class="service-card h-100">
               <div class="service-card__icon-img">
-                @if($service->image)
-                <img src="{{ asset($service->image) }}" alt="{{ $service->title }}">
+                @if($service->icon_image)
+                <img src="{{ asset($service->icon_image) }}" alt="{{ $service->title }}">
                 @endif
               </div>
               <div class="home-services__card-link">
