@@ -1,394 +1,624 @@
 @extends('layouts.main')
 
+@section('title', 'Portfolio — Outline Architects')
+
+
+<style>
+    /* ============================================================
+   PORTFOLIO PAGE  —  pf-pg__ prefix
+   True CSS masonry via column-count — cards flow top-to-bottom
+   in each column; cycling image heights create visual rhythm.
+   ============================================================ */
+
+    /* ── HERO ── */
+    .pf-pg__hero {
+        position: relative;
+        min-height: 520px;
+        background: #000;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .pf-pg__hero-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .pf-pg__hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(105deg, rgba(0, 0, 0, .88) 0%, rgba(0, 0, 0, .55) 55%, rgba(0, 0, 0, .25) 100%);
+    }
+
+    .pf-pg__hero-content {
+        position: relative;
+        z-index: 2;
+        padding-top: 160px;
+        padding-bottom: 72px;
+    }
+
+    .pf-pg__breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-medium);
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .45);
+        margin-bottom: 20px;
+    }
+
+    .pf-pg__breadcrumb a {
+        color: rgba(255, 255, 255, .45);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+    }
+
+    .pf-pg__breadcrumb a:hover {
+        color: var(--color-primary);
+    }
+
+    .pf-pg__breadcrumb span {
+        color: var(--color-primary);
+    }
+
+    .pf-pg__breadcrumb-sep {
+        font-size: 10px;
+        opacity: .35;
+    }
+
+    .pf-pg__hero-title {
+        font-family: var(--font-heading);
+        font-weight: var(--fw-extrabold);
+        color: #fff;
+        font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+        line-height: 1.1;
+        margin-bottom: 18px;
+    }
+
+    .pf-pg__hero-title .pf-pg__accent {
+        color: var(--color-primary);
+        display: block;
+    }
+
+    .pf-pg__hero-desc {
+        font-size: var(--fs-base);
+        color: rgba(255, 255, 255, .62);
+        line-height: 1.8;
+        max-width: 460px;
+        margin-bottom: 32px;
+    }
+
+    /* ── FILTER BAR ── */
+    .pf-pg__filter-bar {
+        background: #111114;
+        border-bottom: 1px solid rgba(255, 255, 255, .07);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .pf-pg__filter-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0;
+    }
+
+    .pf-pg__filter-tabs {
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .pf-pg__filter-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .pf-pg__filter-tab {
+        font-family: var(--font-body);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-semibold);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .40);
+        padding: 20px 18px;
+        border: none;
+        border-bottom: 2px solid transparent;
+        background: none;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: color var(--transition-fast), border-color var(--transition-fast);
+        line-height: 1;
+    }
+
+    .pf-pg__filter-tab:hover {
+        color: #fff;
+    }
+
+    .pf-pg__filter-tab.active {
+        color: var(--color-primary);
+        border-bottom-color: var(--color-primary);
+    }
+
+    .pf-pg__filter-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-family: var(--font-body);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-semibold);
+        letter-spacing: .10em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .65);
+        background: rgba(255, 255, 255, .05);
+        border: 1px solid rgba(255, 255, 255, .14);
+        border-radius: var(--radius-sm);
+        padding: 8px 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+        transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+    }
+
+    .pf-pg__filter-btn:hover {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        color: #fff;
+    }
+
+    /* ── GRID SECTION ── */
+    .pf-pg__grid-section {
+        background: #0c0c0f;
+        padding: 40px 0 80px;
+    }
+
+    /* ══════════════════════════════════════════
+   TRUE CSS MASONRY — column-count layout
+   Cards stack top-to-bottom in each column;
+   varying image heights fill space organically.
+══════════════════════════════════════════ */
+    .pf-pg__masonry-grid {
+        column-count: 3;
+        column-gap: 20px;
+    }
+
+    @media (max-width: 991.98px) {
+        .pf-pg__masonry-grid {
+            column-count: 2;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .pf-pg__masonry-grid {
+            column-count: 1;
+        }
+    }
+
+    /* Prevent card from splitting across column break */
+    .pf-pg__masonry-item {
+        break-inside: avoid;
+        -webkit-column-break-inside: avoid;
+        margin-bottom: 20px;
+        display: block;
+        transition: opacity .3s ease;
+    }
+
+    /* ── CARD ── */
+    .pf-pg__card {
+        background: rgba(255, 255, 255, .04);
+        border: 1px solid rgba(255, 255, 255, .08);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+    }
+
+    .pf-pg__card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 56px rgba(0, 0, 0, .65);
+        border-color: rgba(200, 98, 42, .40);
+    }
+
+    /* ── IMAGE HEIGHTS — cycle 4 sizes for masonry rhythm ── */
+    .pf-pg__card-img-wrap {
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+        height: 220px;
+    }
+
+    .pf-pg__card[data-size="sm"] .pf-pg__card-img-wrap {
+        height: 160px;
+    }
+
+    .pf-pg__card[data-size="md"] .pf-pg__card-img-wrap {
+        height: 230px;
+    }
+
+    .pf-pg__card[data-size="lg"] .pf-pg__card-img-wrap {
+        height: 290px;
+    }
+
+    .pf-pg__card[data-size="xl"] .pf-pg__card-img-wrap {
+        height: 380px;
+    }
+
+    .pf-pg__card-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: brightness(.82);
+        transition: transform .55s cubic-bezier(.25, .46, .45, .94), filter .35s ease;
+    }
+
+    .pf-pg__card:hover .pf-pg__card-img-wrap img {
+        transform: scale(1.08);
+        filter: brightness(1);
+    }
+
+    .pf-pg__card-img-wrap::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: linear-gradient(to top, rgba(0, 0, 0, .55) 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    /* Badge */
+    .pf-pg__card-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font-family: var(--font-body);
+        font-size: 9px;
+        font-weight: var(--fw-semibold);
+        letter-spacing: .13em;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--color-primary);
+        padding: 4px 9px;
+        border-radius: var(--radius-sm);
+        z-index: 2;
+    }
+
+    /* Card body */
+    .pf-pg__card-body {
+        padding: 15px 16px 4px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pf-pg__card-location {
+        font-size: 11px;
+        color: rgba(255, 255, 255, .35);
+        font-weight: var(--fw-medium);
+        margin-bottom: 3px;
+    }
+
+    .pf-pg__card-title {
+        font-family: var(--font-heading);
+        font-size: var(--fs-base);
+        font-weight: var(--fw-semibold);
+        color: #fff;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+
+    .pf-pg__card-text {
+        font-size: 12px;
+        color: rgba(255, 255, 255, .50);
+        line-height: 1.65;
+        margin: 0;
+    }
+
+    /* Card footer */
+    .pf-pg__card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 16px 14px;
+        border-top: 1px solid rgba(255, 255, 255, .06);
+        margin-top: 12px;
+    }
+
+    .pf-pg__card-cat {
+        font-size: 11px;
+        color: rgba(255, 255, 255, .30);
+        font-weight: var(--fw-medium);
+        letter-spacing: .03em;
+    }
+
+    .pf-pg__read-more {
+        font-size: 11px;
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: var(--fw-semibold);
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: color var(--transition-fast), gap .2s ease;
+    }
+
+    .pf-pg__read-more:hover {
+        color: var(--color-primary-light);
+        gap: 8px;
+    }
+
+    /* Empty state */
+    .pf-pg__empty {
+        display: none;
+        text-align: center;
+        padding: 60px 0;
+        color: rgba(255, 255, 255, .35);
+        font-size: var(--fs-base);
+    }
+
+    .pf-pg__empty svg {
+        display: block;
+        margin: 0 auto 16px;
+        opacity: .25;
+    }
+
+    /* ── RESPONSIVE HERO ── */
+    @media (max-width: 991.98px) {
+        .pf-pg__hero-content {
+            padding-top: 130px;
+            padding-bottom: 56px;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .pf-pg__hero-title {
+            font-size: 2.1rem;
+        }
+
+        .pf-pg__grid-section {
+            padding: 32px 0 56px;
+        }
+
+        .pf-pg__filter-tab {
+            padding: 16px 12px;
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .pf-pg__hero-content {
+            padding-top: 110px;
+            padding-bottom: 44px;
+        }
+
+        .pf-pg__hero-title {
+            font-size: 1.85rem;
+        }
+
+        .pf-pg__filter-btn span {
+            display: none;
+        }
+    }
+</style>
+
+
 @section('content')
+{{-- ══════════════════════════════════════
+     HERO - DYNAMIC
+══════════════════════════════════════ --}}
+<section class="pf-pg__hero">
+    <div class="pf-pg__hero-bg" style="background-image: url('{{ asset($portfolioBanner->image) }}');"></div>
+    <div class="pf-pg__hero-overlay"></div>
+    <div class="container pf-pg__hero-content">
+        <nav class="pf-pg__breadcrumb" aria-label="breadcrumb">
+            <a href="{{ route('home.index') }}">Home</a>
+            <span class="pf-pg__breadcrumb-sep">›</span>
+            <span>Portfolio</span>
+        </nav>
 
-<!-- Page Title -->
-<section class="page-title">
-    <div class="auto-container">
-        <div class="icons-box parallax-scene-1">
-            <div class="icon-one" data-depth="0.10"></div>
-            <div class="icon-two" data-depth="0.30">
-                <img src="{{ asset('assets/images/icons/vector-9.png') }}" alt="" />
-            </div>
-            <div class="icon-three" data-depth="0.30">
-                <img src="{{ asset('assets/images/icons/vector-34.png') }}" alt="" />
-            </div>
-            <div class="icon-four" data-depth="0.10"></div>
-        </div>
-        <h2>Our Portfolio</h2>
-        <ul class="bread-crumb clearfix">
-            <li><a href="{{ route('home.index') }}">Home</a></li>
-            <li>Portfolio</li>
-        </ul>
+        @php
+        $titleParts = explode('|', $portfolioBanner->title);
+        $firstLine = trim($titleParts[0]);
+        $secondLine = trim($titleParts[1]);
+        @endphp
+        <h1 class="pf-pg__hero-title">
+            {{ $firstLine }}
+            <span class="pf-pg__accent">{{ $secondLine }}</span>
+        </h1>
+
+        <p class="pf-pg__hero-desc">
+            {!! strip_tags($portfolioBanner->body) !!}
+        </p>
+
+        <a href="{{ route('home.index') }}" class="btn-outline-custom btn-primary-custom">
+            View Project Inquiry
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+        </a>
     </div>
 </section>
 
-<!-- Stats Section -->
-<section class="stats-section">
-    <div class="auto-container">
-        <div class="stats-wrapper">
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-briefcase"></i>
-                </div>
-                <div class="stat-content">
-                    <span class="stat-number">{{ $totalProjects ?? 0 }}</span>
-                    <span class="stat-label">Total Projects</span>
-                </div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-tags"></i>
-                </div>
-                <div class="stat-content">
-                    <span class="stat-number">{{ $categories->count() ?? 0 }}</span>
-                    <span class="stat-label">Categories</span>
-                </div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="stat-content">
-                    <span class="stat-number">5+</span>
-                    <span class="stat-label">Years Exp.</span>
-                </div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-content">
-                    <span class="stat-number">50+</span>
-                    <span class="stat-label">Happy Clients</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<!-- Category Filter Section - Horizontal Scroll -->
-<!-- Category Filter Section - Horizontal Scroll -->
-<section class="category-filter-section">
-    <div class="auto-container">
-        <div class="filter-header">
-            <h3>Browse by Category</h3>
-            <span class="filter-hint">← Scroll →</span>
-        </div>
-        <div class="category-filter-wrapper">
-            <div class="category-filter-menu">
-                <!-- All Projects Button -->
-                <div class="filter-item">
-                    <button class="filter-btn active" id="filterAll" data-category="all">
-                        <div class="filter-icon">
-                            <i class="fas fa-th-large"></i>
-                        </div>
-                        <span class="filter-name">All Projects</span>
-                    </button>
-                </div>
-                
-                <!-- Category Buttons -->
+{{-- ══════════════════════════════════════
+     FILTER BAR
+══════════════════════════════════════ --}}
+<div class="pf-pg__filter-bar">
+    <div class="container">
+        <div class="pf-pg__filter-inner">
+            <div class="pf-pg__filter-tabs" role="tablist" aria-label="Filter projects by category">
+                <button class="pf-pg__filter-tab active"
+                    data-filter="*"
+                    role="tab"
+                    aria-selected="true">All Projects</button>
                 @foreach($categories as $category)
-                <div class="filter-item">
-                    <button class="filter-btn" data-category="{{ $category->slug }}">
-                        <div class="filter-icon">
-                            @if($category->image)
-                                <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" loading="lazy">
-                            @else
-                                <i class="fas fa-folder"></i>
-                            @endif
-                            <!-- Count Overlay (appears on hover/touch) -->
-                            <span class="count-overlay">{{ $category->projects_count }}</span>
-                        </div>
-                        <span class="filter-name">{{ $category->name }}</span>
-                    </button>
-                </div>
+                <button class="pf-pg__filter-tab"
+                    data-filter="{{ $category->slug }}"
+                    role="tab"
+                    aria-selected="false">
+                    {{ $category->name }}
+                </button>
                 @endforeach
             </div>
         </div>
     </div>
-</section>
-
-<!-- Active Filter Indicator -->
-<div class="auto-container">
-    <div class="filter-indicator" id="activeFilter">
-        Showing: <strong>All Projects</strong> 
-        <span class="project-count" id="visibleCount">({{ $projects->total() }} items)</span>
-    </div>
 </div>
 
-<!-- Projects Grid Section -->
-<section class="projects-section">
-    <div class="auto-container">
-        <div class="projects-grid" id="projectsGrid">
-            @forelse($projects as $project)
-            @php 
-                $category = $categories->firstWhere('id', $project->project_category_id);
-                $skills = $project->skills ? array_slice(array_filter(explode(',', $project->skills)), 0, 3) : [];
+{{-- ══════════════════════════════════════
+     MASONRY GRID
+══════════════════════════════════════ --}}
+<section class="pf-pg__grid-section">
+    <div class="container">
+
+        <div class="pf-pg__masonry-grid" id="pf-masonry">
+
+            @php
+            $colPatterns = [
+            0 => ['xl', 'sm', 'lg', 'md'],
+            1 => ['sm', 'lg', 'md', 'xl'],
+            2 => ['lg', 'md', 'xl', 'sm'],
+            ];
             @endphp
-            <div class="project-item" data-category="{{ $project->project_category_id }}">
-                <a href="{{ route('portfolio-details', $project->slug) }}" class="project-card">
-                    <div class="project-image">
-                        @if($project->image)
-                            <img src="{{ asset($project->image) }}" alt="{{ $project->name }}" loading="lazy">
-                        @elseif($category && $category->image)
-                            <img src="{{ asset($category->image) }}" alt="{{ $project->name }}" loading="lazy">
-                        @else
-                            <img src="{{ asset('assets/images/project-default.jpg') }}" alt="{{ $project->name }}" loading="lazy">
-                        @endif
-                        <div class="project-overlay">
-                            <span class="view-details">View Details</span>
-                        </div>
+
+            @forelse($portfolios as $portfolio)
+            @php
+            $col = $loop->index % 3;
+            $row = (int) floor($loop->index / 3);
+            $pattern = $colPatterns[$col];
+            $cardSize = $pattern[$row % count($pattern)];
+            @endphp
+            <div class="pf-pg__masonry-item"
+                data-category="{{ $portfolio->category->slug }}">
+
+                <article class="pf-pg__card"
+                    data-size="{{ $cardSize }}">
+
+                    {{-- Image --}}
+                    <div class="pf-pg__card-img-wrap">
+                        <img src="{{ asset($portfolio->image) }}"
+                            alt="{{ $portfolio->title }}"
+                            loading="lazy">
+                        <span class="pf-pg__card-badge">{{ $portfolio->category->name }}</span>
                     </div>
-                    <div class="project-info">
-                        <h3 class="project-title">{{ $project->name }}</h3>
-                       
-                       
+
+                    {{-- Body --}}
+                    <div class="pf-pg__card-body">
+                        <p class="pf-pg__card-location">{{ $portfolio->location }}</p>
+                        <h3 class="pf-pg__card-title">{{ $portfolio->title }}</h3>
+                        <p class="pf-pg__card-text">{{ Str::limit($portfolio->body, 120) }}</p>
                     </div>
-                </a>
+
+                    {{-- Footer --}}
+                    <div class="pf-pg__card-footer">
+                        <span class="pf-pg__card-cat">{{ $portfolio->category->name }}</span>
+                        <a href="#" class="pf-pg__read-more">
+                            View Project
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
+                    </div>
+
+                </article>
             </div>
             @empty
-            <div class="empty-state">
-                <i class="fas fa-folder"></i>
-                <h4>No Projects Found</h4>
-                <p>Check back later for our latest work!</p>
-            </div>
+            <p class="text-center" style="color:rgba(255,255,255,.35); padding:60px 0;">
+                No projects found.
+            </p>
             @endforelse
+
+        </div>{{-- /#pf-masonry --}}
+
+        {{-- Empty state (JS-controlled when filter yields 0) --}}
+        <div class="pf-pg__empty" id="pf-empty" aria-live="polite">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            No projects found in this category.
         </div>
 
-        @if($projects->hasMorePages())
-        <div class="load-more-container">
-            <button class="load-more-btn" id="loadMoreBtn">
-                <span class="btn-text">Load More Projects</span>
-                <i class="fas fa-right-arrow"></i>
-            </button>
+        {{-- Pagination --}}
+        <div class="d-flex justify-content-center mt-5">
+            {{ $portfolios->links() }}
         </div>
-        @endif
+
     </div>
 </section>
-
-<!-- CTA Section -->
-<section class="cta-section">
-    <div class="auto-container">
-        <div class="cta-content">
-            <h3>Have a Project in Mind?</h3>
-            <a href="{{ route('contact') }}" class="cta-btn">
-                Start a Project
-                <i class="fas fa-right-arrow"></i>
-            </a>
-        </div>
-    </div>
-</section>
-
-
 
 @endsection
 
 
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get DOM elements
-    const projectsGrid = document.getElementById('projectsGrid');
-    const projectItems = document.querySelectorAll('.project-item');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const filterAll = document.getElementById('filterAll');
-    const activeFilter = document.getElementById('activeFilter');
-    const visibleCount = document.getElementById('visibleCount');
-    const loadMoreBtn = document.getElementById('loadMoreBtn');
-    
-    let currentFilter = 'all';
-    let isLoading = false;
-    
-    // Filter projects by category
-    function filterProjects(categoryId) {
-        let visibleProjects = 0;
-        
-        projectItems.forEach(item => {
-            const itemCategory = item.dataset.category;
-            
-            if (categoryId === 'all' || itemCategory === categoryId) {
-                item.style.display = 'block';
-                visibleProjects++;
-                
-                // Add animation delay for staggered effect
-                item.style.animation = 'none';
-                item.offsetHeight; // Trigger reflow
-                item.style.animation = 'fadeIn 0.5s ease';
-            } else {
-                item.style.display = 'none';
+    (function() {
+        'use strict';
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const tabs = document.querySelectorAll('.pf-pg__filter-tab');
+            const masonry = document.getElementById('pf-masonry');
+            const empty = document.getElementById('pf-empty');
+
+            // If masonry doesn't exist, exit
+            if (!masonry) return;
+
+            function filterCards(cat) {
+                const items = masonry.querySelectorAll('.pf-pg__masonry-item');
+                let visibleCount = 0;
+
+                items.forEach(function(item) {
+                    const itemCategory = item.getAttribute('data-category');
+
+                    // Check if the item should be visible
+                    const shouldShow = (cat === '*') || (itemCategory === cat);
+
+                    if (shouldShow) {
+                        item.style.display = '';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Show/hide empty state message
+                if (empty) {
+                    empty.style.display = visibleCount === 0 ? 'block' : 'none';
+                }
             }
-        });
-        
-        // Update visible count
-        updateVisibleCount(visibleProjects);
-        
-        // Show no results message if needed
-        toggleNoResults(visibleProjects);
-        
-        return visibleProjects;
-    }
-    
-    // Update active filter display
-    function updateVisibleCount(count) {
-        if (visibleCount) {
-            visibleCount.textContent = `(${count} item${count !== 1 ? 's' : ''})`;
-        }
-    }
-    
-    // Toggle no results message
-    function toggleNoResults(visibleCount) {
-        let noResultsEl = document.querySelector('.no-results');
-        
-        if (visibleCount === 0) {
-            if (!noResultsEl) {
-                noResultsEl = document.createElement('div');
-                noResultsEl.className = 'no-results';
-                noResultsEl.innerHTML = `
-                    <i class="fas fa-folder"></i>
-                    <h4>No Projects Found</h4>
-                    <p>Try selecting a different category</p>
-                `;
-                projectsGrid.appendChild(noResultsEl);
-            }
-        } else {
-            if (noResultsEl) {
-                noResultsEl.remove();
-            }
-        }
-    }
-    
-    // Update active filter button
-    function setActiveFilter(activeButton) {
-        filterButtons.forEach(btn => {
-            btn.classList.remove('active');
-        });
-        activeButton.classList.add('active');
-        
-        // Update active filter text
-        const filterName = activeButton.querySelector('.filter-name').textContent;
-        const categoryId = activeButton.dataset.category;
-        const count = categoryId === 'all' 
-            ? projectItems.length 
-            : Array.from(projectItems).filter(item => item.dataset.category === categoryId).length;
-        
-        activeFilter.innerHTML = `Showing: <strong>${filterName}</strong> <span class="project-count">(${count} item${count !== 1 ? 's' : ''})</span>`;
-    }
-    
-    // Handle filter button clicks
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Get category
-            const categoryId = this.dataset.category;
-            
-            // Update current filter
-            currentFilter = categoryId;
-            
-            // Filter projects
-            filterProjects(categoryId);
-            
-            // Set active button
-            setActiveFilter(this);
-            
-            // Scroll to projects grid smoothly
-            projectsGrid.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+
+            // Add click event listeners to all filter tabs
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const filterValue = this.getAttribute('data-filter');
+
+                    // Update active state on tabs
+                    tabs.forEach(function(t) {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+
+                    // Apply filter
+                    filterCards(filterValue);
+                });
             });
         });
-    });
-    
-    // Handle "All" button click
-    if (filterAll) {
-        filterAll.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Show all projects
-            filterProjects('all');
-            
-            // Set active button
-            setActiveFilter(this);
-        });
-    }
-    
-    // Load more functionality (if needed)
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', async function(e) {
-            e.preventDefault();
-            
-            if (isLoading) return;
-            
-            isLoading = true;
-            this.classList.add('loading');
-            
-            const btnText = this.querySelector('.btn-text');
-            const originalText = btnText.textContent;
-            btnText.textContent = 'Loading...';
-            
-            try {
-                // Simulate loading (replace with actual AJAX call)
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Here you would load more projects via AJAX
-                console.log('Load more projects for filter:', currentFilter);
-                
-            } catch (error) {
-                console.error('Error loading more projects:', error);
-            } finally {
-                isLoading = false;
-                this.classList.remove('loading');
-                btnText.textContent = originalText;
-            }
-        });
-    }
-    
-    // Intersection Observer for animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, { 
-        threshold: 0.1, 
-        rootMargin: '0px 0px -50px 0px' 
-    });
-    
-    // Apply animations to project cards
-    document.querySelectorAll('.project-card').forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = `all 0.6s ease ${index * 0.1}s`;
-        observer.observe(el);
-    });
-    
-    // Touch scroll hint for mobile
-    const filterWrapper = document.querySelector('.category-filter-wrapper');
-    if (filterWrapper) {
-        let isScrolling = false;
-        
-        filterWrapper.addEventListener('scroll', () => {
-            if (!isScrolling) {
-                isScrolling = true;
-                filterWrapper.style.scrollBehavior = 'smooth';
-                
-                setTimeout(() => {
-                    isScrolling = false;
-                }, 150);
-            }
-        });
-    }
-    
-    // Initialize - set initial active filter
-    if (filterAll) {
-        filterAll.classList.add('active');
-    }
-    
-    // Initial count update
-    updateVisibleCount(projectItems.length);
-});
+    })();
 </script>

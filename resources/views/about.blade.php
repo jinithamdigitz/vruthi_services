@@ -7,50 +7,40 @@
 
 
 
-<!-- =============================================
-       HERO SECTION
-       ============================================= -->
-<section class="home-hero" id="home-hero">
-  <div class="home-hero__left">
-    <div class="home-hero__content">
-      <p class="home-hero__breadcrumb animate-fade-up">
-        Architecture &nbsp;/&nbsp; Interior Design &nbsp;/&nbsp; <span>Project Management</span>
-      </p>
+{{-- ══════════════════════════════════════
+     HERO - DYNAMIC (ABOUT PAGE)
+══════════════════════════════════════ --}}
+<section class="abt-pg__hero">
+    <div class="abt-pg__hero-bg" style="background-image: url('{{ asset($aboutBanner->image) }}');"></div>
+    <div class="abt-pg__hero-overlay"></div>
+    <div class="container abt-pg__hero-content">
+        <nav class="abt-pg__breadcrumb" aria-label="breadcrumb">
+            <a href="{{ route('home.index') }}">Home</a>
+            <span class="abt-pg__breadcrumb-sep">›</span>
+            <span>About</span>
+        </nav>
 
-      <h1 class="home-hero__title animate-fade-up delay-100">
-        @if($homebanner && $homebanner->title)
-        {!! $homebanner->title !!}
-        @endif
-      </h1>
+        @php
+        $titleParts = explode('|', $aboutBanner->title);
+        $firstLine = trim($titleParts[0]);
+        $secondLine = trim($titleParts[1]);
+        @endphp
+        <h1 class="abt-pg__hero-title">
+            {{ $firstLine }}
+            <span class="abt-pg__accent">{{ $secondLine }}</span>
+        </h1>
 
-      <p class="home-hero__sub animate-fade-up delay-200">
-        @if($homebanner && $homebanner->body)
-        {{ strip_tags($homebanner->body) }}
-        @endif
-      </p>
+        <p class="abt-pg__hero-desc">
+            {!! strip_tags($aboutBanner->body) !!}
+        </p>
 
-      <div class="home-hero__actions animate-fade-up delay-300">
-        <a href="#home-services" class="btn-outline-custom btn-primary-custom">
-          Our Services &nbsp;<i class="bi bi-arrow-right"></i>
+        <a href="{{ route('contact') }}" class="btn-outline-custom btn-primary-custom">
+            Get in Touch
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
         </a>
-        <a href="#home-portfolio" class="btn-outline-custom hero-btn-ghost">
-          View Portfolio
-        </a>
-      </div>
-
-      <div class="mt-4 animate-fade-up delay-400">
-        <button class="play-btn" onclick="openVideoModal('https://www.youtube.com/watch?v=your-video-id')">
-          <span class="play-btn__circle"><i class="bi bi-play-fill"></i></span>
-          &nbsp;See How We Work
-        </button>
-      </div>
     </div>
-  </div>
-  <div class="home-hero__right">
-    @if($homebanner && $homebanner->image)
-    <img src="{{ asset($homebanner->image) }}" alt="{{ $homebanner->title ?? 'Outline Architects' }}" />
-    @endif
-  </div>
 </section>
 <!-- =============================================
        STATS SECTION

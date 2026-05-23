@@ -5,27 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\PostCategory;
-use App\Models\ProjectCategory;
-use App\Models\Program;
-use App\Models\Event;
-use App\Models\Project;
-use App\Models\ContactSubmission;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactFormSubmitted;
-use App\Models\Location;
 use App\Models\Service;
 use App\Models\SeoParameter;
-use App\Models\MultiplePostImage;
-use Illuminate\Support\Facades\View;
-use App\Models\OurProduct;
-use App\Models\ProductMultipleImage;
-use App\Models\ProductSection;
-use App\Models\BrandSlider;
-use App\Models\ProductFaq;
 use App\Models\Course;
 use App\Models\Faculty;
 use App\Models\Member;
+use App\Models\Portfolio;
+use App\Models\PortfolioCategory;
 
 
 class HomeController extends Controller
@@ -312,26 +298,72 @@ class HomeController extends Controller
         if ($category) {
             $memberTitle = Post::where('post_category_id', $category->id)->first();
         }
+         $category = PostCategory::where('slug', 'about-banner')->first();
+        $aboutBanner = [];
+        if ($category) {
+            $aboutBanner = Post::where('post_category_id', $category->id)->first();
+        }
 
         $members = Member::limit(10)->get();
 
 
-        return view('about', ['homebanner' => $homebanner, 'ctasection' => $ctasection, 'counters' => $counters, 'ourStoryTitle' => $ourStoryTitle, 'ourStory' => $ourStory, 'ourValueTitle' => $ourValueTitle, 'ourValues' => $ourValues, 'members' => $members, 'memberTitle' => $memberTitle]);
+        return view('about', ['homebanner' => $homebanner, 'ctasection' => $ctasection, 'counters' => $counters, 'ourStoryTitle' => $ourStoryTitle, 'ourStory' => $ourStory, 'ourValueTitle' => $ourValueTitle, 'ourValues' => $ourValues, 'members' => $members, 'memberTitle' => $memberTitle, 'aboutBanner' => $aboutBanner]);
     }
 
 
 
 
 
-    public function service()
-    {
-        $services = Service::orderBy('id', 'desc')->paginate(12);  
+   public function service()
+{
+    $services = Service::orderBy('id', 'desc')->paginate(12);  
 
-        return view('services', [
-            'services' => $services,
-        ]);
+    $category = PostCategory::where('slug', 'service-content')->first();
+    $serviceContent = [];
+    if ($category) {
+        $serviceContent = Post::where('post_category_id', $category->id)->first();
+    }
+    $category = PostCategory::where('slug', 'why-choose-us-2')->first();
+    $whyChooseUs = [];
+    if ($category) {
+        $whyChooseUs = Post::where('post_category_id', $category->id)->first();
+    }
+    $category = PostCategory::where('slug', 'why-choose-us-card')->first();
+    $whyChooseUsCards = [];
+    if ($category) {
+        $whyChooseUsCards = Post::where('post_category_id', $category->id)->get();
+    }
+    $category = PostCategory::where('slug', 'service-banner')->first();
+    $serviceBanner = [];
+    if ($category) {
+        $serviceBanner = Post::where('post_category_id', $category->id)->first();
     }
 
+    return view('services', [
+        'services' => $services,
+        'serviceContent' => $serviceContent,
+        'whyChooseUs' => $whyChooseUs,
+        'whyChooseUsCards' => $whyChooseUsCards,
+        'serviceBanner' => $serviceBanner
+    ]);
+}
+
+
+public function portfolio()
+{
+    $categories = PortfolioCategory::with('portfolios')->get();
+
+    $portfolios = Portfolio::with('category')->orderBy('id', 'desc')->paginate(12);
+
+    $category = PostCategory::where('slug', 'portfolio-banner')->first();
+    $portfolioBanner = [];
+    if ($category) {
+        $portfolioBanner = Post::where('post_category_id', $category->id)->first();
+    }
+
+    return view('portfolio', compact('categories', 'portfolios', 'portfolioBanner'));
+
+}
 
 
 

@@ -45,6 +45,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\CareerJobController;
 use App\Http\Controllers\CareersController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PortfolioCategoryController;
+use App\Http\Controllers\PortfolioController;
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -322,15 +324,23 @@ Route::prefix('admin')->middleware(['auth', 'route.access'])->name('admin.')->gr
     Route::resource('projects', AdminProjectController::class);
 });
 
-// ============ PUBLIC FRONTEND ROUTES (NO AUTH) ============
-Route::get('/portfolio', [ProjectController::class, 'portfolio'])->name('home.portfolio');
-Route::get('/portfolio/category/{slug}', [ProjectController::class, 'byCategory'])->name('portfolio.category');
-Route::get('/portfolio/project/{slug}', [ProjectController::class, 'show'])->name('portfolio-details');
-Route::get('/categories', [ProjectCategoryController::class, 'index'])->name('categories.index');
-Route::get('/category/{slug}', [ProjectCategoryController::class, 'show'])->name('category.show');
 
-Route::get('/api/category/{id}/projects', [ProjectCategoryController::class, 'getProjects'])->name('api.category.projects');
-Route::get('/api/category-stats', [ProjectCategoryController::class, 'getStats'])->name('api.category.stats');
+
+
+// Admin Routes
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    
+    // Portfolio Categories
+    Route::resource('portfolio-categories', PortfolioCategoryController::class);
+    
+    // Portfolios
+    Route::resource('portfolios', PortfolioController::class);
+    
+});
+
+// Frontend Routes
+Route::get('/portfolio', [HomeController::class, 'portfolio'])->name('home.portfolio');
+
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('seo', SeoParameterController::class);
