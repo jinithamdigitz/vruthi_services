@@ -85,12 +85,11 @@
 
                     {{-- Floating promise card --}}
                     <div class="about-pg__story-promise">
-                        <p>{!! $ourStoryTitle->body !!}</p>
+                        <p>{!! strip_tags($ourStoryTitle->body) !!}</p>
                     </div>
                 </div>
             </div>
 
-            {{-- Copy RIGHT --}}
             <div class="col-lg-6 order-lg-2 order-1">
                 <span class="section-label">{{ $ourStoryTitle->title }}</span>
                 <h2 class="section-title section-title--lg mb-3">
@@ -123,7 +122,7 @@
         <div class="row mb-5">
             <div class="col-12 text-center">
                 <span class="section-label">{{ $ourValueTitle->title }}</span>
-                <h2 class="about-pg__values-title mt-1">{!! $ourValueTitle->body !!}</h2>
+                <h2 class="about-pg__values-title mt-1">{!! strip_tags($ourValueTitle->body) !!}</h2>
             </div>
         </div>
 
@@ -155,8 +154,8 @@
 
         <div class="row mb-5">
             <div class="col-12">
-                <span class="section-label">{{ $memberTitle['title'] }}</span>
-                <h2 class="section-title section-title--lg mt-1">{!! $memberTitle['body'] !!}</h2>
+                <span class="section-label">{!! strip_tags($memberTitle['title']) !!}</span>
+                <h2 class="about-section-title section-title--lg mt-1">{!! strip_tags($memberTitle['body']) !!}</h2>
             </div>
         </div>
 

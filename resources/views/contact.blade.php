@@ -1,239 +1,284 @@
 @extends('layouts.main')
 
+@section('title', 'Contact Us — Outline Architects')
+
 @section('content')
 
-@section('hero_title')
+{{-- HERO - DYNAMIC --}}
+<section class="ct-pg__hero">
+    <div class="ct-pg__hero-bg" style="background-image: url('{{ asset($contactBanner->image) }}');"></div>
+    <div class="ct-pg__hero-overlay"></div>
+    <div class="container ct-pg__hero-content">
+        <nav class="ct-pg__breadcrumb" aria-label="breadcrumb">
+            <a href="{{ route('home.index') }}">Home</a>
+            <span class="ct-pg__breadcrumb-sep">›</span>
+            <span>Contact</span>
+        </nav>
 
-Contact Solar Masters
+        @php
+            $titleParts = explode('|', $contactBanner->title);
+            $firstLine = trim($titleParts[0]);
+            $secondLine = isset($titleParts[1]) ? trim($titleParts[1]) : '';
+            $thirdLine = isset($titleParts[2]) ? trim($titleParts[2]) : '';
+        @endphp
+        <h1 class="ct-pg__hero-title">
+            {{ $firstLine }}
+            @if($secondLine)
+                <span class="ct-pg__accent">{{ $secondLine }}</span>
+            @endif
+            @if($thirdLine)
+                <span class="ct-pg__accent">{{ $thirdLine }}</span>
+            @endif
+        </h1>
 
-@endsection
-
-@section('hero_text')
-
-Talk with our solar experts today
-
-@endsection
-<!-- ========================= INFO CARDS (above form) ========================= -->
-<section class="contact-cards-section">
-    <h2>Get in Touch With Us</h2>
-    <div class="contact-cards-grid">
-
-        <!-- BLUE — Call Now (Dynamic) -->
-        <div class="info-card card-blue">
-            <i class="fas fa-phone"></i>
-            <h4>Call Now</h4>
-            <p>
-                @php
-                    $phones = App\Http\Controllers\HomeController::getphone();
-                @endphp
-                @foreach($phones as $phone)
-                    {{ $phone->title }}<br>
-                @endforeach
-            </p>
-        </div>
-
-        <!-- GREEN — Email (Dynamic) -->
-        <div class="info-card card-green">
-            <i class="fas fa-envelope"></i>
-            <h4>Email Support</h4>
-            <p>
-                @php
-                    $emails = App\Http\Controllers\HomeController::getemail();
-                @endphp
-                @foreach($emails as $email)
-                    {{ $email->title }}<br>
-                @endforeach
-            </p>
-        </div>
-
-        <!-- TEAL — South Kerala (Dynamic Address) -->
-        <div class="info-card card-teal">
-            <i class="fas fa-location-dot"></i>
-            <h4>South Kerala</h4>
-            <p>
-                @php
-                    $addresses = App\Http\Controllers\HomeController::getalladdress();
-                @endphp
-                @foreach($addresses as $address)
-                    {{ $address->body }}
-                    
-                @endforeach
-            </p>
-        </div>
+        <p class="ct-pg__hero-desc">
+            {!! strip_tags($contactBanner->body) !!}
+        </p>
 
     </div>
 </section>
-<!-- ========================= INFO CARDS end ========================= -->
 
-<!-- ========================= CONTACT FORM (Unified Container) ========================= -->
-<section class="contact-section-enhanced">
-    <div class="unified-container">
-        <!-- Opening Hours & Info (Static Data) -->
-        <div class="info-sidebar">
-            <div class="info-header">
-                <span class="badge">Opening Hours</span>
-                <div class="hours-content">
-                    <p><strong>Mon-Fri:</strong> 9am – 7.30pm</p>
-                    <p><strong>Sat:</strong> 9am – 7.30pm</p>
-                    <p><strong>Sun:</strong> <span class="closed">Closed</span></p>
-                </div>
-            </div>
-        </div>
+{{-- CONTACT SECTION --}}
+<section class="ct-pg__section">
+    <div class="container">
+        <div class="row g-4">
 
-        <!-- Form Container -->
-        <div class="form-container">
-            <div class="form-header">
-                <h3>Send Us a Message</h3>
-                <p>Have a project or an idea in mind? Call us or simply drop a line for your requirements and suggestions. We will reply within 24 hours.</p>
-            </div>
+            {{-- Left Panel - Full Black --}}
+            <div class="col-lg-5">
+                <div class="ct-pg__left-panel">
+                    <h3 class="ct-pg__left-title">Contact Information</h3>
 
-            <!-- Simple Success Message -->
-            @if(session('success'))
-            <div class="alert alert-success">
-                <i class="fas fa-check-circle"></i>
-                {{ session('success') }}
-            </div>
-            @endif
-
-            <!-- Simple Error Messages -->
-            @if($errors->any())
-            <div class="alert alert-error">
-                <i class="fas fa-exclamation-circle"></i>
-                <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-
-            <form action="{{ url('/enquiry-store') }}" method="POST" class="unified-form">
-                @csrf
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">
-                            <i class="fas fa-user"></i>
-                            Your Name <span class="required">*</span>
-                        </label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="John Doe" required />
-                        @error('name')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
+                    {{-- Address Section --}}
+                    <div class="ct-pg__info-item">
+                        <div class="ct-pg__info-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="ct-pg__info-label">Visit Us</p>
+                            @if($globalAddresses && $globalAddresses->count() > 0)
+                            @foreach($globalAddresses as $address)
+                            <p class="ct-pg__info-text">
+                                {{ $address->title }}
+                            </p>
+                            @endforeach
+                            @else
+                            <p class="ct-pg__info-text">
+                                7th Floor, Inspire Tower, Baker Road,<br>
+                                Pune – 411045<br>
+                                Maharashtra, India
+                            </p>
+                            @endif
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="contact_number">
-                            <i class="fas fa-mobile-alt"></i>
-                            Contact Number <span class="required">*</span>
-                        </label>
-                        <input type="tel" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="+91 12345 67890" required />
-                        @error('contact_number')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
+                    {{-- Phone Section --}}
+                    <div class="ct-pg__info-item">
+                        <div class="ct-pg__info-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 1.18 2 2 0 013.98 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="ct-pg__info-label">Call Us</p>
+                            @if($globalPhones && $globalPhones->count() > 0)
+                            @foreach($globalPhones as $phoneItem)
+                            <p class="ct-pg__info-text">
+                                <a href="tel:{{ $phoneItem->title }}">{{ $phoneItem->title }}</a>
+                            </p>
+                            @endforeach
+                            @else
+                            <p class="ct-pg__info-text">
+                                <a href="tel:+919876543210">+91 98765 43210</a>
+                            </p>
+                            @endif
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="email">
-                            <i class="fas fa-envelope"></i>
-                            Email Address <span class="required">*</span>
-                        </label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="john@example.com" required />
-                        @error('email')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
+                    {{-- Email Section --}}
+                    <div class="ct-pg__info-item">
+                        <div class="ct-pg__info-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="ct-pg__info-label">Email Us</p>
+                            @if($globalEmails && $globalEmails->count() > 0)
+                            @foreach($globalEmails as $emailItem)
+                            <p class="ct-pg__info-text">
+                                <a href="mailto:{{ $emailItem->title }}">{{ $emailItem->title }}</a>
+                            </p>
+                            @endforeach
+                            @else
+                            <p class="ct-pg__info-text">
+                                <a href="mailto:info@outlinearchitects.com">info@outlinearchitects.com</a>
+                            </p>
+                            @endif
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="location">
-                            <i class="fas fa-location-dot"></i>
-                            Location
-                        </label>
-                        <input type="text" id="location" name="location" value="{{ old('location') }}" placeholder="Your City/District" />
-                        @error('location')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
+                    {{-- Working Hours Section --}}
+                    <div class="ct-pg__info-item">
+                        <div class="ct-pg__info-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="ct-pg__info-label">Working Hours</p>
+                            <p class="ct-pg__info-text">
+                                {{ $globalTimings ?? 'Mon – Sat: 9:00 AM – 6:00 PM' }}<br>
+                                Sunday: Closed
+                            </p>
+                        </div>
                     </div>
+
                 </div>
+            </div>
 
-                <div class="form-group full-width">
-                    <label for="message">
-                        <i class="fas fa-comment-dots"></i>
-                        Your Message
-                    </label>
-                    <textarea id="message" name="message" placeholder="Tell us about your project or inquiry..." rows="5">{{ old('message') }}</textarea>
-                    @error('message')
-                    <span class="error-message">{{ $message }}</span>
-                    @enderror
+            {{-- Right Panel - White with Orange --}}
+            <div class="col-lg-7">
+                <div class="ct-pg__right-panel">
+                    <h3 class="ct-pg__right-title">Send us a Message</h3>
+                    <span class="ct-pg__right-subtitle">We'd love to hear from you</span>
+
+                    <form id="ct-contact-form" method="POST" action="{{ route('contact.submit') }}" novalidate>
+                        @csrf
+
+                        <div class="ct-pg__form-row">
+                            <div class="ct-pg__form-group">
+                                <label for="ct_name" class="ct-pg__form-label">Your Name</label>
+                                <input type="text" id="ct_name" name="name" class="ct-pg__form-control" placeholder="Your Name *" required autocomplete="name" value="{{ old('name') }}">
+                                @error('name')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="ct-pg__form-group">
+                                <label for="ct_email" class="ct-pg__form-label">Your Email</label>
+                                <input type="email" id="ct_email" name="email" class="ct-pg__form-control" placeholder="Your Email *" required autocomplete="email" value="{{ old('email') }}">
+                                @error('email')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="ct-pg__form-group">
+                            <label for="ct_phone" class="ct-pg__form-label">Phone Number</label>
+                            <input type="tel" id="ct_phone" name="phone" class="ct-pg__form-control" placeholder="Phone Number" autocomplete="tel" value="{{ old('phone') }}">
+                            @error('phone')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="ct-pg__form-group">
+                            <label for="ct_project_type" class="ct-pg__form-label">Project Type</label>
+                            <input type="text" id="ct_project_type" name="project_type" class="ct-pg__form-control" placeholder="Project Type (e.g., Residential, Commercial)" value="{{ old('project_type') }}">
+                            @error('project_type')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="ct-pg__form-group">
+                            <label for="ct_message" class="ct-pg__form-label">Your Message</label>
+                            <textarea id="ct_message" name="message" class="ct-pg__form-control" placeholder="Your Message *" required rows="5">{{ old('message') }}</textarea>
+                            @error('message')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <button type="submit" class="ct-pg__submit-btn">
+                            <span>Send Message</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </button>
+
+                        @if(session('success'))
+                        <div class="ct-pg__form-feedback ct-pg__form-feedback--success" style="display:flex;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            {{ session('success') }}
+                        </div>
+                        @endif
+                        @if(session('error'))
+                        <div class="ct-pg__form-feedback ct-pg__form-feedback--error" style="display:flex;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>
+                            {{ session('error') }}
+                        </div>
+                        @endif
+                    </form>
                 </div>
+            </div>
 
-<!-- CAPTCHA -->
-<div class="form-group full-width">
-    <label>
-        <i class="fas fa-shield-alt"></i>
-        Enter CAPTCHA <span class="required">*</span>
-    </label>
-
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-        <img src="{{ url('/captcha-image') }}" id="captcha-img" 
-             style="height:50px; border-radius:6px; border:1px solid #ddd;">
-        
-        <button type="button" onclick="refreshCaptcha()" 
-                style="border:none; background:#eee; padding:8px 12px; border-radius:6px; cursor:pointer;">
-            <i class="fas fa-sync-alt"></i> Refresh
-        </button>
-    </div>
-
-    <input type="text" name="captcha" placeholder="Enter CAPTCHA" required
-           style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
-    
-    @error('captcha')
-    <span class="error-message" style="color: #dc3545; font-size: 13px; margin-top: 5px; display: block;">
-        <i class="fas fa-exclamation-circle"></i> {{ $message }}
-    </span>
-    @enderror
-</div>
-                
-
-                <div class="form-footer">
-                    <button type="submit" class="btn-send-enhanced">
-                        <span>Send Message</span>
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                    <p class="form-note">
-                        <i class="fas fa-lock"></i> Your information is safe with us.
-                    </p>
-                </div>
-            </form>
         </div>
     </div>
 </section>
-<!-- ========================= CONTACT FORM end ========================= -->
 
-<!-- ========================= MAP ========================= -->
-<div class="map-section">
+{{-- MAP STRIP with dynamic address from database --}}
+<div class="ct-pg__map-strip">
+    @php
+    $mapAddress = '';
+    if($globalAddresses && $globalAddresses->count() > 0) {
+    $addressText = $globalAddresses->first()->title;
+    $mapAddress = urlencode($addressText);
+    } else {
+    $mapAddress = urlencode('7th Floor, Inspire Tower, Baker Road, Pune 411045 Maharashtra India');
+    }
+    @endphp
     <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.1234!2d76.312345!3d10.023456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b080d514abcd123%3A0x123456789abcdef!2sSolar%20Master%20Pvt%20Ltd%2C%20MC%20Building%20Edappally%2C%20Opp%20Metro%20Piller%20363%2C%20Ernakulam%2C%20Kerala%20682024!5e0!3m2!1sen!2sin!4v1690000000000!5m2!1sen!2sin"
-        width="100%"
-        height="450"
-        style="border:0;"
+        src="https://www.google.com/maps?q={{ $mapAddress }}&output=embed"
         allowfullscreen=""
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
-        title="Solar Master Head Office">
-    </iframe>
+        title="Our Office Location"></iframe>
 </div>
-<!-- ========================= MAP end ========================= -->
 
-
-
-<script>
-function refreshCaptcha() {
-    document.getElementById('captcha-img').src = "{{ route('captcha.image') }}?" + Date.now();
-}
-</script>
-
+{{-- Scroll-to-top button --}}
+<button class="ct-pg__scroll-top" id="ct-scroll-top" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <polyline points="18 15 12 9 6 15" />
+    </svg>
+</button>
 
 @endsection
+
+<script>
+    (function() {
+        'use strict';
+
+        const scrollBtn = document.getElementById('ct-scroll-top');
+        if (scrollBtn) {
+            window.addEventListener('scroll', function() {
+                scrollBtn.classList.toggle('visible', window.scrollY > 320);
+            }, {
+                passive: true
+            });
+            scrollBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        document.querySelectorAll('.ct-pg__form-control').forEach(function(el) {
+            el.addEventListener('focus', function() {
+                el.closest('.ct-pg__form-group')?.classList.add('focused');
+            });
+            el.addEventListener('blur', function() {
+                el.closest('.ct-pg__form-group')?.classList.remove('focused');
+            });
+        });
+    })();
+</script>

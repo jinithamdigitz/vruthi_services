@@ -5,9 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Validator;
+use App\Models\PostCategory;
+use App\Models\Post;
 
 class ContactController extends Controller
 {
+    /**
+     * Display the public contact page.
+     */
+    public function index()
+    {
+        // Get contact banner
+        $category = PostCategory::where('slug', 'contact-banner')->first();
+        $contactBanner = $category ? Post::where('post_category_id', $category->id)->first() : null;
+
+        return view('contact', compact('contactBanner'));
+    }
+
     /**
      * Store a new contact message.
      */
@@ -43,7 +57,7 @@ class ContactController extends Controller
     /**
      * Display all contact messages (Admin).
      */
-    public function index()
+    public function adminIndex()
     {
         $contacts = Contact::latest()->paginate(20);
         return view('admin.contacts.index', compact('contacts'));
@@ -55,12 +69,12 @@ class ContactController extends Controller
     public function show($id)
     {
         $contact = Contact::findOrFail($id);
-        
+
         // Mark as read
         if (!$contact->is_read) {
             $contact->update(['is_read' => true]);
         }
-        
+
         return view('admin.contacts.show', compact('contact'));
     }
 
@@ -71,9 +85,8 @@ class ContactController extends Controller
     {
         $contact = Contact::findOrFail($id);
         $contact->delete();
-        
-        return redirect()->route('admin.contacts.index')
-            ->with('success', 'Contact message deleted successfully!');
+
+        return redirect()->back()->with('success', 'Contact message deleted successfully!');
     }
 
     /**
@@ -83,7 +96,7 @@ class ContactController extends Controller
     {
         $contact = Contact::findOrFail($id);
         $contact->update(['is_read' => true]);
-        
+
         return redirect()->back()->with('success', 'Message marked as read!');
     }
 

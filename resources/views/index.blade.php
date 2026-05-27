@@ -15,7 +15,15 @@
 
       <h1 class="home-hero__title animate-fade-up delay-100">
         @if($homebanner && $homebanner->title)
-        {!! $homebanner->title !!}
+          @php
+            $titleParts = explode('|', $homebanner->title);
+            $firstLine = trim($titleParts[0]);
+            $secondLine = isset($titleParts[1]) ? trim($titleParts[1]) : '';
+          @endphp
+          {{ $firstLine }}
+          @if($secondLine)
+            <span class="home-hero__accent">{{ $secondLine }}</span>
+          @endif
         @endif
       </h1>
 
@@ -34,12 +42,6 @@
         </a>
       </div>
 
-      <div class="mt-4 animate-fade-up delay-400">
-        <button class="play-btn" onclick="openVideoModal('https://www.youtube.com/watch?v=your-video-id')">
-          <span class="play-btn__circle"><i class="bi bi-play-fill"></i></span>
-          &nbsp;See How We Work
-        </button>
-      </div>
     </div>
   </div>
   <div class="home-hero__right">
@@ -48,6 +50,7 @@
     @endif
   </div>
 </section>
+
 <!-- =============================================
        ABOUT SECTION
        ============================================= -->
@@ -60,7 +63,6 @@
           <img src="{{ asset($about_us->image) }}" alt="{{ $aboutUSTitle->title ?? '' }}" />
           @endif
 
-          {{-- Dynamic Badge from aboutUSTitle body --}}
           @if($aboutUSTitle && $aboutUSTitle->body)
           <div class="home-about__badge">
             {!! $aboutUSTitle->body !!}
@@ -87,7 +89,6 @@
         </p>
         @endif
 
-        {{-- Static Button --}}
         <a href="#" class="btn-outline-custom btn-primary-custom">
           More About Us &nbsp;<i class="bi bi-arrow-right"></i>
         </a>
@@ -130,7 +131,6 @@
         <div class="row g-3 h-100">
           @foreach($services as $key => $service)
           @if($key == 4)
-          {{-- Last card (Project Management) - Different style --}}
           <div class="col-12">
             <div class="service-card">
               <div class="d-flex align-items-start gap-3">
@@ -156,7 +156,6 @@
             </div>
           </div>
           @else
-          {{-- Regular cards (First 4 services) --}}
           <div class="col-sm-6">
             <div class="service-card h-100">
               <div class="service-card__icon-img">
@@ -217,8 +216,8 @@
             @if($project->title)
             <div class="project-card__title">{{ $project->title }}</div>
             @endif
-            @if($project->body)
-            <div class="project-card__location">{!! $project->body !!}</div>
+            @if($project->location)
+            <div class="project-card__location">{!! $project->location !!}</div>
             @endif
           </div>
         </div>
@@ -231,6 +230,7 @@
     </div>
   </div>
 </section>
+
 <!-- =============================================
        STATS SECTION
        ============================================= -->
@@ -275,7 +275,6 @@
           {!! $whychooseus->body !!}
         </div>
         @endif
-
       </div>
       <div class="col-lg-6 order-1 order-lg-2 animate-fade-right">
         <div class="home-why__img-wrap">
@@ -376,7 +375,7 @@
         <!-- Left: Form -->
         <div class="col-lg-6">
           <span class="section-label contact-heading-label">Get In Touch</span>
-          <h2 class="section-title section-title--md section-title--light mb-4">We'd Love To Hear From You</h2>
+          <h2 class="cta-section-title section-title--md section-title--light mb-4">We'd Love To Hear From You</h2>
 
           @if(session('success'))
           <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -423,66 +422,79 @@
         <div class="col-lg-5 offset-lg-1">
           <div class="mb-2">
 
-            {{-- Dynamic Address --}}
-            @php $addresses = App\Http\Controllers\HomeController::getalladdress(); @endphp
-            @foreach($addresses as $address)
-            <div class="contact-info-item">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              <span>{!! $address->title !!}</span>
-            </div>
-            @endforeach
+            {{-- Global Addresses --}}
+            @if($globalAddresses && $globalAddresses->count() > 0)
+              @foreach($globalAddresses as $address)
+              <div class="contact-info-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span>{!! $address->title !!}</span>
+              </div>
+              @endforeach
+            @endif
 
-            {{-- Dynamic Phone --}}
-            @php $phones = App\Http\Controllers\HomeController::getphone(); @endphp
-            @foreach($phones as $phone)
-            <div class="contact-info-item">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
-              <span>{{ $phone->title }}</span>
-            </div>
-            @endforeach
+            {{-- Global Phones --}}
+            @if($globalPhones && $globalPhones->count() > 0)
+              @foreach($globalPhones as $phone)
+              <div class="contact-info-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                <span>{{ $phone->title }}</span>
+              </div>
+              @endforeach
+            @endif
 
-            {{-- Dynamic Email --}}
-            @php $emails = App\Http\Controllers\HomeController::getemail(); @endphp
-            @foreach($emails as $email)
-            <div class="contact-info-item">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                <polyline points="22,6 12,13 2,6" />
-              </svg>
-              <span>{{ $email->title }}</span>
-            </div>
-            @endforeach
+            {{-- Global Emails --}}
+            @if($globalEmails && $globalEmails->count() > 0)
+              @foreach($globalEmails as $email)
+              <div class="contact-info-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                <span>{{ $email->title }}</span>
+              </div>
+              @endforeach
+            @endif
 
-            {{-- Dynamic Timing (Single) --}}
-            @php $timing = App\Http\Controllers\HomeController::gettimings(); @endphp
-            @if($timing)
+            {{-- Global Timings --}}
+            @if($globalTimings)
             <div class="contact-info-item">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="12 6 12 12 16 14" />
               </svg>
-              <span>{{ $timing }}</span>
+              <span>{{ $globalTimings }}</span>
             </div>
             @endif
 
           </div>
 
-          <!-- Map iframe (Static) -->
+          <!-- Map iframe with dynamic address -->
           <div class="home-contact__map">
+            @php
+              $mapAddress = '';
+              if($globalAddresses && $globalAddresses->count() > 0) {
+                  $addressText = $globalAddresses->first()->title;
+                  $mapAddress = urlencode(strip_tags($addressText));
+              } else {
+                  $mapAddress = urlencode('Inspire Tower, Baner, Pune, Maharashtra, India');
+              }
+            @endphp
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.6584988688!2d73.84537!3d18.51957!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf4264d7e31d%3A0x6b9b07c16e35f3e8!2sInspire%20Tower%2C%20Baner%2C%20Pune!5e0!3m2!1sen!2sin!4v1699999999999!5m2!1sen!2sin"
-              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q={{ $mapAddress }}&output=embed"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
               title="Outline Architects Location">
             </iframe>
           </div>
 
           <!-- Address badge below map -->
-          @if($addresses->count() > 0)
+          @if($globalAddresses && $globalAddresses->count() > 0)
           <div class="contact-map-badge">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -490,12 +502,12 @@
             </svg>
             <div>
               <strong>Outline Architects</strong>
-              <p>{{ strip_tags($addresses->first()->title) }}</p>
+              <p>{{ strip_tags($globalAddresses->first()->title) }}</p>
             </div>
           </div>
           @endif
 
-          <!-- Social icons (Static) -->
+          <!-- Social icons -->
           <div class="contact-social">
             <div class="social-links">
               <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>

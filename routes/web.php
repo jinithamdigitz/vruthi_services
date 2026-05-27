@@ -83,9 +83,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         [EnquiryAdminController::class, 'index']
     )
         ->name('admin.enquiry.index');
-		
-		// routes/web.php
-        Route::resource('career-jobs', CareerJobController::class);
+
+    // routes/web.php
+    Route::resource('career-jobs', CareerJobController::class);
 
     Route::get(
         '/enquiries/show/{id}',
@@ -329,13 +329,12 @@ Route::prefix('admin')->middleware(['auth', 'route.access'])->name('admin.')->gr
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
-    
+
     // Portfolio Categories
     Route::resource('portfolio-categories', PortfolioCategoryController::class);
-    
+
     // Portfolios
     Route::resource('portfolios', PortfolioController::class);
-    
 });
 
 // Frontend Routes
@@ -377,11 +376,14 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('/services', [App\Http\Controllers\HomeController::class, 'service'])->name('services.index');
 
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+
+// Contact form submission
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 
-// Admin routes (add to your existing admin middleware group)
+// Admin routes for contacts
 Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::get('/contacts', [ContactController::class, 'index'])->name('admin.contacts.index');
+    Route::get('/contacts', [ContactController::class, 'adminIndex'])->name('admin.contacts.index');
     Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('admin.contacts.show');
     Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
     Route::post('/contacts/{id}/read', [ContactController::class, 'markAsRead'])->name('admin.contacts.mark-read');

@@ -71,11 +71,10 @@ class HomeController extends Controller
             $featured_work_title = Post::where('post_category_id', $category->id)->first();
         }
 
-        $category = PostCategory::where('slug', 'featured-work')->first();
-        $featured_work = [];
-        if ($category) {
-            $featured_work = Post::where('post_category_id', $category->id)->get();
-        }
+        $featured_work = Portfolio::with('category')
+            ->orderBy('id', 'desc')
+            ->limit(6)
+            ->get();
 
         $category = PostCategory::where('slug', 'counter')->first();
         $counters = collect();
@@ -298,7 +297,7 @@ class HomeController extends Controller
         if ($category) {
             $memberTitle = Post::where('post_category_id', $category->id)->first();
         }
-         $category = PostCategory::where('slug', 'about-banner')->first();
+        $category = PostCategory::where('slug', 'about-banner')->first();
         $aboutBanner = [];
         if ($category) {
             $aboutBanner = Post::where('post_category_id', $category->id)->first();
@@ -314,56 +313,55 @@ class HomeController extends Controller
 
 
 
-   public function service()
-{
-    $services = Service::orderBy('id', 'desc')->paginate(12);  
+    public function service()
+    {
+        $services = Service::orderBy('id', 'desc')->paginate(12);
 
-    $category = PostCategory::where('slug', 'service-content')->first();
-    $serviceContent = [];
-    if ($category) {
-        $serviceContent = Post::where('post_category_id', $category->id)->first();
-    }
-    $category = PostCategory::where('slug', 'why-choose-us-2')->first();
-    $whyChooseUs = [];
-    if ($category) {
-        $whyChooseUs = Post::where('post_category_id', $category->id)->first();
-    }
-    $category = PostCategory::where('slug', 'why-choose-us-card')->first();
-    $whyChooseUsCards = [];
-    if ($category) {
-        $whyChooseUsCards = Post::where('post_category_id', $category->id)->get();
-    }
-    $category = PostCategory::where('slug', 'service-banner')->first();
-    $serviceBanner = [];
-    if ($category) {
-        $serviceBanner = Post::where('post_category_id', $category->id)->first();
-    }
+        $category = PostCategory::where('slug', 'service-content')->first();
+        $serviceContent = [];
+        if ($category) {
+            $serviceContent = Post::where('post_category_id', $category->id)->first();
+        }
+        $category = PostCategory::where('slug', 'why-choose-us-2')->first();
+        $whyChooseUs = [];
+        if ($category) {
+            $whyChooseUs = Post::where('post_category_id', $category->id)->first();
+        }
+        $category = PostCategory::where('slug', 'why-choose-us-card')->first();
+        $whyChooseUsCards = [];
+        if ($category) {
+            $whyChooseUsCards = Post::where('post_category_id', $category->id)->get();
+        }
+        $category = PostCategory::where('slug', 'service-banner')->first();
+        $serviceBanner = [];
+        if ($category) {
+            $serviceBanner = Post::where('post_category_id', $category->id)->first();
+        }
 
-    return view('services', [
-        'services' => $services,
-        'serviceContent' => $serviceContent,
-        'whyChooseUs' => $whyChooseUs,
-        'whyChooseUsCards' => $whyChooseUsCards,
-        'serviceBanner' => $serviceBanner
-    ]);
-}
-
-
-public function portfolio()
-{
-    $categories = PortfolioCategory::with('portfolios')->get();
-
-    $portfolios = Portfolio::with('category')->orderBy('id', 'desc')->paginate(12);
-
-    $category = PostCategory::where('slug', 'portfolio-banner')->first();
-    $portfolioBanner = [];
-    if ($category) {
-        $portfolioBanner = Post::where('post_category_id', $category->id)->first();
+        return view('services', [
+            'services' => $services,
+            'serviceContent' => $serviceContent,
+            'whyChooseUs' => $whyChooseUs,
+            'whyChooseUsCards' => $whyChooseUsCards,
+            'serviceBanner' => $serviceBanner
+        ]);
     }
 
-    return view('portfolio', compact('categories', 'portfolios', 'portfolioBanner'));
 
-}
+    public function portfolio()
+    {
+        $categories = PortfolioCategory::with('portfolios')->get();
+
+        $portfolios = Portfolio::with('category')->orderBy('id', 'desc')->paginate(12);
+
+        $category = PostCategory::where('slug', 'portfolio-banner')->first();
+        $portfolioBanner = [];
+        if ($category) {
+            $portfolioBanner = Post::where('post_category_id', $category->id)->first();
+        }
+
+        return view('portfolio', compact('categories', 'portfolios', 'portfolioBanner'));
+    }
 
 
 
