@@ -3444,11 +3444,3 @@ h2.about-pg__values-title.about-pg__values-title {
         height: 260px;
     }
 }
-
-@media (max-width: 575.98px) {
-    .ct-pg__form-row {
-        flex-direction: column;
-        gap: 0;
-    }
-
-}

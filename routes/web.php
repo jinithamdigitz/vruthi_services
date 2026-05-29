@@ -44,6 +44,8 @@ use App\Http\Controllers\CareersController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PortfolioCategoryController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\Admin\CustomCssController;
+use App\Http\Controllers\Admin\CustomJavascriptController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('ourproduct', OurProductController::class);
@@ -281,6 +283,21 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
     Route::resource('members', MemberController::class);
 });
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::resource('custom-css', CustomCssController::class);
+    });
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::resource(
+            'custom-javascript',
+            CustomJavascriptController::class
+        );
+    });
 
 // ============ DYNAMIC SLUG ROUTE - MUST BE LAST ============
 Route::get('/{slug}', function ($slug) {
