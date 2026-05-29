@@ -29,7 +29,6 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Admin\ProjectCategoryController as AdminProjectCategoryController;
 use App\Http\Controllers\SolarCalculatorController;
 use App\Http\Controllers\Admin\SolarCalculatorAdminController;
-use App\Models\SolarCalculator;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\Admin\EnquiryAdminController;
 use App\Http\Controllers\CaptchaController;
@@ -265,10 +264,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 });
-
-
-
-
 
 // ============ FRONTEND ROUTES ============
 Route::get('/services', [App\Http\Controllers\HomeController::class, 'service'])->name('home.services');
