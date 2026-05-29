@@ -72,9 +72,40 @@
 
     @yield('content')
 
-    <!-- Orange thin solid divider -->
-    <hr class="orange-hr" />
-    <!-- =============================================
+  <!-- =============================================
+       CTA SECTION - USING GLOBAL VARIABLE (NO FALLBACK)
+       ============================================= -->
+@if(!request()->routeIs('contact*') && !request()->routeIs('contact') && $ctasection)
+<section class="home-cta" id="home-cta">
+    @if($ctasection->image)
+    <div class="home-cta__bg" style="background-image: url('{{ asset($ctasection->image) }}');"></div>
+    @endif
+    <div class="home-cta__bg-overlay"></div>
+    <div class="container home-cta__content text-center">
+        <span class="section-label cta-label">Let's Build Together</span>
+        
+        @if($ctasection->title)
+        <h2 class="section-title section-title--xl section-title--light mt-2 mb-3 cta-title-orange">
+            {{ $ctasection->title }}
+        </h2>
+        @endif
+        
+        @if($ctasection->body)
+        <p class="cta-body-white">
+            {{ strip_tags($ctasection->body) }}
+        </p>
+        @endif
+        
+        <a href="{{ route('contact') }}" class="btn-outline-custom btn-primary-custom cta-btn">
+            Get In Touch &nbsp;<i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+</section>
+@endif
+
+  <!-- Orange thin solid divider -->
+  <hr class="orange-hr" />
+  <!-- =============================================
        FOOTER
        ============================================= -->
     <footer class="footer-outline" id="site-footer">

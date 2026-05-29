@@ -338,32 +338,6 @@
 </section>
 
 <!-- =============================================
-       CTA SECTION
-       ============================================= -->
-<section class="home-cta" id="home-cta">
-  @if($ctasection && $ctasection->image)
-  <div class="home-cta__bg" style="background-image: url('{{ asset($ctasection->image) }}');"></div>
-  @endif
-  <div class="home-cta__bg-overlay"></div>
-  <div class="container home-cta__content text-center">
-    <span class="section-label cta-label">Let's Build Together</span>
-    @if($ctasection && $ctasection->title)
-    <h2 class="section-title section-title--xl section-title--light mt-2 mb-3 cta-title-orange">
-      {{ $ctasection->title }}
-    </h2>
-    @endif
-    @if($ctasection && $ctasection->body)
-    <p class="cta-body-white">
-      {{ strip_tags($ctasection->body) }}
-    </p>
-    @endif
-    <a href="{{ route('contact') }}" class="btn-outline-custom btn-primary-custom cta-btn">
-      Get In Touch &nbsp;<i class="bi bi-arrow-right"></i>
-    </a>
-  </div>
-</section>
-
-<!-- =============================================
        CONTACT — form left + info/map right
        ============================================= -->
 <section class="home-contact section-pad" id="home-contact">
