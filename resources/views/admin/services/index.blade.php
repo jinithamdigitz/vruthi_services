@@ -10,7 +10,7 @@
                         <i class="fas fa-cogs"></i> Services
                     </h3>
                     <div class="card-tools">
-                        <a href="{{ route('services.create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('admin.services.create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus-circle"></i> Add New Service
                         </a>
                     </div>
@@ -60,12 +60,12 @@
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('services.show', $service->id) }}" 
+                                        <a href="{{ route('admin.services.show', $service->id) }}" 
                                            class="btn btn-info" 
                                            title="View">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('services.edit', $service->id) }}" 
+                                        <a href="{{ route('admin.services.edit', $service->id) }}" 
                                            class="btn btn-warning" 
                                            title="Edit">
                                             <i class="fas fa-edit"></i>
@@ -79,7 +79,7 @@
                                     </div>
                                     
                                     <form id="delete-form-{{ $service->id }}" 
-                                          action="{{ route('services.destroy', $service->id) }}" 
+                                          action="{{ route('admin.services.destroy', $service->id) }}" 
                                           method="POST" 
                                           style="display: none;">
                                         @csrf
@@ -92,7 +92,7 @@
                                 <td colspan="6" class="text-center">
                                     <div class="alert alert-info mb-0">
                                         <i class="fas fa-info-circle"></i> No services found.
-                                        <a href="{{ route('services.create') }}" class="alert-link">Create your first service</a>
+                                        <a href="{{ route('admin.services.create') }}" class="alert-link">Create your first service</a>
                                     </div>
                                 </td>
                             </tr>

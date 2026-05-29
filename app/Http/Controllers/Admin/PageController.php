@@ -28,50 +28,44 @@ class PageController extends Controller
         $category = PostCategory::where('slug', $slug)->first();
         $categoryId = $category?->id;
         $categories = PostCategory::pluck('name', 'id');
-		
-		if($slug!="careers-banner"&&$slug!="career-highlights")
-		{
-		
-        $galleryCategories = GalleryCategory::active()->pluck('name', 'id');
-		
-		}else
-		{
-			 $galleryCategories =[];
-		}
+        
+        if($slug!="careers-banner"&&$slug!="career-highlights")
+        {
+            $galleryCategories = GalleryCategory::active()->pluck('name', 'id');
+        } else {
+            $galleryCategories =[];
+        }
 
         return view('admin.pages.create', compact('categories', 'categoryId', 'slug', 'galleryCategories'));
     }
 
     public function store(Request $request)
     {
-					$validated = $request->validate([
-				'title' => 'required|string|max:255',
-				'body' => 'nullable|string',
-				'post_category_id' => 'required|exists:post_categories,id',
-				'image' => 'nullable|image|max:10240',
-				'video_url' => 'nullable|url',
-				'multiple_images' => 'nullable|array',
-				'multiple_images.*' => 'image|max:10240',
-				'published' => 'sometimes',
-				'gallery_category_id' => 'nullable|exists:gallery_categories,id',
-				'keywords' => 'nullable|string',
-                'slug' => 'nullable|string',
-				// ✅ New fields
-				'section_one_left' => 'nullable|string',
-				'section_one_right' => 'nullable|string',
-				'section_two_left' => 'nullable|string',
-				'section_two_right' => 'nullable|string',
-			]);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'nullable|string',
+            'post_category_id' => 'required|exists:post_categories,id',
+            'image' => 'nullable|image|max:10240',
+            'video_url' => 'nullable|url',
+            'multiple_images' => 'nullable|array',
+            'multiple_images.*' => 'image|max:10240',
+            'published' => 'sometimes',
+            'gallery_category_id' => 'nullable|exists:gallery_categories,id',
+            'keywords' => 'nullable|string',
+            'slug' => 'nullable|string',
+            'section_one_left' => 'nullable|string',
+            'section_one_right' => 'nullable|string',
+            'section_two_left' => 'nullable|string',
+            'section_two_right' => 'nullable|string',
+        ]);
 
         // Slug
         if ($request->has('slug') && !empty($request->slug)) {
-        // Use the posted slug
             $slug = $request->slug;
         } else {
-            // Generate slug from title
-            $slug = \Str::slug($request->title);
+            $slug = Str::slug($request->title);
         }
-            
+        
         $original = $slug;
         $count = 2;
         while (Post::where('slug', $slug)->exists()) {
@@ -79,26 +73,37 @@ class PageController extends Controller
         }
         $validated['slug'] = $slug;
 
-        // ✅ MAIN IMAGE
+        // ✅ MAIN IMAGE - FIXED: Use ONLY the title, no prefix
         if ($request->hasFile('image')) {
-
             $image = $request->file('image');
-            $extension = $image->getClientOriginalExtension();
-
-            $seoPrefix = 'printing services in kerala';
-            $baseName = Str::slug($seoPrefix . ' ' . $request->title);
-
-            $fileName = $baseName . '.' . $extension;
+            
+            // Generate filename from TITLE only (NO prefix)
+            $baseName = Str::slug($request->title);
+            $fileName = $baseName . '.webp';
             $path = public_path('posts/' . $fileName);
 
             $count = 1;
             while (file_exists($path)) {
-                $fileName = $baseName . '-' . $count . '.' . $extension;
+                $fileName = $baseName . '-' . $count . '.webp';
                 $path = public_path('posts/' . $fileName);
                 $count++;
             }
 
-            $image->move(public_path('posts'), $fileName);
+            // Compress and convert to WebP
+            $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+            $img = $manager->read($image->getRealPath());
+            
+            if ($img->width() > 1200) {
+                $img->scale(width: 1200);
+            }
+            
+            $quality = 80;
+            do {
+                $img->toWebp($quality)->save($path);
+                $size = filesize($path) / 1024;
+                $quality -= 5;
+            } while ($size > 100 && $quality >= 40);
+            
             $validated['image'] = 'posts/' . $fileName;
         }
 
@@ -121,27 +126,28 @@ class PageController extends Controller
             }
         }
 
-        // ✅ MULTIPLE IMAGES
+        // ✅ MULTIPLE IMAGES - FIXED: Use ONLY the title, no prefix
         if ($request->hasFile('multiple_images')) {
-
             foreach ($request->file('multiple_images') as $image) {
-
-                $extension = $image->getClientOriginalExtension();
-
-                $seoPrefix = 'printing services in kerala';
-                $baseName = Str::slug($seoPrefix . ' ' . $request->title);
-
-                $fileName = $baseName . '.' . $extension;
+                $baseName = Str::slug($request->title);
+                $fileName = $baseName . '.webp';
                 $path = public_path('posts/' . $fileName);
 
                 $count = 1;
                 while (file_exists($path)) {
-                    $fileName = $baseName . '-' . $count . '.' . $extension;
+                    $fileName = $baseName . '-' . $count . '.webp';
                     $path = public_path('posts/' . $fileName);
                     $count++;
                 }
 
-                $image->move(public_path('posts'), $fileName);
+                $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+                $img = $manager->read($image->getRealPath());
+                
+                if ($img->width() > 1200) {
+                    $img->scale(width: 1200);
+                }
+                
+                $img->toWebp(80)->save($path);
 
                 \App\Models\MultiplePostImage::create([
                     'post_id' => $post->id,
@@ -175,74 +181,76 @@ class PageController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $post = Post::where('id', $id)->first();
-    
-   	$validated = $request->validate([
-				'title' => 'required|string|max:255',
-				'body' => 'nullable|string',
-				'post_category_id' => 'required|exists:post_categories,id',
-				'image' => 'nullable|image|max:10240',
-				'video_url' => 'nullable|url',
-				'multiple_images' => 'nullable|array',
-				'multiple_images.*' => 'image|max:10240',
-				'published' => 'sometimes',
-				'gallery_category_id' => 'nullable|exists:gallery_categories,id',
-				'keywords' => 'nullable|string',
-                'slug' => 'nullable|string',
-				// ✅ New fields
-				'section_one_left' => 'nullable|string',
-				'section_one_right' => 'nullable|string',
-				'section_two_left' => 'nullable|string',
-				'section_two_right' => 'nullable|string',
-			]);
+    {
+        $post = Post::where('id', $id)->first();
+        
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'nullable|string',
+            'post_category_id' => 'required|exists:post_categories,id',
+            'image' => 'nullable|image|max:10240',
+            'video_url' => 'nullable|url',
+            'multiple_images' => 'nullable|array',
+            'multiple_images.*' => 'image|max:10240',
+            'published' => 'sometimes',
+            'gallery_category_id' => 'nullable|exists:gallery_categories,id',
+            'keywords' => 'nullable|string',
+            'slug' => 'nullable|string',
+            'section_one_left' => 'nullable|string',
+            'section_one_right' => 'nullable|string',
+            'section_two_left' => 'nullable|string',
+            'section_two_right' => 'nullable|string',
+        ]);
 
-    
         // Slug
         if ($request->has('slug') && !empty($request->slug)) {
-        // Use the posted slug
             $slug = $request->slug;
         } else {
-            // Generate slug from title
             $slug = Str::slug($validated['title']);
-           
         }
 
-         $original = $slug;
-            $count = 2;
-            while (Post::where('slug', $slug)->where('id', '!=', $post->id)->exists()) {
-                $slug = $original . '-' . $count++;
-            }
-            $validated['slug'] = $slug;
-        
+        $original = $slug;
+        $count = 2;
+        while (Post::where('slug', $slug)->where('id', '!=', $post->id)->exists()) {
+            $slug = $original . '-' . $count++;
+        }
+        $validated['slug'] = $slug;
 
-        // Slug update
-      
-
-        // ✅ MAIN IMAGE UPDATE
+        // ✅ MAIN IMAGE UPDATE - FIXED: Use ONLY the title, no prefix
         if ($request->hasFile('image')) {
-
             if ($post->image && file_exists(public_path($post->image))) {
                 unlink(public_path($post->image));
             }
 
             $image = $request->file('image');
-            $extension = $image->getClientOriginalExtension();
-
-            $seoPrefix = 'printing services in kerala';
-            $baseName = Str::slug($seoPrefix . ' ' . $request->title);
-
-            $fileName = $baseName . '.' . $extension;
+            
+            // Generate filename from TITLE only (NO prefix)
+            $baseName = Str::slug($request->title);
+            $fileName = $baseName . '.webp';
             $path = public_path('posts/' . $fileName);
 
             $count = 1;
             while (file_exists($path)) {
-                $fileName = $baseName . '-' . $count . '.' . $extension;
+                $fileName = $baseName . '-' . $count . '.webp';
                 $path = public_path('posts/' . $fileName);
                 $count++;
             }
 
-            $image->move(public_path('posts'), $fileName);
+            // Compress and convert to WebP
+            $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+            $img = $manager->read($image->getRealPath());
+            
+            if ($img->width() > 1200) {
+                $img->scale(width: 1200);
+            }
+            
+            $quality = 80;
+            do {
+                $img->toWebp($quality)->save($path);
+                $size = filesize($path) / 1024;
+                $quality -= 5;
+            } while ($size > 100 && $quality >= 40);
+            
             $validated['image'] = 'posts/' . $fileName;
         }
 
@@ -265,27 +273,28 @@ class PageController extends Controller
             }
         }
 
-        // ✅ MULTIPLE IMAGES UPDATE
+        // ✅ MULTIPLE IMAGES UPDATE - FIXED: Use ONLY the title, no prefix
         if ($request->hasFile('multiple_images')) {
-
             foreach ($request->file('multiple_images') as $image) {
-
-                $extension = $image->getClientOriginalExtension();
-
-                $seoPrefix = 'printing services in kerala';
-                $baseName = Str::slug($seoPrefix . ' ' . $request->title);
-
-                $fileName = $baseName . '.' . $extension;
+                $baseName = Str::slug($request->title);
+                $fileName = $baseName . '.webp';
                 $path = public_path('posts/' . $fileName);
 
                 $count = 1;
                 while (file_exists($path)) {
-                    $fileName = $baseName . '-' . $count . '.' . $extension;
+                    $fileName = $baseName . '-' . $count . '.webp';
                     $path = public_path('posts/' . $fileName);
                     $count++;
                 }
 
-                $image->move(public_path('posts'), $fileName);
+                $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+                $img = $manager->read($image->getRealPath());
+                
+                if ($img->width() > 1200) {
+                    $img->scale(width: 1200);
+                }
+                
+                $img->toWebp(80)->save($path);
 
                 \App\Models\MultiplePostImage::create([
                     'post_id' => $post->id,
@@ -320,72 +329,48 @@ class PageController extends Controller
     }
 
     public function renameSeoImages()
-{
-    $seoPrefix = 'printing services in kerala';
+    {
+        $posts = \App\Models\Post::all();
 
-    // 🔥 POSTS (main images)
-    $posts = \App\Models\Post::all();
+        foreach ($posts as $post) {
+            if (!$post->image) continue;
 
-    foreach ($posts as $post) {
+            $oldPath = public_path($post->image);
+            if (!file_exists($oldPath)) continue;
 
-        if (!$post->image) continue;
-
-        $oldPath = public_path($post->image);
-        if (!file_exists($oldPath)) continue;
-
-        $extension = pathinfo($oldPath, PATHINFO_EXTENSION);
-
-        $baseName = \Illuminate\Support\Str::slug($seoPrefix . ' ' . $post->title);
-
-        $newFileName = $baseName . '.' . $extension;
-        $newPath = public_path('posts/' . $newFileName);
-
-        $count = 1;
-        while (file_exists($newPath)) {
-            $newFileName = $baseName . '-' . $count . '.' . $extension;
+            // Use ONLY the title for new name (NO prefix)
+            $baseName = Str::slug($post->title);
+            $newFileName = $baseName . '.webp';
             $newPath = public_path('posts/' . $newFileName);
-            $count++;
+
+            $count = 1;
+            while (file_exists($newPath)) {
+                $newFileName = $baseName . '-' . $count . '.webp';
+                $newPath = public_path('posts/' . $newFileName);
+                $count++;
+            }
+
+            // Convert to WebP if not already
+            $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+            $img = $manager->read($oldPath);
+            
+            if ($img->width() > 1200) {
+                $img->scale(width: 1200);
+            }
+            
+            $quality = 80;
+            do {
+                $img->toWebp($quality)->save($newPath);
+                $size = filesize($newPath) / 1024;
+                $quality -= 5;
+            } while ($size > 100 && $quality >= 40);
+            
+            unlink($oldPath);
+
+            $post->image = 'posts/' . $newFileName;
+            $post->save();
         }
 
-        rename($oldPath, $newPath);
-
-        $post->image = 'posts/' . $newFileName;
-        $post->save();
+        return "✅ Post images renamed and converted to WebP successfully";
     }
-
-    // 🔥 MULTIPLE POST IMAGES
-    $images = \App\Models\MultiplePostImage::all();
-
-    foreach ($images as $img) {
-
-        if (!$img->image_name) continue;
-
-        $oldPath = public_path($img->image_name);
-        if (!file_exists($oldPath)) continue;
-
-        $post = \App\Models\Post::find($img->post_id);
-        if (!$post) continue;
-
-        $extension = pathinfo($oldPath, PATHINFO_EXTENSION);
-
-        $baseName = \Illuminate\Support\Str::slug($seoPrefix . ' ' . $post->title);
-
-        $newFileName = $baseName . '.' . $extension;
-        $newPath = public_path('posts/' . $newFileName);
-
-        $count = 1;
-        while (file_exists($newPath)) {
-            $newFileName = $baseName . '-' . $count . '.' . $extension;
-            $newPath = public_path('posts/' . $newFileName);
-            $count++;
-        }
-
-        rename($oldPath, $newPath);
-
-        $img->image_name = 'posts/' . $newFileName;
-        $img->save();
-    }
-
-    return "✅ Post images renamed successfully";
-}
 }

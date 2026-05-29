@@ -33,12 +33,6 @@
             {!! strip_tags($portfolioBanner->body) !!}
         </p>
 
-        <a href="{{ route('home.index') }}" class="btn-outline-custom btn-primary-custom">
-            View Project Inquiry
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-        </a>
     </div>
 </section>
 
@@ -113,7 +107,7 @@
                     {{-- Footer --}}
                     <div class="pf-pg__card-footer">
                         <span class="pf-pg__card-cat">{{ $portfolio->category->name }}</span>
-                        <a href="#" class="pf-pg__read-more">
+                        <a href="{{ route('home.portfolio') }}" class="pf-pg__read-more">
                             View Project
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
@@ -130,7 +124,8 @@
             </p>
             @endforelse
 
-        </div>{{-- /#pf-masonry --}}
+        </div>
+        {{-- /#pf-masonry --}}
 
         {{-- Empty state (JS-controlled when filter yields 0) --}}
         <div class="pf-pg__empty" id="pf-empty" aria-live="polite">

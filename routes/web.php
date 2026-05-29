@@ -18,7 +18,6 @@ use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\LocationController;
-use App\Http\Controllers\ContactRequestController;
 use App\Http\Controllers\ScrapRequestController;
 use App\Http\Controllers\Admin\AdminScrapRequestController;
 use App\Http\Controllers\Admin\SeoParameterController;
@@ -38,7 +37,6 @@ use App\Models\Post;
 use App\Models\OurProduct;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\OurProductController;
-use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\FacultyController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ContactController;
@@ -48,7 +46,6 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PortfolioCategoryController;
 use App\Http\Controllers\PortfolioController;
 
-
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('ourproduct', OurProductController::class);
 });
@@ -57,55 +54,19 @@ Route::post('/admin/upload', [UploadController::class, 'store'])
     ->name('admin.upload')
     ->middleware(['auth']);
 
-// In routes/web.php - CORRECT WAY
 Route::get('/faculty', [App\Http\Controllers\HomeController::class, 'faculty'])->name('home.faculty');
 
 Route::get('/careers', [CareersController::class, 'index'])->name('careers.index');
-
-// Route with ID parameter
 Route::get('/applytojob/{id}', [CareersController::class, 'apply'])->name('careers.apply');
-
 Route::post('/submit-application', [CareersController::class, 'submitApplication'])->name('careers.submit-application');
 
-// ============ NEW ENQUIRY ADMIN ROUTE (ADDED) ============
-// Route for admin enquiries - using auth middleware
-Route::prefix('admin')
-    ->middleware('auth')
-    ->group(function () {
-        Route::get('/enquiries', [EnquiryAdminController::class, 'index'])
-            ->name('admin.enquiry.index');
-    });
-// ============ END NEW ENQUIRY ADMIN ROUTE ============
-
 Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get(
-        '/enquiries',
-        [EnquiryAdminController::class, 'index']
-    )
-        ->name('admin.enquiry.index');
-
-    // routes/web.php
+    Route::get('/enquiries', [EnquiryAdminController::class, 'index'])->name('admin.enquiry.index');
     Route::resource('career-jobs', CareerJobController::class);
-
-    Route::get(
-        '/enquiries/show/{id}',
-        [EnquiryAdminController::class, 'show']
-    );
-
-    Route::get(
-        '/enquiries/edit/{id}',
-        [EnquiryAdminController::class, 'edit']
-    );
-
-    Route::post(
-        '/enquiries/update/{id}',
-        [EnquiryAdminController::class, 'update']
-    );
-
-    Route::get(
-        '/enquiries/delete/{id}',
-        [EnquiryAdminController::class, 'destroy']
-    );
+    Route::get('/enquiries/show/{id}', [EnquiryAdminController::class, 'show']);
+    Route::get('/enquiries/edit/{id}', [EnquiryAdminController::class, 'edit']);
+    Route::post('/enquiries/update/{id}', [EnquiryAdminController::class, 'update']);
+    Route::get('/enquiries/delete/{id}', [EnquiryAdminController::class, 'destroy']);
 });
 
 Route::post('/enquiry-store', [EnquiryController::class, 'store']);
@@ -115,18 +76,13 @@ Route::get('/enquiry-edit/{id}', [EnquiryController::class, 'edit']);
 Route::post('/enquiry-update/{id}', [EnquiryController::class, 'update']);
 
 Route::get('/productdetails/{id}', [HomeController::class, 'productDetails'])->name('product.details');
-
-// Frontend routes
 Route::get('/blogs', [App\Http\Controllers\HomeController::class, 'blogs'])->name('home.blogs');
-
 Route::get('/time', [HomeController::class, 'donationtime'])->name('home.time');
-
 Route::get('/casestudies/{slug}', [HomeController::class, 'caseStudiesDetails'])->name('home.casestudiesdetails');
 
 Route::prefix('admin')->middleware(['auth', 'route.access'])->name('admin.')->group(function () {
     Route::get('users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('users', [UserController::class, 'store'])->name('users.store');
-
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
@@ -137,10 +93,8 @@ Route::prefix('admin')->middleware(['auth', 'route.access'])->name('admin.')->gr
     Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
     Route::get('roles/create', [RoleController::class, 'create'])->name('roles.create');
     Route::post('roles/store', [RoleController::class, 'store'])->name('roles.store');
-
     Route::get('roles/{role}/routes', [RoleController::class, 'editRoutes'])->name('roles.edit_routes');
     Route::post('roles/{role}/routes', [RoleController::class, 'updateRoutes'])->name('roles.update_routes');
-
     Route::put('roles/{role}/update-name', [RoleController::class, 'updateName'])->name('admin.roles.update_name');
 });
 
@@ -162,52 +116,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
-
-// ============ IMPORTANT: Move these routes BEFORE the dynamic slug route ============
 Route::get('/about-us', [HomeController::class, 'about'])->name('home.about');
 Route::get('/projectlisting', [HomeController::class, 'projectlisting'])->name('home.projectlisting');
-
-/*=========================================
-   COURSES PAGE
-========================================= */
-Route::get('/courselisting', [HomeController::class, 'courses'])->name('courses');
-
-Route::prefix('admin')
-    ->name('admin.')
-    ->group(function () {
-        // Course Listing
-        Route::get('/courses', [CourseController::class, 'index'])
-            ->name('courses.index');
-
-        // Create Course Form
-        Route::get('/courses/create', [CourseController::class, 'create'])
-            ->name('courses.create');
-
-        // Store Course
-        Route::post('/courses/store', [CourseController::class, 'store'])
-            ->name('courses.store');
-
-        // Show Course
-        Route::get('/courses/show/{id}', [CourseController::class, 'show'])
-            ->name('courses.show');
-
-        // Edit Course Form
-        Route::get('/courses/edit/{id}', [CourseController::class, 'edit'])
-            ->name('courses.edit');
-
-        // Update Course
-        Route::put('/courses/update/{id}', [CourseController::class, 'update'])
-            ->name('courses.update');
-
-        // Delete Course
-        Route::delete('/courses/delete/{id}', [CourseController::class, 'destroy'])
-            ->name('courses.destroy');
-    });
-
-/* =========================================
-   COURSE DETAIL PAGE
-========================================= */
-Route::get('/course/{slug}', [HomeController::class, 'courseDetail'])->name('course.detail');
 
 Route::get('/calculator', [SolarCalculatorController::class, 'index'])->name('calculator');
 Route::post('/calculator', [SolarCalculatorController::class, 'store'])->name('calculator.store');
@@ -229,7 +139,6 @@ Route::prefix('admin')->middleware(['auth', 'route.access'])->group(function () 
 
 Route::prefix('admin')->middleware(['auth', 'route.access'])->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-
     Route::get('/dashboard/stats', [DashboardController::class, 'getStats'])->name('dashboard.stats');
     Route::get('/dashboard/activity', [DashboardController::class, 'getRecentActivity'])->name('dashboard.activity');
     Route::get('/dashboard/status-distribution', [DashboardController::class, 'getDonationStatusDistribution'])->name('dashboard.status-distribution');
@@ -250,7 +159,6 @@ Route::prefix('admin')->middleware(['auth', 'route.access'])->name('admin.')->gr
     Route::post('page', [PageController::class, 'store'])->name('page.store');
     Route::get('pageview/{id}', [PageController::class, 'show'])->name('page.show');
     Route::get('pagelist/{slug}', [PageController::class, 'index'])->name('page.index');
-
     Route::get('pageedit/{id}', [PageController::class, 'edit'])->name('page.edit');
     Route::put('pageupdate/{id}', [PageController::class, 'update'])->name('page.update');
     Route::post('pagedelete/{id}', [PageController::class, 'destroy'])->name('page.destroy');
@@ -291,19 +199,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('locations', LocationController::class);
 });
 
-Route::post('/contact-us', [ContactRequestController::class, 'store'])->name('contact.store');
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/contact-requests', [ContactRequestController::class, 'index'])->name('contact-requests.index');
-    Route::delete('/contact-requests/{id}', [ContactRequestController::class, 'destroy'])->name('contact-requests.destroy');
-});
 
 Route::post('/scrap-request', [ScrapRequestController::class, 'store'])->name('scrap-request.store');
 
 Route::get('/admin/scrap-requests', [AdminScrapRequestController::class, 'index'])->name('admin.scrap_requests.index');
-
 Route::delete('/admin/scrap-requests/{id}', [AdminScrapRequestController::class, 'destroy'])->name('admin.scrap_requests.destroy');
-
 Route::get('/admin/scrap-requests/{id}', [AdminScrapRequestController::class, 'show'])->name('admin.scrap_requests.show');
 
 Route::get('/cookie-policy', function () {
@@ -318,28 +219,17 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::delete('/contact-submissions/{slug}', [ContactSubmissionController::class, 'destroy'])->name('admin.contact.destroy');
 });
 
-// ============ ADMIN ROUTES (PROTECTED) ============
 Route::prefix('admin')->middleware(['auth', 'route.access'])->name('admin.')->group(function () {
     Route::resource('project-categories', AdminProjectCategoryController::class);
     Route::resource('projects', AdminProjectController::class);
 });
 
-
-
-
-// Admin Routes
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
-
-    // Portfolio Categories
     Route::resource('portfolio-categories', PortfolioCategoryController::class);
-
-    // Portfolios
     Route::resource('portfolios', PortfolioController::class);
 });
 
-// Frontend Routes
 Route::get('/portfolio', [HomeController::class, 'portfolio'])->name('home.portfolio');
-
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('seo', SeoParameterController::class);
@@ -364,24 +254,28 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('faculties', FacultyController::class);
 });
 
-// Admin routes (with auth middleware)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/services', [ServiceController::class, 'index'])->name('services.index');
-    Route::get('/admin/services/create', [ServiceController::class, 'create'])->name('services.create');
-    Route::post('/admin/services', [ServiceController::class, 'store'])->name('services.store');
-    Route::get('/admin/services/{id}', [ServiceController::class, 'show'])->name('services.show');
-    Route::get('/admin/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
-    Route::put('/admin/services/{id}', [ServiceController::class, 'update'])->name('services.update');
-    Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+// ============ BACKEND (ADMIN) ROUTES ============
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    // Admin Services Routes
+    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
+    Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+    Route::get('/services/{id}', [ServiceController::class, 'show'])->name('services.show');
+    Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+    Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
+    Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 });
-Route::get('/services', [App\Http\Controllers\HomeController::class, 'service'])->name('services.index');
 
+
+
+
+
+// ============ FRONTEND ROUTES ============
+Route::get('/services', [App\Http\Controllers\HomeController::class, 'service'])->name('home.services');
+Route::get('/service/{slug}', [ServiceController::class, 'showBySlug'])->name('frontend.service.detail');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-
-// Contact form submission
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 
-// Admin routes for contacts
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/contacts', [ContactController::class, 'adminIndex'])->name('admin.contacts.index');
     Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('admin.contacts.show');
@@ -389,22 +283,17 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/contacts/{id}/read', [ContactController::class, 'markAsRead'])->name('admin.contacts.mark-read');
 });
 
-
-
-
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
     Route::resource('members', MemberController::class);
 });
 
 // ============ DYNAMIC SLUG ROUTE - MUST BE LAST ============
 Route::get('/{slug}', function ($slug) {
-    // First check if it's a product
     $product = OurProduct::where('slug', $slug)->first();
     if ($product) {
         return app(HomeController::class)->productDetails($slug);
     }
 
-    // Then check if it's a blog
     $blog = Post::where('slug', $slug)->first();
     if ($blog) {
         return app(HomeController::class)->blogDetails($slug);

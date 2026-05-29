@@ -34,12 +34,6 @@
             {!! strip_tags($aboutBanner->body) !!}
         </p>
 
-        <a href="{{ route('contact') }}" class="btn-outline-custom btn-primary-custom">
-            Get in Touch
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-        </a>
     </div>
 </section>
 <!-- =============================================
@@ -101,7 +95,7 @@
                     <p>{!! $ourStory->body !!}</p>
                 </div>
 
-                <a href="{{ $ourStory->button_url ?? route('home.index') }}" class="btn-outline-custom btn-secondary-custom mt-2">
+                <a href="{{ $ourStory->button_url ?? route('home.portfolio') }}" class="btn-outline-custom btn-secondary-custom mt-2">
                     {{ $ourStory->button_text }} <span class="arrow">→</span>
                 </a>
             </div>
@@ -181,32 +175,6 @@
     </div>
 </section>
 
-
-<!-- =============================================
-       CTA SECTION
-       ============================================= -->
-<section class="home-cta" id="home-cta">
-  @if($ctasection && $ctasection->image)
-  <div class="home-cta__bg" style="background-image: url('{{ asset($ctasection->image) }}');"></div>
-  @endif
-  <div class="home-cta__bg-overlay"></div>
-  <div class="container home-cta__content text-center">
-    <span class="section-label cta-label">Let's Build Together</span>
-    @if($ctasection && $ctasection->title)
-    <h2 class="section-title section-title--xl section-title--light mt-2 mb-3 cta-title-orange">
-      {{ $ctasection->title }}
-    </h2>
-    @endif
-    @if($ctasection && $ctasection->body)
-    <p class="cta-body-white">
-      {{ strip_tags($ctasection->body) }}
-    </p>
-    @endif
-    <a href="#home-contact" class="btn-outline-custom btn-primary-custom cta-btn">
-      Get In Touch &nbsp;<i class="bi bi-arrow-right"></i>
-    </a>
-  </div>
-</section>
 
 @endsection
 

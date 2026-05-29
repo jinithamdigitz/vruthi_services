@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\GalleryCategory;
-use App\Models\CommonSeoParameter; // Add this
+use App\Models\CommonSeoParameter;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class PostController extends Controller
 {
@@ -37,16 +39,18 @@ class PostController extends Controller
             'body'              => 'nullable|string',
             'post_category_id'  => 'required|exists:post_categories,id',
             'image'             => 'nullable|image|max:10240',
-             'video_url' => 'nullable|url',
+            'video_url'         => 'nullable|url',
             'published'         => 'sometimes',
             'featured'          => 'nullable|boolean',
             'gallery_category_id' => 'nullable|exists:gallery_categories,id',
-            // REPLACE SEO fields with keywords
-            'keywords'          => 'nullable|string', // Add this
+            'keywords'          => 'nullable|string',
         ]);
 
+        // Get the title for image naming
+        $postTitle = $validated['title'];
+        
         // slug
-        $slug = Str::slug($validated['title']);
+        $slug = Str::slug($postTitle);
         $original = $slug;
         $count = 2;
         while (Post::where('slug', $slug)->exists()) {
@@ -54,24 +58,68 @@ class PostController extends Controller
         }
         $validated['slug'] = $slug;
 
-        // main image upload
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
-            $request->file('image')->move(public_path('posts'), $filename);
-            $validated['image'] = 'posts/' . $filename;
+            try {
+                $manager = new ImageManager(new Driver());
+                
+                // Create directory if not exists
+                $uploadPath = public_path('posts');
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0777, true);
+                }
+                
+                // Generate filename from TITLE
+                $imageName = Str::slug($postTitle) . '.webp';
+                $imagePath = $uploadPath . '/' . $imageName;
+                
+                // Handle duplicate files
+                $counter = 1;
+                while (file_exists($imagePath)) {
+                    $imageName = Str::slug($postTitle) . '-' . $counter . '.webp';
+                    $imagePath = $uploadPath . '/' . $imageName;
+                    $counter++;
+                }
+                
+                // Read and process image
+                $img = $manager->read($request->file('image')->getRealPath());
+                
+                // Resize if needed
+                if ($img->width() > 1200) {
+                    $img->scale(width: 1200);
+                }
+                
+                // Save as WEBP with compression
+                $img->toWebp(80)->save($imagePath);
+                
+                // Compress further if file is too large (optional additional compression)
+                $fileSize = filesize($imagePath) / 1024;
+                if ($fileSize > 100) {
+                    $quality = 75;
+                    $img->toWebp($quality)->save($imagePath);
+                }
+                
+                $validated['image'] = 'posts/' . $imageName;
+                
+            } catch (\Exception $e) {
+                // Fallback: Save original file if intervention fails
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('posts'), $imageName);
+                $validated['image'] = 'posts/' . $imageName;
+                
+                \Log::error('Image conversion failed: ' . $e->getMessage());
+            }
         }
-
-        // REMOVE OG image upload code
-        // REMOVE meta_title, meta_description, og_image from validated data
 
         $validated['published'] = $request->has('published');
         $validated['featured'] = $request->boolean('featured');
         $validated['user_id'] = auth()->id();
 
-        // STEP 1: Create the post first
+        // Create the post
         $post = Post::create($validated);
 
-        // STEP 2: Save keywords using the post_id
+        // Save keywords
         if ($request->filled('keywords')) {
             $keywords = explode(',', $request->keywords);
             
@@ -87,7 +135,7 @@ class PostController extends Controller
         }
 
         return redirect()->route('admin.posts.index')
-            ->with('success', 'Post created successfully with keywords.');
+            ->with('success', 'Post created successfully.');
     }
 
     public function edit(Post $post)
@@ -95,7 +143,6 @@ class PostController extends Controller
         $categories = PostCategory::pluck('name', 'id');
         $gallerycategories = GalleryCategory::pluck('name', 'id');
 
-        // Load keywords relationship
         $post->load('keywords');
 
         return view('admin.posts.edit', compact('post', 'categories', 'gallerycategories'));
@@ -103,9 +150,6 @@ class PostController extends Controller
     
     public function update(Request $request, Post $post)
     {
-        \Log::info('=== UPDATE METHOD START ===');
-        \Log::info('Request data:', $request->all());
-
         $validated = $request->validate([
             'title'             => 'required|string|max:255',
             'body'              => 'nullable|string',
@@ -114,16 +158,15 @@ class PostController extends Controller
             'image'             => 'nullable|image|max:10240',
             'published'         => 'sometimes',
             'featured'          => 'nullable|boolean',
-            // REPLACE SEO fields with keywords
-            'keywords'          => 'nullable|string', // Add this
-             'video_url' => 'nullable|url',
+            'keywords'          => 'nullable|string',
+            'video_url'         => 'nullable|url',
         ]);
 
-        \Log::info('Validated data:', $validated);
+        $postTitle = $validated['title'];
 
         // Generate new slug if title changes
-        if ($post->title !== $validated['title']) {
-            $slug = Str::slug($validated['title']);
+        if ($post->title !== $postTitle) {
+            $slug = Str::slug($postTitle);
             $original = $slug;
             $count = 2;
             while (Post::where('slug', $slug)->where('id', '!=', $post->id)->exists()) {
@@ -132,37 +175,67 @@ class PostController extends Controller
             $validated['slug'] = $slug;
         }
 
-        // Handle main image upload
+        // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image
             if ($post->image && file_exists(public_path($post->image))) {
                 unlink(public_path($post->image));
             }
-            $filename = time() . '.' . $request->file('image')->getClientOriginalExtension();
-            $request->file('image')->move(public_path('posts'), $filename);
-            $validated['image'] = 'posts/' . $filename;
+            
+            try {
+                $manager = new ImageManager(new Driver());
+                
+                // Create directory if not exists
+                $uploadPath = public_path('posts');
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0777, true);
+                }
+                
+                // Generate filename from TITLE
+                $imageName = Str::slug($postTitle) . '.webp';
+                $imagePath = $uploadPath . '/' . $imageName;
+                
+                // Handle duplicate files
+                $counter = 1;
+                while (file_exists($imagePath)) {
+                    $imageName = Str::slug($postTitle) . '-' . $counter . '.webp';
+                    $imagePath = $uploadPath . '/' . $imageName;
+                    $counter++;
+                }
+                
+                // Read and process image
+                $img = $manager->read($request->file('image')->getRealPath());
+                
+                // Resize if needed
+                if ($img->width() > 1200) {
+                    $img->scale(width: 1200);
+                }
+                
+                // Save as WEBP with compression
+                $img->toWebp(80)->save($imagePath);
+                
+                $validated['image'] = 'posts/' . $imageName;
+                
+            } catch (\Exception $e) {
+                // Fallback: Save original file
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('posts'), $imageName);
+                $validated['image'] = 'posts/' . $imageName;
+                
+                \Log::error('Image conversion failed: ' . $e->getMessage());
+            }
         }
 
-        // REMOVE OG image handling code
-
-        // Handle checkbox values
         $validated['published'] = $request->has('published');
         $validated['featured'] = $request->boolean('featured');
-
-        // Handle gallery_category_id - set to null if empty
         $validated['gallery_category_id'] = $request->filled('gallery_category_id') ? $request->gallery_category_id : null;
 
-        \Log::info('Final data to update:', $validated);
-
-        // Update the post
         $post->update($validated);
 
-        // Update keywords - delete old and add new
         if ($request->has('keywords')) {
-            // Delete all existing keywords for this post
             CommonSeoParameter::where('post_id', $post->id)->delete();
             
-            // Add new keywords
             $keywords = explode(',', $request->keywords);
             foreach ($keywords as $keyword) {
                 $keyword = trim($keyword);
@@ -175,20 +248,15 @@ class PostController extends Controller
             }
         }
 
-        \Log::info('=== UPDATE METHOD END ===');
-
         return redirect()->route('admin.posts.index')
-            ->with('success', 'Post updated successfully with keywords.');
+            ->with('success', 'Post updated successfully.');
     }
 
     public function destroy(Post $post)
     {
-        // Delete main image
         if ($post->image && file_exists(public_path($post->image))) {
             unlink(public_path($post->image));
         }
-        
-        // REMOVE OG image deletion - keywords will be deleted automatically by foreign key if set up correctly
         
         $post->delete();
         

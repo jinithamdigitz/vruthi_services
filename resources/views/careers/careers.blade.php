@@ -10,7 +10,7 @@
   /* ── CAREERS HERO ── */
   .careers-page .careers-hero {
     position: relative;
-    min-height: 62vh;
+    min-height: 520px;
     display: flex;
     align-items: flex-end;
     overflow: hidden;
@@ -27,12 +27,10 @@
   .careers-page .careers-hero__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.88) 0%,
-      rgba(0, 0, 0, 0.55) 55%,
-      rgba(0, 0, 0, 0.18) 100%
-    );
+    background: linear-gradient(to right,
+        rgba(0, 0, 0, 0.88) 0%,
+        rgba(0, 0, 0, 0.55) 55%,
+        rgba(0, 0, 0, 0.18) 100%);
   }
 
   .careers-page .careers-hero__content {
@@ -208,7 +206,7 @@
     background: var(--color-primary);
     color: #fff;
   }
-  
+
   .btn-apply-filter {
     display: inline-flex;
     align-items: center;
@@ -227,7 +225,7 @@
     transition: all var(--transition-fast);
     text-decoration: none;
   }
-  
+
   .btn-apply-filter:hover {
     background: var(--color-primary-dark);
     transform: translateY(-2px);
@@ -546,7 +544,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 60%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, transparent 60%);
     opacity: 0;
     transition: opacity var(--transition-base);
   }
@@ -601,7 +599,7 @@
   .careers-page .careers-contact-strip {
     background: #111217;
     padding: var(--space-xl) 0;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   .careers-page .contact-strip__title {
@@ -635,13 +633,13 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
+    color: rgba(255, 255, 255, 0.4);
     margin-bottom: 3px;
   }
 
   .careers-page .contact-strip__info-value {
     font-size: var(--fs-sm);
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .careers-page .contact-strip__info-icon {
@@ -673,19 +671,19 @@
     opacity: 1;
     transform: translateY(0);
   }
-  .careers-hero__sub
-  {
-	  color:#AF2F09 !important;
+
+  .careers-hero__sub {
+    color: #AF2F09 !important;
   }
-  
+
   /* Collapsible Description Styles */
-.careers-page .job-full-description {
+  .careers-page .job-full-description {
     margin-top: 15px;
     padding-top: 10px;
     border-top: 1px solid var(--color-border);
-}
+  }
 
-.careers-page .btn-toggle-description {
+  .careers-page .btn-toggle-description {
     background: none;
     border: none;
     padding: 8px 0;
@@ -697,96 +695,114 @@
     align-items: center;
     gap: 8px;
     transition: all var(--transition-fast);
-}
+  }
 
-.careers-page .btn-toggle-description:hover {
+  .careers-page .btn-toggle-description:hover {
     color: var(--color-primary-dark);
     gap: 12px;
-}
+  }
 
-.careers-page .btn-toggle-description .toggle-icon {
+  .careers-page .btn-toggle-description .toggle-icon {
     transition: transform 0.3s ease;
     font-size: 0.9rem;
-}
+  }
 
-.careers-page .btn-toggle-description.active .toggle-icon {
+  .careers-page .btn-toggle-description.active .toggle-icon {
     transform: rotate(180deg);
-}
+  }
 
-.careers-page .description-content {
+  .careers-page .description-content {
     margin-top: 12px;
     padding: 15px;
     background: #f8f9fa;
     border-radius: var(--radius-sm);
     border-left: 3px solid var(--color-primary);
-}
+  }
 
-.careers-page .description-inner {
+  .careers-page .description-inner {
     font-size: 0.9rem;
     line-height: 1.6;
     color: var(--color-gray-text);
-}
+  }
 
-.careers-page .description-inner p {
+  .careers-page .description-inner p {
     margin-bottom: 10px;
-}
+  }
 
-.careers-page .description-inner ul,
-.careers-page .description-inner ol {
+  .careers-page .description-inner ul,
+  .careers-page .description-inner ol {
     margin-left: 20px;
     margin-bottom: 10px;
-}
+  }
 
-.careers-page .description-inner strong {
+  .careers-page .description-inner strong {
     color: var(--color-dark);
     font-weight: 600;
-}
+  }
 </style>
 
 {{-- Page wrapper with scoped class --}}
 <div class="careers-page">
-
   {{-- =============================================
-       HERO
+       HERO SECTION - CAREERS
        ============================================= --}}
-  <section class="careers-hero" style="background: url('{{ asset($careerbanner->image) }}') no-repeat fixed center; background-size: cover;">
-    <div class="careers-hero__bg"></div>
-    <div class="careers-hero__overlay"></div>
-    <div class="container">
-      <div class="careers-hero__content">
-        <p class="careers-hero__breadcrumb">Home &nbsp;/&nbsp; <span>Careers</span></p>
-        <h1 class="careers-hero__title">
-		{{ $careerbanner->title }}
-        </h1>
-       <p class="careers-hero__sub">
-    {{ strip_tags($careerbanner->body) }}
-</p>
-      </div>
+  <section class="svc-pg__hero">
+    @if($careerbanner && $careerbanner->image)
+    <div class="svc-pg__hero-bg" style="background-image: url('{{ asset($careerbanner->image) }}');"></div>
+    @endif
+    <div class="svc-pg__hero-overlay"></div>
+
+    <div class="container svc-pg__hero-content">
+      <nav class="svc-pg__breadcrumb" aria-label="breadcrumb">
+        <a href="{{ route('home.index') }}">Home</a>
+        <span>/</span>
+        <span>Careers</span>
+      </nav>
+
+      @if($careerbanner && $careerbanner->title)
+      @php
+      $titleParts = explode('|', $careerbanner->title);
+      $firstLine = trim($titleParts[0] ?? '');
+      $secondLine = trim($titleParts[1] ?? '');
+      @endphp
+      <h1 class="svc-pg__hero-title">
+        {{ $firstLine }}
+        @if($secondLine)
+        <span class="svc-pg__accent">{{ $secondLine }}</span>
+        @endif
+      </h1>
+      @endif
+
+      @if($careerbanner && $careerbanner->body)
+      <p class="svc-pg__hero-desc">
+        {!! strip_tags($careerbanner->body) !!}
+      </p>
+      @endif
     </div>
   </section>
 
   {{-- =============================================
        WHY JOIN US
        ============================================= --}}
-	   
+
 
   <section class="careers-why">
     <div class="container">
       <div class="row g-0">
-        
-		
-		 @foreach($careerhighlights as $key => $highlight)
-    <div class="col-6 col-md-3">
-        <div class="careers-why__item">
+
+
+        @foreach($careerhighlights as $key => $highlight)
+        <div class="col-6 col-md-3">
+          <div class="careers-why__item">
             <div class="careers-why__icon">
-                {{-- Display image as icon --}}
-                <img src="{{ asset($highlight->image) }}" alt="{{ $highlight->title }}" style="width: 100%; height: auto; object-fit: contain;">
+              {{-- Display image as icon --}}
+              <img src="{{ asset($highlight->image) }}" alt="{{ $highlight->title }}" style="width: 100%; height: auto; object-fit: contain;">
             </div>
             <h4 class="careers-why__title">{{ $highlight->title }}</h4>
             <p class="careers-why__text">{!! strip_tags($highlight->body) !!}</p>
+          </div>
         </div>
-    </div>
-@endforeach
+        @endforeach
 
 
       </div>
@@ -812,26 +828,26 @@
           <!-- Filter Form - Will submit on Enter key -->
           <form method="GET" action="{{ route('careers.index') }}" id="filterForm">
             <div class="positions-filters justify-content-md-end">
-              <input type="text" 
-                     name="search" 
-                     class="search-input" 
-                     id="searchInput" 
-                     placeholder="🔍 Search by title, department, or location..." 
-                     value="{{ request('search') }}">
+              <input type="text"
+                name="search"
+                class="search-input"
+                id="searchInput"
+                placeholder="🔍 Search by title, department, or location..."
+                value="{{ request('search') }}">
               <select class="filter-select" name="department" id="deptFilter">
                 <option value="">All Departments</option>
                 @foreach($departments as $department)
-                  <option value="{{ $department }}" {{ request('department') == $department ? 'selected' : '' }}>
-                    {{ $department }}
-                  </option>
+                <option value="{{ $department }}" {{ request('department') == $department ? 'selected' : '' }}>
+                  {{ $department }}
+                </option>
                 @endforeach
               </select>
               <select class="filter-select" name="location" id="locFilter">
                 <option value="">All Locations</option>
                 @foreach($locations as $location)
-                  <option value="{{ $location }}" {{ request('location') == $location ? 'selected' : '' }}>
-                    {{ $location }}
-                  </option>
+                <option value="{{ $location }}" {{ request('location') == $location ? 'selected' : '' }}>
+                  {{ $location }}
+                </option>
                 @endforeach
               </select>
               <button type="submit" class="btn-apply-filter">
@@ -849,48 +865,48 @@
       <div id="jobsList">
         @forelse($careerJobs as $careerJob)
         <div class="job-card">
-    <div class="job-card__icon">
-        <i class="bi bi-person-workspace"></i>
-    </div>
-    <div class="job-card__body">
-        <h3 class="job-card__title">{{ $careerJob->title }}</h3>
-        <p class="job-card__desc">{{ $careerJob->short_description }}</p>
-        <div class="job-tags">
-            <span class="job-tag">{{ $careerJob->department }}</span>
-            <span class="job-tag">{{ $careerJob->experience }} Years Experience</span>
-        </div>
-        
-        <!-- Collapsible Full Description -->
-        <div class="job-full-description">
-            <button class="btn-toggle-description" type="button">
+          <div class="job-card__icon">
+            <i class="bi bi-person-workspace"></i>
+          </div>
+          <div class="job-card__body">
+            <h3 class="job-card__title">{{ $careerJob->title }}</h3>
+            <p class="job-card__desc">{{ $careerJob->short_description }}</p>
+            <div class="job-tags">
+              <span class="job-tag">{{ $careerJob->department }}</span>
+              <span class="job-tag">{{ $careerJob->experience }} Years Experience</span>
+            </div>
+
+            <!-- Collapsible Full Description -->
+            <div class="job-full-description">
+              <button class="btn-toggle-description" type="button">
                 <span class="toggle-text">View Full Description</span>
                 <i class="bi bi-chevron-down toggle-icon"></i>
-            </button>
-            <div class="description-content" style="display: none;">
+              </button>
+              <div class="description-content" style="display: none;">
                 <div class="description-inner">
-                    {!! nl2br(e($careerJob->description)) !!}
+                  {!! nl2br(e($careerJob->description)) !!}
                 </div>
+              </div>
             </div>
+          </div>
+          <div class="job-card__meta">
+            <div class="job-meta-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              {{ $careerJob->location }}
+            </div>
+            <div class="job-meta-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+              </svg>
+              {{ ucfirst($careerJob->employment_type) }}
+            </div>
+            <a href="{{ route('careers.apply', $careerJob->id) }}" class="btn-apply">Apply Now &nbsp;<i class="bi bi-arrow-right"></i></a>
+          </div>
         </div>
-    </div>
-    <div class="job-card__meta">
-        <div class="job-meta-item">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-            </svg>
-            {{ $careerJob->location }}
-        </div>
-        <div class="job-meta-item">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="7" width="20" height="14" rx="2"/>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-            </svg>
-            {{ ucfirst($careerJob->employment_type) }}
-        </div>
-        <a href="#careers-contact-strip" class="btn-apply">Apply Now &nbsp;<i class="bi bi-arrow-right"></i></a>
-    </div>
-</div>
         @empty
         <div style="text-align:center; padding: 60px 0; color: var(--color-gray-light);">
           <i class="bi bi-search" style="font-size:3rem; color:var(--color-primary); display:block; margin-bottom:15px;"></i>
@@ -898,7 +914,7 @@
           <p style="font-size:0.9rem;">Try adjusting your search or filter criteria.</p>
         </div>
         @endforelse
-        
+
         <!-- Pagination -->
         <div class="mt-4">
           {{ $careerJobs->appends(request()->query())->links() }}
@@ -910,82 +926,46 @@
   {{-- =============================================
        GREAT TALENT CTA
        ============================================= --}}
-  
+
   {{-- =============================================
        LIFE AT OUTLINE
        ============================================= --}}
-  
 
-  {{-- =============================================
-       CONTACT STRIP
-       ============================================= --}}
-  <section class="careers-contact-strip" id="careers-contact-strip">
-    <div class="container">
-      <div class="row align-items-center gy-4">
 
-        <div class="col-lg-4">
-          <span class="section-label" style="color: rgba(255,255,255,0.4);">Life at Outline?</span>
-          <h2 class="contact-strip__title">We'd Love to Hear From You</h2>
-          <p class="contact-strip__sub">Reach out to our HR team for any career-related inquiries.</p>
-        </div>
 
-        <div class="col-lg-3 col-md-4 d-flex align-items-center">
-          <a href="#" class="btn-send-cv">Contact Us &nbsp;<i class="bi bi-arrow-right"></i></a>
-        </div>
-
-        <div class="col-lg-5 col-md-8">
-          <div class="row gy-3">
-            <div class="col-4 text-center">
-              <div class="contact-strip__info-label">Email Us</div>
-              <div class="contact-strip__info-value" style="font-size:0.8rem;">careers@outline.ae</div>
-            </div>
-            <div class="col-4 text-center">
-              <div class="contact-strip__info-label">Call Us</div>
-              <div class="contact-strip__info-value" style="font-size:0.8rem;">+971 4 123 4567</div>
-            </div>
-            <div class="col-4 text-center">
-              <div class="contact-strip__info-label">Visit Us</div>
-              <div class="contact-strip__info-value" style="font-size:0.8rem;">Dubai, UAE</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
 </div>{{-- end .careers-page --}}
 
 {{-- =============================================
      PAGE-SPECIFIC SCRIPTS (Only for scroll reveal and gallery)
      ============================================= --}}
-	 
-	 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Toggle description functionality
-        const toggleButtons = document.querySelectorAll('.btn-toggle-description');
-        
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const descriptionContent = this.nextElementSibling;
-                const toggleIcon = this.querySelector('.toggle-icon');
-                const toggleText = this.querySelector('.toggle-text');
-                
-                if (descriptionContent.style.display === 'none' || descriptionContent.style.display === '') {
-                    descriptionContent.style.display = 'block';
-                    this.classList.add('active');
-                    toggleText.textContent = 'Hide Full Description';
-                } else {
-                    descriptionContent.style.display = 'none';
-                    this.classList.remove('active');
-                    toggleText.textContent = 'View Full Description';
-                }
-            });
-        });
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toggle description functionality
+    const toggleButtons = document.querySelectorAll('.btn-toggle-description');
+
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const descriptionContent = this.nextElementSibling;
+        const toggleIcon = this.querySelector('.toggle-icon');
+        const toggleText = this.querySelector('.toggle-text');
+
+        if (descriptionContent.style.display === 'none' || descriptionContent.style.display === '') {
+          descriptionContent.style.display = 'block';
+          this.classList.add('active');
+          toggleText.textContent = 'Hide Full Description';
+        } else {
+          descriptionContent.style.display = 'none';
+          this.classList.remove('active');
+          toggleText.textContent = 'View Full Description';
+        }
+      });
     });
+  });
 </script>
 <script>
-  (function () {
+  (function() {
     'use strict';
 
     /* ── Scroll Reveal ── */
@@ -1002,7 +982,9 @@
           revealObserver.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, {
+      threshold: 0.12
+    });
 
     revealEls.forEach(el => revealObserver.observe(el));
 
@@ -1010,10 +992,16 @@
     const gallery = document.getElementById('lifeGallery');
     if (document.getElementById('galleryPrev')) {
       document.getElementById('galleryPrev').addEventListener('click', () => {
-        gallery.scrollBy({ left: -240, behavior: 'smooth' });
+        gallery.scrollBy({
+          left: -240,
+          behavior: 'smooth'
+        });
       });
       document.getElementById('galleryNext').addEventListener('click', () => {
-        gallery.scrollBy({ left: 240, behavior: 'smooth' });
+        gallery.scrollBy({
+          left: 240,
+          behavior: 'smooth'
+        });
       });
     }
 

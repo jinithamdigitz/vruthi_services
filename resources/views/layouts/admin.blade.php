@@ -1143,12 +1143,12 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-box-arrow-in-right"></i>
                                 <p>
-                                   about Banner
+                                    about Banner
                                     <i class="nav-arrow bi bi-chevron-right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item"> 
+                                <li class="nav-item">
                                     <a href="{{ route('admin.page.create', ['slug' => 'about-banner']) }}"
                                         class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
@@ -1346,13 +1346,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('services.index') }}" class="nav-link">
+                                    <a href="{{ route('admin.services.index') }}" class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p>List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('services.create') }}" class="nav-link">
+                                    <a href="{{ route('admin.services.create') }}" class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p>Create</p>
                                     </a>
@@ -1540,7 +1540,7 @@
 
 
 
-                        
+
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -1651,7 +1651,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-box-arrow-in-right"></i>
                                 <p>
-                                   Contact Page Banner
+                                    Contact Page Banner
                                     <i class="nav-arrow bi bi-chevron-right"></i>
                                 </p>
                             </a>
@@ -1877,6 +1877,33 @@
                         </li>
 
 
+
+                        <li class="nav-header">FOOTER</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-briefcase-fill"></i>
+                                <p>
+                                    Footer Content
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.create', ['slug' => 'footer-content']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.index', ['slug' => 'footer-content']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="nav-header">Settings</li>
                         <li class="nav-item">

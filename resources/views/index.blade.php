@@ -15,15 +15,15 @@
 
       <h1 class="home-hero__title animate-fade-up delay-100">
         @if($homebanner && $homebanner->title)
-          @php
-            $titleParts = explode('|', $homebanner->title);
-            $firstLine = trim($titleParts[0]);
-            $secondLine = isset($titleParts[1]) ? trim($titleParts[1]) : '';
-          @endphp
-          {{ $firstLine }}
-          @if($secondLine)
-            <span class="home-hero__accent">{{ $secondLine }}</span>
-          @endif
+        @php
+        $titleParts = explode('|', $homebanner->title);
+        $firstLine = trim($titleParts[0]);
+        $secondLine = isset($titleParts[1]) ? trim($titleParts[1]) : '';
+        @endphp
+        {{ $firstLine }}
+        @if($secondLine)
+        <span class="home-hero__accent">{{ $secondLine }}</span>
+        @endif
         @endif
       </h1>
 
@@ -34,11 +34,11 @@
       </p>
 
       <div class="home-hero__actions animate-fade-up delay-300">
-        <a href="#home-services" class="btn-outline-custom btn-primary-custom">
+        <a href="{{ route('home.services') }}" class="btn-outline-custom btn-primary-custom">
           Our Services &nbsp;<i class="bi bi-arrow-right"></i>
         </a>
-        <a href="#home-portfolio" class="btn-outline-custom hero-btn-ghost">
-          View Portfolio
+        <a href="{{ route('home.portfolio') }}" class="btn-outline-custom hero-btn-ghost">
+          View Portfolio &nbsp;<i class="bi bi-arrow-right"></i>
         </a>
       </div>
 
@@ -89,7 +89,7 @@
         </p>
         @endif
 
-        <a href="#" class="btn-outline-custom btn-primary-custom">
+        <a href="{{ route('home.about') }}" class="btn-outline-custom btn-primary-custom">
           More About Us &nbsp;<i class="bi bi-arrow-right"></i>
         </a>
       </div>
@@ -114,7 +114,7 @@
         @endif
       </div>
       <div class="col-lg-6 text-lg-end mt-3 mt-lg-0">
-        <a href="#" class="btn-text-link services-view-all">
+        <a href="{{ route('home.services') }}" class="btn-text-link services-view-all">
           View All Services <span class="arrow">→</span>
         </a>
       </div>
@@ -148,7 +148,7 @@
                     <p class="service-card__text mb-0">{{ Str::limit($service->body, 100) }}</p>
                     @endif
                   </div>
-                  <a href="#" class="service-arrow">
+                  <a href="{{ route('home.services') }}" class="service-arrow">
                     <i class="bi bi-arrow-right"></i>
                   </a>
                 </div>
@@ -172,7 +172,7 @@
                   <p class="service-card__text">{{ Str::limit($service->body, 80) }}</p>
                   @endif
                 </div>
-                <a href="#" class="service-arrow">
+                <a href="{{ route('home.services') }}" class="service-arrow">
                   <i class="bi bi-arrow-right"></i>
                 </a>
               </div>
@@ -202,7 +202,7 @@
         @endif
       </div>
       <div class="col-lg-5 text-lg-end mt-3 mt-lg-0">
-        <a href="#" class="btn-text-link">Explore Portfolio <span class="arrow">→</span></a>
+        <a href="{{ route('home.portfolio') }}" class="btn-text-link">Explore Portfolio <span class="arrow">→</span></a>
       </div>
     </div>
     <div class="row g-3">
@@ -357,7 +357,7 @@
       {{ strip_tags($ctasection->body) }}
     </p>
     @endif
-    <a href="#home-contact" class="btn-outline-custom btn-primary-custom cta-btn">
+    <a href="{{ route('contact') }}" class="btn-outline-custom btn-primary-custom cta-btn">
       Get In Touch &nbsp;<i class="bi bi-arrow-right"></i>
     </a>
   </div>
@@ -424,40 +424,40 @@
 
             {{-- Global Addresses --}}
             @if($globalAddresses && $globalAddresses->count() > 0)
-              @foreach($globalAddresses as $address)
-              <div class="contact-info-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                <span>{!! $address->title !!}</span>
-              </div>
-              @endforeach
+            @foreach($globalAddresses as $address)
+            <div class="contact-info-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span>{!! $address->title !!}</span>
+            </div>
+            @endforeach
             @endif
 
             {{-- Global Phones --}}
             @if($globalPhones && $globalPhones->count() > 0)
-              @foreach($globalPhones as $phone)
-              <div class="contact-info-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                <span>{{ $phone->title }}</span>
-              </div>
-              @endforeach
+            @foreach($globalPhones as $phone)
+            <div class="contact-info-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              <span>{{ $phone->title }}</span>
+            </div>
+            @endforeach
             @endif
 
             {{-- Global Emails --}}
             @if($globalEmails && $globalEmails->count() > 0)
-              @foreach($globalEmails as $email)
-              <div class="contact-info-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
-                <span>{{ $email->title }}</span>
-              </div>
-              @endforeach
+            @foreach($globalEmails as $email)
+            <div class="contact-info-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              <span>{{ $email->title }}</span>
+            </div>
+            @endforeach
             @endif
 
             {{-- Global Timings --}}
@@ -476,13 +476,13 @@
           <!-- Map iframe with dynamic address -->
           <div class="home-contact__map">
             @php
-              $mapAddress = '';
-              if($globalAddresses && $globalAddresses->count() > 0) {
-                  $addressText = $globalAddresses->first()->title;
-                  $mapAddress = urlencode(strip_tags($addressText));
-              } else {
-                  $mapAddress = urlencode('Inspire Tower, Baner, Pune, Maharashtra, India');
-              }
+            $mapAddress = '';
+            if($globalAddresses && $globalAddresses->count() > 0) {
+            $addressText = $globalAddresses->first()->title;
+            $mapAddress = urlencode(strip_tags($addressText));
+            } else {
+            $mapAddress = urlencode('Inspire Tower, Baner, Pune, Maharashtra, India');
+            }
             @endphp
             <iframe
               src="https://www.google.com/maps?q={{ $mapAddress }}&output=embed"

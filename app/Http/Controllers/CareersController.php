@@ -5,28 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\PostCategory;
-use App\Models\ProjectCategory;
-use App\Models\Program;
-use App\Models\Event;
-use App\Models\Project;
-use App\Models\ContactSubmission;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactFormSubmitted;
-use App\Models\Location;
 use App\Models\Service;
-use App\Models\SeoParameter;
-use App\Models\MultiplePostImage;
-use App\Models\GalleryCategory;
-use App\Models\SolarCalculator;
-use Illuminate\Support\Facades\View;
-use App\Models\OurProduct;
-use App\Models\ProductMultipleImage;
-use App\Models\ProductSection;
-use App\Models\BrandSlider;
-use App\Models\ProductFaq;
-use App\Models\Course;
-use App\Models\Faculty;
 use App\Models\CareerJob;
 
 class CareersController  extends Controller

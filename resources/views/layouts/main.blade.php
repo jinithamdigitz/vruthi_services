@@ -19,55 +19,40 @@
 </head>
 
 <body>
-
   <!-- =============================================
        NAVBAR
        ============================================= -->
   <nav class="navbar navbar-expand-lg navbar-outline" id="mainNav">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <img src="{{ asset('assets/img/Outline_Architects_Logo.png') }}" alt="Outline Architects | Project Management" class="logo-img" />
+      <a class="navbar-brand" href="{{ route('home.index') }}">
+        @if($logo && $logo->image)
+        <img src="{{ asset($logo->image) }}" alt="Outline Architects | Project Management" class="logo-img" />
+        @endif
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
         <i class="bi bi-list fs-4"></i>
       </button>
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav ms-auto align-items-lg-center">
-          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Services</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Office Interiors</a></li>
-              <li><a class="dropdown-item" href="#">Commercial Interiors</a></li>
-              <li><a class="dropdown-item" href="#">Space Planning</a></li>
-              <li><a class="dropdown-item" href="#">Design &amp; Build</a></li>
-              <li><a class="dropdown-item" href="#">Project Management</a></li>
-            </ul>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#">Portfolio</a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Careers</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Open Positions</a></li>
-              <li><a class="dropdown-item" href="#">Life at Outline</a></li>
-            </ul>
-          </li>
-          <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+          <li class="nav-item"><a class="nav-link {{ request()->routeIs('home.index') ? 'active' : '' }}" href="{{ route('home.index') }}">Home</a></li>
+          <li class="nav-item"><a class="nav-link {{ request()->routeIs('home.about') ? 'active' : '' }}" href="{{ route('home.about') }}">About Us</a></li>
+          <li class="nav-item"><a class="nav-link {{ request()->routeIs('home.services') ? 'active' : '' }}" href="{{ route('home.services') }}">Services</a></li>
+          <li class="nav-item"><a class="nav-link {{ request()->routeIs('home.portfolio') ? 'active' : '' }}" href="{{ route('home.portfolio') }}">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link {{ request()->routeIs('careers.index') ? 'active' : '' }}" href="{{ route('careers.index') }}">Careers</a></li>
+          <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact Us</a></li>
         </ul>
-        <a href="#home-contact" class="btn-outline-custom navbar-cta ms-lg-3">Let's Talk &nbsp;<i class="bi bi-arrow-right"></i></a>
+        <a href="{{ route('contact') }}" class="btn-outline-custom navbar-cta ms-lg-3">Let's Talk &nbsp;<i class="bi bi-arrow-right"></i></a>
       </div>
     </div>
   </nav>
 
- 
 
-  
+
+
   @yield('content')
 
   <!-- Orange thin solid divider -->
   <hr class="orange-hr" />
-
   <!-- =============================================
        FOOTER
        ============================================= -->
@@ -77,14 +62,17 @@
         <!-- Brand -->
         <div class="col-lg-4 col-md-6">
           <div class="mb-3">
-            <img src="{{ asset('assets/img/Outline_Architects_Logo.png') }}" alt="Outline Architects | Project Management" class="footer-logo-img" />
+            @if($logo && $logo->image)
+            <img src="{{ asset($logo->image) }}" alt="Outline Architects | Project Management" class="footer-logo-img" />
+            @endif
           </div>
-          <p class="footer-tagline">We design and deliver innovative office and commercial interiors with creativity, precision and passion.</p>
+          <p class="footer-tagline">{{ $footerContent->title ?? '' }}</p>
           <div class="social-links mt-4">
-            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-            <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+            @foreach($globalSocialIcons as $social)
+            <a href="{{ $social->description ?? '#' }}" aria-label="{{ $social->title }}" target="_blank">
+              <i class="bi bi-{{ strtolower($social->title) }}"></i>
+            </a>
+            @endforeach
           </div>
         </div>
 
@@ -92,45 +80,61 @@
         <div class="col-lg-2 col-md-6 col-6">
           <h6 class="footer-heading">Quick Links</h6>
           <ul class="footer-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Contact Us</a></li>
+            <li><a href="{{ route('home.index') }}">Home</a></li>
+            <li><a href="{{ route('home.about') }}">About Us</a></li>
+            <li><a href="{{ route('home.services') }}">Services</a></li>
+            <li><a href="{{ route('home.portfolio') }}">Portfolio</a></li>
+            <li><a href="{{ route('careers.index') }}">Careers</a></li>
+            <li><a href="{{ route('contact') }}">Contact Us</a></li>
           </ul>
         </div>
 
-        <!-- Services -->
+        <!-- Services (Dynamic) -->
         <div class="col-lg-2 col-md-6 col-6">
           <h6 class="footer-heading">Services</h6>
           <ul class="footer-links">
-            <li><a href="#">Office Interiors</a></li>
-            <li><a href="#">Commercial Interiors</a></li>
-            <li><a href="#">Space Planning</a></li>
-            <li><a href="#">Design &amp; Build</a></li>
-            <li><a href="#">Project Management</a></li>
+            @if(isset($globalServices) && $globalServices->count() > 0)
+            @foreach($globalServices as $service)
+          <li><a href="{{ route('home.services') }}">{{ $service->title }}</a></li>
+            @endforeach
+            @endif
           </ul>
         </div>
 
-        <!-- Follow Us -->
+        <!-- Follow Us / Contact -->
         <div class="col-lg-3 col-md-6">
           <h6 class="footer-heading">Follow Us</h6>
-          <p class="footer-follow-text">Stay connected with us on social media for updates, project showcases and design inspiration.</p>
+          <p class="footer-follow-text">{!! $footerContent->body ?? '' !!}</p>
           <div class="mt-3">
+            <!-- Dynamic Address -->
+            @if($globalAddress)
             <div class="footer-contact-item">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              <span class="footer-small-contact">7th Floor, Inspire Tower, Pune 411045</span>
+              <span class="footer-small-contact">{{ $globalAddress->title ?? $globalAddress->description ?? '' }}</span>
             </div>
+            @endif
+
+            <!-- Dynamic Phone -->
+            @if($globalPhones && $globalPhones->count() > 0)
+            @foreach($globalPhones as $phone)
             <div class="footer-contact-item">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
               </svg>
-              <span class="footer-small-contact">+91 98765-43210</span>
+              <span class="footer-small-contact">{{ $phone->title }}</span>
             </div>
+            @endforeach
+            @elseif($globalPhone)
+            <div class="footer-contact-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              <span class="footer-small-contact">{{ $globalPhone }}</span>
+            </div>
+            @endif
           </div>
         </div>
       </div>
@@ -139,7 +143,7 @@
       <div class="footer-bottom">
         <div class="row align-items-center">
           <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
-            <p>© 2025 Outline Architects | Project Management. All Rights Reserved.</p>
+            <p>© {{ date('Y') }} Outline Architects | Project Management. All Rights Reserved.</p>
           </div>
           <div class="col-md-6 text-center text-md-end">
             <p>
@@ -151,7 +155,6 @@
       </div>
     </div>
   </footer>
-
   <!-- Scroll to Top -->
   <button id="scrollTop" aria-label="Scroll to top">
     <i class="bi bi-arrow-up"></i>

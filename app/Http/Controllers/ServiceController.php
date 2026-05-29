@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Service;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;  // Add this for GD driver
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ServiceController extends Controller
 {
     /**
-     * Display a listing of the services.
+     * Display a listing of the services (ADMIN PANEL)
      */
     public function index()
     {
@@ -20,7 +20,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Show the form for creating a new service.
+     * Show the form for creating a new service (ADMIN PANEL)
      */
     public function create()
     {
@@ -28,7 +28,44 @@ class ServiceController extends Controller
     }
 
     /**
-     * Store a newly created service in storage.
+     * Compress and convert image to WEBP with SEO-friendly naming
+     */
+    private function compressAndConvertToWebp($image, $path, $baseName, $width = 1200)
+    {
+        $manager = new ImageManager(new Driver());
+        
+        if (!file_exists(public_path($path))) {
+            mkdir(public_path($path), 0777, true);
+        }
+        
+        $img = $manager->read($image->getRealPath());
+        
+        if ($img->width() > $width) {
+            $img->scale(width: $width);
+        }
+        
+        $imageName = $baseName . '.webp';
+        $imagePath = public_path($path . '/' . $imageName);
+        
+        $count = 1;
+        while (file_exists($imagePath)) {
+            $imageName = $baseName . '-' . $count . '.webp';
+            $imagePath = public_path($path . '/' . $imageName);
+            $count++;
+        }
+        
+        $quality = 80;
+        do {
+            $img->toWebp($quality)->save($imagePath);
+            $size = filesize($imagePath) / 1024;
+            $quality -= 5;
+        } while ($size > 100 && $quality >= 40);
+        
+        return $path . '/' . $imageName;
+    }
+
+    /**
+     * Store a newly created service (ADMIN PANEL)
      */
     public function store(Request $request)
     {
@@ -44,61 +81,69 @@ class ServiceController extends Controller
         $service = new Service();
         $service->title = $request->title;
         
+        // Handle unique slug
         if ($request->filled('slug')) {
-            $service->slug = Str::slug($request->slug);
+            $baseSlug = Str::slug($request->slug);
         } else {
-            $service->slug = Str::slug($request->title);
+            $baseSlug = Str::slug($request->title);
         }
+        
+        $slug = $baseSlug;
+        $counter = 1;
+        while (Service::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+        $service->slug = $slug;
         
         $service->body = $request->body;
         $service->keyword = $request->keyword;
 
         // Handle main image upload
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.webp';
-            
-            if (!file_exists(public_path('uploads/services'))) {
-                mkdir(public_path('uploads/services'), 0777, true);
-            }
-            
-            // Correct way for Intervention Image 3.x
-            $manager = new ImageManager(new Driver());
-            $img = $manager->read($image->getRealPath());
-            
-            if ($img->width() > 1200) {
-                $img->scale(width: 1200);
-            }
-            
-            $img->toWebp(75)->save(public_path('uploads/services/' . $imageName));
-            $service->image = 'uploads/services/' . $imageName;
+            $baseName = Str::slug($service->title);
+            $service->image = $this->compressAndConvertToWebp(
+                $request->file('image'), 
+                'uploads/services', 
+                $baseName
+            );
         }
 
         // Handle icon image upload
         if ($request->hasFile('icon_image')) {
-            $iconImage = $request->file('icon_image');
-            $iconName = time() . '_icon.webp';
+            $baseName = Str::slug($service->title . '-icon');
+            
+            $manager = new ImageManager(new Driver());
             
             if (!file_exists(public_path('uploads/services/icons'))) {
                 mkdir(public_path('uploads/services/icons'), 0777, true);
             }
             
-            $manager = new ImageManager(new Driver());
-            $icon = $manager->read($iconImage->getRealPath());
+            $icon = $manager->read($request->file('icon_image')->getRealPath());
             $icon->scale(width: 128, height: 128);
-            $icon->toWebp(85)->save(public_path('uploads/services/icons/' . $iconName));
             
+            $iconName = $baseName . '.webp';
+            $iconPath = public_path('uploads/services/icons/' . $iconName);
+            
+            $count = 1;
+            while (file_exists($iconPath)) {
+                $iconName = $baseName . '-' . $count . '.webp';
+                $iconPath = public_path('uploads/services/icons/' . $iconName);
+                $count++;
+            }
+            
+            $icon->toWebp(85)->save($iconPath);
             $service->icon_image = 'uploads/services/icons/' . $iconName;
         }
 
         $service->save();
 
-        return redirect()->route('services.index')
+        return redirect()->route('admin.services.index')
             ->with('success', 'Service created successfully.');
     }
 
     /**
-     * Display the specified service.
+     * Display the specified service (ADMIN PANEL)
      */
     public function show($id)
     {
@@ -107,7 +152,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Show the form for editing the specified service.
+     * Show the form for editing the specified service (ADMIN PANEL)
      */
     public function edit($id)
     {
@@ -116,7 +161,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Update the specified service in storage.
+     * Update the specified service (ADMIN PANEL)
      */
     public function update(Request $request, $id)
     {
@@ -132,10 +177,21 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
         $service->title = $request->title;
         
+        // Handle unique slug for update
         if ($request->filled('slug')) {
-            $service->slug = Str::slug($request->slug);
+            $baseSlug = Str::slug($request->slug);
         } else {
-            $service->slug = Str::slug($request->title);
+            $baseSlug = Str::slug($request->title);
+        }
+        
+        if ($baseSlug !== $service->slug) {
+            $slug = $baseSlug;
+            $counter = 1;
+            while (Service::where('slug', $slug)->where('id', '!=', $id)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+            $service->slug = $slug;
         }
         
         $service->body = $request->body;
@@ -143,59 +199,57 @@ class ServiceController extends Controller
 
         // Handle main image upload
         if ($request->hasFile('image')) {
-            // Delete old image
             if ($service->image && file_exists(public_path($service->image))) {
                 unlink(public_path($service->image));
             }
             
-            $image = $request->file('image');
-            $imageName = time() . '.webp';
-            
-            if (!file_exists(public_path('uploads/services'))) {
-                mkdir(public_path('uploads/services'), 0777, true);
-            }
-            
-            $manager = new ImageManager(new Driver());
-            $img = $manager->read($image->getRealPath());
-            
-            if ($img->width() > 1200) {
-                $img->scale(width: 1200);
-            }
-            
-            $img->toWebp(75)->save(public_path('uploads/services/' . $imageName));
-            $service->image = 'uploads/services/' . $imageName;
+            $baseName = Str::slug($service->title);
+            $service->image = $this->compressAndConvertToWebp(
+                $request->file('image'), 
+                'uploads/services', 
+                $baseName
+            );
         }
 
         // Handle icon image upload
         if ($request->hasFile('icon_image')) {
-            // Delete old icon
             if ($service->icon_image && file_exists(public_path($service->icon_image))) {
                 unlink(public_path($service->icon_image));
             }
             
-            $iconImage = $request->file('icon_image');
-            $iconName = time() . '_icon.webp';
+            $baseName = Str::slug($service->title . '-icon');
+            
+            $manager = new ImageManager(new Driver());
             
             if (!file_exists(public_path('uploads/services/icons'))) {
                 mkdir(public_path('uploads/services/icons'), 0777, true);
             }
             
-            $manager = new ImageManager(new Driver());
-            $icon = $manager->read($iconImage->getRealPath());
+            $icon = $manager->read($request->file('icon_image')->getRealPath());
             $icon->scale(width: 128, height: 128);
-            $icon->toWebp(85)->save(public_path('uploads/services/icons/' . $iconName));
             
+            $iconName = $baseName . '.webp';
+            $iconPath = public_path('uploads/services/icons/' . $iconName);
+            
+            $count = 1;
+            while (file_exists($iconPath)) {
+                $iconName = $baseName . '-' . $count . '.webp';
+                $iconPath = public_path('uploads/services/icons/' . $iconName);
+                $count++;
+            }
+            
+            $icon->toWebp(85)->save($iconPath);
             $service->icon_image = 'uploads/services/icons/' . $iconName;
         }
 
         $service->save();
 
-        return redirect()->route('services.index')
+        return redirect()->route('admin.services.index')
             ->with('success', 'Service updated successfully.');
     }
 
     /**
-     * Remove the specified service from storage.
+     * Remove the specified service (ADMIN PANEL)
      */
     public function destroy($id)
     {
@@ -211,12 +265,12 @@ class ServiceController extends Controller
         
         $service->delete();
 
-        return redirect()->route('services.index')
+        return redirect()->route('admin.services.index')
             ->with('success', 'Service deleted successfully.');
     }
 
     /**
-     * Display the specified service by slug (for frontend).
+     * Display the specified service by slug (FRONTEND)
      */
     public function showBySlug($slug)
     {
@@ -225,7 +279,7 @@ class ServiceController extends Controller
     }
 
     /**
-     * Get all services for frontend.
+     * Get all services for frontend (FRONTEND)
      */
     public function frontendIndex()
     {

@@ -10,13 +10,13 @@
                         <i class="fas fa-edit"></i> Edit Service
                     </h3>
                     <div class="card-tools">
-                        <a href="{{ route('services.index') }}" class="btn btn-default btn-sm">
+                        <a href="{{ route('admin.services.index') }}" class="btn btn-default btn-sm">
                             <i class="fas fa-arrow-left"></i> Back to Services
                         </a>
                     </div>
                 </div>
                 
-                <form action="{{ route('services.update', $service->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.services.update', $service->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -158,7 +158,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Update Service
                         </button>
-                        <a href="{{ route('services.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('admin.services.index') }}" class="btn btn-secondary">
                             <i class="fas fa-times"></i> Cancel
                         </a>
                     </div>

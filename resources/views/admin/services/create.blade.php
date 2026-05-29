@@ -10,13 +10,13 @@
                         <i class="fas fa-plus-circle"></i> Create New Service
                     </h3>
                     <div class="card-tools">
-                        <a href="{{ route('services.index') }}" class="btn btn-default btn-sm">
+                        <a href="{{ route('admin.services.index') }}" class="btn btn-default btn-sm">
                             <i class="fas fa-arrow-left"></i> Back to Services
                         </a>
                     </div>
                 </div>
                 
-                <form action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         
@@ -143,7 +143,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save"></i> Create Service
                         </button>
-                        <a href="{{ route('services.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('admin.services.index') }}" class="btn btn-secondary">
                             <i class="fas fa-times"></i> Cancel
                         </a>
                     </div>

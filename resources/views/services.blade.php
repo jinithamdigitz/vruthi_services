@@ -12,7 +12,7 @@
 
     <div class="container svc-pg__hero-content">
         <nav class="svc-pg__breadcrumb" aria-label="breadcrumb">
-            <a href="{{ route('home.index') }}">Home</a>
+            <a href="{{ route('home.portfolio') }}">Home</a>
             <span>/</span>
             <span>Services</span>
         </nav>
@@ -90,7 +90,7 @@
                         <p class="svc-pg__card-text">
                             {{ Str::limit($service->body, 100) }}
                         </p>
-                        <a href="{{ route('home.index', $service->slug) }}" class="svc-pg__card-link">
+                        <a href="{{ route('home.services') }}" class="svc-pg__card-link">
                             Learn More
                             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                 <path d="M5 12h14M12 5l7 7-7 7" />
@@ -130,7 +130,7 @@
                 </p>
                 @endif
 
-                <a href="{{ route('home.index') }}" class="btn-outline-custom btn-primary-custom">
+                <a href="{{ route('contact') }}" class="btn-outline-custom btn-primary-custom">
                     Let's Work Together
                     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path d="M5 12h14M12 5l7 7-7 7" />

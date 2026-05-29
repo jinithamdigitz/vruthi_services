@@ -1849,9 +1849,9 @@ section.home-cta p.cta-body-white,
 .abt-pg__hero {
     position: relative;
     min-height: 520px;
-    background: #000;
-    overflow: hidden;
     display: flex;
+    align-items: stretch;
+    overflow: hidden;
     align-items: flex-end;
 }
 
@@ -2362,10 +2362,10 @@ h2.about-pg__values-title.about-pg__values-title {
 
 /* ── HERO ── */
 .svc-pg__hero {
-    position: relative;
+   position: relative;
     min-height: 520px;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     overflow: hidden;
     background: #0c0d12;
 }
@@ -2782,11 +2782,11 @@ h2.about-pg__values-title.about-pg__values-title {
 
 /* ── HERO ── */
 .pf-pg__hero {
-    position: relative;
+   position: relative;
     min-height: 520px;
-    background: #000;
-    overflow: hidden;
     display: flex;
+    align-items: stretch;
+    overflow: hidden;
     align-items: flex-end;
 }
 
@@ -3190,9 +3190,9 @@ h2.about-pg__values-title.about-pg__values-title {
 .ct-pg__hero {
     position: relative;
     min-height: 520px;
-    background: #000;
-    overflow: hidden;
     display: flex;
+    align-items: stretch;
+    overflow: hidden;
     align-items: flex-end;
 }
 

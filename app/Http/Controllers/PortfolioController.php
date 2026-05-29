@@ -17,6 +17,7 @@ class PortfolioController extends Controller
         $portfolios = Portfolio::with('category')->orderBy('id', 'desc')->paginate(10);
         return view('admin.portfolios.index', compact('portfolios'));
     }
+
     /**
      * Display the specified portfolio.
      */
@@ -30,6 +31,48 @@ class PortfolioController extends Controller
     {
         $categories = PortfolioCategory::all();
         return view('admin.portfolios.create', compact('categories'));
+    }
+
+    /**
+     * Compress and convert image to WEBP with SEO-friendly naming
+     */
+    private function compressAndConvertToWebp($image, $path, $baseName, $width = 800)
+    {
+        $manager = new ImageManager(new Driver());
+        
+        // Create directory if not exists
+        if (!file_exists(public_path($path))) {
+            mkdir(public_path($path), 0777, true);
+        }
+        
+        $img = $manager->read($image->getRealPath());
+        
+        // Resize if width is greater than specified
+        if ($img->width() > $width) {
+            $img->scale(width: $width);
+        }
+        
+        // Create filename with .webp extension
+        $imageName = $baseName . '.webp';
+        $imagePath = public_path($path . '/' . $imageName);
+        
+        // Handle duplicate files
+        $count = 1;
+        while (file_exists($imagePath)) {
+            $imageName = $baseName . '-' . $count . '.webp';
+            $imagePath = public_path($path . '/' . $imageName);
+            $count++;
+        }
+        
+        // Compress with quality loop (target ≤100KB)
+        $quality = 80;
+        do {
+            $img->toWebp($quality)->save($imagePath);
+            $size = filesize($imagePath) / 1024; // Size in KB
+            $quality -= 5;
+        } while ($size > 100 && $quality >= 40);
+        
+        return $path . '/' . $imageName;
     }
 
     public function store(Request $request)
@@ -58,28 +101,16 @@ class PortfolioController extends Controller
         $portfolio->location = $request->location;
         $portfolio->keywords = $request->keywords;
 
-        // Handle image upload with compression and WebP conversion
+        // Handle image upload with SEO-friendly naming and compression
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.webp';
-
-            // Create directory if not exists
-            if (!file_exists(public_path('uploads/portfolios'))) {
-                mkdir(public_path('uploads/portfolios'), 0777, true);
-            }
-
-            // Process image with Intervention
-            $manager = new ImageManager(new Driver());
-            $img = $manager->read($image->getRealPath());
-
-            // Resize if width is greater than 800px
-            if ($img->width() > 800) {
-                $img->scale(width: 800);
-            }
-
-            // Save as WebP with 80% quality
-            $img->toWebp(80)->save(public_path('uploads/portfolios/' . $imageName));
-            $portfolio->image = 'uploads/portfolios/' . $imageName;
+            $seoPrefix = ''; // Add prefix if needed (e.g., 'portfolio')
+            $baseName = Str::slug($seoPrefix . ' ' . $portfolio->title);
+            $portfolio->image = $this->compressAndConvertToWebp(
+                $request->file('image'), 
+                'uploads/portfolios', 
+                $baseName,
+                800
+            );
         }
 
         $portfolio->save();
@@ -119,33 +150,21 @@ class PortfolioController extends Controller
         $portfolio->location = $request->location;
         $portfolio->keywords = $request->keywords;
 
-        // Handle image upload
+        // Handle image upload with SEO-friendly naming and compression
         if ($request->hasFile('image')) {
             // Delete old image
             if ($portfolio->image && file_exists(public_path($portfolio->image))) {
                 unlink(public_path($portfolio->image));
             }
-
-            $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.webp';
-
-            // Create directory if not exists
-            if (!file_exists(public_path('uploads/portfolios'))) {
-                mkdir(public_path('uploads/portfolios'), 0777, true);
-            }
-
-            // Process image with Intervention
-            $manager = new ImageManager(new Driver());
-            $img = $manager->read($image->getRealPath());
-
-            // Resize if width is greater than 800px
-            if ($img->width() > 800) {
-                $img->scale(width: 800);
-            }
-
-            // Save as WebP with 80% quality
-            $img->toWebp(80)->save(public_path('uploads/portfolios/' . $imageName));
-            $portfolio->image = 'uploads/portfolios/' . $imageName;
+            
+            $seoPrefix = '';
+            $baseName = Str::slug($seoPrefix . ' ' . $portfolio->title);
+            $portfolio->image = $this->compressAndConvertToWebp(
+                $request->file('image'), 
+                'uploads/portfolios', 
+                $baseName,
+                800
+            );
         }
 
         $portfolio->save();
@@ -174,6 +193,4 @@ class PortfolioController extends Controller
         $portfolios = Portfolio::with('category')->orderBy('id', 'desc')->paginate(12);
         return view('portfolio', compact('categories', 'portfolios'));
     }
-
-    
 }

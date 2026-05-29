@@ -10,7 +10,7 @@
                         <i class="fas fa-info-circle"></i> Service Details
                     </h3>
                     <div class="card-tools">
-                        <a href="{{ route('services.index') }}" class="btn btn-default btn-sm">
+                        <a href="{{ route('admin.services.index') }}" class="btn btn-default btn-sm">
                             <i class="fas fa-arrow-left"></i> Back to List
                         </a>
                     </div>
@@ -74,10 +74,10 @@
                 </div>
                 
                 <div class="card-footer">
-                    <a href="{{ route('services.edit', $service->id) }}" class="btn btn-warning">
+                    <a href="{{ route('admin.services.edit', $service->id) }}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Edit
                     </a>
-                    <form action="{{ route('services.destroy', $service->id) }}" method="POST" style="display:inline">
+                    <form action="{{ route('admin.services.destroy', $service->id) }}" method="POST" style="display:inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this service?')">
@@ -97,10 +97,10 @@
                 </div>
                 <div class="card-body">
                     <div class="list-group">
-                        <a href="{{ route('services.create') }}" class="list-group-item list-group-item-action">
+                        <a href="{{ route('admin.services.create') }}" class="list-group-item list-group-item-action">
                             <i class="fas fa-plus-circle text-success"></i> Create New Service
                         </a>
-                        <a href="{{ route('services.index') }}" class="list-group-item list-group-item-action">
+                        <a href="{{ route('admin.services.index') }}" class="list-group-item list-group-item-action">
                             <i class="fas fa-list text-primary"></i> View All Services
                         </a>
                     </div>
