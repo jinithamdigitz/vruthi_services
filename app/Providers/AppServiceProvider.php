@@ -120,5 +120,16 @@ class AppServiceProvider extends ServiceProvider
             $footerContent = $category ? Post::where('post_category_id', $category->id)->first() : null;
             $view->with('footerContent', $footerContent);
         });
+        // Global CTA Section
+        View::composer('*', function ($view) {
+            $category = PostCategory::where('slug', 'cta')->first();
+            $ctasection = null;
+
+            if ($category) {
+                $ctasection = Post::where('post_category_id', $category->id)->first();
+            }
+
+            $view->with('ctasection', $ctasection);
+        });
     }
 }
