@@ -8,8 +8,9 @@ use App\Models\PostCategory;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Service;
 use App\Models\CareerJob;
+use App\Models\JobApplication; // Add this import
 
-class CareersController  extends Controller
+class CareersController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -30,12 +31,21 @@ class CareersController  extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-	   public function apply($id)
-		{
-			  $careerJob = CareerJob::findOrFail($id);
-			 return view('careers.applytojob', compact('careerJob'));
-		}
-		public function submitApplication(Request $request)
+    public function apply($id)
+    {
+        $careerJob = CareerJob::findOrFail($id);
+        
+        // Get apply job banner data
+        $category = PostCategory::where('slug', 'apply-job-banner')->first();
+        $applybanner = null;
+        if ($category) {
+            $applybanner = Post::where('post_category_id', $category->id)->first();
+        }
+        
+        return view('careers.applytojob', compact('careerJob', 'applybanner'));
+    }
+    
+    public function submitApplication(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'job_id' => 'required|exists:career_jobs,id',
@@ -117,87 +127,81 @@ class CareersController  extends Controller
         }
         return $bytes . ' bytes';
     }
-   public function index(Request $request)
-{
-    $query = CareerJob::query();
-
-    // Filter by search term (title, department, location)
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where(function($q) use ($search) {
-            $q->where('title', 'like', '%' . $search . '%')
-              ->orWhere('department', 'like', '%' . $search . '%')
-              ->orWhere('location', 'like', '%' . $search . '%')
-              ->orWhere('short_description', 'like', '%' . $search . '%');
-        });
-    }
-
-    // Filter by department
-    if ($request->filled('department')) {
-        $query->where('department', $request->department);
-    }
-
-    // Filter by location
-    if ($request->filled('location')) {
-        $query->where('location', $request->location);
-    }
-
-    // Filter by date range
-    if ($request->filled('date_from')) {
-        $query->whereDate('created_date', '>=', $request->date_from);
-    }
-
-    if ($request->filled('date_to')) {
-        $query->whereDate('created_date', '<=', $request->date_to);
-    }
-
-    // Filter by status
-    if ($request->filled('status') && $request->status !== '') {
-        $query->where('status', $request->status);
-    }
-
-    // Filter by employment type
-    if ($request->filled('employment_type')) {
-        $query->where('employment_type', $request->employment_type);
-    }
-
-    $careerJobs = $query->where('status', 1)->orderBy('created_date', 'desc')->paginate(10);
     
-    $departments = CareerJob::where('status', 1)
-        ->select('department')
-        ->whereNotNull('department')
-        ->distinct()
-        ->orderBy('department', 'asc')
-        ->pluck('department');
+    public function index(Request $request)
+    {
+        $query = CareerJob::query();
+
+        // Filter by search term (title, department, location)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('department', 'like', '%' . $search . '%')
+                  ->orWhere('location', 'like', '%' . $search . '%')
+                  ->orWhere('short_description', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter by department
+        if ($request->filled('department')) {
+            $query->where('department', $request->department);
+        }
+
+        // Filter by location
+        if ($request->filled('location')) {
+            $query->where('location', $request->location);
+        }
+
+        // Filter by date range
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_date', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_date', '<=', $request->date_to);
+        }
+
+        // Filter by status
+        if ($request->filled('status') && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+
+        // Filter by employment type
+        if ($request->filled('employment_type')) {
+            $query->where('employment_type', $request->employment_type);
+        }
+
+        $careerJobs = $query->where('status', 1)->orderBy('created_date', 'desc')->paginate(10);
         
-    $locations = CareerJob::where('status', 1)
-        ->select('location')
-        ->whereNotNull('location')
-        ->distinct()
-        ->orderBy('location', 'asc')
-        ->pluck('location');
-		
-		$category = PostCategory::where('slug', 'careers-banner')->first();
-        $careerbanner = [];
+        $departments = CareerJob::where('status', 1)
+            ->select('department')
+            ->whereNotNull('department')
+            ->distinct()
+            ->orderBy('department', 'asc')
+            ->pluck('department');
+            
+        $locations = CareerJob::where('status', 1)
+            ->select('location')
+            ->whereNotNull('location')
+            ->distinct()
+            ->orderBy('location', 'asc')
+            ->pluck('location');
+        
+        $category = PostCategory::where('slug', 'careers-banner')->first();
+        $careerbanner = null;
         if ($category) {
             $careerbanner = Post::where('post_category_id', $category->id)->first();
         }
-		
-		$category = PostCategory::where('slug', 'career-highlights')->first();
-        $careerhighlights = [];
+        
+        $category = PostCategory::where('slug', 'career-highlights')->first();
+        $careerhighlights = collect();
         if ($category) {
             $careerhighlights = Post::where('post_category_id', $category->id)->get();
         }
-		
 
-    return view('careers.careers', compact('careerJobs', 'departments', 'locations','careerbanner','careerhighlights'));
-}
-
-    // public function calculator(){
-    //    $calculators  = SolarCalculator::latest()->get(); 
-    //    return view('index', ['calculators' => $calculators]);
-    // }
-
+        return view('careers.careers', compact('careerJobs', 'departments', 'locations', 'careerbanner', 'careerhighlights'));
+    }
 
     public static function getphone()
     {
@@ -233,13 +237,13 @@ class CareersController  extends Controller
         return Post::where('post_category_id', $category->id)->get();
     }
 
-public static function gettimings()
-{
-    $editpost = PostCategory::where('slug', 'timings')->first();  // Changed from 'timing' to 'timings'
-    if (!$editpost) return null;
-    $timing = Post::where('post_category_id', $editpost->id)->first();
-    return $timing ? $timing->title : null;
-}
+    public static function gettimings()
+    {
+        $editpost = PostCategory::where('slug', 'timings')->first();
+        if (!$editpost) return null;
+        $timing = Post::where('post_category_id', $editpost->id)->first();
+        return $timing ? $timing->title : null;
+    }
 
     public static function getalladdress()
     {
@@ -254,7 +258,6 @@ public static function gettimings()
         if (!$editpost) return collect();
         return Post::where('post_category_id', $editpost->id)->get();
     }
-   
 
     public static function getsocialicons()
     {
@@ -284,7 +287,6 @@ public static function gettimings()
         return Post::where('post_category_id', $editpost->id)->first();
     }
 
-
     /**
      * Helper function to get proper image URL
      */
@@ -305,6 +307,7 @@ public static function gettimings()
         // Return asset URL
         return asset($imagePath);
     }
+    
     public function logo()
     {
         $seo = $this->getSeoForCurrentRoute();
@@ -316,7 +319,6 @@ public static function gettimings()
             'seo' => $seo
         ]);
     }
-
 
     /**
      * Get about text for footer

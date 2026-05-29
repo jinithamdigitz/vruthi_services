@@ -7,7 +7,6 @@ use App\Models\Post;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use App\Models\GalleryCategory;
 use App\Models\CommonSeoParameter;
 use Intervention\Image\ImageManager;

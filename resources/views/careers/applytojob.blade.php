@@ -519,41 +519,36 @@
 
 <div class="apply-page">
 
-  {{-- =============================================
+{{-- =============================================
        HERO - APPLY/APPLICATION PAGE (USING COMMON HERO)
        ============================================= --}}
-  <section class="page-hero">
-    <div class="page-hero__bg" style="background-image: url('{{ asset($careerJob->banner_image ?? ) }}');"></div>
+<section class="page-hero">
+    @if($careerJob->banner_image)
+    <div class="page-hero__bg" style="background-image: url('{{ asset($careerJob->banner_image) }}');"></div>
+    @endif
     <div class="page-hero__overlay"></div>
 
-    {{-- Optional: Logo watermark (can be added via CSS or kept as is) --}}
-    @if(isset($showLogoWatermark) && $showLogoWatermark)
-    <div class="apply-hero__logo-mark" style="position: absolute; bottom: 20px; right: 20px; z-index: 2; opacity: 0.1;">
-      <img src="{{ asset('assets/img/Outline_Architects_Logo.png') }}" alt="Outline Architects" style="max-width: 120px;" />
-    </div>
-    @endif
-
     <div class="container page-hero__content">
-      <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
-        <a href="{{ url('/') }}">Home</a>
-        <span class="page-hero__breadcrumb-sep">/</span>
-        <a href="{{ url('/careers') }}">Careers</a>
-        <span class="page-hero__breadcrumb-sep">/</span>
-        <span class="current">Apply for {{ $careerJob->title }}</span>
-      </nav>
+        <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
+            <a href="{{ url('/') }}">Home</a>
+            <span class="page-hero__breadcrumb-sep">/</span>
+            <a href="{{ url('/careers') }}">Careers</a>
+            <span class="page-hero__breadcrumb-sep">/</span>
+            <span class="current">Apply for {{ $careerJob->title }}</span>
+        </nav>
 
-      <h1 class="page-hero__title">
-        Apply for<br>
-        <span class="accent">{{ $careerJob->title }}</span>
-      </h1>
+        <h1 class="page-hero__title">
+            Apply for<br>
+            <span class="accent">{{ $careerJob->title }}</span>
+        </h1>
 
-      @if($careerJob->short_description)
-      <p class="page-hero__desc">
-        {{ $careerJob->short_description }}
-      </p>
-      @endif
+        @if($careerJob->short_description)
+        <p class="page-hero__desc">
+            {{ $careerJob->short_description }}
+        </p>
+        @endif
     </div>
-  </section>
+</section>
 
   {{-- =============================================
        APPLICATION FORM

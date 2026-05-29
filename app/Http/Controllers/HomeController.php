@@ -107,12 +107,6 @@ class HomeController extends Controller
         }
 
 
-        $category = PostCategory::where('slug', 'cta')->first();
-        $ctasection = [];
-        if ($category) {
-            $ctasection = Post::where('post_category_id', $category->id)->first();
-        }
-
         $category = PostCategory::where('slug', 'our-expertise')->first();
         $ourExpertise = collect();
         if ($category) {
@@ -146,7 +140,6 @@ class HomeController extends Controller
             'counters' => $counters,
             'testimonials' => $testimonials,
             'testimonialstitle' => $testimonialstitle,
-            'ctasection' => $ctasection,
             'seo' => $seo,
             'ourExpertise' => $ourExpertise,
             'features' => $features,
@@ -261,12 +254,6 @@ class HomeController extends Controller
         if ($category) {
             $homebanner = Post::where('post_category_id', $category->id)->first();
         }
-
-        $category = PostCategory::where('slug', 'cta')->first();
-        $ctasection = [];
-        if ($category) {
-            $ctasection = Post::where('post_category_id', $category->id)->first();
-        }
         $category = PostCategory::where('slug', 'counter')->first();
         $counters = collect();
         if ($category) {
@@ -306,11 +293,8 @@ class HomeController extends Controller
         $members = Member::limit(10)->get();
 
 
-        return view('about', ['homebanner' => $homebanner, 'ctasection' => $ctasection, 'counters' => $counters, 'ourStoryTitle' => $ourStoryTitle, 'ourStory' => $ourStory, 'ourValueTitle' => $ourValueTitle, 'ourValues' => $ourValues, 'members' => $members, 'memberTitle' => $memberTitle, 'aboutBanner' => $aboutBanner]);
+        return view('about', ['homebanner' => $homebanner,  'counters' => $counters, 'ourStoryTitle' => $ourStoryTitle, 'ourStory' => $ourStory, 'ourValueTitle' => $ourValueTitle, 'ourValues' => $ourValues, 'members' => $members, 'memberTitle' => $memberTitle, 'aboutBanner' => $aboutBanner]);
     }
-
-
-
 
 
     public function service()
