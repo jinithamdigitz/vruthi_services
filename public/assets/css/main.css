@@ -3424,7 +3424,7 @@ h2.about-pg__values-title.about-pg__values-title {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 991.98px) {
-   
+
     .ct-pg__section {
         padding: 60px 0 72px;
     }
@@ -3435,6 +3435,7 @@ h2.about-pg__values-title.about-pg__values-title {
 }
 
 @media (max-width: 767.98px) {
+
     .ct-pg__right-panel,
     .ct-pg__left-panel {
         padding: 24px 20px;
@@ -3451,4 +3452,79 @@ h2.about-pg__values-title.about-pg__values-title {
         gap: 0;
     }
 
+}
+/* =============================================
+   SERVICES SECTION — PARALLAX BACKGROUND
+   ============================================= */
+
+section#home-services {
+  position: relative;
+  background-image: url('/assets/img/outline.png') !important;
+  background-attachment: fixed !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+/* Dark overlay — moderate parallax visibility */
+#home-services::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  z-index: 0;
+}
+
+/* Ensure content sits above the overlay */
+#home-services .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* =============================================
+   FEATURED WORK CARDS — GLAZE / SHINE EFFECT
+   ============================================= */
+
+#home-portfolio .project-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 40%,
+    rgba(255, 255, 255, 0.32) 50%,
+    rgba(255, 255, 255, 0.18) 60%,
+    transparent 100%
+  );
+  transform: skewX(-15deg);
+  pointer-events: none;
+  z-index: 2;
+}
+
+#home-portfolio .project-card:hover::after {
+  animation: glaze-sweep 0.65s ease forwards;
+}
+
+@keyframes glaze-sweep {
+  0%   { left: -100%; }
+  100% { left: 150%; }
+}
+
+/* White section for title & location */
+#home-portfolio .project-card .project-card__overlay {
+  position: relative;
+  background: #ffffff;
+  padding: 14px 16px;
+}
+
+#home-portfolio .project-card .project-card__title {
+  color: #000000;
+}
+
+#home-portfolio .project-card .project-card__location {
+  color: var(--color-primary);
 }
