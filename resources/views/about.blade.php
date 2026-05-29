@@ -6,18 +6,17 @@
 @section('content')
 
 
-
 {{-- ══════════════════════════════════════
-     HERO - DYNAMIC (ABOUT PAGE)
+     HERO - DYNAMIC (ABOUT PAGE) - USING COMMON HERO
 ══════════════════════════════════════ --}}
-<section class="abt-pg__hero">
-    <div class="abt-pg__hero-bg" style="background-image: url('{{ asset($aboutBanner->image) }}');"></div>
-    <div class="abt-pg__hero-overlay"></div>
-    <div class="container abt-pg__hero-content">
-        <nav class="abt-pg__breadcrumb" aria-label="breadcrumb">
+<section class="page-hero">
+    <div class="page-hero__bg" style="background-image: url('{{ asset($aboutBanner->image) }}');"></div>
+    <div class="page-hero__overlay"></div>
+    <div class="container page-hero__content">
+        <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
             <a href="{{ route('home.index') }}">Home</a>
-            <span class="abt-pg__breadcrumb-sep">›</span>
-            <span>About</span>
+            <span class="page-hero__breadcrumb-sep">›</span>
+            <span class="current">About</span>
         </nav>
 
         @php
@@ -25,15 +24,22 @@
         $firstLine = trim($titleParts[0]);
         $secondLine = trim($titleParts[1]);
         @endphp
-        <h1 class="abt-pg__hero-title">
+        <h1 class="page-hero__title">
             {{ $firstLine }}
-            <span class="abt-pg__accent">{{ $secondLine }}</span>
+            <span class="accent">{{ $secondLine }}</span>
         </h1>
 
-        <p class="abt-pg__hero-desc">
+        <p class="page-hero__desc">
             {!! strip_tags($aboutBanner->body) !!}
         </p>
 
+        {{-- Optional: Add actions/buttons if needed --}}
+        {{-- 
+        <div class="page-hero__actions">
+            <a href="#story" class="btn-primary-custom btn-outline-custom">Our Story</a>
+            <a href="{{ route('contact.index') }}" class="btn-outline-white btn-outline-custom">Get in Touch</a>
+        </div>
+        --}}
     </div>
 </section>
 <!-- =============================================

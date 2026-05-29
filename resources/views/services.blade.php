@@ -3,18 +3,18 @@
 
 @section('content')
 
-{{-- HERO SECTION --}}
-<section class="svc-pg__hero">
+{{-- HERO SECTION - USING COMMON HERO --}}
+<section class="page-hero">
     @if($serviceBanner && $serviceBanner->image)
-    <div class="svc-pg__hero-bg" style="background-image: url('{{ asset($serviceBanner->image) }}');"></div>
+    <div class="page-hero__bg" style="background-image: url('{{ asset($serviceBanner->image) }}');"></div>
     @endif
-    <div class="svc-pg__hero-overlay"></div>
+    <div class="page-hero__overlay"></div>
 
-    <div class="container svc-pg__hero-content">
-        <nav class="svc-pg__breadcrumb" aria-label="breadcrumb">
-            <a href="{{ route('home.portfolio') }}">Home</a>
-            <span>/</span>
-            <span>Services</span>
+    <div class="container page-hero__content">
+        <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
+            <a href="{{ route('home.index') }}">Home</a>
+            <span class="page-hero__breadcrumb-sep">/</span>
+            <span class="current">Services</span>
         </nav>
 
         @if($serviceBanner && $serviceBanner->title)
@@ -23,16 +23,16 @@
         $firstLine = trim($titleParts[0] ?? '');
         $secondLine = trim($titleParts[1] ?? '');
         @endphp
-        <h1 class="svc-pg__hero-title">
+        <h1 class="page-hero__title">
             {{ $firstLine }}
             @if($secondLine)
-            <span class="svc-pg__accent">{{ $secondLine }}</span>
+            <span class="accent">{{ $secondLine }}</span>
             @endif
         </h1>
         @endif
 
         @if($serviceBanner && $serviceBanner->body)
-        <p class="svc-pg__hero-desc">
+        <p class="page-hero__desc">
             {!! strip_tags($serviceBanner->body) !!}
         </p>
         @endif

@@ -28,12 +28,10 @@
   .apply-page .apply-hero__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.90) 0%,
-      rgba(0, 0, 0, 0.60) 50%,
-      rgba(0, 0, 0, 0.20) 100%
-    );
+    background: linear-gradient(to right,
+        rgba(0, 0, 0, 0.90) 0%,
+        rgba(0, 0, 0, 0.60) 50%,
+        rgba(0, 0, 0, 0.20) 100%);
   }
 
   .apply-page .apply-hero__content {
@@ -504,9 +502,9 @@
     align-items: center;
     gap: 6px;
     padding: 11px 24px;
-    border: 1.5px solid rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--radius-sm);
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
     font-size: var(--fs-sm);
     font-weight: var(--fw-medium);
     text-decoration: none;
@@ -522,34 +520,38 @@
 <div class="apply-page">
 
   {{-- =============================================
-       HERO
+       HERO - APPLY/APPLICATION PAGE (USING COMMON HERO)
        ============================================= --}}
-  <section class="apply-hero">
-    <div class="apply-hero__bg"></div>
-    <div class="apply-hero__overlay"></div>
+  <section class="page-hero">
+    <div class="page-hero__bg" style="background-image: url('{{ asset($careerJob->banner_image ?? ) }}');"></div>
+    <div class="page-hero__overlay"></div>
 
-    {{-- Logo watermark --}}
-    <div class="apply-hero__logo-mark">
-      <img src="{{ asset('assets/img/Outline_Architects_Logo.png') }}" alt="Outline Architects" />
+    {{-- Optional: Logo watermark (can be added via CSS or kept as is) --}}
+    @if(isset($showLogoWatermark) && $showLogoWatermark)
+    <div class="apply-hero__logo-mark" style="position: absolute; bottom: 20px; right: 20px; z-index: 2; opacity: 0.1;">
+      <img src="{{ asset('assets/img/Outline_Architects_Logo.png') }}" alt="Outline Architects" style="max-width: 120px;" />
     </div>
+    @endif
 
-    <div class="container">
-      <div class="apply-hero__content">
-        <p class="apply-hero__breadcrumb">
-          <a href="{{ url('/') }}">Home</a>
-          &nbsp;/&nbsp;
-          <a href="{{ url('/careers') }}">Careers</a>
-          &nbsp;/&nbsp;
-          <span>Apply for {{ $careerJob->title }}</span>
-        </p>
-        <h1 class="apply-hero__title">
-          Apply for<br>
-          <em>{{ $careerJob->title }}</em>
-        </h1>
-        <p class="apply-hero__sub">
-          {{ $careerJob->short_description }}
-        </p>
-      </div>
+    <div class="container page-hero__content">
+      <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
+        <a href="{{ url('/') }}">Home</a>
+        <span class="page-hero__breadcrumb-sep">/</span>
+        <a href="{{ url('/careers') }}">Careers</a>
+        <span class="page-hero__breadcrumb-sep">/</span>
+        <span class="current">Apply for {{ $careerJob->title }}</span>
+      </nav>
+
+      <h1 class="page-hero__title">
+        Apply for<br>
+        <span class="accent">{{ $careerJob->title }}</span>
+      </h1>
+
+      @if($careerJob->short_description)
+      <p class="page-hero__desc">
+        {{ $careerJob->short_description }}
+      </p>
+      @endif
     </div>
   </section>
 
@@ -619,8 +621,7 @@
                       name="full_name"
                       class="apply-input"
                       placeholder="Enter your full name"
-                      autocomplete="name"
-                    />
+                      autocomplete="name" />
                     <p class="field-error" id="err-fullName">Please enter your full name.</p>
                   </div>
 
@@ -634,8 +635,7 @@
                       name="email"
                       class="apply-input"
                       placeholder="Enter your email address"
-                      autocomplete="email"
-                    />
+                      autocomplete="email" />
                     <p class="field-error" id="err-email">Please enter a valid email address.</p>
                   </div>
 
@@ -649,8 +649,7 @@
                       name="location"
                       class="apply-input"
                       placeholder="Enter your current location"
-                      autocomplete="address-level2"
-                    />
+                      autocomplete="address-level2" />
                     <p class="field-error" id="err-location">Please enter your current location.</p>
                   </div>
 
@@ -664,7 +663,7 @@
                         <select id="countryCode" name="country_code" onchange="updateFlag(this)">
                           <option value="+91" data-flag="🇮🇳">+91</option>
                           <option value="+971" data-flag="🇦🇪">+971</option>
-                          <option value="+1"  data-flag="🇺🇸">+1</option>
+                          <option value="+1" data-flag="🇺🇸">+1</option>
                           <option value="+44" data-flag="🇬🇧">+44</option>
                           <option value="+65" data-flag="🇸🇬">+65</option>
                           <option value="+60" data-flag="🇲🇾">+60</option>
@@ -678,8 +677,7 @@
                         name="phone"
                         class="phone-number-input"
                         placeholder="Enter your phone number"
-                        autocomplete="tel-national"
-                      />
+                        autocomplete="tel-national" />
                     </div>
                     <p class="field-error" id="err-phone">Please enter a valid phone number.</p>
                   </div>
@@ -719,8 +717,7 @@
                       name="cover_letter"
                       class="apply-input"
                       placeholder="Write your message here..."
-                      rows="6"
-                    ></textarea>
+                      rows="6"></textarea>
                     <p class="field-error" id="err-cover">Please write a brief cover note.</p>
                   </div>
                 </div>
@@ -741,8 +738,7 @@
                         id="resumeFile"
                         name="resume"
                         accept=".pdf,.doc,.docx"
-                        onchange="handleFileSelect(this)"
-                      />
+                        onchange="handleFileSelect(this)" />
                       <i class="bi bi-cloud-arrow-up file-dropzone__icon"></i>
                       <p class="file-dropzone__text">
                         Drag &amp; drop your resume here<br>
@@ -789,183 +785,187 @@
 </div>{{-- end .apply-page --}}
 
 <script>
-(function () {
-  'use strict';
+  (function() {
+    'use strict';
 
-  /* ── Country flag sync ── */
-  window.updateFlag = function (select) {
-    const opt = select.options[select.selectedIndex];
-    document.getElementById('countryFlag').textContent = opt.dataset.flag || '🌐';
-  };
+    /* ── Country flag sync ── */
+    window.updateFlag = function(select) {
+      const opt = select.options[select.selectedIndex];
+      document.getElementById('countryFlag').textContent = opt.dataset.flag || '🌐';
+    };
 
-  /* ── File select handler ── */
-  window.handleFileSelect = function (input) {
-    const display = document.getElementById('fileNameDisplay');
-    const err     = document.getElementById('err-resume');
+    /* ── File select handler ── */
+    window.handleFileSelect = function(input) {
+      const display = document.getElementById('fileNameDisplay');
+      const err = document.getElementById('err-resume');
 
-    if (!input.files.length) {
-      display.textContent = '';
-      display.classList.remove('has-file');
-      return;
-    }
-
-    const file    = input.files[0];
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    const allowed = ['application/pdf',
-                     'application/msword',
-                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-
-    if (!allowed.includes(file.type) && !file.name.match(/\.(pdf|doc|docx)$/i)) {
-      display.textContent = '✗ Invalid file type. Only PDF, DOC, DOCX allowed.';
-      display.classList.remove('has-file');
-      input.value = '';
-      return;
-    }
-
-    if (file.size > maxSize) {
-      display.textContent = '✗ File too large. Max 5MB allowed.';
-      display.classList.remove('has-file');
-      input.value = '';
-      return;
-    }
-
-    display.textContent = '✓ ' + file.name;
-    display.classList.add('has-file');
-    err.style.display = 'none';
-  };
-
-  /* ── Drag & drop visual ── */
-  const dropzone = document.getElementById('dropzone');
-  if (dropzone) {
-    dropzone.addEventListener('dragover',  e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
-    dropzone.addEventListener('dragleave', ()  => dropzone.classList.remove('drag-over'));
-    dropzone.addEventListener('drop',      e  => {
-      e.preventDefault();
-      dropzone.classList.remove('drag-over');
-      const fileInput = document.getElementById('resumeFile');
-      if (e.dataTransfer.files.length) {
-        const dt = new DataTransfer();
-        dt.items.add(e.dataTransfer.files[0]);
-        fileInput.files = dt.files;
-        handleFileSelect(fileInput);
+      if (!input.files.length) {
+        display.textContent = '';
+        display.classList.remove('has-file');
+        return;
       }
-    });
-  }
 
-  /* ── Form validation & submit ── */
-  const form      = document.getElementById('applyForm');
-  const submitBtn = document.getElementById('submitBtn');
+      const file = input.files[0];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      const allowed = ['application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
 
-  function showError(id, show) {
-    const el = document.getElementById('err-' + id);
-    if (el) el.style.display = show ? 'block' : 'none';
-  }
+      if (!allowed.includes(file.type) && !file.name.match(/\.(pdf|doc|docx)$/i)) {
+        display.textContent = '✗ Invalid file type. Only PDF, DOC, DOCX allowed.';
+        display.classList.remove('has-file');
+        input.value = '';
+        return;
+      }
 
-  function validateForm() {
-    let valid = true;
+      if (file.size > maxSize) {
+        display.textContent = '✗ File too large. Max 5MB allowed.';
+        display.classList.remove('has-file');
+        input.value = '';
+        return;
+      }
 
-    // Full Name
-    const name = document.getElementById('fullName').value.trim();
-    const nameOk = name.length >= 2;
-    showError('fullName', !nameOk);
-    document.getElementById('fullName').classList.toggle('is-error', !nameOk);
-    if (!nameOk) valid = false;
+      display.textContent = '✓ ' + file.name;
+      display.classList.add('has-file');
+      err.style.display = 'none';
+    };
 
-    // Email
-    const email = document.getElementById('email').value.trim();
-    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    showError('email', !emailOk);
-    document.getElementById('email').classList.toggle('is-error', !emailOk);
-    if (!emailOk) valid = false;
-
-    // Location
-    const loc = document.getElementById('location').value.trim();
-    const locOk = loc.length >= 2;
-    showError('location', !locOk);
-    document.getElementById('location').classList.toggle('is-error', !locOk);
-    if (!locOk) valid = false;
-
-    // Phone
-    const phone = document.getElementById('phoneNumber').value.trim();
-    const phoneOk = /^\d{7,15}$/.test(phone.replace(/[\s\-().]/g, ''));
-    showError('phone', !phoneOk);
-    if (!phoneOk) valid = false;
-
-    // Experience
-    const exp = document.getElementById('experience').value;
-    showError('experience', !exp);
-    document.getElementById('experience').classList.toggle('is-error', !exp);
-    if (!exp) valid = false;
-
-    // Cover letter
-    const cover = document.getElementById('coverLetter').value.trim();
-    const coverOk = cover.length >= 30;
-    showError('cover', !coverOk);
-    document.getElementById('coverLetter').classList.toggle('is-error', !coverOk);
-    if (!coverOk) valid = false;
-
-    // Resume
-    const resume = document.getElementById('resumeFile');
-    const resumeOk = resume.files && resume.files.length > 0;
-    showError('resume', !resumeOk);
-    if (!resumeOk) valid = false;
-
-    // Terms
-    const terms = document.getElementById('agreeTerms').checked;
-    showError('terms', !terms);
-    if (!terms) valid = false;
-
-    return valid;
-  }
-
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      if (!validateForm()) return;
-
-      // Disable button & show loading state
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Submitting…';
-
-      // Send via fetch (Laravel route)
-      const formData = new FormData(form);
-
-      fetch('{{ route("careers.submit-application") }}', {
-        method: 'POST',
-        body: formData,
-        headers: { 
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
-          'Accept': 'application/json'
+    /* ── Drag & drop visual ── */
+    const dropzone = document.getElementById('dropzone');
+    if (dropzone) {
+      dropzone.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropzone.classList.add('drag-over');
+      });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+      dropzone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropzone.classList.remove('drag-over');
+        const fileInput = document.getElementById('resumeFile');
+        if (e.dataTransfer.files.length) {
+          const dt = new DataTransfer();
+          dt.items.add(e.dataTransfer.files[0]);
+          fileInput.files = dt.files;
+          handleFileSelect(fileInput);
         }
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          document.getElementById('applyFormWrap').style.display = 'none';
-          document.getElementById('applySuccess').style.display  = 'block';
-        } else {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = 'Submit Application &nbsp;<i class="bi bi-arrow-right"></i>';
-          alert(data.message || 'Something went wrong. Please try again.');
-        }
-      })
-      .catch(() => {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Submit Application &nbsp;<i class="bi bi-arrow-right"></i>';
-        alert('Network error. Please check your connection and try again.');
+      });
+    }
+
+    /* ── Form validation & submit ── */
+    const form = document.getElementById('applyForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function showError(id, show) {
+      const el = document.getElementById('err-' + id);
+      if (el) el.style.display = show ? 'block' : 'none';
+    }
+
+    function validateForm() {
+      let valid = true;
+
+      // Full Name
+      const name = document.getElementById('fullName').value.trim();
+      const nameOk = name.length >= 2;
+      showError('fullName', !nameOk);
+      document.getElementById('fullName').classList.toggle('is-error', !nameOk);
+      if (!nameOk) valid = false;
+
+      // Email
+      const email = document.getElementById('email').value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      showError('email', !emailOk);
+      document.getElementById('email').classList.toggle('is-error', !emailOk);
+      if (!emailOk) valid = false;
+
+      // Location
+      const loc = document.getElementById('location').value.trim();
+      const locOk = loc.length >= 2;
+      showError('location', !locOk);
+      document.getElementById('location').classList.toggle('is-error', !locOk);
+      if (!locOk) valid = false;
+
+      // Phone
+      const phone = document.getElementById('phoneNumber').value.trim();
+      const phoneOk = /^\d{7,15}$/.test(phone.replace(/[\s\-().]/g, ''));
+      showError('phone', !phoneOk);
+      if (!phoneOk) valid = false;
+
+      // Experience
+      const exp = document.getElementById('experience').value;
+      showError('experience', !exp);
+      document.getElementById('experience').classList.toggle('is-error', !exp);
+      if (!exp) valid = false;
+
+      // Cover letter
+      const cover = document.getElementById('coverLetter').value.trim();
+      const coverOk = cover.length >= 30;
+      showError('cover', !coverOk);
+      document.getElementById('coverLetter').classList.toggle('is-error', !coverOk);
+      if (!coverOk) valid = false;
+
+      // Resume
+      const resume = document.getElementById('resumeFile');
+      const resumeOk = resume.files && resume.files.length > 0;
+      showError('resume', !resumeOk);
+      if (!resumeOk) valid = false;
+
+      // Terms
+      const terms = document.getElementById('agreeTerms').checked;
+      showError('terms', !terms);
+      if (!terms) valid = false;
+
+      return valid;
+    }
+
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        if (!validateForm()) return;
+
+        // Disable button & show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Submitting…';
+
+        // Send via fetch (Laravel route)
+        const formData = new FormData(form);
+
+        fetch('{{ route("careers.submit-application") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+              'Accept': 'application/json'
+            }
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              document.getElementById('applyFormWrap').style.display = 'none';
+              document.getElementById('applySuccess').style.display = 'block';
+            } else {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = 'Submit Application &nbsp;<i class="bi bi-arrow-right"></i>';
+              alert(data.message || 'Something went wrong. Please try again.');
+            }
+          })
+          .catch(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit Application &nbsp;<i class="bi bi-arrow-right"></i>';
+            alert('Network error. Please check your connection and try again.');
+          });
+      });
+    }
+
+    /* ── Live input clear errors ── */
+    document.querySelectorAll('.apply-page .apply-input').forEach(input => {
+      input.addEventListener('input', function() {
+        this.classList.remove('is-error');
       });
     });
-  }
 
-  /* ── Live input clear errors ── */
-  document.querySelectorAll('.apply-page .apply-input').forEach(input => {
-    input.addEventListener('input', function () {
-      this.classList.remove('is-error');
-    });
-  });
-
-})();
+  })();
 </script>
 
 @endsection

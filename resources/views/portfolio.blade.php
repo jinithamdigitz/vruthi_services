@@ -7,16 +7,16 @@
 
 @section('content')
 {{-- ══════════════════════════════════════
-     HERO - DYNAMIC
+     HERO - DYNAMIC (PORTFOLIO PAGE) - USING COMMON HERO
 ══════════════════════════════════════ --}}
-<section class="pf-pg__hero">
-    <div class="pf-pg__hero-bg" style="background-image: url('{{ asset($portfolioBanner->image) }}');"></div>
-    <div class="pf-pg__hero-overlay"></div>
-    <div class="container pf-pg__hero-content">
-        <nav class="pf-pg__breadcrumb" aria-label="breadcrumb">
+<section class="page-hero">
+    <div class="page-hero__bg" style="background-image: url('{{ asset($portfolioBanner->image) }}');"></div>
+    <div class="page-hero__overlay"></div>
+    <div class="container page-hero__content">
+        <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
             <a href="{{ route('home.index') }}">Home</a>
-            <span class="pf-pg__breadcrumb-sep">›</span>
-            <span>Portfolio</span>
+            <span class="page-hero__breadcrumb-sep">›</span>
+            <span class="current">Portfolio</span>
         </nav>
 
         @php
@@ -24,12 +24,12 @@
         $firstLine = trim($titleParts[0]);
         $secondLine = trim($titleParts[1]);
         @endphp
-        <h1 class="pf-pg__hero-title">
+        <h1 class="page-hero__title">
             {{ $firstLine }}
-            <span class="pf-pg__accent">{{ $secondLine }}</span>
+            <span class="accent">{{ $secondLine }}</span>
         </h1>
 
-        <p class="pf-pg__hero-desc">
+        <p class="page-hero__desc">
             {!! strip_tags($portfolioBanner->body) !!}
         </p>
 

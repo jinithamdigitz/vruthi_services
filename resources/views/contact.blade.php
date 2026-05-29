@@ -4,34 +4,34 @@
 
 @section('content')
 
-{{-- HERO - DYNAMIC --}}
-<section class="ct-pg__hero">
-    <div class="ct-pg__hero-bg" style="background-image: url('{{ asset($contactBanner->image) }}');"></div>
-    <div class="ct-pg__hero-overlay"></div>
-    <div class="container ct-pg__hero-content">
-        <nav class="ct-pg__breadcrumb" aria-label="breadcrumb">
+{{-- HERO - DYNAMIC (CONTACT PAGE) - USING COMMON HERO --}}
+<section class="page-hero">
+    <div class="page-hero__bg" style="background-image: url('{{ asset($contactBanner->image) }}');"></div>
+    <div class="page-hero__overlay"></div>
+    <div class="container page-hero__content">
+        <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
             <a href="{{ route('home.index') }}">Home</a>
-            <span class="ct-pg__breadcrumb-sep">›</span>
-            <span>Contact</span>
+            <span class="page-hero__breadcrumb-sep">›</span>
+            <span class="current">Contact</span>
         </nav>
 
         @php
-            $titleParts = explode('|', $contactBanner->title);
-            $firstLine = trim($titleParts[0]);
-            $secondLine = isset($titleParts[1]) ? trim($titleParts[1]) : '';
-            $thirdLine = isset($titleParts[2]) ? trim($titleParts[2]) : '';
+        $titleParts = explode('|', $contactBanner->title);
+        $firstLine = trim($titleParts[0]);
+        $secondLine = isset($titleParts[1]) ? trim($titleParts[1]) : '';
+        $thirdLine = isset($titleParts[2]) ? trim($titleParts[2]) : '';
         @endphp
-        <h1 class="ct-pg__hero-title">
+        <h1 class="page-hero__title">
             {{ $firstLine }}
             @if($secondLine)
-                <span class="ct-pg__accent">{{ $secondLine }}</span>
+            <span class="accent">{{ $secondLine }}</span>
             @endif
             @if($thirdLine)
-                <span class="ct-pg__accent">{{ $thirdLine }}</span>
+            <span class="accent">{{ $thirdLine }}</span>
             @endif
         </h1>
 
-        <p class="ct-pg__hero-desc">
+        <p class="page-hero__desc">
             {!! strip_tags($contactBanner->body) !!}
         </p>
 

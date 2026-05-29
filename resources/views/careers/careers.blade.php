@@ -7,72 +7,6 @@
      Namespaced under .careers-page to avoid conflicts
      ============================================= --}}
 <style>
-  /* ── CAREERS HERO ── */
-  .careers-page .careers-hero {
-    position: relative;
-    min-height: 520px;
-    display: flex;
-    align-items: flex-end;
-    overflow: hidden;
-  }
-
-  .careers-page .careers-hero__bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center 30%;
-    background-image: url('{{ asset("assets/img/careers-hero.jpg") }}');
-  }
-
-  .careers-page .careers-hero__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right,
-        rgba(0, 0, 0, 0.88) 0%,
-        rgba(0, 0, 0, 0.55) 55%,
-        rgba(0, 0, 0, 0.18) 100%);
-  }
-
-  .careers-page .careers-hero__content {
-    position: relative;
-    z-index: 2;
-    padding: 140px 0 72px;
-  }
-
-  .careers-page .careers-hero__breadcrumb {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 20px;
-  }
-
-  .careers-page .careers-hero__breadcrumb span {
-    color: var(--color-primary);
-  }
-
-  .careers-page .careers-hero__title {
-    font-family: var(--font-heading);
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    font-weight: var(--fw-bold);
-    color: #fff;
-    line-height: 1.1;
-    margin-bottom: 18px;
-  }
-
-  .careers-page .careers-hero__title em {
-    font-style: normal;
-    color: var(--color-primary);
-  }
-
-  .careers-page .careers-hero__sub {
-    font-size: var(--fs-base);
-    color: rgba(255, 255, 255, 0.65);
-    max-width: 400px;
-    line-height: 1.8;
-  }
-
   /* ── WHY JOIN US – dark strip ── */
   .careers-page .careers-why {
     background: #111217;
@@ -743,43 +677,43 @@
 
 {{-- Page wrapper with scoped class --}}
 <div class="careers-page">
-  {{-- =============================================
-       HERO SECTION - CAREERS
+{{-- =============================================
+       HERO SECTION - CAREERS (USING COMMON HERO)
        ============================================= --}}
-  <section class="svc-pg__hero">
+<section class="page-hero">
     @if($careerbanner && $careerbanner->image)
-    <div class="svc-pg__hero-bg" style="background-image: url('{{ asset($careerbanner->image) }}');"></div>
+    <div class="page-hero__bg" style="background-image: url('{{ asset($careerbanner->image) }}');"></div>
     @endif
-    <div class="svc-pg__hero-overlay"></div>
+    <div class="page-hero__overlay"></div>
 
-    <div class="container svc-pg__hero-content">
-      <nav class="svc-pg__breadcrumb" aria-label="breadcrumb">
-        <a href="{{ route('home.index') }}">Home</a>
-        <span>/</span>
-        <span>Careers</span>
-      </nav>
+    <div class="container page-hero__content">
+        <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
+            <a href="{{ route('home.index') }}">Home</a>
+            <span class="page-hero__breadcrumb-sep">/</span>
+            <span class="current">Careers</span>
+        </nav>
 
-      @if($careerbanner && $careerbanner->title)
-      @php
-      $titleParts = explode('|', $careerbanner->title);
-      $firstLine = trim($titleParts[0] ?? '');
-      $secondLine = trim($titleParts[1] ?? '');
-      @endphp
-      <h1 class="svc-pg__hero-title">
-        {{ $firstLine }}
-        @if($secondLine)
-        <span class="svc-pg__accent">{{ $secondLine }}</span>
+        @if($careerbanner && $careerbanner->title)
+        @php
+        $titleParts = explode('|', $careerbanner->title);
+        $firstLine = trim($titleParts[0] ?? '');
+        $secondLine = trim($titleParts[1] ?? '');
+        @endphp
+        <h1 class="page-hero__title">
+            {{ $firstLine }}
+            @if($secondLine)
+            <span class="accent">{{ $secondLine }}</span>
+            @endif
+        </h1>
         @endif
-      </h1>
-      @endif
 
-      @if($careerbanner && $careerbanner->body)
-      <p class="svc-pg__hero-desc">
-        {!! strip_tags($careerbanner->body) !!}
-      </p>
-      @endif
+        @if($careerbanner && $careerbanner->body)
+        <p class="page-hero__desc">
+            {!! strip_tags($careerbanner->body) !!}
+        </p>
+        @endif
     </div>
-  </section>
+</section>
 
   {{-- =============================================
        WHY JOIN US
