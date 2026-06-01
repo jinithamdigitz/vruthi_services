@@ -43,11 +43,12 @@
 <meta name="twitter:image" content="{{ $ogImage }}">
 
     <link rel="icon" type="image/png" href="assets/favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet" />
+    {{-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" /> --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
@@ -103,40 +104,40 @@
 
     @yield('content')
 
-  <!-- =============================================
+    <!-- =============================================
        CTA SECTION - USING GLOBAL VARIABLE (NO FALLBACK)
        ============================================= -->
-@if(!request()->routeIs('contact*') && !request()->routeIs('contact') && $ctasection)
-<section class="home-cta" id="home-cta">
-    @if($ctasection->image)
-    <div class="home-cta__bg" style="background-image: url('{{ asset($ctasection->image) }}');"></div>
-    @endif
-    <div class="home-cta__bg-overlay"></div>
-    <div class="container home-cta__content text-center">
-        <span class="section-label cta-label">Let's Build Together</span>
-        
-        @if($ctasection->title)
-        <h2 class="section-title section-title--xl section-title--light mt-2 mb-3 cta-title-orange">
-            {{ $ctasection->title }}
-        </h2>
-        @endif
-        
-        @if($ctasection->body)
-        <p class="cta-body-white">
-            {{ strip_tags($ctasection->body) }}
-        </p>
-        @endif
-        
-        <a href="{{ route('contact') }}" class="btn-outline-custom btn-primary-custom cta-btn">
-            Get In Touch &nbsp;<i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
-</section>
-@endif
+    @if (!request()->routeIs('contact*') && !request()->routeIs('contact') && $ctasection)
+        <section class="home-cta" id="home-cta">
+            @if ($ctasection->image)
+                <div class="home-cta__bg" style="background-image: url('{{ asset($ctasection->image) }}');"></div>
+            @endif
+            <div class="home-cta__bg-overlay"></div>
+            <div class="container home-cta__content text-center">
+                <span class="section-label cta-label">Let's Build Together</span>
 
-  <!-- Orange thin solid divider -->
-  <hr class="orange-hr" />
-  <!-- =============================================
+                @if ($ctasection->title)
+                    <h2 class="section-title section-title--xl section-title--light mt-2 mb-3 cta-title-orange">
+                        {{ $ctasection->title }}
+                    </h2>
+                @endif
+
+                @if ($ctasection->body)
+                    <p class="cta-body-white">
+                        {{ strip_tags($ctasection->body) }}
+                    </p>
+                @endif
+
+                <a href="{{ route('contact') }}" class="btn-outline-custom btn-primary-custom cta-btn">
+                    Get In Touch &nbsp;<i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+    @endif
+
+    <!-- Orange thin solid divider -->
+    <hr class="orange-hr" />
+    <!-- =============================================
        FOOTER
        ============================================= -->
     <footer class="footer-outline" id="site-footer">
