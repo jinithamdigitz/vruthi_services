@@ -66,13 +66,40 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" 
-                                id="description" name="description" rows="5">{{ old('description') }}</textarea>
-                            @error('description')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+
+        <label for="description" class="mb-0">
+            Description
+        </label>
+
+        <div class="form-check">
+
+            <input type="checkbox"
+                   name="show_html"
+                   value="1"
+                   class="form-check-input"
+                   id="show_html"
+                   {{ old('show_html') ? 'checked' : '' }}>
+
+            <label class="form-check-label" for="show_html">
+                Enable CKEditor
+            </label>
+
+        </div>
+
+    </div>
+
+    <textarea class="form-control @error('description') is-invalid @enderror"
+              id="description"
+              name="description"
+              rows="8">{{ old('description') }}</textarea>
+
+    @error('description')
+        <span class="invalid-feedback">{{ $message }}</span>
+    @enderror
+
+</div>
 
                         <div class="form-group">
                             <label for="keyword">Keywords (SEO)</label>
@@ -93,3 +120,82 @@
     </div>
 </div>
 @endsection
+
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const checkbox = document.getElementById('show_html');
+    const textarea = document.getElementById('description');
+
+    let editorInstance = null;
+
+    function enableEditor() {
+
+        if (!editorInstance) {
+
+            ClassicEditor
+                .create(textarea)
+                .then(editor => {
+
+                    editorInstance = editor;
+
+                })
+                .catch(error => {
+
+                    console.error(error);
+
+                });
+        }
+    }
+
+    function disableEditor() {
+
+        if (editorInstance) {
+
+            let content = editorInstance.getData();
+
+            let plainText = content
+                .replace(/<[^>]*>/g, '')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/<\/p>/gi, '\n')
+                .replace(/<br\s*\/?>/gi, '\n')
+                .trim();
+
+            editorInstance.destroy()
+
+                .then(() => {
+
+                    editorInstance = null;
+
+                    textarea.value = plainText;
+
+                });
+        }
+    }
+
+    if (checkbox.checked) {
+
+        enableEditor();
+
+    }
+
+    checkbox.addEventListener('change', function () {
+
+        if (this.checked) {
+
+            enableEditor();
+
+        } else {
+
+            disableEditor();
+
+        }
+
+    });
+
+});
+
+</script>

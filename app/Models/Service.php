@@ -10,8 +10,13 @@ class Service extends Model
         'title',
         'slug',
         'body',
+        'show_html',
         'image',
         'icon_image',
-        'keyword'
+        'keyword',
+    ];
+
+    protected $casts = [
+        'show_html' => 'boolean',
     ];
 }

@@ -82,6 +82,7 @@ class PortfolioController extends Controller
             'title' => 'required|string|max:255|unique:portfolios,title',
             'slug' => 'nullable|string|max:255|unique:portfolios,slug',
             'body' => 'required|string',
+            'show_html' => 'nullable|in:0,1',
             'location' => 'nullable|string|max:255',
             'keywords' => 'nullable|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120'
@@ -98,6 +99,7 @@ class PortfolioController extends Controller
         }
 
         $portfolio->body = $request->body;
+        $portfolio->show_html = $request->has('show_html') ? 1 : 0;
         $portfolio->location = $request->location;
         $portfolio->keywords = $request->keywords;
 
@@ -132,6 +134,7 @@ class PortfolioController extends Controller
             'title' => 'required|string|max:255|unique:portfolios,title,' . $portfolio->id,
             'slug' => 'nullable|string|max:255|unique:portfolios,slug,' . $portfolio->id,
             'body' => 'required|string',
+            'show_html' => 'nullable|in:0,1',
             'location' => 'nullable|string|max:255',
             'keywords' => 'nullable|string|max:500',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120'
@@ -147,6 +150,7 @@ class PortfolioController extends Controller
         }
 
         $portfolio->body = $request->body;
+        $portfolio->show_html = $request->has('show_html') ? 1 : 0;
         $portfolio->location = $request->location;
         $portfolio->keywords = $request->keywords;
 

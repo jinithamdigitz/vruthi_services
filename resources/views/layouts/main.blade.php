@@ -2,11 +2,45 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Outline Architects | Project Management</title>
-    <meta name="description"
-        content="Outline Architects & Project Management - We design innovative office and commercial interiors that elevate experiences and reflect your brand." />
+   @php
+    $seoParameter = \App\Models\SeoParameter::where(
+        'route_name',
+        request()->path() == '/' ? '/' : '/' . request()->path()
+    )->first();
+
+    $defaultTitle = 'Outline Architects | Project Management';
+
+    $defaultDescription = 'Outline Architects & Project Management - We design innovative office and commercial interiors that elevate experiences and reflect your brand.';
+
+    $ogImage = !empty($seoParameter?->og_image)
+        ? asset('storage/' . $seoParameter->og_image)
+        : asset('uploads/default-og-image.webp');
+@endphp
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>{{ $seoParameter->meta_title ?? $defaultTitle }}</title>
+
+<meta name="description"
+      content="{{ $seoParameter->meta_description ?? $defaultDescription }}" />
+
+<meta property="og:title"
+      content="{{ $seoParameter->meta_title ?? $defaultTitle }}">
+
+<meta property="og:description"
+      content="{{ $seoParameter->meta_description ?? $defaultDescription }}">
+
+<meta property="og:image" content="{{ $ogImage }}">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title"
+      content="{{ $seoParameter->meta_title ?? $defaultTitle }}">
+<meta name="twitter:description"
+      content="{{ $seoParameter->meta_description ?? $defaultDescription }}">
+<meta name="twitter:image" content="{{ $ogImage }}">
 
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -66,9 +100,6 @@
             </div>
         </div>
     </nav>
-
-
-
 
     @yield('content')
 

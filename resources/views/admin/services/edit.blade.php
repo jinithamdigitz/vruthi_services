@@ -64,16 +64,41 @@
                         
                         {{-- Body / Description Field --}}
                         <div class="form-group">
-                            <label for="body">Description</label>
-                            <textarea name="body" 
-                                      id="body" 
-                                      class="form-control @error('body') is-invalid @enderror" 
-                                      rows="5" 
-                                      placeholder="Enter service description">{{ old('body', $service->body) }}</textarea>
-                            @error('body')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+
+        <label for="body" class="mb-0">
+            Description
+        </label>
+
+        <div class="form-check">
+
+            <input type="checkbox"
+                   name="show_html"
+                   value="1"
+                   class="form-check-input"
+                   id="show_html"
+                   {{ old('show_html', $service->show_html) ? 'checked' : '' }}>
+
+            <label class="form-check-label" for="show_html">
+                Enable CKEditor
+            </label>
+
+        </div>
+
+    </div>
+
+    <textarea name="body"
+              id="body"
+              class="form-control @error('body') is-invalid @enderror"
+              rows="8"
+              placeholder="Enter service description">{{ old('body', $service->body) }}</textarea>
+
+    @error('body')
+        <span class="invalid-feedback">{{ $message }}</span>
+    @enderror
+
+</div>
                         
                         {{-- Main Image Field --}}
                         <div class="form-group">
@@ -167,103 +192,80 @@
         </div>
     </div>
 </div>
-
-@push('scripts')
-<script>
-    // Auto-generate slug from title (only if field is empty or matches old title slug)
-    function slugify(text) {
-        return text.toString().toLowerCase()
-            .replace(/\s+/g, '-')
-            .replace(/[^\w\-]+/g, '')
-            .replace(/\-\-+/g, '-')
-            .replace(/^-+/, '')
-            .replace(/-+$/, '');
-    }
-    
-    let originalSlug = $('#slug').val();
-    
-    // Update slug preview
-    function updateSlugPreview(slug) {
-        if (slug) {
-            $('#previewUrl').text('{{ url("/service") }}/' + slug);
-        }
-    }
-    
-    // Generate slug from title
-    $('#title').on('keyup', function() {
-        var title = $(this).val();
-        var slugField = $('#slug');
-        
-        // Only auto-generate if slug field is empty OR same as originally auto-generated
-        if (slugField.val() === '' || slugField.val() === originalSlug) {
-            var generatedSlug = slugify(title);
-            slugField.val(generatedSlug);
-            originalSlug = generatedSlug;
-            updateSlugPreview(generatedSlug);
-        }
-    });
-    
-    // When user manually types in slug field
-    $('#slug').on('keyup', function() {
-        var slug = $(this).val();
-        originalSlug = slug;
-        updateSlugPreview(slug);
-    });
-    
-    // Main Image Preview
-    $('#image').on('change', function(e) {
-        const preview = $('#imagePreview');
-        const img = $('#previewImg');
-        
-        if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                img.attr('src', e.target.result);
-                preview.show();
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        } else {
-            preview.hide();
-        }
-    });
-    
-    // Icon Image Preview
-    $('#icon_image').on('change', function(e) {
-        const preview = $('#iconPreview');
-        const img = $('#iconPreviewImg');
-        
-        if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                img.attr('src', e.target.result);
-                preview.show();
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        } else {
-            preview.hide();
-        }
-    });
-    
-    // Custom file input label update
-    $('.custom-file-input').on('change', function(e) {
-        const fileName = e.target.files[0]?.name || 'Choose file';
-        const label = $(this).next('.custom-file-label');
-        label.text(fileName);
-    });
-</script>
-@endpush
-
-@push('styles')
-<style>
-    .custom-file-label::after {
-        content: "Browse";
-    }
-    #slugPreview {
-        padding: 5px 10px;
-        background: #f8f9fc;
-        border-radius: 4px;
-        font-size: 13px;
-    }
-</style>
-@endpush
 @endsection
+@push('scripts')
+
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const checkbox = document.getElementById('show_html');
+    const textarea = document.getElementById('body');
+
+    let editorInstance = null;
+
+    function enableEditor() {
+
+        if (!editorInstance) {
+
+            ClassicEditor
+                .create(textarea)
+                .then(editor => {
+                    editorInstance = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        }
+
+    }
+
+    function disableEditor() {
+
+        if (editorInstance) {
+
+            let content = editorInstance.getData();
+
+            let plainText = content
+                .replace(/<\/p>/gi, '\n')
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/<[^>]*>/g, '')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/[ \t]+/g, ' ')
+                .replace(/\n\s*\n/g, '\n\n')
+                .trim();
+
+            editorInstance.destroy().then(() => {
+
+                editorInstance = null;
+                textarea.value = plainText;
+
+            });
+
+        }
+
+    }
+
+    if (checkbox && checkbox.checked) {
+        enableEditor();
+    }
+
+    if (checkbox) {
+        checkbox.addEventListener('change', function () {
+
+            if (this.checked) {
+                enableEditor();
+            } else {
+                disableEditor();
+            }
+
+        });
+    }
+
+});
+</script>
+
+@endpush
+

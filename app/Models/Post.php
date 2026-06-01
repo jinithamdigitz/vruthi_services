@@ -16,6 +16,7 @@ protected $fillable = [
     'title',
     'slug',
     'body',
+    'show_html',
     'image',
     'video_url',
     'post_category_id',
@@ -183,10 +184,11 @@ protected $fillable = [
     /**
      * Casts for specific columns.
      */
-    protected $casts = [
-        'published' => 'boolean',
-        'featured' => 'boolean',
-    ];
+   protected $casts = [
+    'show_html' => 'boolean',
+    'published' => 'boolean',
+    'featured' => 'boolean',
+];
 
     /**
      * Relationship: Post belongs to a category.

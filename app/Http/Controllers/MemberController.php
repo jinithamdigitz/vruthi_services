@@ -78,6 +78,7 @@ class MemberController extends Controller
             'name' => 'required|string|max:255',
             'designation' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'show_html' => 'nullable|in:0,1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'slug' => 'nullable|string|max:255|unique:members,slug',
             'keyword' => 'nullable|string',
@@ -87,6 +88,7 @@ class MemberController extends Controller
         $member->name = $request->name;
         $member->designation = $request->designation;
         $member->description = $request->description;
+        $member->show_html = $request->has('show_html') ? 1 : 0;
         $member->keyword = $request->keyword;
 
         // Handle slug - auto generate if not provided
@@ -147,6 +149,7 @@ class MemberController extends Controller
             'name' => 'required|string|max:255',
             'designation' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'show_html' => 'nullable|in:0,1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'slug' => 'nullable|string|max:255|unique:members,slug,' . $id,
             'keyword' => 'nullable|string',
@@ -156,6 +159,7 @@ class MemberController extends Controller
         $member->name = $request->name;
         $member->designation = $request->designation;
         $member->description = $request->description;
+        $member->show_html = $request->has('show_html') ? 1 : 0;
         $member->keyword = $request->keyword;
 
         // Handle slug - only auto-generate if user left it empty

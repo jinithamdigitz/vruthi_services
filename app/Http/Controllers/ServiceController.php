@@ -73,6 +73,7 @@ class ServiceController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:services,slug',
             'body' => 'nullable|string',
+            'show_html' => 'nullable|in:0,1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
             'icon_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'keyword' => 'nullable|string|max:255',
@@ -97,6 +98,7 @@ class ServiceController extends Controller
         $service->slug = $slug;
         
         $service->body = $request->body;
+        $service->show_html = $request->has('show_html') ? 1 : 0;
         $service->keyword = $request->keyword;
 
         // Handle main image upload
@@ -169,6 +171,7 @@ class ServiceController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:services,slug,' . $id,
             'body' => 'nullable|string',
+            'show_html' => 'nullable|in:0,1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
             'icon_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'keyword' => 'nullable|string|max:255',
@@ -195,6 +198,7 @@ class ServiceController extends Controller
         }
         
         $service->body = $request->body;
+        $service->show_html = $request->has('show_html') ? 1 : 0;
         $service->keyword = $request->keyword;
 
         // Handle main image upload

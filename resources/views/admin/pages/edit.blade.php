@@ -69,13 +69,41 @@
         @endif
 
         <!-- Body -->
-        <div class="mb-3">
-            <label class="form-label">Body</label>
-            <textarea name="body" id="editor" rows="60" class="form-control">{{ old('body', $post->body) }}</textarea>
-            @error('body')
-            <small class="text-danger">{{ $message }}</small>
-            @enderror
+       <div class="mb-3">
+
+    <div class="d-flex align-items-center justify-content-between mb-2">
+
+        <label class="form-label mb-0">
+            Body
+        </label>
+
+        <div class="form-check">
+
+            <input type="checkbox"
+                   name="show_html"
+                   value="1"
+                   class="form-check-input"
+                   id="show_html"
+                   {{ old('show_html', $post->show_html ?? 0) ? 'checked' : '' }}>
+
+            <label class="form-check-label" for="show_html">
+                Enable CKEditor
+            </label>
+
         </div>
+
+    </div>
+
+    <textarea name="body"
+              id="bodyField"
+              rows="60"
+              class="form-control">{{ old('body', $post->body) }}</textarea>
+
+    @error('body')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+
+</div>
 
         @if($slug == 'achievements-and-milestones')
         <div class="mb-3">
@@ -254,14 +282,88 @@
 
     // Initialize CKEditor only for elements that exist
     document.addEventListener('DOMContentLoaded', function() {
-        const editorSelectors = ['#editor'];
+        const editorSelectors = [];
         
         // Add conditional editors if they exist
         if (document.querySelector('#section_one_left')) editorSelectors.push('#section_one_left');
         if (document.querySelector('#section_one_right')) editorSelectors.push('#section_one_right');
         if (document.querySelector('#section_two_left')) editorSelectors.push('#section_two_left');
         if (document.querySelector('#section_two_right')) editorSelectors.push('#section_two_right');
+const checkbox = document.getElementById('show_html');
+const textarea = document.getElementById('bodyField');
 
+let bodyEditor = null;
+
+function enableEditor() {
+
+    if (!bodyEditor) {
+
+        ClassicEditor
+            .create(textarea, {
+                extraPlugins: [MyCustomUploadAdapterPlugin]
+            })
+            .then(editor => {
+
+                bodyEditor = editor;
+
+            })
+            .catch(error => {
+
+                console.error(error);
+
+            });
+    }
+}
+
+function disableEditor() {
+
+    if (bodyEditor) {
+
+        let content = bodyEditor.getData();
+
+        let plainText = content
+            .replace(/<[^>]*>/g, '')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/<\/p>/gi, '\n')
+            .replace(/<br\s*\/?>/gi, '\n')
+            .trim();
+
+        bodyEditor.destroy()
+
+            .then(() => {
+
+                bodyEditor = null;
+
+                textarea.value = plainText;
+
+            });
+    }
+}
+
+// AUTO LOAD FROM DATABASE VALUE
+if (checkbox && checkbox.checked) {
+
+    enableEditor();
+
+}
+
+if (checkbox) {
+
+    checkbox.addEventListener('change', function () {
+
+        if (this.checked) {
+
+            enableEditor();
+
+        } else {
+
+            disableEditor();
+
+        }
+
+    });
+
+}
         editorSelectors.forEach(selector => {
             const element = document.querySelector(selector);
             if (element) {

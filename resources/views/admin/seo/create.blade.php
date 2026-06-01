@@ -12,20 +12,50 @@
 
                 <!-- THIS IS THE SELECT BOX YOUR SIR WANTS -->
                 <div class="mb-3">
-                    <label class="form-label">Select Page/Route <span class="text-danger">*</span></label>
-                    <select name="route_name" class="form-control @error('route_name') is-invalid @enderror" required>
-                        <option value="">-- Choose a page --</option>
-                        @foreach($routes as $route => $label)
-                            <option value="{{ $route }}" {{ old('route_name') == $route ? 'selected' : '' }}>
-                                {{ $label }} ({{ $route }})
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('route_name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                    <small class="text-muted">Select the page where you want to apply these SEO settings</small>
-                </div>
+    <label class="form-label">Select Page/Route</label>
+
+    <select id="route_select" class="form-control">
+        <option value="">-- Custom Route --</option>
+
+        @foreach($routes as $route => $label)
+            <option value="{{ $route }}">
+                {{ $label }} ({{ $route }})
+            </option>
+        @endforeach
+    </select>
+
+    <small class="text-muted">
+        Select an existing page or enter a custom route below.
+    </small>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">
+        Route Name <span class="text-danger">*</span>
+    </label>
+
+    <input type="text"
+           name="route_name"
+           id="route_name"
+           class="form-control @error('route_name') is-invalid @enderror"
+           value="{{ old('route_name') }}"
+           placeholder="/about or /service/interior-design"
+           required>
+
+    @error('route_name')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
+<script>
+document.getElementById('route_select').addEventListener('change', function () {
+
+    if (this.value !== '') {
+        document.getElementById('route_name').value = this.value;
+    }
+
+});
+</script>
 
                 <!-- SEO Fields -->
                 <div class="mb-3">

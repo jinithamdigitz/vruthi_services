@@ -14,10 +14,15 @@ class Member extends Model
         'name',
         'designation',
         'description',
+         'show_html',
         'image',
         'slug',
         'keyword'
     ];
+
+    protected $casts = [
+    'show_html' => 'boolean',
+];
 
     protected static function boot()
     {

@@ -68,14 +68,38 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="body">Body <span class="text-danger">*</span></label>
-                <textarea class="form-control @error('body') is-invalid @enderror"
-                    id="body" name="body" rows="8" required>{{ old('body') }}</textarea>
-                @error('body')
-                <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
+           <div class="form-group">
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <label for="body" class="mb-0">
+            Body <span class="text-danger">*</span>
+        </label>
+
+        <div class="form-check">
+            <input type="checkbox"
+       name="show_html"
+       value="1"
+       class="form-check-input"
+       id="show_html"
+       {{ old('show_html') ? 'checked' : '' }}>
+
+            <label class="form-check-label" for="show_html">
+                Enable CKEditor
+            </label>
+        </div>
+    </div>
+
+    <textarea class="form-control @error('body') is-invalid @enderror"
+        id="body"
+        name="body"
+        rows="8"
+        required>{{ old('body') }}</textarea>
+
+    @error('body')
+    <span class="invalid-feedback">{{ $message }}</span>
+    @enderror
+
+</div>
 
             <div class="form-group">
                 <label for="keywords">SEO Keywords</label>
@@ -111,19 +135,77 @@
     </form>
 </div>
 @stop
+@push('scripts')
 
-@section('js')
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
 <script>
-    $('#title').on('keyup', function() {
-        if ($('#slug').val() === '') {
-            let slug = $(this).val().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-            $('#slug').val(slug);
+document.addEventListener('DOMContentLoaded', function () {
+
+    const checkbox = document.getElementById('show_html');
+    const textarea = document.getElementById('body');
+
+    let editorInstance = null;
+
+    function enableEditor() {
+
+        if (!editorInstance) {
+
+            ClassicEditor
+                .create(textarea)
+                .then(editor => {
+                    editorInstance = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
         }
+
+    }
+
+    function disableEditor() {
+
+        if (editorInstance) {
+
+            let content = editorInstance.getData();
+
+            let plainText = content
+                .replace(/<[^>]*>/g, '')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/<\/p>/gi, '\n')
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/[ \t]+/g, ' ')
+                .replace(/\n\s*\n/g, '\n\n')
+                .trim();
+
+            editorInstance.destroy()
+                .then(() => {
+
+                    editorInstance = null;
+                    textarea.value = plainText;
+
+                });
+
+        }
+
+    }
+
+    if (checkbox.checked) {
+        enableEditor();
+    }
+
+    checkbox.addEventListener('change', function () {
+
+        if (this.checked) {
+            enableEditor();
+        } else {
+            disableEditor();
+        }
+
     });
 
-    $('.custom-file-input').on('change', function() {
-        let fileName = $(this).val().split('\\').pop();
-        $(this).next('.custom-file-label').addClass("selected").html(fileName);
-    });
+});
 </script>
-@stop
+
+@endpush

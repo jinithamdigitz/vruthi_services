@@ -62,17 +62,43 @@
                         </div>
                         
                         {{-- Body / Description Field --}}
-                        <div class="form-group">
-                            <label for="body">Description</label>
-                            <textarea name="body" 
-                                      id="body" 
-                                      class="form-control @error('body') is-invalid @enderror" 
-                                      rows="5" 
-                                      placeholder="Enter service description">{{ old('body') }}</textarea>
-                            @error('body')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        {{-- Body / Description Field --}}
+<div class="form-group">
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+
+        <label for="body" class="mb-0">
+            Description
+        </label>
+
+        <div class="form-check">
+
+            <input type="checkbox"
+                   name="show_html"
+                   value="1"
+                   class="form-check-input"
+                   id="show_html"
+                   {{ old('show_html') ? 'checked' : '' }}>
+
+            <label class="form-check-label" for="show_html">
+                Enable CKEditor
+            </label>
+
+        </div>
+
+    </div>
+
+    <textarea name="body"
+              id="body"
+              class="form-control @error('body') is-invalid @enderror"
+              rows="8"
+              placeholder="Enter service description">{{ old('body') }}</textarea>
+
+    @error('body')
+        <span class="invalid-feedback">{{ $message }}</span>
+    @enderror
+
+</div>
                         
                         {{-- Main Image Field --}}
                         <div class="form-group">
@@ -255,4 +281,81 @@
     }
 </style>
 @endpush
+
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const checkbox = document.getElementById('show_html');
+    const textarea = document.getElementById('body');
+
+    let editorInstance = null;
+
+    function enableEditor() {
+
+        if (!editorInstance) {
+
+            ClassicEditor
+                .create(textarea)
+                .then(editor => {
+
+                    editorInstance = editor;
+
+                })
+                .catch(error => {
+
+                    console.error(error);
+
+                });
+        }
+    }
+
+    function disableEditor() {
+
+        if (editorInstance) {
+
+            let content = editorInstance.getData();
+
+            let plainText = content
+                .replace(/<[^>]*>/g, '')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/<\/p>/gi, '\n')
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/[ \t]+/g, ' ')
+                .replace(/\n\s*\n/g, '\n\n')
+                .trim();
+
+            editorInstance.destroy()
+                .then(() => {
+
+                    editorInstance = null;
+
+                    textarea.value = plainText;
+
+                });
+        }
+    }
+
+    if (checkbox.checked) {
+
+        enableEditor();
+
+    }
+
+    checkbox.addEventListener('change', function () {
+
+        if (this.checked) {
+
+            enableEditor();
+
+        } else {
+
+            disableEditor();
+
+        }
+
+    });
+
+});
+</script>
 @endsection

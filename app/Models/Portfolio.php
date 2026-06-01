@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +8,16 @@ use Illuminate\Support\Str;
 
 class Portfolio extends Model
 {
-    protected $fillable = ['portfolio_category_id', 'title', 'slug', 'body', 'image', 'location', 'keywords'];
+    protected $fillable = [
+        'portfolio_category_id',
+        'title',
+        'slug',
+        'body',
+        'show_html',
+        'image',
+        'location',
+        'keywords'
+    ];
 
     protected static function boot()
     {
@@ -32,8 +40,15 @@ class Portfolio extends Model
         });
     }
 
+    protected $casts = [
+        'show_html' => 'boolean',
+    ];
+
     public function category(): BelongsTo
     {
-        return $this->belongsTo(PortfolioCategory::class, 'portfolio_category_id');
+        return $this->belongsTo(
+            PortfolioCategory::class,
+            'portfolio_category_id'
+        );
     }
 }

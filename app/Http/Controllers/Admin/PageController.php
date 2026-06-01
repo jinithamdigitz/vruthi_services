@@ -43,7 +43,8 @@ class PageController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'body' => 'nullable|string',
+            'body' => 'nullable|string',       
+            'show_html' => 'nullable|in:0,1',
             'post_category_id' => 'required|exists:post_categories,id',
             'image' => 'nullable|image|max:10240',
             'video_url' => 'nullable|url',
@@ -72,6 +73,7 @@ class PageController extends Controller
             $slug = $original . '-' . $count++;
         }
         $validated['slug'] = $slug;
+        $validated['show_html'] = $request->has('show_html') ? 1 : 0;
 
         // ✅ MAIN IMAGE - FIXED: Use ONLY the title, no prefix
         if ($request->hasFile('image')) {
@@ -187,6 +189,7 @@ class PageController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'nullable|string',
+            'show_html' => 'nullable|in:0,1',
             'post_category_id' => 'required|exists:post_categories,id',
             'image' => 'nullable|image|max:10240',
             'video_url' => 'nullable|url',
@@ -215,6 +218,7 @@ class PageController extends Controller
             $slug = $original . '-' . $count++;
         }
         $validated['slug'] = $slug;
+        $validated['show_html'] = $request->has('show_html') ? 1 : 0;
 
         // ✅ MAIN IMAGE UPDATE - FIXED: Use ONLY the title, no prefix
         if ($request->hasFile('image')) {

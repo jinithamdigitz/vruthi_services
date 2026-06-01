@@ -17,19 +17,7 @@ class SeoParameterController extends Controller
     public function create()
     {
         // Create an array of all routes in your application
-        $routes = [
-            '/' => 'Home',
-            '/about' => 'About Us',
-            '/services' => 'Services',
-            '/portfolio' => 'Portfolio',
-            '/blogs' => 'Blogs',
-            '/contact' => 'Contact',
-            '/programs' => 'Programs',
-            '/events' => 'Events',
-            '/projects' => 'Projects',
-            '/facilities' => 'Facilities',
-            // Add more routes as needed
-        ];
+        $routes = [];
 
         return view('admin.seo.create', compact('routes'));
     }

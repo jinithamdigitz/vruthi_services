@@ -171,7 +171,13 @@
                     <div class="about-pg__team-body">
                         <h5>{{ $member->name }}</h5>
                         <span class="about-pg__team-role">{{ $member->designation }}</span>
-                        <p>{{ $member->description }}</p>
+                        @if($member->show_html)
+    <div class="member-description">
+        {!! $member->description !!}
+    </div>
+@else
+    <p>{{ $member->description }}</p>
+@endif
                     </div>
                 </div>
             </div>
