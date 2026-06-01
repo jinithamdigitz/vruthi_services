@@ -19,6 +19,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
 
+    @php
+        $customCss = \App\Models\CustomCss::latest()->first();
+    @endphp
+
+    @if ($customCss && !empty($customCss->content_css))
+        <style>
+            {!! $customCss->content_css !!}
+        </style>
+    @endif
 
 </head>
 
@@ -262,6 +271,17 @@
                 observer.observe(el);
             });
     </script>
+
+    @php
+        $customJavascript = \App\Models\CustomJavascript::latest()->first();
+    @endphp
+
+    @if ($customJavascript && !empty($customJavascript->content_script))
+        <script>
+            {!! $customJavascript->content_script !!}
+        </script>
+    @endif
+
 </body>
 
 </html>
