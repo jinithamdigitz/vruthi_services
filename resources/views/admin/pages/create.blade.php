@@ -284,10 +284,7 @@
                 console.error(error);
             });
     });
-</script>
 
-
-@endsection
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -363,3 +360,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
+
+</script>
+
+@endsection

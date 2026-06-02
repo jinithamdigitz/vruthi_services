@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 01, 2026 at 02:00 PM
+-- Generation Time: Jun 02, 2026 at 02:08 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.1.31
 
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `contacts` (
 
 INSERT INTO `contacts` (`id`, `name`, `email`, `phone`, `project_type`, `message`, `is_read`, `created_at`, `updated_at`) VALUES
 (1, 'cilfa', 'cilfamdigitz@gmail.com', '9878678767', 'abc', 'abcefghifklmop', 0, '2026-05-18 07:49:21', '2026-05-18 07:49:21'),
-(2, 'Cilfa Vj', 'cilfamdigitz@gmail.com', '6787875645', 'abc', 'jhgfdshgftdszxcv', 0, '2026-05-27 00:17:29', '2026-05-27 00:17:29');
+(2, 'Cilfa Vj', 'cilfamdigitz@gmail.com', '6787875645', 'abc', 'jhgfdshgftdszxcv', 1, '2026-05-27 00:17:29', '2026-06-02 05:55:39');
 
 -- --------------------------------------------------------
 
@@ -579,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   UNIQUE KEY `posts_slug_unique` (`slug`),
   KEY `posts_post_category_id_foreign` (`post_category_id`),
   KEY `posts_user_id_foreign` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=301 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `posts`
@@ -588,7 +588,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video_url`, `post_category_id`, `user_id`, `published`, `created_at`, `updated_at`, `featured`, `gallery_category_id`) VALUES
 (243, 'Designing Spaces. | Inspiring Business.', 'designing-spaces-inspiring-business', '<p>We create innovative office and commercial interiors that elevate experiences and reflect your brand.</p>', 1, 'posts/designing-spaces-inspiring-business.webp', NULL, 56, 1, 0, '2026-05-18 00:15:33', '2026-06-01 06:07:46', NULL, NULL),
 (244, 'About Outline', 'about-outline', '<h2><strong>10+</strong></h2><p>Years Of<br>Experience</p>', 0, NULL, NULL, 57, 1, 0, '2026-05-18 01:44:17', '2026-05-18 02:03:22', NULL, NULL),
-(245, 'We Design. We Plan.We Deliver Excellence.', 'we-design-we-planwe-deliver-excellence', '<p>Outline Architects | Project Management is a multidisciplinary design firm specialising in office interiors, commercial interiors, workspace planning and end-to-end project management. We blend creativity, functionality and precision to deliver spaces that inspire productivity and growth.</p>', 0, 'posts/we-design-we-planwe-deliver-excellence.webp', NULL, 58, 1, 0, '2026-05-18 01:45:05', '2026-05-28 05:30:02', NULL, NULL),
+(245, 'ABOUT OUTLINE ARCHITECTS IN KOCHI', 'about-outline-architects-in-kochi', '<p><i>Every workspace has the power to influence how people think, collaborate, and grow. Thoughtful design is not just about aesthetics - it is about creating environments that improve functionality, productivity, and everyday experiences.</i></p><p>Outline Developers is a commercial interior and architectural solutions company based in Kochi, specializing in modern office spaces, workplace interiors, and complete commercial project execution.</p><p>We create work environments that are functional, refined, and aligned with the evolving needs of modern businesses. From workspace planning and interior concepts to execution and finishing, every project is approached with attention to detail, practicality, and visual balance. Our expertise spans office interiors, collaborative workspaces, corporate environments, branding-integrated interiors, and customized commercial solutions designed to enhance both employee experience and business identity. Driven by a design-focused and execution-oriented approach, Outline Developers combines creativity, planning, and technical precision to deliver commercial spaces that are modern, efficient, and built with purpose.</p>', 1, 'posts/we-design-we-planwe-deliver-excellence.webp', NULL, 58, 1, 0, '2026-05-18 01:45:05', '2026-06-02 08:34:19', NULL, NULL),
 (246, 'What We Do', 'what-we-do', '<h2><strong>Our Services</strong></h2>', 0, 'posts/what-we-do.webp', NULL, 59, 1, 0, '2026-05-18 03:58:22', '2026-05-28 05:30:02', NULL, NULL),
 (247, 'Spaces That Speak Excellence', 'spaces-that-speak-excellence', '<p>Explore our portfolio of office and commercial projects crafted with creativity, detail and precision.</p>', 0, NULL, NULL, 60, 1, 0, '2026-05-18 05:21:35', '2026-05-18 05:21:35', NULL, NULL),
 (248, 'TechCorp Offices', 'techcorp-offices', '<p>Pune</p>', 0, 'posts/techcorp-offices.webp', NULL, 61, 1, 0, '2026-05-18 05:22:09', '2026-05-28 05:30:02', NULL, NULL),
@@ -596,9 +596,9 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (250, 'Corporate Headquarters', 'corporate-headquarters', '<p>Mumbai</p>', 0, 'posts/corporate-headquarters.webp', NULL, 61, 1, 0, '2026-05-18 05:23:43', '2026-05-28 05:30:02', NULL, NULL),
 (251, 'Project Experience Center', 'project-experience-center', '<p>Delhi</p>', 0, 'posts/project-experience-center.webp', NULL, 61, 1, 0, '2026-05-18 05:24:18', '2026-05-28 05:30:02', NULL, NULL),
 (252, 'Fintech Hub', 'fintech-hub', '<p>Hyderabad</p>', 0, 'posts/fintech-hub.webp', NULL, 61, 1, 0, '2026-05-18 05:24:46', '2026-05-28 05:30:02', NULL, NULL),
-(253, 'Creative Studio', 'creative-studio', '<p>Chennai</p>', 0, 'posts/creative-studio.webp', NULL, 61, 1, 0, '2026-05-18 05:25:15', '2026-05-28 05:30:02', NULL, NULL),
+(253, 'Creative Studio', 'creative-studio', '<p>Chennai</p>', 1, 'posts/creative-studio.webp', NULL, 61, 1, 0, '2026-05-18 05:25:15', '2026-06-02 08:14:20', NULL, NULL),
 (254, 'Why Choose Us', 'why-choose-us', '<h4><strong>Our Promise</strong></h4><p>To deliver innovative, sustainable and functional spaces that elevate business and inspire people.</p>', 0, NULL, NULL, 62, 1, 0, '2026-05-18 06:19:22', '2026-05-18 06:32:08', NULL, NULL),
-(255, 'We Create More Than Just Spaces', 'we-create-more-than-just-spaces', '<ul><li>Creative &amp; Functional Designs<br>&nbsp;</li><li>End-to-End Solutions<br>&nbsp;</li><li>Timely Delivery<br>&nbsp;</li><li>Quality Assurance<br>&nbsp;</li><li>Client-Centric Approach</li></ul>', 0, 'posts/we-create-more-than-just-spaces.webp', NULL, 52, 1, 0, '2026-05-18 06:20:40', '2026-05-28 05:30:03', NULL, NULL),
+(255, 'We Create More Than Just Spaces', 'we-create-more-than-just-spaces', '<ul><li>Creative &amp; Functional Designs</li><li>&nbsp;End-to-End Solutions</li><li>Timely Delivery</li><li>Timely Delivery</li><li>Quality Assurance<br>&nbsp;</li></ul>', 1, 'posts/we-create-more-than-just-spaces.webp', NULL, 52, 1, 0, '2026-05-18 06:20:40', '2026-06-02 07:19:27', NULL, NULL),
 (256, '10+', '10', '<p>Years Of Experience</p>', 0, 'posts/10.webp', NULL, 4, 1, 0, '2026-05-18 06:45:38', '2026-05-28 05:30:03', NULL, NULL),
 (257, '250+', '250', '<p>Projects Completed</p>', 0, 'posts/250.webp', NULL, 4, 1, 0, '2026-05-18 06:46:11', '2026-05-28 05:30:03', NULL, NULL),
 (258, '150+', '150', '<p>Happy Clients</p>', 0, 'posts/150.webp', NULL, 4, 1, 0, '2026-05-18 06:46:36', '2026-05-28 05:30:03', NULL, NULL),
@@ -607,7 +607,7 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (261, 'Outline Architects transformed our workspace into a modern, collaborative environment. Their attention to detail and professionalism is exceptional.', 'outline-architects-transformed-our-workspace-into-a-modern-collaborative-environment-their-attention-to-detail-and-professionalism-is-exceptional', '<p><strong>Rohit Sharma</strong></p><p>CEO, TechCorp Solutions</p>', 0, 'posts/outline-architects-transformed-our-workspace-into-a-modern-collaborative-environment-their-attention-to-detail-and-professionalism-is-exceptional.webp', NULL, 8, 1, 0, '2026-05-18 06:52:34', '2026-05-28 05:30:03', NULL, NULL),
 (262, 'A highly creative and professional team. They delivered our project on time with outstanding quality and commitment to excellence.', 'a-highly-creative-and-professional-team-they-delivered-our-project-on-time-with-outstanding-quality-and-commitment-to-excellence', '<p><strong>Anita Verma</strong></p><p>Director, Innovate Pvt. Ltd.</p>', 0, 'posts/a-highly-creative-and-professional-team-they-delivered-our-project-on-time-with-outstanding-quality-and-commitment-to-excellence.webp', NULL, 8, 1, 0, '2026-05-18 06:53:36', '2026-05-28 05:30:03', NULL, NULL),
 (263, 'From planning to execution, the experience was seamless. Our new office truly reflects our brand and boosts team morale every day.', 'from-planning-to-execution-the-experience-was-seamless-our-new-office-truly-reflects-our-brand-and-boosts-team-morale-every-day', '<p><strong>Karan Mehta</strong></p><p>Founder, Creative Studio</p>', 0, 'posts/from-planning-to-execution-the-experience-was-seamless-our-new-office-truly-reflects-our-brand-and-boosts-team-morale-every-day.webp', NULL, 8, 1, 0, '2026-05-18 06:54:13', '2026-05-28 05:30:03', NULL, NULL),
-(264, 'Let\'s Discuss Your Project', 'lets-discuss-your-project', '<p>Share your ideas with us and let\'s build spaces that inspire, engage and elevate your business.</p>', 0, 'posts/lets-discuss-your-project.webp', NULL, 64, 1, 0, '2026-05-18 07:09:08', '2026-05-28 05:30:04', NULL, NULL),
+(264, 'Let\'s Discuss Your Project', 'lets-discuss-your-project', '<p>If you have a project you would like to discuss, get in touch with us.</p>', 1, 'posts/lets-discuss-your-project.webp', NULL, 64, 1, 0, '2026-05-18 07:09:08', '2026-06-02 07:44:40', NULL, NULL),
 (265, '+91 98765-43210', '91-98765-43210', NULL, 0, NULL, NULL, 10, 1, 0, '2026-05-18 07:35:08', '2026-05-18 07:35:08', NULL, NULL),
 (266, 'info@outlinespace.com', 'info-at-outlinespacecom', NULL, 0, NULL, NULL, 11, 1, 0, '2026-05-18 07:35:46', '2026-05-18 07:35:46', NULL, NULL),
 (267, '7th Floor, Inspire Tower, Baker Road, Pune – 411045 Maharashtra, India', '7th-floor-inspire-tower-baker-road-pune-411045-maharashtra-india', NULL, 0, NULL, NULL, 12, 1, 0, '2026-05-18 07:36:09', '2026-05-18 07:36:09', NULL, NULL),
@@ -637,7 +637,8 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (291, 'Inspiring Projects', 'inspiring-projects', '<p>Be part of impactful architectural and interior projects that shape modern and functional spaces.</p>', 0, 'posts/inspiring-projects.webp', NULL, 82, 1, 0, '2026-05-28 01:10:30', '2026-05-28 05:30:08', NULL, NULL),
 (292, 'Supportive Team', 'supportive-team', '<p>Join a passionate and friendly team that values teamwork, respect, and professional growth.</p>', 0, 'posts/supportive-team.webp', NULL, 82, 1, 0, '2026-05-28 01:11:11', '2026-05-28 05:30:08', NULL, NULL),
 (293, 'outlinearchitects', 'outlinearchitects', '<p>outlinearchitects</p>', 0, 'posts/outlinearchitects.webp', NULL, 14, 1, 0, '2026-05-28 01:44:38', '2026-05-28 05:30:09', NULL, NULL),
-(294, 'We design and deliver innovative office and commercial interiors with creativity, precision and passion.', 'we-design-and-deliver-innovative-office-and-commercial-interiors-with-creativity-precision-and-passion', '<p>Stay connected with us on social media for updates, project showcases and design inspiration.</p>', 0, NULL, NULL, 83, 1, 0, '2026-05-28 01:56:38', '2026-05-28 01:56:38', NULL, NULL);
+(294, 'We design and deliver innovative office and commercial interiors with creativity, precision and passion.', 'we-design-and-deliver-innovative-office-and-commercial-interiors-with-creativity-precision-and-passion', '<p>Stay connected with us on social media for updates, project showcases and design inspiration.</p>', 0, NULL, NULL, 83, 1, 0, '2026-05-28 01:56:38', '2026-05-28 01:56:38', NULL, NULL),
+(300, 'Outline architect', 'outline-architect', NULL, 0, 'posts/outline-architect.webp', NULL, 84, 1, 0, '2026-06-02 08:37:33', '2026-06-02 08:37:33', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -654,7 +655,7 @@ CREATE TABLE IF NOT EXISTS `post_categories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `post_categories_slug_unique` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `post_categories`
@@ -733,7 +734,8 @@ INSERT INTO `post_categories` (`id`, `name`, `slug`, `created_at`, `updated_at`)
 (80, 'contact banner', 'contact-banner', '2026-05-27 00:59:57', '2026-05-27 00:59:57'),
 (81, 'careers banner', 'careers-banner', '2026-05-28 00:28:22', '2026-05-28 00:28:22'),
 (82, 'career highlights', 'career-highlights', '2026-05-28 01:08:05', '2026-05-28 01:08:05'),
-(83, 'footer content', 'footer-content', '2026-05-28 01:49:21', '2026-05-28 01:49:21');
+(83, 'footer content', 'footer-content', '2026-05-28 01:49:21', '2026-05-28 01:49:21'),
+(84, 'apply job banner', 'apply-job-banner', '2026-06-02 08:36:59', '2026-06-02 08:36:59');
 
 -- --------------------------------------------------------
 

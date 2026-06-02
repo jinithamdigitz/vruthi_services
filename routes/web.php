@@ -214,11 +214,11 @@ Route::get('/cookie-policy', function () {
 
 Route::post('/contact-submit', [ContactSubmissionController::class, 'store'])->name('contact.submit');
 
-Route::prefix('admin')->middleware(['auth'])->group(function () {
-    Route::get('/contact-submissions', [ContactSubmissionController::class, 'index'])->name('admin.contact.index');
-    Route::get('/contact-submissions/{slug}', [ContactSubmissionController::class, 'show'])->name('admin.contact.show');
-    Route::delete('/contact-submissions/{slug}', [ContactSubmissionController::class, 'destroy'])->name('admin.contact.destroy');
-});
+// Route::prefix('admin')->middleware(['auth'])->group(function () {
+//     Route::get('/contact-submissions', [ContactSubmissionController::class, 'index'])->name('admin.contact.index');
+//     Route::get('/contact-submissions/{slug}', [ContactSubmissionController::class, 'show'])->name('admin.contact.show');
+//     Route::delete('/contact-submissions/{slug}', [ContactSubmissionController::class, 'destroy'])->name('admin.contact.destroy');
+// });
 
 Route::prefix('admin')->middleware(['auth', 'route.access'])->name('admin.')->group(function () {
     Route::resource('project-categories', AdminProjectCategoryController::class);
@@ -298,6 +298,14 @@ Route::prefix('admin')
             CustomJavascriptController::class
         );
     });
+
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+
+    Route::get('/contact-request', [ContactController::class, 'adminIndex'])
+        ->name('admin.contacts.index');
+
+});
 
 // ============ DYNAMIC SLUG ROUTE - MUST BE LAST ============
 Route::get('/{slug}', function ($slug) {

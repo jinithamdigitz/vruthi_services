@@ -57,11 +57,12 @@ class ContactController extends Controller
     /**
      * Display all contact messages (Admin).
      */
-    public function adminIndex()
-    {
-        $contacts = Contact::latest()->paginate(20);
-        return view('admin.contacts.index', compact('contacts'));
-    }
+public function adminIndex()
+{
+    $submissions = Contact::latest()->paginate(20);
+
+    return view('admin.contact-requests.index', compact('submissions'));
+}
 
     /**
      * Display a single contact message (Admin).

@@ -1,76 +1,124 @@
 @extends('layouts.admin')
 
 @section('content')
+
 <div class="container-fluid">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Contact Requests</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            Contact Enquiries
+        </h3>
     </div>
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+    <div class="card-body table-responsive">
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">All Contact Requests</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Subject</th>
-                            <th>Message</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($contactRequests as $request)
-                        <tr>
-                            <td>{{ $request->id }}</td>
-                            <td>{{ $request->name }}</td>
-                            <td>
-                                <a href="mailto:{{ $request->email }}">{{ $request->email }}</a>
-                            </td>
-                            <td>{{ $request->subject }}</td>
-                            <td>
-                                {{ Str::limit($request->message, 50) }}
-                            </td>
-                            <td>{{ $request->created_at->format('M d, Y H:i') }}</td>
-                            <td>
-                                <form action="{{ route('admin.contact-requests.destroy', $request->id) }}" 
-                                      method="POST" 
-                                      class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" 
-                                            class="btn btn-sm btn-danger" 
-                                            onclick="return confirm('Are you sure you want to delete this request?')">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="7" class="text-center">No contact requests found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="d-flex justify-content-center mt-4">
-                {{ $contactRequests->links() }}
-            </div>
-        </div>
+        <table class="table table-bordered table-hover">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Project Type</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th width="120">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @forelse($submissions as $submission)
+
+                    <tr>
+
+                        <td>
+                            {{ $submission->id }}
+                        </td>
+
+                        <td>
+                            {{ $submission->name }}
+                        </td>
+
+                        <td>
+                            <a href="mailto:{{ $submission->email }}">
+                                {{ $submission->email }}
+                            </a>
+                        </td>
+
+                        <td>
+                            {{ $submission->phone ?? '-' }}
+                        </td>
+
+                        <td>
+                            {{ $submission->project_type ?? '-' }}
+                        </td>
+
+                        <td style="max-width:300px; white-space:normal;">
+                            {{ $submission->message }}
+                        </td>
+
+                        <td>
+                            @if($submission->is_read)
+                                <span class="badge badge-success">
+                                    Read
+                                </span>
+                            @else
+                                <span class="badge badge-danger">
+                                    Unread
+                                </span>
+                            @endif
+                        </td>
+
+                        <td>
+                            {{ $submission->created_at->format('d M Y h:i A') }}
+                        </td>
+
+                        <td>
+
+                            <form action="{{ route('admin.contacts.destroy', $submission->id) }}"
+                                  method="POST"
+                                  onsubmit="return confirm('Delete this enquiry?')">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+                        <td colspan="9" class="text-center">
+                            No enquiries found.
+                        </td>
+                    </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
     </div>
+
+    <div class="card-footer">
+        {{ $submissions->links() }}
+    </div>
+
 </div>
+
+</div>
+
 @endsection
