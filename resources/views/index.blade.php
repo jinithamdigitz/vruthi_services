@@ -348,8 +348,8 @@
 
         <!-- Left: Form -->
         <div class="col-lg-6">
-          <span class="section-label contact-heading-label">Get In Touch</span>
-          <h2 class="cta-section-title section-title--md section-title--light mb-4">We'd Love To Hear From You</h2>
+          <span class="section-label contact-heading-label">{{ $contactContent->title ?? '' }}</span>
+          <h2 class="cta-section-title section-title--md section-title--light mb-4">{{ $contactContent->body ?? '' }}</h2>
 
           @if(session('success'))
           <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -434,7 +434,7 @@
             @endforeach
             @endif
 
-            {{-- Global Timings --}}
+            {{-- Global Timings --}}  
             @if($globalTimings)
             <div class="contact-info-item">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">

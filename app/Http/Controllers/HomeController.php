@@ -120,7 +120,11 @@ class HomeController extends Controller
         }
 
 
-
+        $category = PostCategory::where('slug', 'contact-content')->first();
+        $contactContent = [];
+        if ($category) {
+            $contactContent = Post::where('post_category_id', $category->id)->first();
+        }
 
         $category = PostCategory::where('slug', 'phone')->first();
 
@@ -150,6 +154,7 @@ class HomeController extends Controller
             'featured_work' => $featured_work,
             'whychooseus' => $whychooseus,
             'whychooseustitle' => $whychooseustitle,
+            'contactContent' => $contactContent,
         ]);
     }
 

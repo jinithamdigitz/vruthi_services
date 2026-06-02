@@ -56,646 +56,802 @@
 
     <style>
         /* ============================================
-           BRAND COLOR VARIABLES - BLUE THEME
-        ============================================ */
-        :root {
-            --brand-blue-dark: #0a2b4e;
-            --brand-blue-primary: #1e3a8a;
-            --brand-blue-ocean: #2563eb;
-            --brand-blue-sky: #3b82f6;
-            --brand-blue-light: #60a5fa;
-            --brand-blue-soft: #93c5fd;
-            --brand-white: #ffffff;
+   OUTLINEARCHITECTURES - BLACK & ORANGE THEME (COMPLETE FIX)
+   ============================================ */
 
-            /* Derived */
-            --brand-dark-blue: #0f2c59;
-            --brand-light-bg: #f0f9ff;
-            --brand-glass-bg: rgba(255, 255, 255, 0.12);
-            --brand-glass-border: rgba(255, 255, 255, 0.25);
+        /* CSS Variables */
+        :root {
+            --oa-orange: #C8622A;
+            --oa-orange-dark: #A84E1E;
+            --oa-orange-light: #E07840;
+            --oa-orange-soft: #F5A97F;
+            --oa-black: #000000;
+            --oa-black-dark: #0A0A0A;
+            --oa-black-light: #1A1A1A;
+            --oa-gray: #2A2A2A;
+            --oa-gray-light: #3A3A3A;
+            --oa-white: #FFFFFF;
         }
 
         /* ============================================
-           SIDEBAR - Rich Dark Blue Gradient
-        ============================================ */
+   GLOBAL TEXT COLORS
+   ============================================ */
+        body,
+        .app-main,
+        .app-content {
+            background: var(--oa-white) !important;
+            color: #000000 !important;
+        }
+
+        /* ALL text on black backgrounds MUST be white */
+        .bg-dark,
+        .bg-black,
+        [style*="background-color: black"],
+        [style*="background:#000"],
+        .sidebar-dark-primary,
+        .app-sidebar,
+        .app-footer,
+        .modal-header,
+        .card-header.bg-dark,
+        .card-header.bg-black {
+            color: var(--oa-white) !important;
+        }
+
+        .app-header.navbar {
+            background: #000000 !important;
+            background: linear-gradient(90deg, #000000 0%, #0A0A0A 50%, #111111 100%) !important;
+            border-bottom: 2px solid var(--oa-orange);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ============================================
+   SIDEBAR - BLACK BACKGROUND, WHITE TEXT
+   ============================================ */
         .app-sidebar {
-            background: linear-gradient(160deg, #0a1628 0%, #0a2b4e 40%, #1e3a8a 100%) !important;
+            background: #000000 !important;
+            background: linear-gradient(180deg, #000000 0%, #0A0A0A 50%, #111111 100%) !important;
+        }
+
+        .app-sidebar * {
+            color: var(--oa-white) !important;
         }
 
         .sidebar-brand {
-            background: rgba(0, 0, 0, 0.25) !important;
-            border-bottom: 1px solid var(--brand-glass-border);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.5) !important;
+            border-bottom: 1px solid var(--oa-orange);
         }
 
         .brand-link {
-            color: var(--brand-white) !important;
-            background: transparent !important;
+            color: var(--oa-white) !important;
         }
 
         .brand-link:hover {
-            background: var(--brand-glass-bg) !important;
+            background: rgba(200, 98, 42, 0.15) !important;
         }
 
         /* Nav Headers */
         .nav-header {
-            color: var(--brand-blue-soft) !important;
+            color: var(--oa-orange) !important;
             font-weight: 700;
-            letter-spacing: 1px;
-            font-size: 0.7rem;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
+            font-size: 0.7rem;
         }
 
         /* Main Nav Links */
         .nav-sidebar>.nav-item>.nav-link {
-            color: rgba(255, 255, 255, 0.85) !important;
+            color: var(--oa-white) !important;
             background: transparent !important;
             border-left: 3px solid transparent;
-            transition: all 0.25s ease;
         }
 
         .nav-sidebar>.nav-item>.nav-link:hover {
-            background: var(--brand-glass-bg) !important;
-            backdrop-filter: blur(6px);
-            color: var(--brand-white) !important;
-            border-left: 3px solid var(--brand-blue-sky);
+            background: rgba(200, 98, 42, 0.2) !important;
+            color: var(--oa-white) !important;
+            border-left: 3px solid var(--oa-orange);
         }
 
         .nav-sidebar>.nav-item>.nav-link.active {
-            background: linear-gradient(90deg, var(--brand-blue-ocean) 0%, var(--brand-blue-sky) 100%) !important;
-            color: var(--brand-white) !important;
-            border-left: 3px solid var(--brand-white);
-            box-shadow: 0 2px 12px rgba(37, 99, 235, 0.45);
+            background: linear-gradient(90deg, var(--oa-orange) 0%, var(--oa-orange-light) 100%) !important;
+            color: var(--oa-white) !important;
+            border-left: 3px solid var(--oa-white);
+            box-shadow: 0 2px 12px rgba(200, 98, 42, 0.5);
         }
 
         /* Nav Icons */
         .nav-sidebar .nav-icon {
-            color: var(--brand-blue-light) !important;
+            color: var(--oa-orange) !important;
         }
 
         .nav-sidebar>.nav-item>.nav-link.active .nav-icon {
-            color: var(--brand-white) !important;
+            color: var(--oa-white) !important;
         }
 
         /* Treeview */
         .nav-treeview {
-            background: rgba(0, 0, 0, 0.2) !important;
-            border-left: 2px solid rgba(59, 130, 246, 0.35);
-            margin-left: 8px;
+            background: rgba(0, 0, 0, 0.5) !important;
+            border-left: 2px solid var(--oa-orange);
         }
 
         .nav-treeview .nav-link {
-            color: rgba(255, 255, 255, 0.7) !important;
-            background: transparent !important;
-            transition: all 0.2s ease;
-            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.85) !important;
         }
 
         .nav-treeview .nav-link:hover {
-            background: var(--brand-glass-bg) !important;
-            color: var(--brand-white) !important;
-            padding-left: 1.5rem;
+            background: rgba(200, 98, 42, 0.2) !important;
+            color: var(--oa-white) !important;
         }
 
         .nav-treeview .nav-link.active {
-            background: linear-gradient(90deg, rgba(37, 99, 235, 0.35) 0%, transparent 100%) !important;
-            color: var(--brand-white) !important;
-            border-left: 2px solid var(--brand-blue-sky);
+            background: linear-gradient(90deg, rgba(200, 98, 42, 0.3) 0%, transparent 100%) !important;
+            color: var(--oa-white) !important;
+            border-left: 2px solid var(--oa-orange);
         }
 
         /* Chevron Arrows */
         .nav-arrow {
-            color: var(--brand-blue-light) !important;
-        }
-
-        .nav-link[aria-expanded="true"] .nav-arrow {
-            color: var(--brand-white) !important;
-        }
-
-        /* Open parent */
-        .nav-item.menu-open>.nav-link {
-            background: rgba(37, 99, 235, 0.08) !important;
-            color: var(--brand-white) !important;
-        }
-
-        /* Scrollbar */
-        .sidebar-wrapper::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--brand-blue-ocean), var(--brand-blue-sky));
-            border-radius: 3px;
+            color: var(--oa-orange) !important;
         }
 
         /* ============================================
-           NAVBAR / HEADER - SAME RICH DARK BLUE GRADIENT AS SIDEBAR
-        ============================================ */
+   NAVBAR / HEADER - BLACK BACKGROUND, WHITE TEXT
+   ============================================ */
         .app-header.navbar {
-            background: linear-gradient(160deg, #0a1628 0%, #0a2b4e 45%, #1e3a8a 100%) !important;
-            border-bottom: 2px solid rgba(59, 130, 246, 0.5);
-            box-shadow: 0 2px 16px rgba(37, 99, 235, 0.45);
-            position: relative;
-        }
-
-        /* Optional: subtle blue glow effect */
-        .app-header.navbar::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--brand-blue-sky), var(--brand-blue-light), transparent);
-            pointer-events: none;
+            background: #000000 !important;
+            background: linear-gradient(90deg, #000000 0%, #0A0A0A 50%, #111111 100%) !important;
+            border-bottom: 2px solid var(--oa-orange);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
         }
 
         .navbar-nav .nav-link {
-            color: rgba(255, 255, 255, 0.92) !important;
-            font-weight: 500;
-            padding: 8px 14px;
-            border-radius: 6px;
-            transition: all 0.25s ease;
+            color: var(--oa-white) !important;
         }
 
         .navbar-nav .nav-link:hover {
-            background: rgba(96, 165, 250, 0.25) !important;
-            backdrop-filter: blur(8px);
-            color: var(--brand-white) !important;
-            transform: translateY(-1px);
+            background: rgba(200, 98, 42, 0.2) !important;
+            color: var(--oa-white) !important;
         }
 
         .navbar-nav .nav-link i {
-            color: rgba(255, 255, 255, 0.9);
-            transition: color 0.2s;
+            color: var(--oa-white);
         }
 
         .navbar-nav .nav-link:hover i {
-            color: var(--brand-blue-sky);
+            color: var(--oa-orange);
         }
 
-        /* Notification Badge - enhanced with blue */
+        /* Notification Badge */
         .navbar-badge {
-            background: linear-gradient(135deg, var(--brand-blue-sky) 0%, var(--brand-blue-ocean) 100%) !important;
-            color: var(--brand-white) !important;
-            font-weight: 700;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+            background: var(--oa-orange) !important;
+            color: var(--oa-white) !important;
+            border: 1px solid var(--oa-white);
         }
 
-        /* Dropdown */
+        /* Dropdown - Dark background with white text */
         .dropdown-menu {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--brand-glass-border);
-            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.18);
-            border-radius: 10px;
+            background: #1A1A1A !important;
+            border: 1px solid var(--oa-orange);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .dropdown-menu * {
+            color: var(--oa-white) !important;
         }
 
         .dropdown-item {
-            color: #2d2d2d;
-            font-weight: 500;
-            padding: 9px 16px;
-            transition: all 0.2s ease;
+            color: var(--oa-white) !important;
         }
 
         .dropdown-item:hover {
-            background: linear-gradient(90deg, rgba(37, 99, 235, 0.08) 0%, transparent 100%);
-            color: var(--brand-blue-primary);
+            background: rgba(200, 98, 42, 0.2) !important;
+            color: var(--oa-orange) !important;
         }
 
-        /* User Header - richer blue gradient */
-        .user-header {
-            background: linear-gradient(135deg, var(--brand-blue-primary) 0%, #0f2c59 50%, var(--brand-blue-ocean) 100%) !important;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .user-header p {
-            color: var(--brand-white);
-            margin: 0;
-        }
-
-        .user-header small {
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        /* User Footer */
-        .user-footer .btn-default {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            color: var(--brand-blue-primary);
-            transition: all 0.25s ease;
-            border-radius: 20px;
-        }
-
-        .user-footer .btn-default:hover {
-            background: linear-gradient(135deg, var(--brand-blue-primary) 0%, var(--brand-blue-ocean) 100%);
-            color: var(--brand-white);
-            border-color: transparent;
-            transform: translateY(-1px);
-        }
-
-        /* User Menu Toggle - matches sidebar dark blue */
-        .user-menu .nav-link.dropdown-toggle {
-            background: rgba(10, 43, 78, 0.5) !important;
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            border-radius: 20px;
-            padding: 6px 14px;
-            transition: all 0.25s ease;
-        }
-
-        .user-menu .nav-link.dropdown-toggle:hover {
-            background: rgba(30, 58, 138, 0.7) !important;
-            border-color: var(--brand-blue-sky);
-        }
-
-        /* Dropdown Header */
         .dropdown-header {
-            background: linear-gradient(90deg, var(--brand-blue-primary), var(--brand-blue-ocean));
-            color: var(--brand-white);
-            font-weight: 600;
+            background: var(--oa-orange) !important;
+            color: var(--oa-white) !important;
         }
 
         .dropdown-divider {
-            border-color: rgba(37, 99, 235, 0.15);
+            border-color: var(--oa-orange);
+        }
+
+        /* User Header */
+        .user-header {
+            background: linear-gradient(135deg, var(--oa-orange) 0%, var(--oa-orange-dark) 100%) !important;
+            color: var(--oa-white) !important;
+        }
+
+        .user-header p,
+        .user-header small {
+            color: var(--oa-white) !important;
+        }
+
+        .user-header small {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* User Footer */
+        .user-footer {
+            background: #1A1A1A !important;
+        }
+
+        .user-footer .btn-default {
+            background: #2A2A2A !important;
+            border: 1px solid var(--oa-orange);
+            color: var(--oa-white) !important;
+        }
+
+        .user-footer .btn-default:hover {
+            background: var(--oa-orange) !important;
+            color: var(--oa-white) !important;
         }
 
         /* ============================================
-           CONTENT HEADER (Page Title Bar) - Enhanced Blue Gradient
-        ============================================ */
-        .app-content-header {
-            background: linear-gradient(90deg, #0a1628 0%, #0a2b4e 35%, #1e3a8a 70%, var(--brand-blue-ocean) 100%);
-            color: var(--brand-white);
-            padding: 28px 0;
-            position: relative;
-            overflow: hidden;
+   FIX FOR USER DROPDOWN MENU VISIBILITY
+   ============================================ */
+
+        /* User dropdown toggle button text */
+        .user-menu .nav-link.dropdown-toggle {
+            color: var(--oa-white) !important;
+            background: rgba(200, 98, 42, 0.2) !important;
+            border: 1px solid var(--oa-orange);
+            border-radius: 20px;
+            padding: 6px 14px;
+        }
+
+        .user-menu .nav-link.dropdown-toggle:hover {
+            background: rgba(200, 98, 42, 0.4) !important;
+            color: var(--oa-white) !important;
+        }
+
+        /* User name text in dropdown toggle */
+        .user-menu .nav-link .d-none.d-md-inline {
+            color: var(--oa-white) !important;
+        }
+
+        /* Dropdown menu container */
+        .user-menu .dropdown-menu {
+            background: #1A1A1A !important;
+            border: 1px solid var(--oa-orange);
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ALL text inside dropdown menu - WHITE */
+        .user-menu .dropdown-menu * {
+            color: var(--oa-white) !important;
+        }
+
+        /* User header section (orange gradient) */
+        .user-menu .user-header {
+            background: linear-gradient(135deg, var(--oa-orange) 0%, var(--oa-orange-dark) 100%) !important;
             border-bottom: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Subtle radial overlays - enhanced blue glow */
-        .app-content-header::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 15% 85%, rgba(96, 165, 250, 0.2) 0%, transparent 45%),
-                radial-gradient(circle at 85% 15%, rgba(37, 99, 235, 0.18) 0%, transparent 45%);
-            pointer-events: none;
-        }
-
-        .app-content-header .container-fluid {
-            position: relative;
-            z-index: 2;
-        }
-
-        .app-content-header h3 {
-            color: var(--brand-white);
-            font-weight: 700;
-            margin: 0;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-            letter-spacing: -0.2px;
-        }
-
-        /* Breadcrumb — glass pill with dark blue tint */
-        .breadcrumb {
-            background: rgba(10, 43, 78, 0.45);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(96, 165, 250, 0.4);
-            border-radius: 30px;
-            padding: 8px 22px;
-            margin-bottom: 0;
-            display: inline-flex;
-        }
-
-        .breadcrumb-item a {
-            color: rgba(255, 255, 255, 0.9) !important;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .breadcrumb-item a:hover {
-            color: var(--brand-blue-sky) !important;
-            text-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
-        }
-
-        .breadcrumb-item.active {
-            color: var(--brand-blue-sky) !important;
-            font-weight: 600;
-        }
-
-        .breadcrumb-item+.breadcrumb-item::before {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* ============================================
-           MAIN CONTENT AREA
-        ============================================ */
-        .app-main {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        }
-
-        .app-content {
-            background: transparent;
-            min-height: calc(100vh - 200px);
-        }
-
-        .container-fluid {
+            border-radius: 8px 8px 0 0;
             padding: 20px;
         }
 
-        /* Page headings - enhanced blue */
-        h1 {
-            color: var(--brand-blue-primary);
-            font-weight: 700;
-            margin-bottom: 20px;
-            border-bottom: 3px solid var(--brand-blue-sky);
-            padding-bottom: 10px;
-        }
-
-        /* ============================================
-           BUTTONS - Enhanced with richer blues
-        ============================================ */
-        .btn-primary {
-            background: linear-gradient(135deg, var(--brand-blue-primary) 0%, #0f2c59 50%, var(--brand-blue-ocean) 100%);
-            border: none;
-            color: var(--brand-white);
-            font-weight: 600;
-            transition: all 0.25s ease;
-            border-radius: 8px;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #0f2c59 0%, var(--brand-blue-primary) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
-            color: var(--brand-white);
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, #ffc107 0%, var(--brand-blue-sky) 100%);
-            border: none;
-            color: #212529;
-            font-weight: 500;
-        }
-
-        .btn-warning:hover {
-            background: linear-gradient(135deg, var(--brand-blue-sky) 0%, var(--brand-blue-ocean) 100%);
-            transform: translateY(-1px);
-            color: var(--brand-white);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-            border: none;
-            font-weight: 500;
-        }
-
-        .btn-danger:hover {
-            background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
-            transform: translateY(-1px);
-        }
-
-        /* Focus states */
-        .btn:focus,
-        .form-control:focus {
-            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.3);
-            border-color: var(--brand-blue-sky);
-        }
-
-        /* Disabled */
-        .btn:disabled {
-            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-            transform: none;
-        }
-
-        /* ============================================
-           TABLES - Enhanced with blue accents
-        ============================================ */
-        .table {
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(8px);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.12);
-            border: 1px solid rgba(37, 99, 235, 0.15);
-        }
-
-        .table thead {
-            background: linear-gradient(90deg, #0a1628 0%, #0a2b4e 50%, #1e3a8a 100%);
-            color: var(--brand-white);
-        }
-
-        .table thead th {
-            border: none;
-            font-weight: 700;
-            padding: 14px 16px;
-            text-transform: uppercase;
-            font-size: 0.82em;
-            letter-spacing: 0.6px;
-            color: var(--brand-white);
-        }
-
-        .table tbody tr {
-            transition: all 0.25s ease;
-        }
-
-        .table tbody tr:hover {
-            background: linear-gradient(90deg, rgba(37, 99, 235, 0.06) 0%, transparent 100%);
-            transform: translateX(2px);
-        }
-
-        .table tbody td {
-            padding: 12px 16px;
-            border-color: rgba(37, 99, 235, 0.08);
-            vertical-align: middle;
-        }
-
-        .table img {
-            border-radius: 6px;
-            border: 2px solid rgba(37, 99, 235, 0.15);
-            transition: all 0.25s ease;
-        }
-
-        .table img:hover {
-            border-color: var(--brand-blue-sky);
-            transform: scale(1.05);
-        }
-
-        .table .btn {
-            margin: 2px;
-            font-size: 0.82em;
-            padding: 5px 11px;
-            border-radius: 5px;
-        }
-
-        .table form {
-            display: inline-block;
+        .user-menu .user-header p {
+            color: var(--oa-white) !important;
+            font-size: 1rem;
             margin: 0;
         }
 
+        .user-menu .user-header small {
+            color: rgba(255, 255, 255, 0.85) !important;
+            display: block;
+            font-size: 0.75rem;
+        }
+
+        /* User body section */
+        .user-menu .user-body {
+            background: #1A1A1A !important;
+            padding: 10px;
+        }
+
+        /* User footer section */
+        .user-menu .user-footer {
+            background: #1A1A1A !important;
+            border-top: 1px solid var(--oa-orange);
+            padding: 12px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* Buttons inside dropdown */
+        .user-menu .user-footer .btn-default {
+            background: #2A2A2A !important;
+            border: 1px solid var(--oa-orange);
+            color: var(--oa-white) !important;
+            font-size: 0.85rem;
+            padding: 5px 12px;
+            border-radius: 5px;
+        }
+
+        .user-menu .user-footer .btn-default:hover {
+            background: var(--oa-orange) !important;
+            color: var(--oa-white) !important;
+            border-color: var(--oa-white);
+        }
+
+        /* Profile button (left button) */
+        .user-menu .user-footer .btn-default:first-child {
+            float: left;
+        }
+
+        /* Sign out button (right button) */
+        .user-menu .user-footer .btn-default.float-end {
+            float: right;
+        }
+
+        /* Dropdown arrow */
+        .user-menu .dropdown-toggle::after {
+            color: var(--oa-orange) !important;
+            margin-left: 8px;
+        }
+
         /* ============================================
-           CARDS / CONTAINERS - Glass with blue tint
-        ============================================ */
-        .container,
-        .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
-            border: 1px solid rgba(37, 99, 235, 0.12);
-            margin-bottom: 20px;
+   CONTENT HEADER - BLACK BACKGROUND, WHITE TEXT (FIXED)
+   ============================================ */
+        .app-content-header {
+            background: #000000 !important;
+            background: linear-gradient(90deg, #000000 0%, #0A0A0A 50%, #1A1A1A 100%) !important;
+            border-bottom: 2px solid var(--oa-orange);
+            padding: 20px 0;
+            margin: 0;
         }
 
-        .card:hover {
-            box-shadow: 0 8px 28px rgba(37, 99, 235, 0.15);
-            border-color: rgba(59, 130, 246, 0.25);
+        .app-content-header .container-fluid,
+        .app-content-header .row,
+        .app-content-header .col-sm-6 {
+            background: transparent !important;
         }
 
-        /* ============================================
-           FOOTER - Rich dark blue gradient matching sidebar
-        ============================================ */
-        .app-footer {
-            background: linear-gradient(160deg, #0a1628 0%, #0a2b4e 40%, #1e3a8a 100%);
-            color: rgba(255, 255, 255, 0.9);
-            border-top: 2px solid rgba(59, 130, 246, 0.3);
+        .app-content-header,
+        .app-content-header * {
+            background: transparent !important;
         }
 
-        .app-footer a {
-            color: var(--brand-blue-sky) !important;
-            font-weight: 500;
+        .app-content-header h3,
+        .app-content-header .mb-0 {
+            color: var(--oa-white) !important;
+            font-weight: 600;
+            text-shadow: none;
+        }
+
+        .app-content-header .breadcrumb {
+            background: rgba(0, 0, 0, 0.5) !important;
+            border: 1px solid var(--oa-orange);
+            border-radius: 8px;
+            padding: 8px 16px;
+            display: inline-flex;
+        }
+
+        .app-content-header .breadcrumb-item {
+            color: var(--oa-orange) !important;
+        }
+
+        .app-content-header .breadcrumb-item a {
+            color: var(--oa-white) !important;
             text-decoration: none;
         }
 
-        .app-footer a:hover {
-            color: var(--brand-blue-light) !important;
-            text-decoration: underline;
+        .app-content-header .breadcrumb-item a:hover {
+            color: var(--oa-orange) !important;
+        }
+
+        .app-content-header .breadcrumb-item.active {
+            color: var(--oa-orange) !important;
+            font-weight: 500;
+        }
+
+        .app-content-header .breadcrumb-item+.breadcrumb-item::before {
+            color: var(--oa-white) !important;
+            content: "/";
+            padding: 0 8px;
+        }
+
+        .app-content-header .col-sm-6 h3 {
+            background: transparent !important;
+            color: var(--oa-white) !important;
+        }
+
+        .app-content-header .col-sm-6:first-child {
+            background: transparent !important;
+        }
+
+        .app-content-header .col-sm-6:last-child {
+            background: transparent !important;
+            text-align: right;
+        }
+
+        .app-content-header::before,
+        .app-content-header::after {
+            display: none !important;
+        }
+
+        .app-content-header .card,
+        .app-content-header .bg-white,
+        .app-content-header .bg-light {
+            background: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
         }
 
         /* ============================================
-           PAGINATION
-        ============================================ */
-        nav[role="navigation"][aria-label="Pagination Navigation"] {
-            font-size: 0.7rem;
+   MAIN CONTENT - WHITE BACKGROUND, BLACK TEXT
+   ============================================ */
+
+
+        /* ALL text on white background = BLACK */
+        .app-main *:not(.btn):not(.dropdown-item):not(.modal-header *) {
+            color: #000000 !important;
         }
 
-        nav[role="navigation"] .relative.inline-flex.items-center {
-            padding: 0.125rem 0.375rem;
-            min-height: 1.5rem;
-            min-width: 1.5rem;
-            font-size: 0.7rem;
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        span,
+        label,
+        div,
+        small,
+        strong,
+        b {
+            color: #000000 !important;
         }
 
-        nav[role="navigation"] .w-5.h-5 {
-            width: 0.75rem;
-            height: 0.75rem;
-        }
-
-        nav[role="navigation"] .text-sm {
-            font-size: 0.7rem;
-        }
-
-        /* Pagination active state */
-        .pagination .page-item.active .page-link {
-            background: linear-gradient(135deg, var(--brand-blue-ocean) 0%, var(--brand-blue-sky) 100%);
-            border-color: var(--brand-blue-sky);
-            color: white;
-        }
-
-        .pagination .page-link {
-            color: var(--brand-blue-primary);
-            transition: all 0.2s;
-        }
-
-        .pagination .page-link:hover {
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--brand-blue-ocean);
-            border-color: var(--brand-blue-sky);
+        h1 {
+            border-bottom: 3px solid var(--oa-orange);
         }
 
         /* ============================================
-           RESPONSIVE
-        ============================================ */
-        @media (max-width: 768px) {
-            .app-content-header {
-                padding: 18px 0;
-            }
+   BUTTONS
+   ============================================ */
+        .btn-primary {
+            background: var(--oa-orange) !important;
+            border: none !important;
+            color: var(--oa-white) !important;
+        }
 
-            .app-content-header h3 {
-                font-size: 1.4rem;
-                text-align: center;
-                margin-bottom: 10px;
-            }
+        .btn-primary:hover {
+            background: var(--oa-orange-dark) !important;
+            color: var(--oa-white) !important;
+        }
 
-            .breadcrumb {
-                justify-content: center;
-            }
+        .btn-secondary {
+            background: #2A2A2A !important;
+            border: 1px solid var(--oa-orange) !important;
+            color: var(--oa-white) !important;
+        }
 
-            .navbar-nav .nav-link {
-                padding: 7px 10px;
-            }
+        .btn-secondary:hover {
+            background: #3A3A3A !important;
+            color: var(--oa-orange) !important;
+        }
 
-            .user-menu .nav-link.dropdown-toggle {
-                padding: 5px 10px;
-                font-size: 0.9em;
-            }
+        .btn-danger {
+            background: #dc2626 !important;
+            border: none !important;
+            color: var(--oa-white) !important;
+        }
 
-            .table {
-                font-size: 0.88em;
-            }
+        .btn-success {
+            background: #16a34a !important;
+            border: none !important;
+            color: var(--oa-white) !important;
+        }
 
-            .table .btn {
-                font-size: 0.78em;
-                padding: 4px 8px;
-            }
+        .btn-warning {
+            background: var(--oa-orange) !important;
+            border: none !important;
+            color: var(--oa-white) !important;
+        }
 
-            .app-header.navbar {
-                background: linear-gradient(160deg, #0a1628 0%, #0a2b4e 45%, #1e3a8a 100%) !important;
-            }
+        .btn-info {
+            background: var(--oa-orange-light) !important;
+            border: none !important;
+            color: var(--oa-white) !important;
         }
 
         /* ============================================
-           ADDITIONAL BLUE ACCENTS
-        ============================================ */
+   FORM ELEMENTS
+   ============================================ */
+        .form-control,
+        select,
+        textarea,
+        input {
+            background: var(--oa-white) !important;
+            border: 1px solid #CCCCCC !important;
+            color: #000000 !important;
+        }
 
-        /* Form elements with blue focus */
+        .form-control:focus,
         select:focus,
         textarea:focus,
         input:focus {
-            border-color: var(--brand-blue-sky) !important;
-            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.2) !important;
+            border-color: var(--oa-orange) !important;
+            box-shadow: 0 0 0 0.2rem rgba(200, 98, 42, 0.25) !important;
         }
 
-        /* Active/selected items */
-        .nav-link.active {
-            background: linear-gradient(90deg, var(--brand-blue-ocean) 0%, var(--brand-blue-sky) 100%) !important;
+        .form-label {
+            color: #000000 !important;
         }
 
-        /* Scrollbar for content area */
+        /* ============================================
+   TABLES
+   ============================================ */
+        .table {
+            background: var(--oa-white) !important;
+            border: 1px solid #E0E0E0 !important;
+            color: #000000 !important;
+        }
+
+        .table thead {
+            background: #000000 !important;
+        }
+
+        .table thead th {
+            color: var(--oa-white) !important;
+            background: #000000 !important;
+            border-bottom: 2px solid var(--oa-orange);
+        }
+
+        .table tbody tr {
+            color: #000000 !important;
+        }
+
+        .table tbody td {
+            color: #000000 !important;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(200, 98, 42, 0.05) !important;
+        }
+
+        /* ============================================
+   CARDS
+   ============================================ */
+        .card {
+            background: var(--oa-white) !important;
+            border: 1px solid #E0E0E0 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            background: #F8F8F8 !important;
+            border-bottom: 2px solid var(--oa-orange) !important;
+        }
+
+        .card-header * {
+            color: #000000 !important;
+        }
+
+        .card-body * {
+            color: #000000 !important;
+        }
+
+        .card-footer {
+            background: #F8F8F8 !important;
+            border-top: 1px solid #E0E0E0;
+        }
+
+        /* ============================================
+   MODALS
+   ============================================ */
+        .modal-content {
+            background: var(--oa-white) !important;
+            border: 1px solid var(--oa-orange);
+        }
+
+        .modal-header {
+            background: #000000 !important;
+            border-bottom: 2px solid var(--oa-orange);
+        }
+
+        .modal-header * {
+            color: var(--oa-white) !important;
+        }
+
+        .modal-body * {
+            color: #000000 !important;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #E0E0E0;
+        }
+
+        /* ============================================
+   ALERTS
+   ============================================ */
+        .alert-success {
+            background: #F0FDF4 !important;
+            border-left: 4px solid #16a34a !important;
+            color: #000000 !important;
+        }
+
+        .alert-danger {
+            background: #FEF2F2 !important;
+            border-left: 4px solid #dc2626 !important;
+            color: #000000 !important;
+        }
+
+        .alert-warning {
+            background: #FFF7ED !important;
+            border-left: 4px solid var(--oa-orange) !important;
+            color: #000000 !important;
+        }
+
+        .alert-info {
+            background: #EFF6FF !important;
+            border-left: 4px solid var(--oa-orange-light) !important;
+            color: #000000 !important;
+        }
+
+        /* ============================================
+   PAGINATION
+   ============================================ */
+        .pagination .page-link {
+            background: var(--oa-white) !important;
+            color: var(--oa-orange) !important;
+            border: 1px solid #E0E0E0;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: var(--oa-orange) !important;
+            color: var(--oa-white) !important;
+            border-color: var(--oa-orange);
+        }
+
+        .pagination .page-item .page-link:hover {
+            background: rgba(200, 98, 42, 0.1) !important;
+            color: var(--oa-orange-dark) !important;
+        }
+
+        /* ============================================
+   FOOTER - BLACK BACKGROUND, WHITE TEXT
+   ============================================ */
+        .app-footer {
+            background: #000000 !important;
+            border-top: 2px solid var(--oa-orange);
+        }
+
+        .app-footer * {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .app-footer a {
+            color: var(--oa-orange) !important;
+        }
+
+        .app-footer a:hover {
+            color: var(--oa-orange-light) !important;
+        }
+
+        /* ============================================
+   DETAIL/SHOW PAGES
+   ============================================ */
+        .show-page,
+        .detail-page,
+        .card-body .list-group-item,
+        .dl-horizontal dt,
+        .dl-horizontal dd,
+        .description-list,
+        .show-field {
+            background: var(--oa-white) !important;
+            color: #000000 !important;
+        }
+
+        /* ============================================
+   BADGES & TAGS
+   ============================================ */
+        .badge-primary {
+            background: var(--oa-orange) !important;
+            color: var(--oa-white) !important;
+        }
+
+        .badge-secondary {
+            background: #2A2A2A !important;
+            color: var(--oa-white) !important;
+        }
+
+        /* ============================================
+   NAV TABS
+   ============================================ */
+        .nav-tabs .nav-link {
+            color: #000000 !important;
+            background: #F8F8F8;
+            border: 1px solid #E0E0E0;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--oa-orange) !important;
+            color: var(--oa-white) !important;
+            border-color: var(--oa-orange);
+        }
+
+        /* ============================================
+   PROGRESS BARS
+   ============================================ */
+        .progress {
+            background: #E0E0E0 !important;
+        }
+
+        .progress-bar {
+            background: var(--oa-orange) !important;
+        }
+
+        /* ============================================
+   SCROLLBAR
+   ============================================ */
+        ::-webkit-scrollbar-track {
+            background: #1A1A1A;
+        }
+
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--brand-blue-ocean), var(--brand-blue-sky));
+            background: var(--oa-orange);
             border-radius: 6px;
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(37, 99, 235, 0.05);
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--oa-orange-light);
         }
 
-        /* Selection highlight */
+        /* ============================================
+   SELECTION HIGHLIGHT
+   ============================================ */
         ::selection {
-            background: rgba(37, 99, 235, 0.3);
-            color: #0a1628;
+            background: var(--oa-orange);
+            color: var(--oa-white);
         }
 
-        /* Alert/notification bars */
-        .alert-success {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(96, 165, 250, 0.05));
-            border-left: 4px solid var(--brand-blue-ocean);
-            color: #2d2d2d;
+        ::-moz-selection {
+            background: var(--oa-orange);
+            color: var(--oa-white);
+        }
+
+        /* ============================================
+   LINKS
+   ============================================ */
+        a:not(.nav-link):not(.dropdown-item):not(.btn) {
+            color: var(--oa-orange) !important;
+        }
+
+        a:not(.nav-link):not(.dropdown-item):not(.btn):hover {
+            color: var(--oa-orange-dark) !important;
+        }
+
+        /* ============================================
+   RESPONSIVE
+   ============================================ */
+        @media (max-width: 768px) {
+            .app-content-header h3 {
+                color: var(--oa-white) !important;
+            }
+
+            .app-header.navbar {
+                background: #000000 !important;
+            }
+        }
+
+        /* ============================================
+   UTILITY CLASSES
+   ============================================ */
+        .text-primary {
+            color: var(--oa-orange) !important;
+        }
+
+        .bg-primary {
+            background: var(--oa-orange) !important;
+            color: var(--oa-white) !important;
+        }
+
+        .border-primary {
+            border-color: var(--oa-orange) !important;
         }
     </style>
-
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -1125,6 +1281,31 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('admin.page.index', ['slug' => 'cta']) }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-arrow-in-right"></i>
+                                <p>
+                                    contact content
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.create', ['slug' => 'contact-content']) }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.index', ['slug' => 'contact-content']) }}" class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p>List</p>
                                     </a>
@@ -1890,189 +2071,189 @@
                             </ul>
                         </li>
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-briefcase-fill"></i>
-                                    <p>
-                                        Apply Job Banner
-                                        <i class="nav-arrow bi bi-chevron-right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.page.create', ['slug' => 'apply-job-banner']) }}"
-                                            class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>Create</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.page.index', ['slug' => 'apply-job-banner']) }}"
-                                            class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-briefcase-fill"></i>
+                                <p>
+                                    Apply Job Banner
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.create', ['slug' => 'apply-job-banner']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.index', ['slug' => 'apply-job-banner']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            <li class="nav-header">CUSTOM</li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-box-seam"></i>
-                                    <p>
-                                        Custom Css
-                                        <i class="nav-arrow bi bi-chevron-right"></i>
-                                    </p>
-                                </a>
+                        <li class="nav-header">CUSTOM</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-seam"></i>
+                                <p>
+                                    Custom Css
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
 
-                                <ul class="nav nav-treeview">
+                            <ul class="nav nav-treeview">
 
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.custom-css.index') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.custom-css.index') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
 
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.custom-css.create') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>Create</p>
-                                        </a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.custom-css.create') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
 
-                                </ul>
-                            </li>
+                            </ul>
+                        </li>
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-box-seam"></i>
-                                    <p>
-                                        Custom Js
-                                        <i class="nav-arrow bi bi-chevron-right"></i>
-                                    </p>
-                                </a>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-seam"></i>
+                                <p>
+                                    Custom Js
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
 
-                                <ul class="nav nav-treeview">
+                            <ul class="nav nav-treeview">
 
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.custom-javascript.index') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.custom-javascript.index') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
 
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.custom-javascript.create') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>Create</p>
-                                        </a>
-                                    </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.custom-javascript.create') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
 
-                                </ul>
-                            </li>
+                            </ul>
+                        </li>
 
-                            <li class="nav-header">FOOTER</li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-briefcase-fill"></i>
-                                    <p>
-                                        Footer Content
-                                        <i class="nav-arrow bi bi-chevron-right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.page.create', ['slug' => 'footer-content']) }}"
-                                            class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>Create</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.page.index', ['slug' => 'footer-content']) }}"
-                                            class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li class="nav-header">FOOTER</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-briefcase-fill"></i>
+                                <p>
+                                    Footer Content
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.create', ['slug' => 'footer-content']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.index', ['slug' => 'footer-content']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            <li class="nav-header">Settings</li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-box-arrow-in-right"></i>
-                                    <p>
-                                        Categories
-                                        <i class="nav-arrow bi bi-chevron-right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.post-categories.index') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.post-categories.create') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>Create</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li class="nav-header">Settings</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-arrow-in-right"></i>
+                                <p>
+                                    Categories
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.post-categories.index') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.post-categories.create') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-box-arrow-in-right"></i>
-                                    <p>
-                                        Users
-                                        <i class="nav-arrow bi bi-chevron-right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.users.index') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.users.create') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>Create</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-arrow-in-right"></i>
+                                <p>
+                                    Users
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.users.index') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.users.create') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-box-arrow-in-right"></i>
-                                    <p>
-                                        Roles
-                                        <i class="nav-arrow bi bi-chevron-right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.roles.index') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ route('admin.roles.create') }}" class="nav-link">
-                                            <i class="nav-icon bi bi-circle"></i>
-                                            <p>Create</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-arrow-in-right"></i>
+                                <p>
+                                    Roles
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.roles.index') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.roles.create') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
 
 
