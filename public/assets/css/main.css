@@ -222,6 +222,15 @@ ul {
     margin-bottom: var(--space-sm);
 }
 
+
+.section-description {
+    color: #fff !important;
+}
+
+.footer-contact-item {
+    color: #fff;
+}
+
 /* Section Titles */
 .section-title {
     font-family: var(--font-heading);
@@ -2440,7 +2449,8 @@ h2.about-pg__values-title.about-pg__values-title {
     font-size: var(--fs-sm);
     color: var(--color-gray-text);
     line-height: 1.85;
-    max-width: 560px;
+    max-width: 100% !important;
+    width: 100% !important;
     margin: 0 auto;
 }
 

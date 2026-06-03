@@ -484,7 +484,7 @@
 
         /* ALL text on white background = BLACK */
         .app-main *:not(.btn):not(.dropdown-item):not(.modal-header *) {
-            color: #000000 !important;
+            color: #000000;
         }
 
         h1,

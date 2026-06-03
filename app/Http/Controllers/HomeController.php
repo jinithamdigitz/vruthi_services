@@ -135,6 +135,12 @@ class HomeController extends Controller
         // ✅ Get first phone
         $firstPhone = $phones->first()?->title;
 
+        $category = PostCategory::where('slug', 'service-content')->first();
+        $serviceContent = [];
+        if ($category) {
+            $serviceContent = Post::where('post_category_id', $category->id)->first();
+        }
+
 
         return view('index', [
             'homebanner' => $homebanner,
@@ -155,6 +161,7 @@ class HomeController extends Controller
             'whychooseus' => $whychooseus,
             'whychooseustitle' => $whychooseustitle,
             'contactContent' => $contactContent,
+            'serviceContent' => $serviceContent,
         ]);
     }
 

@@ -2,45 +2,41 @@
 <html lang="en">
 
 <head>
-   @php
-    $seoParameter = \App\Models\SeoParameter::where(
-        'route_name',
-        request()->path() == '/' ? '/' : '/' . request()->path()
-    )->first();
+    @php
+        $seoParameter = \App\Models\SeoParameter::where(
+            'route_name',
+            request()->path() == '/' ? '/' : '/' . request()->path(),
+        )->first();
 
-    $defaultTitle = 'Outline Architects | Project Management';
+        $defaultTitle = 'Outline Architects | Project Management';
 
-    $defaultDescription = 'Outline Architects & Project Management - We design innovative office and commercial interiors that elevate experiences and reflect your brand.';
+        $defaultDescription =
+            'Outline Architects & Project Management - We design innovative office and commercial interiors that elevate experiences and reflect your brand.';
 
-    $ogImage = !empty($seoParameter?->og_image)
-        ? asset('storage/' . $seoParameter->og_image)
-        : asset('uploads/default-og-image.webp');
-@endphp
+        $ogImage = !empty($seoParameter?->og_image)
+            ? asset('storage/' . $seoParameter->og_image)
+            : asset('uploads/default-og-image.webp');
+    @endphp
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>{{ $seoParameter->meta_title ?? $defaultTitle }}</title>
+    <title>{{ $seoParameter->meta_title ?? $defaultTitle }}</title>
 
-<meta name="description"
-      content="{{ $seoParameter->meta_description ?? $defaultDescription }}" />
+    <meta name="description" content="{{ $seoParameter->meta_description ?? $defaultDescription }}" />
 
-<meta property="og:title"
-      content="{{ $seoParameter->meta_title ?? $defaultTitle }}">
+    <meta property="og:title" content="{{ $seoParameter->meta_title ?? $defaultTitle }}">
 
-<meta property="og:description"
-      content="{{ $seoParameter->meta_description ?? $defaultDescription }}">
+    <meta property="og:description" content="{{ $seoParameter->meta_description ?? $defaultDescription }}">
 
-<meta property="og:image" content="{{ $ogImage }}">
-<meta property="og:url" content="{{ url()->current() }}">
-<meta property="og:type" content="website">
+    <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title"
-      content="{{ $seoParameter->meta_title ?? $defaultTitle }}">
-<meta name="twitter:description"
-      content="{{ $seoParameter->meta_description ?? $defaultDescription }}">
-<meta name="twitter:image" content="{{ $ogImage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoParameter->meta_title ?? $defaultTitle }}">
+    <meta name="twitter:description" content="{{ $seoParameter->meta_description ?? $defaultDescription }}">
+    <meta name="twitter:image" content="{{ $ogImage }}">
 
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     {{-- <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -114,7 +110,7 @@
             @endif
             <div class="home-cta__bg-overlay"></div>
             <div class="container home-cta__content text-center">
-                <span class="section-label cta-label">Let's Build Together</span>
+
 
                 @if ($ctasection->title)
                     <h2 class="section-title section-title--xl section-title--light mt-2 mb-3 cta-title-orange">
@@ -123,10 +119,25 @@
                 @endif
 
                 @if ($ctasection->body)
-                    <p class="cta-body-white">
-                        {{ strip_tags($ctasection->body) }}
-                    </p>
+                    <div class="cta-body-white">
+                        @if ($ctasection->show_html)
+                            {!! $ctasection->body !!}
+                        @else
+                            {{ strip_tags($ctasection->body) }}
+                        @endif
+                    </div>
+                    @foreach ($globalPhones as $phone)
+                        <div class="footer-contact-item">
+                            Call us:
+                            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone->title) }}"
+                                class="footer-small-contact font-white">
+                                {{ $phone->title }}
+                            </a>
+                        </div>
+                    @endforeach
                 @endif
+                <br>
+
 
                 <a href="{{ route('contact') }}" class="btn-outline-custom btn-primary-custom cta-btn">
                     Get In Touch &nbsp;<i class="bi bi-arrow-right"></i>
@@ -214,7 +225,11 @@
                                         <path
                                             d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                                     </svg>
-                                    <span class="footer-small-contact">{{ $phone->title }}</span>
+
+                                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone->title) }}"
+                                        class="footer-small-contact text-white">
+                                        {{ $phone->title }}
+                                    </a>
                                 </div>
                             @endforeach
                         @elseif($globalPhone)
@@ -224,7 +239,10 @@
                                     <path
                                         d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                                 </svg>
-                                <span class="footer-small-contact">{{ $globalPhone }}</span>
+                                <a href="tel:{{ preg_replace('/[^0-9+]/', '', $globalPhone) }}"
+                                    class="footer-small-contact text-white">
+                                    {{ $globalPhone }}
+                                </a>
                             </div>
                         @endif
                     </div>

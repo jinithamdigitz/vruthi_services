@@ -9,9 +9,6 @@
     <section class="home-hero" id="home-hero">
         <div class="home-hero__left">
             <div class="home-hero__content">
-                <p class="home-hero__breadcrumb animate-fade-up">
-                    Architecture &nbsp;/&nbsp; Interior Design &nbsp;/&nbsp; <span>Project Management</span>
-                </p>
 
                 <h1 class="home-hero__title animate-fade-up delay-100">
                     @if ($homebanner && $homebanner->title)
@@ -114,20 +111,27 @@
         <div class="container">
             <div class="row align-items-end mb-5">
                 <div class="col-lg-6">
-                    @if ($service_title && $service_title->title)
-                        <span class="section-label">{{ $service_title->title }}</span>
-                    @endif
-                    @if ($service_title && $service_title->body)
-                        <h2 class="service-section-title section-title--lg mb-0">
+                  
 
-                            @if ($service_title->show_html ?? false)
-                                {!! $service_title->body !!}
-                            @else
-                                {{ strip_tags($service_title->body) }}
-                            @endif
+@if ($service_title && $service_title->body)
 
-                        </h2>
-                    @endif
+    @if ($service_title->show_html ?? false)
+        <div class="service-section-title section-title--lg mb-0">
+            {!! $service_title->body !!}
+        </div>
+    @else
+        <h2 class="service-section-title section-title--lg mb-0">
+            {{ strip_tags($service_title->body) }}
+        </h2>
+    @endif
+
+   @if($serviceContent && $serviceContent->body)
+    <div class="svc-pg__intro-sub mx-auto text-white">
+        {!! $serviceContent->body !!}
+    </div>
+@endif
+
+@endif
                 </div>
                 <div class="col-lg-6 text-lg-end mt-3 mt-lg-0">
                     <a href="{{ route('home.services') }}" class="btn-text-link services-view-all">
@@ -339,8 +343,8 @@
     </section>
 
     <!-- =============================================
-                                   TESTIMONIALS
-                                   ============================================= -->
+                TESTIMONIALS
+    ============================================= -->
     <section class="section-pad home-testimonials" id="home-testimonials">
         <div class="container">
             <div class="text-center mb-5">
@@ -534,16 +538,7 @@
                                 </div>
                             </div>
                         @endif
-
-                        <!-- Social icons -->
-                        <div class="contact-social">
-                            <div class="social-links">
-                                <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                                <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                                <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                                <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
-                            </div>
-                        </div>
+ 
                     </div>
 
                 </div>
