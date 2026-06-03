@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Post;
-use App\Models\PostCategory;
-use App\Models\Service;
-use App\Models\SeoParameter;
 use App\Models\Course;
 use App\Models\Faculty;
 use App\Models\Member;
 use App\Models\Portfolio;
 use App\Models\PortfolioCategory;
-
+use App\Models\Post;
+use App\Models\PostCategory;
+use App\Models\SeoParameter;
+use App\Models\Service;
 
 class HomeController extends Controller
 {
@@ -106,7 +104,6 @@ class HomeController extends Controller
             $testimonialstitle = Post::where('post_category_id', $category->id)->first();
         }
 
-
         $category = PostCategory::where('slug', 'our-expertise')->first();
         $ourExpertise = collect();
         if ($category) {
@@ -118,7 +115,6 @@ class HomeController extends Controller
         if ($category) {
             $features = Post::where('post_category_id', $category->id)->get();
         }
-
 
         $category = PostCategory::where('slug', 'contact-content')->first();
         $contactContent = [];
@@ -140,7 +136,6 @@ class HomeController extends Controller
         if ($category) {
             $serviceContent = Post::where('post_category_id', $category->id)->first();
         }
-
 
         return view('index', [
             'homebanner' => $homebanner,
@@ -166,31 +161,38 @@ class HomeController extends Controller
     }
 
     // public function calculator(){
-    //    $calculators  = SolarCalculator::latest()->get(); 
+    //    $calculators  = SolarCalculator::latest()->get();
     //    return view('index', ['calculators' => $calculators]);
     // }
-
 
     public static function getphone()
     {
         $editpost = PostCategory::where('slug', 'phone')->first();
-        if (!$editpost) return collect();
+        if (! $editpost) {
+            return collect();
+        }
         return Post::where('post_category_id', $editpost->id)->get();
     }
 
     public static function getpbanner()
     {
         $editpost = PostCategory::where('slug', 'common-banner')->first();
-        if (!$editpost) return null;
+        if (! $editpost) {
+            return null;
+        }
         $banner = Post::where('post_category_id', $editpost->id)->first();
+
         return $banner ? $banner->image : null;
     }
 
     public static function getphone1()
     {
         $editpost = PostCategory::where('slug', 'phone')->first();
-        if (!$editpost) return null;
+        if (! $editpost) {
+            return null;
+        }
         $phone = Post::where('post_category_id', $editpost->id)->first();
+
         return $phone ? $phone->title : null;
     }
 
@@ -198,7 +200,7 @@ class HomeController extends Controller
     {
         $category = PostCategory::where('slug', 'email')->first();
 
-        if (!$category) {
+        if (! $category) {
             return collect();
         }
 
@@ -208,8 +210,11 @@ class HomeController extends Controller
     public static function gettimings()
     {
         $editpost = PostCategory::where('slug', 'timings')->first();  // Changed from 'timing' to 'timings'
-        if (!$editpost) return null;
+        if (! $editpost) {
+            return null;
+        }
         $timing = Post::where('post_category_id', $editpost->id)->first();
+
         return $timing ? $timing->title : null;
     }
 
@@ -219,45 +224,56 @@ class HomeController extends Controller
         $editpost = PostCategory::where('slug', 'address')->first();
 
         // If not found, try with capital A
-        if (!$editpost) {
+        if (! $editpost) {
             $editpost = PostCategory::where('slug', 'Address')->first();
         }
 
-        if (!$editpost) return collect();
+        if (! $editpost) {
+            return collect();
+        }
+
         return Post::where('post_category_id', $editpost->id)->get();
     }
-
 
     public static function getsocialicons()
     {
         $editpost = PostCategory::where('slug', 'social-icons')->first();
-        if (!$editpost) return collect();
+        if (! $editpost) {
+            return collect();
+        }
+
         return Post::where('post_category_id', $editpost->id)->get();
     }
 
     public static function getaddress()
     {
         $editpost = PostCategory::where('slug', 'address')->first();
-        if (!$editpost) return null;
+        if (! $editpost) {
+            return null;
+        }
+
         return Post::where('post_category_id', $editpost->id)->first();
     }
 
     public static function getsecondlogo()
     {
         $editpost = PostCategory::where('slug', 'second-logo')->first();
-        if (!$editpost) return null;
+        if (! $editpost) {
+            return null;
+        }
+
         return Post::where('post_category_id', $editpost->id)->first();
     }
 
     public static function getlogo()
     {
         $editpost = PostCategory::where('slug', 'logo')->first();
-        if (!$editpost) return null;
+        if (! $editpost) {
+            return null;
+        }
+
         return Post::where('post_category_id', $editpost->id)->first();
     }
-
-
-
 
     public function about()
     {
@@ -304,10 +320,8 @@ class HomeController extends Controller
 
         $members = Member::limit(10)->get();
 
-
         return view('about', ['homebanner' => $homebanner,  'counters' => $counters, 'ourStoryTitle' => $ourStoryTitle, 'ourStory' => $ourStory, 'ourValueTitle' => $ourValueTitle, 'ourValues' => $ourValues, 'members' => $members, 'memberTitle' => $memberTitle, 'aboutBanner' => $aboutBanner]);
     }
-
 
     public function service()
     {
@@ -339,10 +353,9 @@ class HomeController extends Controller
             'serviceContent' => $serviceContent,
             'whyChooseUs' => $whyChooseUs,
             'whyChooseUsCards' => $whyChooseUsCards,
-            'serviceBanner' => $serviceBanner
+            'serviceBanner' => $serviceBanner,
         ]);
     }
-
 
     public function portfolio()
     {
@@ -358,8 +371,6 @@ class HomeController extends Controller
 
         return view('portfolio', compact('categories', 'portfolios', 'portfolioBanner'));
     }
-
-
 
     public function caseStudiesDetails($slug)
     {
@@ -379,15 +390,15 @@ class HomeController extends Controller
             if ($caseStudy->multipleImages && $caseStudy->multipleImages->count() > 0) {
                 foreach ($caseStudy->multipleImages as $index => $image) {
                     // Check if image_name exists and is not empty
-                    if (!empty($image->image_name)) {
+                    if (! empty($image->image_name)) {
                         $imageUrl = $this->getImageUrl($image->image_name);
 
                         $galleryImages[] = [
                             'id' => $image->id,
                             'url' => $imageUrl,
                             'thumb' => $imageUrl,
-                            'caption' => $image->caption ?? $image->alt_text ?? 'Project Image ' . ($index + 1),
-                            'title' => $image->title ?? $caseStudy->title . ' - Image ' . ($index + 1)
+                            'caption' => $image->caption ?? $image->alt_text ?? 'Project Image '.($index + 1),
+                            'title' => $image->title ?? $caseStudy->title.' - Image '.($index + 1),
                         ];
                     }
                 }
@@ -422,7 +433,7 @@ class HomeController extends Controller
                 'seo' => $seo,
             ]);
         } catch (\Exception $e) {
-            \Log::error('Case study error: ' . $e->getMessage());
+            \Log::error('Case study error: '.$e->getMessage());
             abort(404, 'Case study not found');
         }
     }
@@ -447,6 +458,7 @@ class HomeController extends Controller
         // Return asset URL
         return asset($imagePath);
     }
+
     public function logo()
     {
         $seo = $this->getSeoForCurrentRoute();
@@ -455,11 +467,9 @@ class HomeController extends Controller
 
         return view('main', [
             'logo' => $logo,
-            'seo' => $seo
+            'seo' => $seo,
         ]);
     }
-
-
 
     public function faculty()
     {
@@ -491,9 +501,6 @@ class HomeController extends Controller
 
         return view('faculty', compact('faculties', 'counters', 'seo', 'teachingApproach', 'teachingApproachCards'));
     }
-
-
-
 
     public function courses()
     {
@@ -549,8 +556,6 @@ class HomeController extends Controller
         return view('facilities', compact('facilities', 'brand', 'seo'));
     }
 
-
-
     /**
      * Get SEO data for static routes from seo_parameters table
      */
@@ -562,25 +567,25 @@ class HomeController extends Controller
         if ($currentRoute === '/') {
             $currentRoute = '/';
         } else {
-            $currentRoute = '/' . $currentRoute;
+            $currentRoute = '/'.$currentRoute;
         }
 
         // First try to find exact match
         $seo = SeoParameter::where('route_name', $currentRoute)->first();
 
         // If no exact match, try to find pattern match for dynamic routes
-        if (!$seo) {
+        if (! $seo) {
             // Split the URL into segments
             $segments = explode('/', trim($currentRoute, '/'));
 
             if (count($segments) > 1) {
                 // For routes like blog-details/123, try to match blog-details/{id}
-                $patternRoute = '/' . $segments[0] . '/{id}';
+                $patternRoute = '/'.$segments[0].'/{id}';
                 $seo = SeoParameter::where('route_name', $patternRoute)->first();
 
                 // If still not found, try with different patterns
-                if (!$seo && isset($segments[1])) {
-                    $patternRoute = '/' . $segments[0] . '/*';
+                if (! $seo && isset($segments[1])) {
+                    $patternRoute = '/'.$segments[0].'/*';
                     $seo = SeoParameter::where('route_name', $patternRoute)->first();
                 }
             }
@@ -588,7 +593,6 @@ class HomeController extends Controller
 
         return $seo;
     }
-
 
     /**
      * Get footer services
@@ -604,6 +608,7 @@ class HomeController extends Controller
     public static function getFooterEmails()
     {
         $category = PostCategory::where('slug', 'email')->first();
+
         return $category ? Post::where('post_category_id', $category->id)->get() : collect();
     }
 
@@ -613,6 +618,7 @@ class HomeController extends Controller
     public static function getFooterPhones()
     {
         $category = PostCategory::where('slug', 'phone')->first();
+
         return $category ? Post::where('post_category_id', $category->id)->get() : collect();
     }
 
@@ -622,6 +628,7 @@ class HomeController extends Controller
     public static function getFooterAddresses()
     {
         $category = PostCategory::where('slug', 'address')->first();
+
         return $category ? Post::where('post_category_id', $category->id)->get() : collect();
     }
 }

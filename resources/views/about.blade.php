@@ -35,8 +35,8 @@
         </div>
     </section>
     <!-- ============================================
-            STATS SECTION
-        ============================================= -->
+                STATS SECTION
+            ============================================= -->
     <section class="home-stats" id="home-stats">
         <div class="container home-stats__inner">
             <div class="row text-center">
@@ -144,20 +144,20 @@
         <div class="container">
 
             <div class="row mb-5">
-    <div class="col-12">
-        <span class="section-label">
-            {{ strip_tags($memberTitle['title']) }}
-        </span>
+                <div class="col-12">
+                    <span class="section-label">
+                        {{ strip_tags($memberTitle['title']) }}
+                    </span>
 
-        <div class="section-description mt-3">
-            @if ($memberTitle['show_html'] ?? false)
-                {!! $memberTitle['body'] !!}
-            @else
-                {{ strip_tags($memberTitle['body']) }}
-            @endif
-        </div>
-    </div>
-</div>
+                    <div class="section-description mt-3">
+                        @if ($memberTitle['show_html'] ?? false)
+                            {!! $memberTitle['body'] !!}
+                        @else
+                            {{ strip_tags($memberTitle['body']) }}
+                        @endif
+                    </div>
+                </div>
+            </div>
 
             <div class="row g-4">
                 @foreach ($members as $member)

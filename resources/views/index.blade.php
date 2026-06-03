@@ -4,8 +4,8 @@
 
 
     <!-- ===========================================
-                                   HERO SECTION
-                                  ============================================= -->
+                                       HERO SECTION
+                                      ============================================= -->
     <section class="home-hero" id="home-hero">
         <div class="home-hero__left">
             <div class="home-hero__content">
@@ -53,8 +53,8 @@
     </section>
 
     <!-- =============================================
-                                   ABOUT SECTION
-                                   ============================================= -->
+                                       ABOUT SECTION
+                                       ============================================= -->
     <section class="section-pad section-bg-white" id="home-about">
         <div class="container">
             <div class="row align-items-center gy-5">
@@ -105,33 +105,31 @@
     </section>
 
     <!-- =============================================
-                                   SERVICES SECTION
-                                   ============================================= -->
+                                       SERVICES SECTION
+                                       ============================================= -->
     <section class="section-pad" id="home-services">
         <div class="container">
             <div class="row align-items-end mb-5">
                 <div class="col-lg-6">
-                  
 
-@if ($service_title && $service_title->body)
 
-    @if ($service_title->show_html ?? false)
-        <div class="service-section-title section-title--lg mb-0">
-            {!! $service_title->body !!}
-        </div>
-    @else
-        <h2 class="service-section-title section-title--lg mb-0">
-            {{ strip_tags($service_title->body) }}
-        </h2>
-    @endif
+                    @if ($service_title && $service_title->body)
+                        @if ($service_title->show_html ?? false)
+                            <div class="service-section-title section-title--lg mb-0">
+                                {!! $service_title->body !!}
+                            </div>
+                        @else
+                            <h2 class="service-section-title section-title--lg mb-0">
+                                {{ strip_tags($service_title->body) }}
+                            </h2>
+                        @endif
 
-   @if($serviceContent && $serviceContent->body)
-    <div class="svc-pg__intro-sub mx-auto text-white">
-        {!! $serviceContent->body !!}
-    </div>
-@endif
-
-@endif
+                        @if ($serviceContent && $serviceContent->body)
+                            <div class="svc-pg__intro-sub mx-auto text-white">
+                                {!! $serviceContent->body !!}
+                            </div>
+                        @endif
+                    @endif
                 </div>
                 <div class="col-lg-6 text-lg-end mt-3 mt-lg-0">
                     <a href="{{ route('home.services') }}" class="btn-text-link services-view-all">
@@ -220,8 +218,8 @@
     </section>
 
     <!-- =============================================
-                                   PORTFOLIO / FEATURED WORK
-                                   ============================================= -->
+                                       PORTFOLIO / FEATURED WORK
+                                       ============================================= -->
     <section class="section-pad home-portfolio" id="home-portfolio">
         <div class="container">
             <div class="row align-items-end mb-4">
@@ -273,8 +271,8 @@
     </section>
 
     <!-- =============================================
-                                   STATS SECTION
-                                   ============================================= -->
+                                       STATS SECTION
+                                       ============================================= -->
     <section class="home-stats" id="home-stats">
         <div class="container home-stats__inner">
             <div class="row text-center">
@@ -299,8 +297,8 @@
     </section>
 
     <!-- =============================================
-                                   WHY CHOOSE US
-                                   ============================================= -->
+                                       WHY CHOOSE US
+                                       ============================================= -->
     <section class="section-pad section-bg-white" id="home-why">
         <div class="container">
             <div class="row align-items-center gy-5">
@@ -343,8 +341,8 @@
     </section>
 
     <!-- =============================================
-                TESTIMONIALS
-    ============================================= -->
+                    TESTIMONIALS
+        ============================================= -->
     <section class="section-pad home-testimonials" id="home-testimonials">
         <div class="container">
             <div class="text-center mb-5">
@@ -387,8 +385,8 @@
     </section>
 
     <!-- =============================================
-                                   CONTACT — form left + info/map right
-                                   ============================================= -->
+                                       CONTACT — form left + info/map right
+                                       ============================================= -->
     <section class="home-contact section-pad" id="home-contact">
         <div class="container">
             <form action="{{ route('contact.submit') }}" method="POST">
@@ -538,7 +536,7 @@
                                 </div>
                             </div>
                         @endif
- 
+
                     </div>
 
                 </div>

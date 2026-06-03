@@ -1,51 +1,51 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminScrapRequestController;
+use App\Http\Controllers\Admin\CareerJobController;
+use App\Http\Controllers\Admin\CustomCssController;
+use App\Http\Controllers\Admin\CustomJavascriptController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\PostCategoryController;
-use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Auth\UserController;
-use App\Http\Controllers\Admin\PageController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\ProgramController;
+use App\Http\Controllers\Admin\EnquiryAdminController;
+use App\Http\Controllers\Admin\FacultyController;
 use App\Http\Controllers\Admin\MultipleImageController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\OrderItemController;
+use App\Http\Controllers\Admin\OurProductController;
+use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\PostCategoryController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\ProgramController;
+use App\Http\Controllers\Admin\ProjectCategoryController as AdminProjectCategoryController;
+use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SeoParameterController;
+use App\Http\Controllers\Admin\SolarCalculatorAdminController;
+use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\TransactionController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\PagesController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\ScrapRequestController;
-use App\Http\Controllers\Admin\AdminScrapRequestController;
-use App\Http\Controllers\Admin\SeoParameterController;
-use App\Http\Controllers\ContactSubmissionController;
-use Illuminate\Http\Request;
-use App\Http\Controllers\ProjectCategoryController;
-use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\Admin\ProjectCategoryController as AdminProjectCategoryController;
-use App\Http\Controllers\SolarCalculatorController;
-use App\Http\Controllers\Admin\SolarCalculatorAdminController;
-use App\Http\Controllers\EnquiryController;
-use App\Http\Controllers\Admin\EnquiryAdminController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\CaptchaController;
-use App\Models\Post;
-use App\Models\OurProduct;
-use App\Http\Controllers\Admin\UploadController;
-use App\Http\Controllers\Admin\OurProductController;
-use App\Http\Controllers\Admin\FacultyController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\Admin\CareerJobController;
 use App\Http\Controllers\CareersController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactSubmissionController;
+use App\Http\Controllers\EnquiryController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PortfolioCategoryController;
 use App\Http\Controllers\PortfolioController;
-use App\Http\Controllers\Admin\CustomCssController;
-use App\Http\Controllers\Admin\CustomJavascriptController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectCategoryController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ScrapRequestController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SolarCalculatorController;
+use App\Models\OurProduct;
+use App\Models\Post;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('ourproduct', OurProductController::class);
@@ -174,13 +174,14 @@ Route::post('programs/{program}/images', [MultipleImageController::class, 'store
 
 Route::post('/admin/upload-image', function (Request $request) {
     $request->validate([
-        'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
     if ($request->hasFile('file')) {
         $path = $request->file('file')->store('uploads', 'public');
+
         return response()->json([
-            'location' => asset('storage/' . $path)
+            'location' => asset('storage/'.$path),
         ]);
     }
 
@@ -199,8 +200,6 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('locations', LocationController::class);
 });
-
-
 
 Route::post('/scrap-request', [ScrapRequestController::class, 'store'])->name('scrap-request.store');
 
@@ -298,7 +297,6 @@ Route::prefix('admin')
             CustomJavascriptController::class
         );
     });
-
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
 

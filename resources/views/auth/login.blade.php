@@ -3,7 +3,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Login Page</title>
+    <title>Outline Developers Admin Login</title>
 
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
@@ -61,6 +61,108 @@
     <!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="../css/adminlte.css" />
     <!--end::Required Plugin(AdminLTE)-->
+
+<style>
+:root{
+    --primary:#C8622A;
+    --primary-dark:#A84E1E;
+    --dark:#000000;
+    --white:#FFFFFF;
+}
+
+/* Background */
+.login-page{
+    background: linear-gradient(
+        135deg,
+        #000000 0%,
+        #1a1a1a 100%
+    ) !important;
+}
+
+/* Logo */
+.login-logo img{
+    width:160px;
+    filter: brightness(1.1);
+}
+
+/* Login Card */
+.card{
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    overflow:hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,.4);
+}
+
+.login-card-body{
+    background: transparent;
+    color:#fff;
+    padding:40px;
+}
+
+.login-box-msg{
+    color:#fff;
+    font-size:18px;
+    margin-bottom:25px;
+}
+
+/* Inputs */
+.form-control{
+    background: rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    color:#fff;
+}
+
+.form-control:focus{
+    background: rgba(228, 220, 220, 0.08);
+    color:#fff;
+    border-color:#C8622A;
+    box-shadow:0 0 0 .2rem rgba(200,98,42,.25);
+}
+
+.form-control::placeholder{
+    color:rgba(255,255,255,.5);
+}
+
+.input-group-text{
+    background: rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    color:#C8622A;
+}
+
+/* Remember Me */
+.form-check-label{
+    color:#fff;
+}
+
+/* Button */
+.btn-primary{
+    background:#C8622A !important;
+    border-color:#C8622A !important;
+}
+
+.btn-primary:hover{
+    background:#A84E1E !important;
+    border-color:#A84E1E !important;
+}
+
+/* Validation */
+.invalid-feedback{
+    color:#ffb199;
+}
+
+.form-check-input {
+    background-color: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.2);
+}
+
+.form-check-input:checked {
+    background-color: #C8622A !important;
+    border-color: #C8622A !important;
+}
+
+</style>
   </head>
   <!--end::Head-->
   <!--begin::Body-->
@@ -76,13 +178,24 @@
       <!-- /.login-logo -->
       <div class="card">
         <div class="card-body login-card-body">
-          <p class="login-box-msg">Sign in to start your session</p>
+          <p class="login-box-msg">
+    Welcome Back<br>
+    Sign in to continue
+</p>
 
           <form  action="{{ route('login') }}" method="post">
                @csrf
             <div class="input-group mb-3">
-                  <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                  
+<input
+    id="email"
+    type="email"
+    placeholder="Enter your email address"
+    class="form-control @error('email') is-invalid @enderror"
+    name="email"
+    value="{{ old('email') }}"
+    required
+    autocomplete="email"
+    autofocus>                  
              
               <div class="input-group-text">
                 <span class="bi bi-envelope"></span>
@@ -94,8 +207,14 @@
                                 @enderror
             </div>
             <div class="input-group mb-3">
-                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
+<input
+    id="password"
+    type="password"
+    placeholder="Enter your password"
+    class="form-control @error('password') is-invalid @enderror"
+    name="password"
+    required
+    autocomplete="current-password">
               <div class="input-group-text">
                 <span class="bi bi-lock-fill"></span>
               </div>

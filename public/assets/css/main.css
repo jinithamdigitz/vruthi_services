@@ -2449,8 +2449,7 @@ h2.about-pg__values-title.about-pg__values-title {
     font-size: var(--fs-sm);
     color: var(--color-gray-text);
     line-height: 1.85;
-    max-width: 100% !important;
-    width: 100% !important;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -4646,3 +4645,5 @@ section#home-services {
     color: var(--color-dark);
     font-weight: 600;
   }
+
+  
