@@ -2,545 +2,572 @@
 
 @section('content')
 
-
-    <!-- ===========================================
-                                       HERO SECTION
-                                      ============================================= -->
+ <!-- ============================================================
+     SECTION 3: HOME HERO SECTION — CAROUSEL SLIDER
+     ============================================================ -->
     <section class="home-hero" id="home-hero">
-        <div class="home-hero__left">
-            <div class="home-hero__content">
-
-                <h1 class="home-hero__title animate-fade-up delay-100">
-                    @if ($homebanner && $homebanner->title)
-                        @php
-                            $titleParts = explode('|', $homebanner->title);
-                            $firstLine = trim($titleParts[0]);
-                            $secondLine = isset($titleParts[1]) ? trim($titleParts[1]) : '';
-                        @endphp
-                        {{ $firstLine }}
-                        @if ($secondLine)
-                            <span class="home-hero__accent">{{ $secondLine }}</span>
-                        @endif
-                    @endif
-                </h1>
-
-                <p class="home-hero__sub animate-fade-up delay-200">
-                    @if ($homebanner && $homebanner->body)
-                        @if ($homebanner->show_html ?? false)
-                            {!! $homebanner->body !!}
-                        @else
-                            {{ $homebanner->body }}
-                        @endif
-                    @endif
-                </p>
-
-                <div class="home-hero__actions animate-fade-up delay-300">
-                    <a href="{{ route('home.services') }}" class="btn-outline-custom btn-primary-custom">
-                        Our Services &nbsp;<i class="bi bi-arrow-right"></i>
-                    </a>
-                    <a href="{{ route('home.portfolio') }}" class="btn-outline-custom hero-btn-ghost">
-                        View Portfolio &nbsp;<i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-
-            </div>
+      <div id="heroCarousel" class="carousel slide home-hero__carousel" data-bs-ride="carousel" data-bs-interval="5000">
+        <!-- Slide Indicators -->
+        <div class="carousel-indicators home-hero__indicators">
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
-        <div class="home-hero__right">
-            @if ($homebanner && $homebanner->image)
-                <img src="{{ asset($homebanner->image) }}" alt="{{ $homebanner->title ?? 'Outline Architects' }}" />
-            @endif
-        </div>
-    </section>
 
-    <!-- =============================================
-                                       ABOUT SECTION
-                                       ============================================= -->
-    <section class="section-pad section-bg-white" id="home-about">
-        <div class="container">
-            <div class="row align-items-center gy-5">
-                <div class="col-lg-5 animate-fade-left">
-                    <div class="home-about__img-wrap">
-                        @if ($about_us && $about_us->image)
-                            <img src="{{ asset($about_us->image) }}" alt="{{ $aboutUSTitle->title ?? '' }}" />
-                        @endif
-
-                        @if ($aboutUSTitle && $aboutUSTitle->body)
-                            <div class="home-about__badge">
-                                @if ($aboutUSTitle->show_html ?? false)
-                                    {!! $aboutUSTitle->body !!}
-                                @else
-                                    {{ strip_tags($aboutUSTitle->body) }}
-                                @endif
-                            </div>
-                        @endif
-                    </div>
-                </div>
-                <div class="col-lg-6 offset-lg-1 animate-fade-right">
-                    @if ($aboutUSTitle && $aboutUSTitle->title)
-                        <span class="section-label">{{ $aboutUSTitle->title }}</span>
-                    @endif
-
-                    @if ($about_us && $about_us->title)
-                        <h2 class="section-title section-title--lg mb-3">
-                            {!! $about_us->title !!}
-                        </h2>
-                    @endif
-
-                    <hr class="divider-primary" />
-
-                    <p class="section-subtitle mb-4">
-                        @if ($about_us->show_html ?? false)
-                            {!! $about_us->body !!}
-                        @else
-                            {{ $about_us->body }}
-                        @endif
+        <!-- Slides -->
+        <div class="carousel-inner">
+          <!-- SLIDE 1 - Facility Management -->
+          <div class="carousel-item active">
+            <div class="home-hero__slide home-hero__slide--1">
+              <div class="home-hero__shape home-hero__shape--1"></div>
+              <div class="home-hero__shape home-hero__shape--2"></div>
+              <div class="home-hero__shape home-hero__shape--3"></div>
+              <div class="container h-100">
+                <div class="row align-items-center h-100 g-4 g-lg-5">
+                  <div class="col-lg-6 col-xl-5">
+                    <div class="home-hero__eyebrow home-hero__animate-text">We Manage, You Focus</div>
+                    <h1 class="mb-2 home-hero__animate-text home-hero__animate-delay-1">
+                      Reliable Services.<br />Stronger Spaces.<br /><span class="accent-line">Better Tomorrow.</span>
+                    </h1>
+                    <p class="home-hero__desc home-hero__animate-text home-hero__animate-delay-2">
+                      VRUDHI OUTSOURCING SERVICES PVT. LTD. is a leading service provider in the Facility Management industry with an outstanding reputation for quality and integrity throughout India &amp; part of Middle East.
                     </p>
-
-                    <a href="{{ route('home.about') }}" class="btn-outline-custom btn-primary-custom">
-                        More About Us &nbsp;<i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- =============================================
-                                       SERVICES SECTION
-                                       ============================================= -->
-    <section class="section-pad" id="home-services">
-        <div class="container">
-            <div class="row align-items-end mb-5">
-                <div class="col-lg-6">
-
-
-                    @if ($service_title && $service_title->body)
-                        @if ($service_title->show_html ?? false)
-                            <div class="service-section-title section-title--lg mb-0">
-                                {!! $service_title->body !!}
-                            </div>
-                        @else
-                            <h2 class="service-section-title section-title--lg mb-0">
-                                {{ strip_tags($service_title->body) }}
-                            </h2>
-                        @endif
-
-                        @if ($serviceContent && $serviceContent->body)
-                            <div class="svc-pg__intro-sub mx-auto text-white">
-                                {!! $serviceContent->body !!}
-                            </div>
-                        @endif
-                    @endif
-                </div>
-                <div class="col-lg-6 text-lg-end mt-3 mt-lg-0">
-                    <a href="{{ route('home.services') }}" class="btn-text-link services-view-all">
-                        View All Services <span class="arrow">→</span>
-                    </a>
-                </div>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-5">
-                    @if ($service_title && $service_title->image)
-                        <div class="h-100 rounded-3 overflow-hidden services-featured-wrap">
-                            <img src="{{ asset($service_title->image) }}" alt="Services" class="services-featured-img" />
-                        </div>
-                    @endif
-                </div>
-                <div class="col-lg-7">
-                    <div class="row g-3 h-100">
-                        @foreach ($services as $key => $service)
-                            @if ($key == 4)
-                                <div class="col-12">
-                                    <div class="service-card">
-                                        <div class="d-flex align-items-start gap-3">
-                                            <div class="service-card__icon-img flex-shrink-0">
-                                                @if ($service->icon_image)
-                                                    <img src="{{ asset($service->icon_image) }}"
-                                                        alt="{{ $service->title }}">
-                                                @endif
-                                            </div>
-                                            <div class="home-services__card-link flex-grow-1">
-                                                <div>
-                                                    @if ($service->title)
-                                                        <div class="service-card__title">{{ $service->title }}</div>
-                                                    @endif
-                                                    @if ($service->body)
-                                                        <p class="service-card__text">
-                                                            @if ($service->show_html)
-                                                                {!! Str::limit(strip_tags($service->body), 100) !!}
-                                                            @else
-                                                                {{ Str::limit($service->body, 100) }}
-                                                            @endif
-                                                        </p>
-                                                    @endif
-                                                </div>
-                                                <a href="{{ route('home.services') }}" class="service-arrow">
-                                                    <i class="bi bi-arrow-right"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="col-sm-6">
-                                    <div class="service-card h-100">
-                                        <div class="service-card__icon-img">
-                                            @if ($service->icon_image)
-                                                <img src="{{ asset($service->icon_image) }}" alt="{{ $service->title }}">
-                                            @endif
-                                        </div>
-                                        <div class="home-services__card-link">
-                                            <div>
-                                                @if ($service->title)
-                                                    <div class="service-card__title">{{ $service->title }}</div>
-                                                @endif
-                                                @if ($service->body)
-                                                    <p class="service-card__text">
-                                                        @if ($service->show_html)
-                                                            {!! Str::limit(strip_tags($service->body), 80) !!}
-                                                        @else
-                                                            {{ Str::limit($service->body, 80) }}
-                                                        @endif
-                                                    </p>
-                                                @endif
-                                            </div>
-                                            <a href="{{ route('home.services') }}" class="service-arrow">
-                                                <i class="bi bi-arrow-right"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
+                    <div class="home-hero__actions home-hero__animate-text home-hero__animate-delay-3">
+                      <a href="services.html" class="btn-banner">OUR SERVICES <i class="bi bi-arrow-right"></i></a>
+                      <a href="contact.html" class="btn-outline-brand">Contact Us <i class="bi bi-arrow-right-short fs-5"></i></a>
                     </div>
+                  </div>
+                  <div class="col-lg-6 col-xl-7 d-flex justify-content-center justify-content-lg-end">
+                    <div class="home-hero__img-wrap home-hero__animate-img">
+                      <img src="assets/images/hero-team.jpg" alt="Vrudhi Facility Management Team" class="img-fluid" />
+                      <div class="home-hero__img-dot"></div>
+                      <div class="home-hero__img-badge">
+                        <div class="badge-num">17+</div>
+                        <div><div class="badge-text fw-bold">Years of</div><div class="badge-text">Experience</div></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- =============================================
-                                       PORTFOLIO / FEATURED WORK
-                                       ============================================= -->
-    <section class="section-pad home-portfolio" id="home-portfolio">
-        <div class="container">
-            <div class="row align-items-end mb-4">
-                <div class="col-lg-7">
-                    <span class="section-label">Featured Work</span>
-                    @if ($featured_work_title && $featured_work_title->title)
-                        <h2 class="section-title section-title--lg mb-2">{!! $featured_work_title->title !!}</h2>
-                    @endif
-                    @if ($featured_work_title && $featured_work_title->body)
-                        <p class="section-subtitle">{!! $featured_work_title->body !!}</p>
-                    @endif
+          <!-- SLIDE 2 - Security Services -->
+          <div class="carousel-item">
+            <div class="home-hero__slide home-hero__slide--2">
+              <div class="home-hero__shape home-hero__shape--1"></div>
+              <div class="home-hero__shape home-hero__shape--3"></div>
+              <div class="container h-100">
+                <div class="row align-items-center h-100 g-4 g-lg-5">
+                  <div class="col-lg-6 col-xl-5">
+                    <div class="home-hero__eyebrow home-hero__animate-text">Pan India &amp; Middle East</div>
+                    <h1 class="mb-2 home-hero__animate-text home-hero__animate-delay-1">
+                      Trusted Security.<br />Expert Guarding.<br /><span class="accent-line">Every Day.</span>
+                    </h1>
+                    <p class="home-hero__desc home-hero__animate-text home-hero__animate-delay-2">
+                      Our trained security professionals and modern surveillance systems ensure your premises stay safe, protected and fully compliant around the clock.
+                    </p>
+                    <div class="home-hero__actions home-hero__animate-text home-hero__animate-delay-3">
+                      <a href="services.html" class="btn-banner">OUR SERVICES <i class="bi bi-arrow-right"></i></a>
+                      <a href="contact.html" class="btn-outline-brand">Contact Us <i class="bi bi-arrow-right-short fs-5"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-xl-7 d-flex justify-content-center justify-content-lg-end">
+                    <div class="home-hero__img-wrap home-hero__animate-img">
+                      <img src="assets/images/hero-team.jpg" alt="Vrudhi Security Guarding Services" class="img-fluid" />
+                      <div class="home-hero__img-dot"></div>
+                      <div class="home-hero__img-badge">
+                        <div class="badge-num">500+</div>
+                        <div><div class="badge-text fw-bold">Happy</div><div class="badge-text">Clients</div></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-lg-5 text-lg-end mt-3 mt-lg-0">
-                    <a href="{{ route('home.portfolio') }}" class="btn-text-link">Explore Portfolio <span
-                            class="arrow">→</span></a>
-                </div>
+              </div>
             </div>
+          </div>
+
+          <!-- SLIDE 3 - Housekeeping & Facility Management -->
+          <div class="carousel-item">
+            <div class="home-hero__slide home-hero__slide--3">
+              <div class="home-hero__shape home-hero__shape--2"></div>
+              <div class="home-hero__shape home-hero__shape--3"></div>
+              <div class="container h-100">
+                <div class="row align-items-center h-100 g-4 g-lg-5">
+                  <div class="col-lg-6 col-xl-5">
+                    <div class="home-hero__eyebrow home-hero__animate-text">Facility Management Experts</div>
+                    <h1 class="mb-2 home-hero__animate-text home-hero__animate-delay-1">
+                      Clean Spaces.<br />Happy Teams.<br /><span class="accent-line">Better Results.</span>
+                    </h1>
+                    <p class="home-hero__desc home-hero__animate-text home-hero__animate-delay-2">
+                      From housekeeping and pest control to HR outsourcing — we deliver end-to-end facility solutions that let you focus on what matters most: your business.
+                    </p>
+                    <div class="home-hero__actions home-hero__animate-text home-hero__animate-delay-3">
+                      <a href="services.html" class="btn-banner">OUR SERVICES <i class="bi bi-arrow-right"></i></a>
+                      <a href="contact.html" class="btn-outline-brand">Contact Us <i class="bi bi-arrow-right-short fs-5"></i></a>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-xl-7 d-flex justify-content-center justify-content-lg-end">
+                    <div class="home-hero__img-wrap home-hero__animate-img">
+                      <img src="assets/images/hero-team.jpg" alt="Vrudhi Housekeeping & Facility Management" class="img-fluid" />
+                      <div class="home-hero__img-dot"></div>
+                      <div class="home-hero__img-badge">
+                        <div class="badge-num">25K+</div>
+                        <div><div class="badge-text fw-bold">Trained</div><div class="badge-text">Workforce</div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="home-hero__progress-bar" id="heroProgressBar"></div>
+      </div>
+    </section>
+    <!-- /home-hero -->
+
+    <!-- ============================================================
+     SECTION 4: HOME ABOUT SECTION
+     ============================================================ -->
+    <section class="home-about" id="home-about">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <!-- Left: About Text -->
+          <div class="col-lg-4">
+            <span class="section-label section-label--light reveal reveal-left">About Us</span>
+            <h2 class="mb-3 reveal reveal-left reveal-delay-1 text-white">Delivering Excellence Every Day</h2>
+            <p class="reveal reveal-left reveal-delay-2 text-white-75">VOSPL was established in year 2007 with a vision to offer sustainable, scalable and value based facility management services keeping customer and environment sensitivities specific to India.</p>
+            <a href="about.html" class="btn-outline-light mt-3 d-inline-flex reveal reveal-left reveal-delay-3">Know More About Us <i class="bi bi-arrow-right-short fs-5"></i></a>
+          </div>
+
+          <!-- Right: Value Cards -->
+          <div class="col-lg-8">
             <div class="row g-3">
-                @forelse($featured_work as $project)
-                    <div class="col-md-6 col-lg-4">
-                        <div class="project-card">
-                            @if ($project->image)
-                                <img src="{{ asset($project->image) }}" alt="{{ $project->title }}"
-                                    class="home-portfolio__project-img" />
-                            @endif
-                            <div class="project-card__overlay">
-                                @if ($project->title)
-                                    <div class="project-card__title">{{ $project->title }}</div>
-                                @endif
-                                @if ($project->location)
-                                    <div class="project-card__location">
-                                        @if ($project->show_html ?? false)
-                                            {!! $project->location !!}
-                                        @else
-                                            {{ $project->location }}
-                                        @endif
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-12">
-                        <p class="text-center">No portfolio items found.</p>
-                    </div>
-                @endforelse
+              <div class="col-sm-6 col-lg-3 reveal reveal-delay-1">
+                <div class="home-about__card h-100">
+                  <div class="icon-wrap"><i class="bi-shield-check"></i></div>
+                  <h4>Quality &amp; Integrity</h4>
+                  <p>We uphold the highest standards of quality and operate with integrity in everything we do.</p>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3 reveal reveal-delay-2">
+                <div class="home-about__card h-100">
+                  <div class="icon-wrap"><i class="bi bi-globe-central-south-asia"></i></div>
+                  <h4>Pan India Presence</h4>
+                  <p>Strong operational network across India &amp; part of Middle East.</p>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3 reveal reveal-delay-3">
+                <div class="home-about__card h-100">
+                  <div class="icon-wrap"><i class="bi bi-person-workspace"></i></div>
+                  <h4>Trained Workforce</h4>
+                  <p>Skilled, verified and well-trained professionals ensuring reliable service delivery.</p>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3 reveal reveal-delay-4">
+                <div class="home-about__card h-100">
+                  <div class="icon-wrap"><i class="bi-hand-thumbs-up"></i></div>
+                  <h4>Customer First</h4>
+                  <p>We believe in building long-term relationships through trust, transparency and value.</p>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </section>
+    <!-- /home-about -->
 
-    <!-- =============================================
-                                       STATS SECTION
-                                       ============================================= -->
+    <!-- ============================================================
+     SECTION 5: HOME SERVICES SECTION
+     ============================================================ -->
+    <section class="home-services" id="home-services">
+      <div class="container">
+        <div class="row justify-content-center text-center mb-5">
+          <div class="col-lg-7">
+            <h2 class="section-title-unified">Our Services</h2>
+            <br />
+            <h2 class="reveal reveal-delay-1 text-center">Comprehensive Facility Management Solutions</h2>
+            <div class="section-divider mx-auto reveal reveal-delay-2"></div>
+          </div>
+        </div>
+
+        <!-- Bootstrap row-cols for responsive 5 columns -->
+        <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+          <!-- Service 1 -->
+          <div class="col reveal">
+            <div class="home-services__card h-100 text-center">
+              <div class="home-services__icon mx-auto"><i class="bi bi-house-check"></i></div>
+              <h4>House Keeping &amp; Upkeep Maintenance</h4>
+              <p>Professional cleaning and upkeep solutions to keep your spaces clean, safe and hygienic.</p>
+              <a href="javascript:void(0)" class="btn-arrow mx-auto" aria-label="Learn more about Housekeeping"><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <!-- Service 2 -->
+          <div class="col reveal">
+            <div class="home-services__card h-100 text-center">
+              <div class="home-services__icon mx-auto"><i class="bi bi-shield-lock"></i></div>
+              <h4>Security Guarding Service</h4>
+              <p>Trained security personnel and modern surveillance systems for a secure environment.</p>
+              <a href="javascript:void(0)" class="btn-arrow mx-auto" aria-label="Learn more about Security Services"><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <!-- Service 3 -->
+          <div class="col reveal">
+            <div class="home-services__card h-100 text-center">
+              <div class="home-services__icon mx-auto"><i class="bi-person-vcard"></i></div>
+              <h4>Care Taker Services</h4>
+              <p>Reliable caretaking support for residential, commercial and industrial properties.</p>
+              <a href="javascript:void(0)" class="btn-arrow mx-auto" aria-label="Learn more about Care Taker Services"><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <!-- Service 4 -->
+          <div class="col reveal">
+            <div class="home-services__card h-100 text-center">
+              <div class="home-services__icon mx-auto"><i class="bi bi-diagram-3"></i></div>
+              <h4>HR Outsourcing / Payroll Management</h4>
+              <p>End-to-end HR and payroll solutions ensuring compliance and efficiency.</p>
+              <a href="javascript:void(0)" class="btn-arrow mx-auto" aria-label="Learn more about HR Outsourcing"><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <!-- Service 5 -->
+          <div class="col reveal">
+            <div class="home-services__card h-100 text-center">
+              <div class="home-services__icon mx-auto"><i class="bi-bug"></i></div>
+              <h4>Pest Control</h4>
+              <p>Safe and effective pest control solutions for a healthy and pest free environment.</p>
+              <a href="javascript:void(0)" class="btn-arrow mx-auto" aria-label="Learn more about Pest Control"><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- /row -->
+
+        <div class="row justify-content-center mt-5">
+          <div class="col-auto reveal">
+            <a href="services.html" class="btn-primary-brand">View All Services <i class="bi bi-arrow-right-short fs-5"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /home-services -->
+
+    <!-- ============================================================
+     SECTION 6: HOME STATS / WHY CHOOSE US SECTION
+     ============================================================ -->
     <section class="home-stats" id="home-stats">
-        <div class="container home-stats__inner">
-            <div class="row text-center">
-                @foreach ($counters as $counter)
-                    <div class="col-6 col-md-3 home-stats__item">
-                        <div class="home-stats__icon mx-auto">
-                            @if ($counter->image)
-                                <img src="{{ asset($counter->image) }}" alt="{{ $counter->title }}"
-                                    class="stats-icon-img">
-                            @endif
-                        </div>
-                        @if ($counter->title)
-                            <div class="stat-box__number stat-box__number--light">{{ $counter->title }}</div>
-                        @endif
-                        @if ($counter->body)
-                            <div class="stat-box__label stat-box__label--light">{!! $counter->body !!}</div>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-4 col-xl-3">
+            <span class="section-label section-label--light reveal reveal-left">Why Choose Us</span>
+            <h2 class="mb-3 reveal reveal-left reveal-delay-1 text-white">Experience. Expertise. Excellence.</h2>
+            <p class="reveal reveal-left reveal-delay-2 text-white-75">With years of experience and a customer-centric approach, we deliver smart, efficient and sustainable facility management solutions.</p>
+            <a href="about.html" class="btn-outline-light mt-3 d-inline-flex reveal reveal-left reveal-delay-3">Partner With Us <i class="bi bi-arrow-right-short fs-5"></i></a>
+          </div>
 
-    <!-- =============================================
-                                       WHY CHOOSE US
-                                       ============================================= -->
-    <section class="section-pad section-bg-white" id="home-why">
-        <div class="container">
-            <div class="row align-items-center gy-5">
-                <div class="col-lg-6 order-2 order-lg-1 animate-fade-left">
-                    @if ($whychooseustitle && $whychooseustitle->title)
-                        <span class="section-label">{{ $whychooseustitle->title }}</span>
-                    @endif
-                    @if ($whychooseus && $whychooseus->title)
-                        <h2 class="section-title section-title--lg mb-3">{!! $whychooseus->title !!}</h2>
-                    @endif
-                    <hr class="divider-primary" />
-                    @if ($whychooseus && $whychooseus->body)
-                        <div class="mt-4 home-why__checklist">
-                            <div class="mt-4 home-why__checklist">
-                                @if ($whychooseus->show_html ?? false)
-                                    {!! $whychooseus->body !!}
-                                @else
-                                    {{ $whychooseus->body }}
-                                @endif
-                            </div>
-                        </div>
-                    @endif
+          <div class="col-lg-8 col-xl-9">
+            <div class="row g-3 justify-content-center home-stats__row">
+              <div class="col-6 col-md-3 reveal reveal-delay-1">
+                <div class="home-stats__item text-center">
+                  <div class="home-stats__icon"><i class="bi bi-calendar3"></i></div>
+                  <div class="home-stats__number">17<span class="home-stats__num-suffix">+</span></div>
+                  <div class="home-stats__label">Years of Experience</div>
                 </div>
-                <div class="col-lg-6 order-1 order-lg-2 animate-fade-right">
-                    <div class="home-why__img-wrap">
-                        @if ($whychooseus && $whychooseus->image)
-                            <img src="{{ asset($whychooseus->image) }}" alt="Why Choose Outline" />
-                        @endif
-                        @if ($whychooseustitle && ($whychooseustitle->body || $whychooseustitle->short_description))
-                            <div class="home-why__promise">
-                                @if ($whychooseustitle->body)
-                                    <h5>{!! $whychooseustitle->body !!}</h5>
-                                @endif
-                            </div>
-                        @endif
-                    </div>
+              </div>
+              <div class="col-6 col-md-3 reveal reveal-delay-2">
+                <div class="home-stats__item text-center">
+                  <div class="home-stats__icon"><i class="bi bi-buildings"></i></div>
+                  <div class="home-stats__number">500<span class="home-stats__num-suffix">+</span></div>
+                  <div class="home-stats__label">Happy Clients</div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- =============================================
-                    TESTIMONIALS
-        ============================================= -->
-    <section class="section-pad home-testimonials" id="home-testimonials">
-        <div class="container">
-            <div class="text-center mb-5">
-                @if ($testimonialstitle && $testimonialstitle->title)
-                    <span class="section-label">{{ $testimonialstitle->title }}</span>
-                @endif
-                @if ($testimonialstitle && $testimonialstitle->body)
-                    <h2 class="section-title section-title--lg">{!! $testimonialstitle->body !!}</h2>
-                @endif
-            </div>
-            <div class="row g-4">
-                @foreach ($testimonials as $testimonial)
-                    <div class="col-md-6 col-lg-4">
-                        <div class="testimonial-card">
-                            <div class="testimonial-quote">"</div>
-                            @if ($testimonial->title)
-                                <p class="testimonial-card__text">{{ $testimonial->title }}</p>
-                            @endif
-                            <div class="d-flex align-items-center gap-3 mt-auto">
-                                <div class="testimonial-avatar">
-                                    @if ($testimonial->image)
-                                        <img src="{{ asset($testimonial->image) }}" alt="{{ $testimonial->title }}"
-                                            width="44" height="44" />
-                                    @endif
-                                </div>
-                                <div>
-                                    @if ($testimonial->body)
-                                        <div class="testimonial-card__role">{!! $testimonial->body !!}</div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="testimonial-dots">
-                <span class="active"></span><span></span><span></span>
-            </div>
-        </div>
-    </section>
-
-    <!-- =============================================
-                                       CONTACT — form left + info/map right
-                                       ============================================= -->
-    <section class="home-contact section-pad" id="home-contact">
-        <div class="container">
-            <form action="{{ route('contact.submit') }}" method="POST">
-                @csrf
-                <div class="row gy-5">
-
-                    <!-- Left: Form -->
-                    <div class="col-lg-6">
-                        <span class="section-label contact-heading-label">{{ $contactContent->title ?? '' }}</span>
-                        <h2 class="cta-section-title section-title--md section-title--light mb-4">
-                            {{ $contactContent->body ?? '' }}</h2>
-
-                        @if (session('success'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{ session('success') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        @endif
-
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul class="mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-                        <div class="row g-3">
-                            <div class="col-sm-6">
-                                <input type="text" name="name" class="form-control-custom" placeholder="Your Name"
-                                    value="{{ old('name') }}" required />
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="email" name="email" class="form-control-custom"
-                                    placeholder="Email Address" value="{{ old('email') }}" required />
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="tel" name="phone" class="form-control-custom"
-                                    placeholder="Phone Number" value="{{ old('phone') }}" />
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" name="project_type" class="form-control-custom"
-                                    placeholder="Project Type" value="{{ old('project_type') }}" />
-                            </div>
-                            <div class="col-12">
-                                <textarea name="message" class="form-control-custom" rows="4" placeholder="Your Message" required>{{ old('message') }}</textarea>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn-outline-custom btn-primary-custom w-100">
-                                    Send Message &nbsp;<i class="bi bi-send"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right: Info + Map -->
-                    <div class="col-lg-5 offset-lg-1">
-                        <div class="mb-2">
-
-                            {{-- Global Addresses --}}
-                            @if ($globalAddresses && $globalAddresses->count() > 0)
-                                @foreach ($globalAddresses as $address)
-                                    <div class="contact-info-item">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                            stroke="var(--color-primary)" stroke-width="2">
-                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                            <circle cx="12" cy="10" r="3" />
-                                        </svg>
-                                        <span>{!! $address->title !!}</span>
-                                    </div>
-                                @endforeach
-                            @endif
-
-                            {{-- Global Phones --}}
-                            @if ($globalPhones && $globalPhones->count() > 0)
-                                @foreach ($globalPhones as $phone)
-                                    <div class="contact-info-item">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                            stroke="var(--color-primary)" stroke-width="2">
-                                            <path
-                                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                                        </svg>
-                                        <span>{{ $phone->title }}</span>
-                                    </div>
-                                @endforeach
-                            @endif
-
-                            {{-- Global Emails --}}
-                            @if ($globalEmails && $globalEmails->count() > 0)
-                                @foreach ($globalEmails as $email)
-                                    <div class="contact-info-item">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                            stroke="var(--color-primary)" stroke-width="2">
-                                            <path
-                                                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                            <polyline points="22,6 12,13 2,6" />
-                                        </svg>
-                                        <span>{{ $email->title }}</span>
-                                    </div>
-                                @endforeach
-                            @endif
-
-                            {{-- Global Timings --}}
-                            @if ($globalTimings)
-                                <div class="contact-info-item">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                        stroke="var(--color-primary)" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <polyline points="12 6 12 12 16 14" />
-                                    </svg>
-                                    <span>{{ $globalTimings }}</span>
-                                </div>
-                            @endif
-
-                        </div>
-
-                        <!-- Map iframe with dynamic address -->
-                        <div class="home-contact__map">
-                            @php
-                                $mapAddress = '';
-                                if ($globalAddresses && $globalAddresses->count() > 0) {
-                                    $addressText = $globalAddresses->first()->title;
-                                    $mapAddress = urlencode(strip_tags($addressText));
-                                } else {
-                                    $mapAddress = urlencode('Inspire Tower, Baner, Pune, Maharashtra, India');
-                                }
-                            @endphp
-                            <iframe src="https://www.google.com/maps?q={{ $mapAddress }}&output=embed"
-                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                                title="Outline Architects Location">
-                            </iframe>
-                        </div>
-
-                        <!-- Address badge below map -->
-                        @if ($globalAddresses && $globalAddresses->count() > 0)
-                            <div class="contact-map-badge">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff"
-                                    stroke-width="2">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                    <circle cx="12" cy="10" r="3" />
-                                </svg>
-                                <div>
-                                    <strong>Outline Architects</strong>
-                                    <p>{{ strip_tags($globalAddresses->first()->title) }}</p>
-                                </div>
-                            </div>
-                        @endif
-
-                    </div>
-
+              </div>
+              <div class="col-6 col-md-3 reveal reveal-delay-3">
+                <div class="home-stats__item text-center">
+                  <div class="home-stats__icon"><i class="bi bi-people-fill"></i></div>
+                  <div class="home-stats__number">25,000<span class="home-stats__num-suffix">+</span></div>
+                  <div class="home-stats__label">Trained Workforce</div>
                 </div>
-            </form>
+              </div>
+              <div class="col-6 col-md-3 reveal reveal-delay-4">
+                <div class="home-stats__item text-center">
+                  <div class="home-stats__icon"><i class="bi bi-geo-alt"></i></div>
+                  <div class="home-stats__label fw-bold fs-4 text-white">Pan India</div>
+                  <div class="home-stats__label">& Middle East Presence</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
+    <!-- /home-stats -->
+
+    <!-- ============================================================
+     SECTION 7: HOME INDUSTRIES SECTION
+     ============================================================ -->
+    <section class="home-industries" id="home-industries">
+      <div class="container">
+        <div class="row justify-content-center text-center mb-4">
+          <div class="col-lg-6">
+            <h2 class="section-title-unified">Industries We Serve</h2>
+          </div>
+        </div>
+        <div class="row g-0 align-items-center">
+          <div class="col"><div class="home-industries__item"><i class="bi bi-building home-industries__icon"></i><span class="home-industries__label">Corporate Offices</span></div></div>
+          <div class="col"><div class="home-industries__item"><i class="bi bi-hospital home-industries__icon"></i><span class="home-industries__label">Hospitals</span></div></div>
+          <div class="col"><div class="home-industries__item"><i class="bi bi-building-gear home-industries__icon"></i><span class="home-industries__label">Manufacturing</span></div></div>
+          <div class="col"><div class="home-industries__item"><i class="bi bi-shop home-industries__icon"></i><span class="home-industries__label">Retail & Malls</span></div></div>
+          <div class="col"><div class="home-industries__item"><i class="bi bi-house-door home-industries__icon"></i><span class="home-industries__label">Residential Complexes</span></div></div>
+          <div class="col"><div class="home-industries__item"><i class="bi bi-mortarboard home-industries__icon"></i><span class="home-industries__label">Educational Institutions</span></div></div>
+          <div class="col"><div class="home-industries__item"><i class="bi bi-pc-display home-industries__icon"></i><span class="home-industries__label">IT Parks</span></div></div>
+          <div class="col"><div class="home-industries__item home-industries__item--last"><i class="bi bi-buildings home-industries__icon"></i><span class="home-industries__label">Hotels</span></div></div>
+        </div>
+      </div>
+    </section>
+    <!-- /home-industries -->
+
+    <!-- ============================================================
+     SECTION 8: HOME PROCESS SECTION
+     ============================================================ -->
+    <section class="home-process" id="home-process">
+      <div class="container">
+        <div class="row justify-content-center text-center mb-5">
+          <div class="col-lg-6">
+            <h2 class="section-title-unified">Our Process</h2>
+          </div>
+        </div>
+        <div class="home-process__flow">
+          <div class="home-process__item"><div class="home-process__icon"><i class="bi bi-chat-dots"></i></div><h4>Understand</h4><p>We understand your requirements</p></div>
+          <div class="home-process__arrow"></div>
+          <div class="home-process__item"><div class="home-process__icon"><i class="bi bi-file-earmark-text"></i></div><h4>Plan</h4><p>We design a customized solution</p></div>
+          <div class="home-process__arrow"></div>
+          <div class="home-process__item"><div class="home-process__icon"><i class="bi bi-gear-fill"></i></div><h4>Execute</h4><p>We deploy trained resources</p></div>
+          <div class="home-process__arrow"></div>
+          <div class="home-process__item"><div class="home-process__icon"><i class="bi bi-check-circle-fill"></i></div><h4>Monitor</h4><p>We ensure quality & compliance</p></div>
+          <div class="home-process__arrow"></div>
+          <div class="home-process__item"><div class="home-process__icon"><i class="bi bi-bar-chart-line-fill"></i></div><h4>Improve</h4><p>We continuously improve for better results</p></div>
+        </div>
+      </div>
+    </section>
+    <!-- /home-process -->
+
+    <!-- ============================================================
+     SECTION 9: HOME CLIENTS SECTION
+     ============================================================ -->
+    <section class="home-clients" id="home-clients">
+      <div class="container">
+        <div class="row justify-content-center text-center mb-5">
+          <div class="col-lg-6">
+            <h2 class="section-title-unified">Our Valued Clients</h2>
+          </div>
+        </div>
+        <div class="home-clients__track-wrapper reveal">
+          <div class="home-clients__track">
+            <div class="home-clients__logo"><span class="client-logo client-logo--dlf">DLF<span class="client-logo-accent">▲</span></span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--lenskart">lenskart</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--hcl">HCL</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--airtel">airtel</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--wipro">WIPRO</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--tata">TATA</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--decathlon">DECATHLON</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--vivo">vivo</span></div>
+            <!-- Duplicate set for seamless loop -->
+            <div class="home-clients__logo"><span class="client-logo client-logo--dlf">DLF<span class="client-logo-accent">▲</span></span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--lenskart">lenskart</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--hcl">HCL</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--airtel">airtel</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--wipro">WIPRO</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--tata">TATA</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--decathlon">DECATHLON</span></div>
+            <div class="home-clients__logo"><span class="client-logo client-logo--vivo">vivo</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /home-clients -->
+    
 @endsection
+
+ <!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main JavaScript -->
+    <script>
+      (function() {
+        // Hero Carousel Elements
+        const heroCarousel = document.getElementById("heroCarousel");
+        const progressBar = document.getElementById("heroProgressBar");
+        const SLIDE_DURATION = 5000;
+
+        // Function to trigger slide animations
+        function triggerSlideAnims(slideEl) {
+          if (!slideEl) return;
+          const texts = slideEl.querySelectorAll(".home-hero__animate-text");
+          const img = slideEl.querySelector(".home-hero__animate-img");
+          texts.forEach((el) => {
+            el.style.animation = "none";
+            el.offsetHeight;
+            el.style.animation = "";
+          });
+          if (img) {
+            img.style.animation = "none";
+            img.offsetHeight;
+            img.style.animation = "";
+          }
+        }
+
+        // Progress Bar Functions
+        function resetProgressBar() {
+          if (progressBar) {
+            progressBar.style.transition = "none";
+            progressBar.style.width = "0%";
+          }
+        }
+
+        function startProgressBar() {
+          if (!progressBar) return;
+          progressBar.style.transition = "none";
+          progressBar.style.width = "0%";
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+              progressBar.style.transition = `width ${SLIDE_DURATION}ms linear`;
+              progressBar.style.width = "100%";
+            })
+          );
+        }
+
+        // Initialize Carousel Events
+        if (heroCarousel) {
+          heroCarousel.addEventListener("slide.bs.carousel", resetProgressBar);
+          heroCarousel.addEventListener("slid.bs.carousel", (e) => {
+            triggerSlideAnims(e.relatedTarget);
+            startProgressBar();
+          });
+          startProgressBar();
+          const activeSlide = document.querySelector("#heroCarousel .carousel-item.active");
+          if (activeSlide) triggerSlideAnims(activeSlide);
+        }
+
+        // Navbar Scroll Effect
+        const mainNav = document.getElementById("mainNav");
+        if (mainNav) {
+          window.addEventListener("scroll", () => {
+            if (window.scrollY > 60) {
+              mainNav.classList.add("scrolled");
+            } else {
+              mainNav.classList.remove("scrolled");
+            }
+          });
+        }
+
+        // Scroll Reveal Animation
+        const revealEls = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
+        if (revealEls.length) {
+          const revealObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("active");
+                  revealObserver.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+          );
+          revealEls.forEach((el) => revealObserver.observe(el));
+        }
+
+        // Counter Animation for Stats
+        function animateCounter(el, target, duration = 2000) {
+          if (!el) return;
+          const step = target / (duration / 16);
+          let current = 0;
+          const update = () => {
+            current = Math.min(current + step, target);
+            if (target >= 1000) {
+              if (target === 25000) {
+                el.textContent = Math.floor(current).toLocaleString("en-IN");
+              } else {
+                el.textContent = current >= 1000 ? (current / 1000).toFixed(0) + ",000" : Math.floor(current).toLocaleString("en-IN");
+              }
+            } else {
+              el.textContent = Math.floor(current);
+            }
+            if (current < target) requestAnimationFrame(update);
+          };
+          requestAnimationFrame(update);
+        }
+
+        const statsSection = document.getElementById("home-stats");
+        let statsAnimated = false;
+        if (statsSection) {
+          const statsObserver = new IntersectionObserver(
+            (entries) => {
+              if (entries[0].isIntersecting && !statsAnimated) {
+                statsAnimated = true;
+                const statNumbers = document.querySelectorAll(".home-stats__number");
+                const nums = [
+                  { el: statNumbers[0], val: 17 },
+                  { el: statNumbers[1], val: 500 },
+                  { el: statNumbers[2], val: 25000 }
+                ];
+                nums.forEach(({ el, val }) => {
+                  if (el) {
+                    const suffix = el.querySelector(".home-stats__num-suffix");
+                    animateCounter(el, val);
+                    if (suffix) el.appendChild(suffix);
+                  }
+                });
+              }
+            },
+            { threshold: 0.3 }
+          );
+          statsObserver.observe(statsSection);
+        }
+
+        // Back To Top Button
+        const backToTop = document.getElementById("backToTop");
+        if (backToTop) {
+          window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+              backToTop.classList.add("show");
+            } else {
+              backToTop.classList.remove("show");
+            }
+          });
+          backToTop.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          });
+        }
+
+        // Active Nav Link on Scroll
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+        if (sections.length && navLinks.length) {
+          window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach((sec) => {
+              const top = sec.offsetTop - 100;
+              if (window.scrollY >= top) current = sec.getAttribute("id");
+            });
+            navLinks.forEach((link) => {
+              link.classList.remove("active");
+              const href = link.getAttribute("href");
+              if (href === "#" + current || href === current + ".html") {
+                link.classList.add("active");
+              }
+            });
+          });
+        }
+      })();
+    </script>
