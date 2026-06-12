@@ -118,6 +118,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about-us', [HomeController::class, 'about'])->name('home.about');
+Route::get('/services', [HomeController::class, 'about'])->name('services');
 Route::get('/projectlisting', [HomeController::class, 'projectlisting'])->name('home.projectlisting');
 
 Route::get('/calculator', [SolarCalculatorController::class, 'index'])->name('calculator');

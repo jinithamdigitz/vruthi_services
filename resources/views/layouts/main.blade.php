@@ -92,7 +92,7 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="javascript:void(0)">Services</a>
+                        <a class="nav-link" href="{{ route('home.about') }}">Services</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="industries.html">Industries</a>
