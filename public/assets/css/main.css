@@ -2679,8 +2679,8 @@ clip-path: polygon(
   width: calc(100% / 7);
   text-align: center;
   /* Stagger entrance — delay set via JS */
-  opacity: 0;
-  transform: translateY(28px);
+
+
   transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
@@ -2975,8 +2975,7 @@ clip-path: polygon(
  
   backdrop-filter: blur(6px);
   /* Hidden until JS adds class */
-  opacity: 0;
-  transform: translateY(24px);
+ 
   transition:
     opacity 0.5s ease,
     transform 0.5s ease,
