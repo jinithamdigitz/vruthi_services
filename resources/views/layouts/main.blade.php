@@ -67,7 +67,7 @@
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand navbar-logo" href="index.html">
-                <img src="assets/images/vrudhi_logo.png" alt="Vrudhi Outsourcing Services Pvt. Ltd." />
+                <img src="{{ $logo->image }}" alt="Vrudhi Outsourcing Services Pvt. Ltd." />
             </a>
 
             <!-- Mobile Toggle -->
@@ -80,7 +80,8 @@
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav mx-auto align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home.index') }}">
+                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                            href="{{ route('home.index') }}">
                             Home
                         </a>
                     </li>
@@ -124,21 +125,35 @@
      SECTION 10: HOME CTA BAND SECTION
      ============================================================ -->
     <section class="home-cta-band" id="home-cta-band">
-        <div class="container">
-            <div class="row align-items-center gy-4">
-                <div class="col-lg-8 reveal reveal-left">
-                    <h2 class="mb-2 text-white">Let's Build a Better, Cleaner &amp; Safer Tomorrow Together</h2>
-                    <p class="mb-0 text-white-75">Partner with VRUDHI OUTSOURCING SERVICES PVT. LTD. for all your
-                        facility management needs.</p>
-                </div>
-                <div class="col-lg-4 text-lg-end reveal reveal-right">
-                    <a href="contact.html" class="btn-outline-light">Get In Touch <i
-                            class="bi bi-arrow-right-short"></i></a>
-                </div>
+    <div class="container">
+        <div class="row align-items-center gy-4">
+
+            <div class="col-lg-8 reveal reveal-left">
+
+                @if(!empty($cta->title))
+                    <h2 class="mb-2 text-white">
+                        {{ $cta->title }}
+                    </h2>
+                @endif
+
+                @if(!empty($cta->body))
+                    <p class="mb-0 text-white-75">
+                        {!! $cta->body !!}
+                    </p>
+                @endif
+
             </div>
+
+            <div class="col-lg-4 text-lg-end reveal reveal-right">
+                <a href="{{ route('contact') }}" class="btn-outline-light">
+                    Get In Touch
+                    <i class="bi bi-arrow-right-short"></i>
+                </a>
+            </div>
+
         </div>
-    </section>
-    <!-- /home-cta-band -->
+    </div>
+</section>
 
     <!-- ============================================================
      SECTION 11: SITE FOOTER
@@ -147,7 +162,7 @@
         <div class="container">
             <div class="row g-4 g-lg-5">
                 <div class="col-lg-4 col-md-6">
-                    <div class="site-footer__logo"><img src="assets/images/vrudhi_logo.png"
+                    <div class="site-footer__logo"><img src="{{ $logo->image }}"
                             alt="Vrudhi Outsourcing Services Pvt. Ltd." /></div>
                     <p class="site-footer__desc">Delivering reliable, efficient and sustainable facility management
                         solutions across India &amp; Middle East since 2007.</p>

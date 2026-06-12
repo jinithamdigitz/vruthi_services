@@ -40,7 +40,7 @@ class HomeController extends Controller
         $category = PostCategory::where('slug', 'home-banner')->first();
         $homebanner = [];
         if ($category) {
-            $homebanner = Post::where('post_category_id', $category->id)->first();
+            $homebanner = Post::where('post_category_id', $category->id)->get();
         }
 
         $category = PostCategory::where('slug', 'about-us-title')->first();
@@ -137,6 +137,18 @@ class HomeController extends Controller
             $serviceContent = Post::where('post_category_id', $category->id)->first();
         }
 
+        $category = PostCategory::where('slug', 'cta')->first();
+        $cta = [];
+        if ($category) {
+            $cta = Post::where('post_category_id', $category->id)->first();
+        }
+
+        $category = PostCategory::where('slug', 'clients')->first();
+        $clients = [];
+        if ($category) {
+            $clients = Post::where('post_category_id', $category->id)->get();
+        }
+
         return view('index', [
             'homebanner' => $homebanner,
             'aboutUSTitle' => $aboutUSTitle,
@@ -157,6 +169,8 @@ class HomeController extends Controller
             'whychooseustitle' => $whychooseustitle,
             'contactContent' => $contactContent,
             'serviceContent' => $serviceContent,
+            'cta' => $cta,
+            'clients' => $clients,
         ]);
     }
 
