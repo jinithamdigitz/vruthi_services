@@ -3,12 +3,13 @@
 @section('content')
 
     <!-- ============================================================
-         SECTION 3: HOME HERO SECTION — DYNAMIC SLIDER
-         ============================================================ -->
+                SECTION 3: HOME HERO SECTION — DYNAMIC SLIDER
+    ============================================================ -->
     @if ($homebanner->count())
         <section class="home-hero" id="home-hero">
 
-            <div id="heroCarousel" class="carousel slide home-hero__carousel" data-bs-ride="carousel" data-bs-interval="5000">
+            <div id="heroCarousel" class="carousel slide home-hero__carousel" data-bs-ride="carousel" data-bs-interval="5000"
+                data-bs-pause="false" data-bs-wrap="true">
 
                 <!-- Indicators -->
                 <div class="carousel-indicators home-hero__indicators">
@@ -97,18 +98,6 @@
 
                                                 <div class="home-hero__img-dot"></div>
 
-                                                <div class="home-hero__img-badge">
-                                                    <div class="badge-num">17+</div>
-
-                                                    <div>
-                                                        <div class="badge-text fw-bold">
-                                                            Years of
-                                                        </div>
-                                                        <div class="badge-text">
-                                                            Experience
-                                                        </div>
-                                                    </div>
-                                                </div>
 
                                             </div>
 
@@ -144,54 +133,41 @@
     @endif
 
     <!-- ============================================================
-         SECTION 4: HOME ABOUT SECTION
-         ============================================================ -->
+                    SECTION 4: HOME ABOUT SECTION
+    ============================================================ -->
     <section class="home-about" id="home-about">
         <div class="container">
             <div class="row align-items-center g-5">
                 <!-- Left: About Text -->
                 <div class="col-lg-4">
-                    <span class="section-label section-label--light reveal reveal-left">About Us</span>
-                    <h2 class="mb-3 reveal reveal-left reveal-delay-1 text-white">Delivering Excellence Every Day</h2>
-                    <p class="reveal reveal-left reveal-delay-2 text-white-75">VOSPL was established in year 2007 with a
-                        vision to offer sustainable, scalable and value based facility management services keeping customer
-                        and environment sensitivities specific to India.</p>
-                    <a href="about.html" class="btn-outline-light mt-3 d-inline-flex reveal reveal-left reveal-delay-3">Know
+                    <span class="section-label section-label--light reveal reveal-left">{{ $aboutUSTitle->title }}</span>
+                    <h2 class="mb-3 reveal reveal-left reveal-delay-1 text-white">{!! $aboutUSTitle->body !!}</h2>
+                    <a href="{{ route('home.about') }}"
+                        class="btn-outline-light mt-3 d-inline-flex reveal reveal-left reveal-delay-3">Know
                         More About Us <i class="bi bi-arrow-right-short fs-5"></i></a>
                 </div>
 
                 <!-- Right: Value Cards -->
                 <div class="col-lg-8">
                     <div class="row g-3">
-                        <div class="col-sm-6 col-lg-3 reveal reveal-delay-1">
-                            <div class="home-about__card h-100">
-                                <div class="icon-wrap"><i class="bi-shield-check"></i></div>
-                                <h4>Quality &amp; Integrity</h4>
-                                <p>We uphold the highest standards of quality and operate with integrity in everything we
-                                    do.</p>
+
+                        @foreach ($whyChooseUsCards as $index => $card)
+                            <div class="col-sm-6 col-lg-3 reveal reveal-delay-{{ $index + 1 }}">
+                                <div class="home-about__card h-100">
+
+                                    <div class="icon-wrap">
+                                        <img src="{{ asset($card->image) }}" alt="{{ $card->title }}"
+                                            class="home-about__icon-img">
+                                    </div>
+
+                                    <h4>{{ $card->title }}</h4>
+
+                                    <p>{!! $card->body !!}</p>
+
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3 reveal reveal-delay-2">
-                            <div class="home-about__card h-100">
-                                <div class="icon-wrap"><i class="bi bi-globe-central-south-asia"></i></div>
-                                <h4>Pan India Presence</h4>
-                                <p>Strong operational network across India &amp; part of Middle East.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3 reveal reveal-delay-3">
-                            <div class="home-about__card h-100">
-                                <div class="icon-wrap"><i class="bi bi-person-workspace"></i></div>
-                                <h4>Trained Workforce</h4>
-                                <p>Skilled, verified and well-trained professionals ensuring reliable service delivery.</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3 reveal reveal-delay-4">
-                            <div class="home-about__card h-100">
-                                <div class="icon-wrap"><i class="bi-hand-thumbs-up"></i></div>
-                                <h4>Customer First</h4>
-                                <p>We believe in building long-term relationships through trust, transparency and value.</p>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
@@ -200,8 +176,8 @@
     <!-- /home-about -->
 
     <!-- ============================================================
-         SECTION 5: HOME SERVICES SECTION
-         ============================================================ -->
+                SECTION 5: HOME SERVICES SECTION
+    ============================================================ -->
     <section class="home-services" id="home-services">
         <div class="container">
             <div class="row justify-content-center text-center mb-5">
@@ -283,17 +259,15 @@
     <!-- /home-services -->
 
     <!-- ============================================================
-         SECTION 6: HOME STATS / WHY CHOOSE US SECTION
-         ============================================================ -->
+            SECTION 6: HOME STATS / WHY CHOOSE US SECTION
+    ============================================================ -->
     <section class="home-stats" id="home-stats">
         <div class="container">
             <div class="row align-items-center g-4">
                 <div class="col-lg-4 col-xl-3">
-                    <span class="section-label section-label--light reveal reveal-left">Why Choose Us</span>
-                    <h2 class="mb-3 reveal reveal-left reveal-delay-1 text-white">Experience. Expertise. Excellence.</h2>
-                    <p class="reveal reveal-left reveal-delay-2 text-white-75">With years of experience and a
-                        customer-centric approach, we deliver smart, efficient and sustainable facility management
-                        solutions.</p>
+                    <span
+                        class="section-label section-label--light reveal reveal-left">{{ $whychooseustitle->title }}</span>
+                    <h2 class="mb-3 reveal reveal-left reveal-delay-1 text-white">{!! $whychooseustitle->body !!}</h2>
                     <a href="about.html"
                         class="btn-outline-light mt-3 d-inline-flex reveal reveal-left reveal-delay-3">Partner With Us <i
                             class="bi bi-arrow-right-short fs-5"></i></a>
@@ -301,34 +275,29 @@
 
                 <div class="col-lg-8 col-xl-9">
                     <div class="row g-3 justify-content-center home-stats__row">
-                        <div class="col-6 col-md-3 reveal reveal-delay-1">
-                            <div class="home-stats__item text-center">
-                                <div class="home-stats__icon"><i class="bi bi-calendar3"></i></div>
-                                <div class="home-stats__number">17<span class="home-stats__num-suffix">+</span></div>
-                                <div class="home-stats__label">Years of Experience</div>
+
+                        @foreach ($counters as $index => $counter)
+                            <div class="col-6 col-md-3 reveal reveal-delay-{{ $index + 1 }}">
+                                <div class="home-stats__item text-center">
+                                    <div class="home-stats__icon">
+                                        <img src="{{ asset($counter->image) }}" alt="{{ $counter->title }}"
+                                            class="home-stats__icon-img">
+                                    </div>
+
+                                    @if (!empty($counter->title))
+                                        <div class="home-stats__number">
+                                            {{ $counter->title }}
+                                        </div>
+                                    @endif
+
+                                    <div class="home-stats__label">
+                                        {!! $counter->body !!}
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-6 col-md-3 reveal reveal-delay-2">
-                            <div class="home-stats__item text-center">
-                                <div class="home-stats__icon"><i class="bi bi-buildings"></i></div>
-                                <div class="home-stats__number">500<span class="home-stats__num-suffix">+</span></div>
-                                <div class="home-stats__label">Happy Clients</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3 reveal reveal-delay-3">
-                            <div class="home-stats__item text-center">
-                                <div class="home-stats__icon"><i class="bi bi-people-fill"></i></div>
-                                <div class="home-stats__number">25,000<span class="home-stats__num-suffix">+</span></div>
-                                <div class="home-stats__label">Trained Workforce</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-md-3 reveal reveal-delay-4">
-                            <div class="home-stats__item text-center">
-                                <div class="home-stats__icon"><i class="bi bi-geo-alt"></i></div>
-                                <div class="home-stats__label fw-bold fs-4 text-white">Pan India</div>
-                                <div class="home-stats__label">& Middle East Presence</div>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
@@ -337,8 +306,8 @@
     <!-- /home-stats -->
 
     <!-- ============================================================
-         SECTION 7: HOME INDUSTRIES SECTION
-         ============================================================ -->
+                    SECTION 7: HOME INDUSTRIES SECTION
+    ============================================================ -->
     <section class="home-industries" id="home-industries">
         <div class="container">
             <div class="row justify-content-center text-center mb-4">
@@ -346,48 +315,31 @@
                     <h2 class="section-title-unified">Industries We Serve</h2>
                 </div>
             </div>
-            <div class="row g-0 align-items-center">
-                <div class="col">
-                    <div class="home-industries__item"><i class="bi bi-building home-industries__icon"></i><span
-                            class="home-industries__label">Corporate Offices</span></div>
-                </div>
-                <div class="col">
-                    <div class="home-industries__item"><i class="bi bi-hospital home-industries__icon"></i><span
-                            class="home-industries__label">Hospitals</span></div>
-                </div>
-                <div class="col">
-                    <div class="home-industries__item"><i class="bi bi-building-gear home-industries__icon"></i><span
-                            class="home-industries__label">Manufacturing</span></div>
-                </div>
-                <div class="col">
-                    <div class="home-industries__item"><i class="bi bi-shop home-industries__icon"></i><span
-                            class="home-industries__label">Retail & Malls</span></div>
-                </div>
-                <div class="col">
-                    <div class="home-industries__item"><i class="bi bi-house-door home-industries__icon"></i><span
-                            class="home-industries__label">Residential Complexes</span></div>
-                </div>
-                <div class="col">
-                    <div class="home-industries__item"><i class="bi bi-mortarboard home-industries__icon"></i><span
-                            class="home-industries__label">Educational Institutions</span></div>
-                </div>
-                <div class="col">
-                    <div class="home-industries__item"><i class="bi bi-pc-display home-industries__icon"></i><span
-                            class="home-industries__label">IT Parks</span></div>
-                </div>
-                <div class="col">
-                    <div class="home-industries__item home-industries__item--last"><i
-                            class="bi bi-buildings home-industries__icon"></i><span
-                            class="home-industries__label">Hotels</span></div>
-                </div>
+            <div class="row g-4">
+
+                @foreach ($industries as $industry)
+                    <div class="col-6 col-md-3">
+                        <div class="home-industries__item {{ $loop->last ? 'home-industries__item--last' : '' }}">
+
+                            <img src="{{ asset($industry->image) }}" alt="{{ $industry->title }}"
+                                class="home-industries__icon-img">
+
+                            <span class="home-industries__label">
+                                {{ $industry->title }}
+                            </span>
+
+                        </div>
+                    </div>
+                @endforeach
+
             </div>
         </div>
     </section>
     <!-- /home-industries -->
 
     <!-- ============================================================
-         SECTION 8: HOME PROCESS SECTION
-         ============================================================ -->
+                    SECTION 8: HOME PROCESS SECTION
+    ============================================================ -->
     <section class="home-process" id="home-process">
         <div class="container">
             <div class="row justify-content-center text-center mb-5">
@@ -396,43 +348,33 @@
                 </div>
             </div>
             <div class="home-process__flow">
-                <div class="home-process__item">
-                    <div class="home-process__icon"><i class="bi bi-chat-dots"></i></div>
-                    <h4>Understand</h4>
-                    <p>We understand your requirements</p>
-                </div>
-                <div class="home-process__arrow"></div>
-                <div class="home-process__item">
-                    <div class="home-process__icon"><i class="bi bi-file-earmark-text"></i></div>
-                    <h4>Plan</h4>
-                    <p>We design a customized solution</p>
-                </div>
-                <div class="home-process__arrow"></div>
-                <div class="home-process__item">
-                    <div class="home-process__icon"><i class="bi bi-gear-fill"></i></div>
-                    <h4>Execute</h4>
-                    <p>We deploy trained resources</p>
-                </div>
-                <div class="home-process__arrow"></div>
-                <div class="home-process__item">
-                    <div class="home-process__icon"><i class="bi bi-check-circle-fill"></i></div>
-                    <h4>Monitor</h4>
-                    <p>We ensure quality & compliance</p>
-                </div>
-                <div class="home-process__arrow"></div>
-                <div class="home-process__item">
-                    <div class="home-process__icon"><i class="bi bi-bar-chart-line-fill"></i></div>
-                    <h4>Improve</h4>
-                    <p>We continuously improve for better results</p>
-                </div>
+
+                @foreach ($ourprocess as $process)
+                    <div class="home-process__item">
+
+                        <div class="home-process__icon">
+                            <img src="{{ asset($process->image) }}" alt="{{ $process->title }}"
+                                class="home-process__icon-img">
+                        </div>
+
+                        <h4>{{ $process->title }}</h4>
+
+                        <p>{!! $process->body !!}</p>
+
+                    </div>
+
+                    @if (!$loop->last)
+                        <div class="home-process__arrow"></div>
+                    @endif
+                @endforeach
             </div>
         </div>
     </section>
     <!-- /home-process -->
 
-    <!-- ============================================================
-         SECTION 9: HOME CLIENTS SECTION
-         ============================================================ -->
+    <!-- =======================================================
+            SECTION 9: HOME CLIENTS SECTION
+    ============================================================ -->
     <section class="home-clients" id="home-clients">
         <div class="container">
 
@@ -445,26 +387,18 @@
             <div class="home-clients__track-wrapper reveal">
 
                 <div class="home-clients__track">
-
-                    {{-- Original Set --}}
-                    @foreach ($clients as $client)
-                        <div class="home-clients__logo">
-                            <img src="{{ asset($client->image) }}" alt="{{ $client->title }}"
-                                class="home-clients__logo-img">
-                        </div>
-                    @endforeach
-
-                    {{-- Duplicate Set For Infinite Loop --}}
-                    @foreach ($clients as $client)
-                        <div class="home-clients__logo">
-                            <img src="{{ asset($client->image) }}" alt="{{ $client->title }}"
-                                class="home-clients__logo-img">
-                        </div>
-                    @endforeach
-
+                    @for ($i = 0; $i < 4; $i++)
+                        @foreach ($clients as $client)
+                            <div class="home-clients__logo">
+                                <img src="{{ asset($client->image) }}" alt="{{ $client->title }}"
+                                    class="home-clients__logo-img">
+                            </div>
+                        @endforeach
+                    @endfor
                 </div>
-
             </div>
+
+        </div>
         </div>
     </section>
 @endsection
@@ -677,5 +611,15 @@
             track.innerHTML += originalContent;
         }
 
+    });
+
+    const swiper = new Swiper('.hero-swiper', {
+        loop: true,
+        speed: 8000,
+        autoplay: {
+            delay: 0,
+            disableOnInteraction: false,
+        },
+        slidesPerView: 1,
     });
 </script>

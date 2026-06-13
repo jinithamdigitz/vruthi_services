@@ -62,43 +62,72 @@
                             @enderror
                         </div>
                         
-                        {{-- Body / Description Field --}}
+                        {{-- Short Description Field --}}
                         <div class="form-group">
-
-    <div class="d-flex justify-content-between align-items-center mb-2">
-
-        <label for="body" class="mb-0">
-            Description
-        </label>
-
-        <div class="form-check">
-
-            <input type="checkbox"
-                   name="show_html"
-                   value="1"
-                   class="form-check-input"
-                   id="show_html"
-                   {{ old('show_html', $service->show_html) ? 'checked' : '' }}>
-
-            <label class="form-check-label" for="show_html">
-                Enable CKEditor
-            </label>
-
-        </div>
-
-    </div>
-
-    <textarea name="body"
-              id="body"
-              class="form-control @error('body') is-invalid @enderror"
-              rows="8"
-              placeholder="Enter service description">{{ old('body', $service->body) }}</textarea>
-
-    @error('body')
-        <span class="invalid-feedback">{{ $message }}</span>
-    @enderror
-
-</div>
+                            <label for="short_description">Short Description</label>
+                            <textarea name="short_description" 
+                                      id="short_description" 
+                                      class="form-control @error('short_description') is-invalid @enderror" 
+                                      rows="3"
+                                      placeholder="Brief description (max 500 characters) - appears in service listings">{{ old('short_description', $service->short_description) }}</textarea>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-info-circle"></i> A concise summary of the service. Maximum 500 characters.
+                            </small>
+                            <div id="shortDescCounter" class="mt-1">
+                                <span id="charCount">{{ strlen($service->short_description ?? '') }}</span> / 500 characters
+                                <span id="charWarning" class="text-danger" style="display: none;"> (Limit exceeded!)</span>
+                            </div>
+                            @error('short_description')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        
+                        {{-- Body / Description Field with CKEditor --}}
+                        <div class="form-group">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="body" class="mb-0">
+                                    Full Description
+                                </label>
+                                <div class="form-check">
+                                    <input type="checkbox"
+                                           name="show_html"
+                                           value="1"
+                                           class="form-check-input"
+                                           id="show_html"
+                                           {{ old('show_html', $service->show_html) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="show_html">
+                                        <i class="fas fa-code"></i> Enable Rich Text Editor (CKEditor)
+                                    </label>
+                                </div>
+                            </div>
+                            <textarea name="body"
+                                      id="body"
+                                      class="form-control @error('body') is-invalid @enderror"
+                                      rows="10"
+                                      placeholder="Enter detailed service description">{{ old('body', $service->body) }}</textarea>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-shield-alt"></i> XSS protection enabled. HTML is only allowed when CKEditor is enabled.
+                            </small>
+                            @error('body')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        
+                        {{-- Features Field --}}
+                        <div class="form-group">
+                            <label for="features">Features & Benefits</label>
+                            <textarea name="features"
+                                      id="features"
+                                      class="form-control @error('features') is-invalid @enderror"
+                                      rows="6"
+                                      placeholder="Enter service features (one per line)&#10;Example:&#10;✓ 24/7 Customer Support&#10;✓ Free Consultation&#10;✓ 100% Satisfaction Guarantee">{{ old('features', $service->features) }}</textarea>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-list-ul"></i> Enter each feature on a new line. These will be displayed as a bullet list on the frontend.
+                            </small>
+                            @error('features')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
                         
                         {{-- Main Image Field --}}
                         <div class="form-group">
@@ -116,11 +145,11 @@
                                            name="image" 
                                            id="image" 
                                            class="custom-file-input @error('image') is-invalid @enderror"
-                                           accept="image/*">
+                                           accept="image/jpeg,image/png,image/jpg,image/gif">
                                     <label class="custom-file-label" for="image">Choose new file (leave empty to keep current)</label>
                                 </div>
                             </div>
-                            <small class="form-text text-muted">Recommended size: 800x600px. Max 2MB.</small>
+                            <small class="form-text text-muted">Recommended size: 800x600px. Max 5MB. JPG, PNG, GIF only.</small>
                             @error('image')
                                 <span class="invalid-feedback d-block">{{ $message }}</span>
                             @enderror
@@ -147,11 +176,11 @@
                                            name="icon_image" 
                                            id="icon_image" 
                                            class="custom-file-input @error('icon_image') is-invalid @enderror"
-                                           accept="image/*">
+                                           accept="image/jpeg,image/png,image/jpg,image/svg+xml">
                                     <label class="custom-file-label" for="icon_image">Choose new icon (leave empty to keep current)</label>
                                 </div>
                             </div>
-                            <small class="form-text text-muted">Recommended size: 64x64px or 128x128px. Max 1MB.</small>
+                            <small class="form-text text-muted">Recommended size: 64x64px or 128x128px. Max 2MB. SVG, PNG, JPG allowed.</small>
                             @error('icon_image')
                                 <span class="invalid-feedback d-block">{{ $message }}</span>
                             @enderror
@@ -164,17 +193,53 @@
                         
                         {{-- Keyword Field --}}
                         <div class="form-group">
-                            <label for="keyword">SEO Keyword</label>
+                            <label for="keyword">SEO Keywords</label>
                             <input type="text" 
                                    name="keyword" 
                                    id="keyword" 
                                    class="form-control @error('keyword') is-invalid @enderror" 
-                                   placeholder="Enter SEO keywords"
+                                   placeholder="Enter SEO keywords (comma separated)"
                                    value="{{ old('keyword', $service->keyword) }}">
-                            <small class="form-text text-muted">Keywords for SEO optimization (comma separated).</small>
+                            <small class="form-text text-muted">Keywords for SEO optimization (comma separated). Example: "facility management, security services, housekeeping"</small>
                             @error('keyword')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
+                        </div>
+                        
+                        {{-- Sort Order & Status Row --}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sort_order">Sort Order</label>
+                                    <input type="number" 
+                                           name="sort_order" 
+                                           id="sort_order" 
+                                           class="form-control @error('sort_order') is-invalid @enderror" 
+                                           placeholder="0"
+                                           value="{{ old('sort_order', $service->sort_order ?? 0) }}">
+                                    <small class="form-text text-muted">Lower numbers appear first. Default: 0</small>
+                                    @error('sort_order')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="d-block">&nbsp;</label>
+                                    <div class="form-check">
+                                        <input type="checkbox" 
+                                               name="is_active" 
+                                               id="is_active" 
+                                               class="form-check-input" 
+                                               value="1"
+                                               {{ old('is_active', $service->is_active ?? true) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="is_active">
+                                            <i class="fas fa-check-circle text-success"></i> Active (Visible on Frontend)
+                                        </label>
+                                    </div>
+                                    <small class="form-text text-muted">Inactive services will not be displayed on the website.</small>
+                                </div>
+                            </div>
                         </div>
                         
                     </div>
@@ -193,79 +258,248 @@
     </div>
 </div>
 @endsection
-@push('scripts')
 
+@push('scripts')
+<!-- CKEditor -->
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
     const checkbox = document.getElementById('show_html');
-    const textarea = document.getElementById('body');
-
-    let editorInstance = null;
-
-    function enableEditor() {
-
-        if (!editorInstance) {
-
+    const bodyTextarea = document.getElementById('body');
+    const featuresTextarea = document.getElementById('features');
+    
+    let bodyEditor = null;
+    let featuresEditor = null;
+    
+    // Store original values
+    let originalBodyValue = bodyTextarea.value;
+    let originalFeaturesValue = featuresTextarea.value;
+    
+    function enableBodyEditor() {
+        if (!bodyEditor && bodyTextarea) {
+            // Store current plain text value
+            originalBodyValue = bodyTextarea.value;
+            
             ClassicEditor
-                .create(textarea)
+                .create(bodyTextarea, {
+                    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'insertTable', 'undo', 'redo'],
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+                        ]
+                    }
+                })
                 .then(editor => {
-                    editorInstance = editor;
+                    bodyEditor = editor;
+                    // Set the content if there was HTML content
+                    if (originalBodyValue && originalBodyValue.includes('<')) {
+                        editor.setData(originalBodyValue);
+                    }
                 })
                 .catch(error => {
-                    console.error(error);
+                    console.error('CKEditor body error:', error);
                 });
-
         }
-
     }
-
-    function disableEditor() {
-
-        if (editorInstance) {
-
-            let content = editorInstance.getData();
-
-            let plainText = content
+    
+    function enableFeaturesEditor() {
+        if (!featuresEditor && featuresTextarea) {
+            // Store current plain text value
+            originalFeaturesValue = featuresTextarea.value;
+            
+            ClassicEditor
+                .create(featuresTextarea, {
+                    toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'undo', 'redo'],
+                })
+                .then(editor => {
+                    featuresEditor = editor;
+                    // Set the content if there was HTML content
+                    if (originalFeaturesValue && originalFeaturesValue.includes('<')) {
+                        editor.setData(originalFeaturesValue);
+                    }
+                })
+                .catch(error => {
+                    console.error('CKEditor features error:', error);
+                });
+        }
+    }
+    
+    function disableBodyEditor() {
+        if (bodyEditor) {
+            // Get HTML content from editor
+            let htmlContent = bodyEditor.getData();
+            
+            // Convert HTML to plain text for XSS safety
+            let plainText = htmlContent
+                .replace(/<p[^>]*>/gi, '')
                 .replace(/<\/p>/gi, '\n')
                 .replace(/<br\s*\/?>/gi, '\n')
                 .replace(/<[^>]*>/g, '')
                 .replace(/&nbsp;/g, ' ')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'")
                 .replace(/[ \t]+/g, ' ')
                 .replace(/\n\s*\n/g, '\n\n')
                 .trim();
-
-            editorInstance.destroy().then(() => {
-
-                editorInstance = null;
-                textarea.value = plainText;
-
-            });
-
+            
+            bodyEditor.destroy()
+                .then(() => {
+                    bodyEditor = null;
+                    bodyTextarea.value = plainText;
+                })
+                .catch(error => {
+                    console.error('Error destroying body editor:', error);
+                });
         }
-
     }
-
+    
+    function disableFeaturesEditor() {
+        if (featuresEditor) {
+            // Get HTML content from editor
+            let htmlContent = featuresEditor.getData();
+            
+            // Convert HTML to plain text
+            let plainText = htmlContent
+                .replace(/<p[^>]*>/gi, '')
+                .replace(/<\/p>/gi, '\n')
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/<li[^>]*>/gi, '• ')
+                .replace(/<\/li>/gi, '\n')
+                .replace(/<[^>]*>/g, '')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .trim();
+            
+            featuresEditor.destroy()
+                .then(() => {
+                    featuresEditor = null;
+                    featuresTextarea.value = plainText;
+                })
+                .catch(error => {
+                    console.error('Error destroying features editor:', error);
+                });
+        }
+    }
+    
+    // Initialize based on checkbox state
     if (checkbox && checkbox.checked) {
-        enableEditor();
+        // Hide textareas and show editors
+        bodyTextarea.style.display = 'none';
+        featuresTextarea.style.display = 'none';
+        enableBodyEditor();
+        enableFeaturesEditor();
+    } else {
+        // Show textareas
+        bodyTextarea.style.display = 'block';
+        featuresTextarea.style.display = 'block';
     }
-
+    
+    // Handle checkbox change
     if (checkbox) {
-        checkbox.addEventListener('change', function () {
-
+        checkbox.addEventListener('change', function (e) {
+            console.log('Checkbox changed to:', this.checked);
+            
             if (this.checked) {
-                enableEditor();
+                // Switch to CKEditor mode
+                bodyTextarea.style.display = 'none';
+                featuresTextarea.style.display = 'none';
+                enableBodyEditor();
+                enableFeaturesEditor();
             } else {
-                disableEditor();
+                // Switch to plain text mode
+                disableBodyEditor();
+                disableFeaturesEditor();
+                bodyTextarea.style.display = 'block';
+                featuresTextarea.style.display = 'block';
             }
-
         });
     }
-
+    
+    // Slug auto-generation
+    function slugify(text) {
+        return text.toString().toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w\-]+/g, '')
+            .replace(/\-\-+/g, '-')
+            .replace(/^-+/, '')
+            .replace(/-+$/, '');
+    }
+    
+    $('#title').on('keyup', function() {
+        var title = $(this).val();
+        var slugField = $('#slug');
+        
+        if (slugField.val() === '' || slugField.data('auto') !== false) {
+            var generatedSlug = slugify(title);
+            slugField.val(generatedSlug);
+            slugField.data('auto', true);
+            $('#previewUrl').text('{{ url("/service") }}/' + generatedSlug);
+        }
+    });
+    
+    $('#slug').on('keyup', function() {
+        $(this).data('auto', false);
+        $('#previewUrl').text('{{ url("/service") }}/' + $(this).val());
+    });
+    
+    // Character counter for short description
+    function updateCharCount() {
+        var length = $('#short_description').val().length;
+        $('#charCount').text(length);
+        
+        if (length > 500) {
+            $('#charWarning').show();
+            $('#shortDescCounter').addClass('text-danger');
+        } else {
+            $('#charWarning').hide();
+            $('#shortDescCounter').removeClass('text-danger');
+        }
+    }
+    
+    $('#short_description').on('keyup', updateCharCount);
+    updateCharCount();
+    
+    // Image previews
+    $('#image').on('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#previewImg').attr('src', e.target.result);
+                $('#imagePreview').show();
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        } else {
+            $('#imagePreview').hide();
+        }
+    });
+    
+    $('#icon_image').on('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#iconPreviewImg').attr('src', e.target.result);
+                $('#iconPreview').show();
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        } else {
+            $('#iconPreview').hide();
+        }
+    });
+    
+    // Custom file input label
+    $('.custom-file-input').on('change', function(e) {
+        var fileName = e.target.files[0]?.name || 'Choose file';
+        $(this).next('.custom-file-label').text(fileName);
+    });
 });
 </script>
-
 @endpush
-

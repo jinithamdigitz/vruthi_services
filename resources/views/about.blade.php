@@ -522,9 +522,7 @@
               <div class="about-certifications__sub">Government &amp; Marketplace</div>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
     <!-- /about-certifications -->

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 03, 2026 at 07:02 AM
+-- Generation Time: Jun 13, 2026 at 11:51 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.1.31
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `outline`
+-- Database: `vrudhi`
 --
 
 -- --------------------------------------------------------
@@ -146,7 +146,7 @@ INSERT INTO `contacts` (`id`, `name`, `email`, `phone`, `project_type`, `message
 DROP TABLE IF EXISTS `custom_css`;
 CREATE TABLE IF NOT EXISTS `custom_css` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `content_css` longtext COLLATE utf8mb4_unicode_ci,
+  `content_css` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -168,7 +168,7 @@ INSERT INTO `custom_css` (`id`, `content_css`, `created_at`, `updated_at`) VALUE
 DROP TABLE IF EXISTS `custom_javascripts`;
 CREATE TABLE IF NOT EXISTS `custom_javascripts` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `content_script` longtext COLLATE utf8mb4_unicode_ci,
+  `content_script` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -368,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -434,7 +434,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (57, '2026_06_01_093315_add_show_html_to_members_table', 32),
 (58, '2026_06_01_093520_add_show_html_to_posts_table', 33),
 (59, '2026_06_01_115558_add_show_html_to_services_table', 34),
-(60, '2026_06_01_115637_add_show_html_to_portfolios_table', 35);
+(60, '2026_06_01_115637_add_show_html_to_portfolios_table', 35),
+(61, '2026_06_13_104815_alter_services_table_add_new_fields', 36);
 
 -- --------------------------------------------------------
 
@@ -580,15 +581,15 @@ CREATE TABLE IF NOT EXISTS `posts` (
   UNIQUE KEY `posts_slug_unique` (`slug`),
   KEY `posts_post_category_id_foreign` (`post_category_id`),
   KEY `posts_user_id_foreign` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=302 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video_url`, `post_category_id`, `user_id`, `published`, `created_at`, `updated_at`, `featured`, `gallery_category_id`) VALUES
-(243, 'Designing Spaces. | Inspiring Business.', 'designing-spaces-inspiring-business', 'We create innovative office and commercial interiors that elevate experiences and reflect your brand.', 0, 'posts/designing-spaces-inspiring-business.webp', NULL, 56, 1, 0, '2026-05-18 00:15:33', '2026-06-03 00:49:41', NULL, NULL),
-(244, 'About Outline', 'about-outline', '<h2><strong>10+</strong></h2><p>Years Of<br>Experience</p>', 0, NULL, NULL, 57, 1, 0, '2026-05-18 01:44:17', '2026-05-18 02:03:22', NULL, NULL),
+(243, 'Reliable Services. Stronger Spaces. Better Tomorrow.', 'reliable-services-stronger-spaces-better-tomorrow', 'VRUDHI OUTSOURCING SERVICES PVT. LTD. is a leading service provider in the Facility Management industry with an outstanding reputation for quality and integrity throughout India & part of Middle East.', 0, 'posts/reliable-services-stronger-spaces-better-tomorrow.webp', NULL, 56, 1, 0, '2026-05-18 00:15:33', '2026-06-12 03:41:25', NULL, NULL),
+(244, 'About Us', 'about-us', '<h2><strong>Delivering Excellence Every Day</strong></h2><p>VOSPL was established in year 2007 with a vision to offer sustainable, scalable and value based facility management services keeping customer and environment sensitivities specific to India.</p>', 1, NULL, NULL, 57, 1, 0, '2026-05-18 01:44:17', '2026-06-13 00:40:54', NULL, NULL),
 (245, 'ABOUT OUTLINE ARCHITECTS IN KOCHI', 'about-outline-architects-in-kochi', '<p><i>Every workspace has the power to influence how people think, collaborate, and grow. Thoughtful design is not just about aesthetics - it is about creating environments that improve functionality, productivity, and everyday experiences.</i></p><p>Outline Developers is a commercial interior and architectural solutions company based in Kochi, specializing in modern office spaces, workplace interiors, and complete commercial project execution.</p><p>We create work environments that are functional, refined, and aligned with the evolving needs of modern businesses. From workspace planning and interior concepts to execution and finishing, every project is approached with attention to detail, practicality, and visual balance. Our expertise spans office interiors, collaborative workspaces, corporate environments, branding-integrated interiors, and customized commercial solutions designed to enhance both employee experience and business identity. Driven by a design-focused and execution-oriented approach, Outline Developers combines creativity, planning, and technical precision to deliver commercial spaces that are modern, efficient, and built with purpose.</p>', 1, 'posts/we-design-we-planwe-deliver-excellence.webp', NULL, 58, 1, 0, '2026-05-18 01:45:05', '2026-06-02 08:34:19', NULL, NULL),
 (246, 'Our Services', 'our-services', '<p>Our Services</p>', 1, 'posts/what-we-do.webp', NULL, 59, 1, 0, '2026-05-18 03:58:22', '2026-06-02 23:48:44', NULL, NULL),
 (247, 'Spaces That Speak Excellence', 'spaces-that-speak-excellence', '<p>Explore our portfolio of office and commercial projects crafted with creativity, detail and precision.</p>', 0, NULL, NULL, 60, 1, 0, '2026-05-18 05:21:35', '2026-05-18 05:21:35', NULL, NULL),
@@ -598,17 +599,17 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (251, 'Project Experience Center', 'project-experience-center', '<p>Delhi</p>', 0, 'posts/project-experience-center.webp', NULL, 61, 1, 0, '2026-05-18 05:24:18', '2026-05-28 05:30:02', NULL, NULL),
 (252, 'Fintech Hub', 'fintech-hub', '<p>Hyderabad</p>', 0, 'posts/fintech-hub.webp', NULL, 61, 1, 0, '2026-05-18 05:24:46', '2026-05-28 05:30:02', NULL, NULL),
 (253, 'Creative Studio', 'creative-studio', '<p>Chennai</p>', 1, 'posts/creative-studio.webp', NULL, 61, 1, 0, '2026-05-18 05:25:15', '2026-06-02 08:14:20', NULL, NULL),
-(254, 'Why Choose Us', 'why-choose-us', '<h4><strong>Our Promise</strong></h4><p>To deliver innovative, sustainable and functional spaces that elevate business and inspire people.</p>', 0, NULL, NULL, 62, 1, 0, '2026-05-18 06:19:22', '2026-05-18 06:32:08', NULL, NULL),
+(254, 'Why Choose Us', 'why-choose-us', '<h2><strong>Experience. Expertise. Excellence.</strong></h2><p>With years of experience and a customer-centric approach, we deliver smart, efficient and sustainable facility management solutions.</p>', 1, NULL, NULL, 62, 1, 0, '2026-05-18 06:19:22', '2026-06-13 00:36:22', NULL, NULL),
 (255, 'We Create More Than Just Spaces', 'we-create-more-than-just-spaces', '<ul><li>Creative &amp; Functional Designs</li><li>&nbsp;End-to-End Solutions</li><li>Timely Delivery</li><li>Timely Delivery</li><li>Quality Assurance<br>&nbsp;</li></ul>', 1, 'posts/we-create-more-than-just-spaces.webp', NULL, 52, 1, 0, '2026-05-18 06:20:40', '2026-06-02 07:19:27', NULL, NULL),
-(256, '10+', '10', '<p>Years Of Experience</p>', 0, 'posts/10.webp', NULL, 4, 1, 0, '2026-05-18 06:45:38', '2026-05-28 05:30:03', NULL, NULL),
-(257, '250+', '250', '<p>Projects Completed</p>', 0, 'posts/250.webp', NULL, 4, 1, 0, '2026-05-18 06:46:11', '2026-05-28 05:30:03', NULL, NULL),
-(258, '150+', '150', '<p>Happy Clients</p>', 0, 'posts/150.webp', NULL, 4, 1, 0, '2026-05-18 06:46:36', '2026-05-28 05:30:03', NULL, NULL),
-(259, '35+', '35', '<p>Team Members</p>', 0, 'posts/35.webp', NULL, 4, 1, 0, '2026-05-18 06:47:02', '2026-05-28 05:30:03', NULL, NULL),
+(256, '17+', '17', '<p><strong>Years Of Experience</strong></p>', 1, 'posts/10.webp', NULL, 4, 1, 0, '2026-05-18 06:45:38', '2026-06-13 00:22:42', NULL, NULL),
+(257, '250+', '250', '<p><strong>Projects Completed</strong></p>', 1, 'posts/250.webp', NULL, 4, 1, 0, '2026-05-18 06:46:11', '2026-06-13 00:21:37', NULL, NULL),
+(258, '100+', '100', '<p><strong>Happy Clients</strong></p>', 1, 'posts/150.webp', NULL, 4, 1, 0, '2026-05-18 06:46:36', '2026-06-13 00:21:23', NULL, NULL),
+(259, 'Pan India', 'pan-india', '<p><strong>&amp; Middle East Presence</strong></p>', 1, 'posts/35.webp', NULL, 4, 1, 0, '2026-05-18 06:47:02', '2026-06-13 00:20:01', NULL, NULL),
 (260, 'Clients Love Sharing', 'clients-love-sharing', '<h2><strong>What Our Clients</strong><br><strong>Say About Us</strong></h2>', 0, NULL, NULL, 63, 1, 0, '2026-05-18 06:51:54', '2026-05-18 06:51:54', NULL, NULL),
 (261, 'Outline Architects transformed our workspace into a modern, collaborative environment. Their attention to detail and professionalism is exceptional.', 'outline-architects-transformed-our-workspace-into-a-modern-collaborative-environment-their-attention-to-detail-and-professionalism-is-exceptional', '<p><strong>Rohit Sharma</strong></p><p>CEO, TechCorp Solutions</p>', 0, 'posts/outline-architects-transformed-our-workspace-into-a-modern-collaborative-environment-their-attention-to-detail-and-professionalism-is-exceptional.webp', NULL, 8, 1, 0, '2026-05-18 06:52:34', '2026-05-28 05:30:03', NULL, NULL),
 (262, 'A highly creative and professional team. They delivered our project on time with outstanding quality and commitment to excellence.', 'a-highly-creative-and-professional-team-they-delivered-our-project-on-time-with-outstanding-quality-and-commitment-to-excellence', '<p><strong>Anita Verma</strong></p><p>Director, Innovate Pvt. Ltd.</p>', 0, 'posts/a-highly-creative-and-professional-team-they-delivered-our-project-on-time-with-outstanding-quality-and-commitment-to-excellence.webp', NULL, 8, 1, 0, '2026-05-18 06:53:36', '2026-05-28 05:30:03', NULL, NULL),
 (263, 'From planning to execution, the experience was seamless. Our new office truly reflects our brand and boosts team morale every day.', 'from-planning-to-execution-the-experience-was-seamless-our-new-office-truly-reflects-our-brand-and-boosts-team-morale-every-day', '<p><strong>Karan Mehta</strong></p><p>Founder, Creative Studio</p>', 0, 'posts/from-planning-to-execution-the-experience-was-seamless-our-new-office-truly-reflects-our-brand-and-boosts-team-morale-every-day.webp', NULL, 8, 1, 0, '2026-05-18 06:54:13', '2026-05-28 05:30:03', NULL, NULL),
-(264, 'Let\'s Discuss Your Project', 'lets-discuss-your-project', '<p>If you have a&nbsp;project&nbsp;you would like to discuss,&nbsp;get in touch with us.</p><p>Outline Developers, Kombara, Kochi, Kerala<br>General Enquiry:&nbsp;<a href=\"mailto:myhome@outlinedevelopers.in\">myhome@outlinedevelopers.in</a></p>', 1, 'posts/lets-discuss-your-project.webp', NULL, 64, 1, 0, '2026-05-18 07:09:08', '2026-06-03 01:14:23', NULL, NULL),
+(264, 'Let\'s Build a Better, Cleaner & Safer Tomorrow Together', 'lets-build-a-better-cleaner-safer-tomorrow-together', '<p>Partner with VRUDHI OUTSOURCING SERVICES PVT. LTD. for all your facility management needs.</p>', 1, 'posts/lets-discuss-your-project.webp', NULL, 64, 1, 0, '2026-05-18 07:09:08', '2026-06-12 04:29:22', NULL, NULL),
 (265, '+91 9446114488', '91-9446114488', NULL, 0, NULL, NULL, 10, 1, 0, '2026-05-18 07:35:08', '2026-06-03 00:51:41', NULL, NULL),
 (266, 'info@outlinespace.com', 'info-at-outlinespacecom', NULL, 0, NULL, NULL, 11, 1, 0, '2026-05-18 07:35:46', '2026-05-18 07:35:46', NULL, NULL),
 (267, '7th Floor, Inspire Tower, Baker Road, Pune – 411045 Maharashtra, India', '7th-floor-inspire-tower-baker-road-pune-411045-maharashtra-india', NULL, 0, NULL, NULL, 12, 1, 0, '2026-05-18 07:36:09', '2026-05-18 07:36:09', NULL, NULL),
@@ -624,10 +625,10 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (277, 'Meet Our Leadership', 'meet-our-leadership', '<p>“ARCHITECTURE SHOULD SPEAK OF ITS TIME AND PLACE, BUT YEARN FOR TIMELESSNESS.” – FRANK GEHRY<br><br><i><strong>At Outline Developers, we create commercial spaces that are shaped around modern work culture, operational efficiency, and contemporary design thinking. Every project is approached with attention to detail, functionality, and the long-term value a workspace brings to a business.</strong></i></p>', 1, NULL, NULL, 72, 1, 0, '2026-05-22 00:49:24', '2026-06-03 00:40:06', NULL, NULL),
 (278, 'Comprehensive Services', 'comprehensive-services', '<p>Thoughtful commercial spaces are built through a balance of planning, functionality, design precision, and execution. Every project is approached with careful attention to operational needs, workspace experience, visual identity, and long-term practicality to deliver environments that feel modern, efficient, and purposeful.</p>', 1, NULL, NULL, 73, 1, 0, '2026-05-23 00:15:07', '2026-06-02 23:49:51', NULL, NULL),
 (279, 'More Than Design. We Deliver Value.', 'more-than-design-we-deliver-value', '<p>Our integrated approach ensures every project is handled with precision, transparency, and a commitment to excellence.</p>', 0, NULL, NULL, 74, 1, 0, '2026-05-23 00:16:11', '2026-05-23 00:16:11', NULL, NULL),
-(280, 'Client-Focused', 'client-focused', '<p>We listen, collaborate, and deliver solutions tailored for your needs.</p>', 0, 'posts/client-focused.webp', NULL, 75, 1, 0, '2026-05-23 00:25:30', '2026-05-28 05:30:05', NULL, NULL),
-(281, 'Innovative Approach', 'innovative-approach', '<p>Smart strategies that bring your vision to life brilliantly.</p><p>&nbsp;</p><p><br>&nbsp;</p>', 0, 'posts/innovative-approach.webp', NULL, 75, 1, 0, '2026-05-23 00:27:12', '2026-05-28 05:30:06', NULL, NULL),
-(282, 'Quality Assurance', 'quality-assurance', '<p>Highest standards in design, documentation, and delivery.</p>', 0, 'posts/quality-assurance.webp', NULL, 75, 1, 0, '2026-05-23 00:27:51', '2026-05-28 05:30:06', NULL, NULL),
-(283, 'On-Time Delivery', 'on-time-delivery', '<p>Efficient planning and execution to deliver projects on schedule.</p>', 0, 'posts/on-time-delivery.webp', NULL, 75, 1, 0, '2026-05-23 00:28:21', '2026-05-28 05:30:06', NULL, NULL),
+(280, 'Trained Workforce', 'trained-workforce', '<p>Skilled, verified and well-trained professionals ensuring reliable service delivery.</p>', 1, 'posts/client-focused.webp', NULL, 75, 1, 0, '2026-05-23 00:25:30', '2026-06-13 00:51:27', NULL, NULL),
+(281, 'Innovative Approach', 'innovative-approach', '<p>We continuously adapt to evolving market trends, providing innovative solutions.</p>', 1, 'posts/innovative-approach.webp', NULL, 75, 1, 0, '2026-05-23 00:27:12', '2026-06-13 01:02:49', NULL, NULL),
+(282, 'Quality & Integrity', 'quality-integrity', '<p>We uphold the highest standards of quality with integrity in everything we do.</p>', 1, 'posts/quality-assurance.webp', NULL, 75, 1, 0, '2026-05-23 00:27:51', '2026-06-13 04:21:25', NULL, NULL),
+(283, 'Customer First', 'customer-first', '<p>We believe in building long-term relationships through trust and timely delivery.</p>', 1, 'posts/on-time-delivery.webp', NULL, 75, 1, 0, '2026-05-23 00:28:21', '2026-06-13 01:03:48', NULL, NULL),
 (284, 'Our Services|Design. Plan. Deliver.', 'our-servicesdesign-plan-deliver', '<p>From concept to completion, we provide end-to-end architecture and project management solutions tailored to your vision and goals.</p>', 0, 'posts/our-servicesdesign-plan-deliver.webp', NULL, 76, 1, 0, '2026-05-23 00:35:13', '2026-05-28 05:30:06', NULL, NULL),
 (285, 'Our Work. | Built on Trust.', 'our-work-built-on-trust', '<p>Explore a curated selection of projects that reflect our passion for design, attention to detail, and commitment to delivering exceptional spaces.</p><p><br>&nbsp;</p>', 0, 'posts/our-work-built-on-trust.webp', NULL, 77, 1, 0, '2026-05-23 07:22:03', '2026-05-28 05:30:07', NULL, NULL),
 (286, 'Designing Spaces. | Inspiring Impact.', 'designing-spaces-inspiring-impact', '<p>Outline Architects is a multidisciplinary design firm passionate about creating innovative, functional, and sustainable spaces that elevate experiences and drive business success.</p>', 0, 'posts/designing-spaces-inspiring-impact.webp', NULL, 78, 1, 0, '2026-05-23 08:04:45', '2026-05-28 05:30:07', NULL, NULL),
@@ -637,10 +638,23 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (290, 'Creative Work Culture', 'creative-work-culture', '<p>Work in a collaborative environment where creativity, innovation, and fresh ideas are always encouraged.</p>', 0, 'posts/creative-work-culture.webp', NULL, 82, 1, 0, '2026-05-28 01:09:54', '2026-05-28 05:30:08', NULL, NULL),
 (291, 'Inspiring Projects', 'inspiring-projects', '<p>Be part of impactful architectural and interior projects that shape modern and functional spaces.</p>', 0, 'posts/inspiring-projects.webp', NULL, 82, 1, 0, '2026-05-28 01:10:30', '2026-05-28 05:30:08', NULL, NULL),
 (292, 'Supportive Team', 'supportive-team', '<p>Join a passionate and friendly team that values teamwork, respect, and professional growth.</p>', 0, 'posts/supportive-team.webp', NULL, 82, 1, 0, '2026-05-28 01:11:11', '2026-05-28 05:30:08', NULL, NULL),
-(293, 'outlinearchitects', 'outlinearchitects', '<p>outlinearchitects</p>', 0, 'posts/outlinearchitects.webp', NULL, 14, 1, 0, '2026-05-28 01:44:38', '2026-05-28 05:30:09', NULL, NULL),
+(293, 'Vrudhi outsourcing logo', 'vrudhi-outsourcing-logo', '<p>outlinearchitects</p>', 0, 'posts/vrudhi-outsourcing-logo.webp', NULL, 14, 1, 0, '2026-05-28 01:44:38', '2026-06-12 03:13:58', NULL, NULL),
 (294, 'We design and deliver innovative office and commercial interiors with creativity, precision and passion.', 'we-design-and-deliver-innovative-office-and-commercial-interiors-with-creativity-precision-and-passion', '<p>Stay connected with us on social media for updates, project showcases and design inspiration.</p>', 0, NULL, NULL, 83, 1, 0, '2026-05-28 01:56:38', '2026-05-28 01:56:38', NULL, NULL),
 (300, 'Outline architect', 'outline-architect', NULL, 0, 'posts/outline-architect.webp', NULL, 84, 1, 0, '2026-06-02 08:37:33', '2026-06-02 08:37:33', NULL, NULL),
-(301, 'Get In Touch', 'get-in-touch', 'We\'d Love To Hear From You', 0, NULL, NULL, 85, 1, 0, '2026-06-03 01:00:05', '2026-06-03 01:00:05', NULL, NULL);
+(301, 'Get In Touch', 'get-in-touch', 'We\'d Love To Hear From You', 0, NULL, NULL, 85, 1, 0, '2026-06-03 01:00:05', '2026-06-03 01:00:05', NULL, NULL),
+(302, 'Trusted Security. Expert Guarding. Every Day.', 'trusted-security-expert-guarding-every-day', 'Our trained security professionals and modern surveillance systems ensure your premises stay safe, protected and fully compliant around the clock.', 0, 'posts/trusted-security-expert-guarding-every-day.webp', NULL, 56, 1, 0, '2026-06-12 03:41:50', '2026-06-12 03:42:04', NULL, NULL),
+(303, 'client1', 'client1', NULL, 0, 'posts/client1.webp', NULL, 86, 1, 0, '2026-06-12 05:03:19', '2026-06-12 05:03:19', NULL, NULL),
+(304, 'client2', 'client2', NULL, 0, 'posts/client2.webp', NULL, 86, 1, 0, '2026-06-12 05:03:47', '2026-06-12 05:03:47', NULL, NULL),
+(305, 'client3', 'client3', NULL, 0, 'posts/client3.webp', NULL, 86, 1, 0, '2026-06-12 05:05:11', '2026-06-12 05:05:11', NULL, NULL),
+(306, 'Corporate Offices', 'corporate-offices', NULL, 0, 'posts/corporate-offices.webp', NULL, 87, 1, 0, '2026-06-13 01:39:45', '2026-06-13 01:39:45', NULL, NULL),
+(307, 'Hospitals', 'hospitals', NULL, 0, 'posts/hospitals.webp', NULL, 87, 1, 0, '2026-06-13 01:40:31', '2026-06-13 01:40:31', NULL, NULL),
+(308, 'Retail & Malls', 'retail-malls', NULL, 0, 'posts/retail-malls.webp', NULL, 87, 1, 0, '2026-06-13 01:40:53', '2026-06-13 01:40:53', NULL, NULL),
+(309, 'IT Parks', 'it-parks', NULL, 0, 'posts/it-parks.webp', NULL, 87, 1, 0, '2026-06-13 01:41:23', '2026-06-13 01:41:23', NULL, NULL),
+(310, 'Understand', 'understand', '<p>We understand your requirements</p>', 1, 'posts/understand.webp', NULL, 88, 1, 0, '2026-06-13 01:56:08', '2026-06-13 01:56:08', NULL, NULL),
+(311, 'Plan', 'plan', '<p>We design a customized solution</p>', 1, 'posts/plan.webp', NULL, 88, 1, 0, '2026-06-13 01:56:42', '2026-06-13 01:56:42', NULL, NULL),
+(312, 'Execute', 'execute', 'We deploy trained resources', 0, 'posts/execute.webp', NULL, 88, 1, 0, '2026-06-13 01:57:20', '2026-06-13 01:57:20', NULL, NULL),
+(313, 'Monitor', 'monitor', '<p>We ensure quality &amp; compliance</p>', 1, 'posts/monitor.webp', NULL, 88, 1, 0, '2026-06-13 01:58:15', '2026-06-13 01:58:15', NULL, NULL),
+(314, 'Improve', 'improve', 'We continuously improve for better results', 0, 'posts/improve.webp', NULL, 88, 1, 0, '2026-06-13 01:58:48', '2026-06-13 01:58:48', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -657,7 +671,7 @@ CREATE TABLE IF NOT EXISTS `post_categories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `post_categories_slug_unique` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `post_categories`
@@ -738,7 +752,10 @@ INSERT INTO `post_categories` (`id`, `name`, `slug`, `created_at`, `updated_at`)
 (82, 'career highlights', 'career-highlights', '2026-05-28 01:08:05', '2026-05-28 01:08:05'),
 (83, 'footer content', 'footer-content', '2026-05-28 01:49:21', '2026-05-28 01:49:21'),
 (84, 'apply job banner', 'apply-job-banner', '2026-06-02 08:36:59', '2026-06-02 08:36:59'),
-(85, 'contact content', 'contact-content', '2026-06-03 00:57:06', '2026-06-03 00:57:06');
+(85, 'contact content', 'contact-content', '2026-06-03 00:57:06', '2026-06-03 00:57:06'),
+(86, 'clients', 'clients', '2026-06-12 04:35:45', '2026-06-12 04:35:45'),
+(87, 'industries', 'industries', '2026-06-13 01:32:06', '2026-06-13 01:32:06'),
+(88, 'Our Process', 'our-process', '2026-06-13 01:33:13', '2026-06-13 01:33:13');
 
 -- --------------------------------------------------------
 
@@ -1046,11 +1063,15 @@ CREATE TABLE IF NOT EXISTS `services` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_description` text COLLATE utf8mb4_unicode_ci,
   `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `features` longtext COLLATE utf8mb4_unicode_ci,
   `show_html` tinyint NOT NULL DEFAULT '0' COMMENT '0 = Plain Text, 1 = HTML/CKEditor',
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `icon_image` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `keyword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sort_order` int NOT NULL DEFAULT '0',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -1061,13 +1082,13 @@ CREATE TABLE IF NOT EXISTS `services` (
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `icon_image`, `keyword`, `created_at`, `updated_at`) VALUES
-(1, 'Architecture', 'architecture-outline', 'Commercial and corporate spaces are designed to balance aesthetics, usability, and modern architectural standards tailored to business requirements.', 0, 'uploads/services/architecture.webp', 'uploads/services/icons/architecture-icon.webp', NULL, '2026-05-18 04:17:46', '2026-06-03 00:01:49'),
-(2, 'Interior Design', 'interior-design', 'Interior solutions are developed to create refined, productive, and comfortable work environments through thoughtful layouts, material selection, and workspace planning.', 0, 'uploads/services/interior-design.webp', 'uploads/services/icons/interior-design-icon.webp', NULL, '2026-05-18 04:18:16', '2026-06-03 00:02:30'),
-(3, 'Workspace & Branding Integration', 'workspace-branding-integration', 'Brand identity, workplace culture, and visual consistency are incorporated into interiors to create cohesive and engaging commercial environments.', 0, 'uploads/services/bim-services.webp', 'uploads/services/icons/bim-services-icon.webp', NULL, '2026-05-18 04:18:43', '2026-06-03 00:04:56'),
-(4, 'Project Management', 'project-management-outline', 'Every stage of execution is managed through structured coordination, quality control, timeline supervision, and streamlined project delivery.', 0, 'uploads/services/project-management.webp', 'uploads/services/icons/project-management-icon.webp', NULL, '2026-05-18 04:19:10', '2026-06-03 00:03:06'),
-(6, 'Planning', 'planning', 'Every project begins with detailed planning and space understanding to ensure smooth coordination, efficient execution, and functional outcomes.', 0, 'uploads/services/space-planning.webp', 'uploads/services/icons/space-planning-icon.webp', NULL, '2026-05-22 07:39:52', '2026-06-03 00:02:08'),
-(7, 'Material & Execution Consultation', 'material-execution-consultation', 'Guidance is provided in selecting finishes, textures, and workspace materials that balance durability, aesthetics, functionality, and budget.', 0, 'uploads/services/construction-support.webp', 'uploads/services/icons/construction-support-icon.webp', NULL, '2026-05-22 07:40:56', '2026-06-03 00:07:54');
+INSERT INTO `services` (`id`, `title`, `slug`, `short_description`, `body`, `features`, `show_html`, `image`, `icon_image`, `keyword`, `sort_order`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'Architecture', 'architecture-outline', NULL, 'Commercial and corporate spaces are designed to balance aesthetics, usability, and modern architectural standards tailored to business requirements.', NULL, 0, 'uploads/services/architecture.webp', 'uploads/services/icons/architecture-icon.webp', NULL, 0, 1, '2026-05-18 04:17:46', '2026-06-03 00:01:49'),
+(2, 'Interior Design', 'interior-design', NULL, 'Interior solutions are developed to create refined, productive, and comfortable work environments through thoughtful layouts, material selection, and workspace planning.', NULL, 0, 'uploads/services/interior-design.webp', 'uploads/services/icons/interior-design-icon.webp', NULL, 0, 1, '2026-05-18 04:18:16', '2026-06-03 00:02:30'),
+(3, 'Workspace & Branding Integration', 'workspace-branding-integration', NULL, 'Brand identity, workplace culture, and visual consistency are incorporated into interiors to create cohesive and engaging commercial environments.', NULL, 0, 'uploads/services/bim-services.webp', 'uploads/services/icons/bim-services-icon.webp', NULL, 0, 1, '2026-05-18 04:18:43', '2026-06-03 00:04:56'),
+(4, 'Project Management', 'project-management-outline', NULL, 'Every stage of execution is managed through structured coordination, quality control, timeline supervision, and streamlined project delivery.', NULL, 0, 'uploads/services/project-management.webp', 'uploads/services/icons/project-management-icon.webp', NULL, 0, 1, '2026-05-18 04:19:10', '2026-06-03 00:03:06'),
+(6, 'Planning', 'planning', NULL, 'project begins with detailed planning and space understanding to ensure smooth coordination, efficient execution, and functional outcomes.', NULL, 0, 'uploads/services/space-planning.webp', 'uploads/services/icons/space-planning-icon.webp', NULL, 0, 1, '2026-05-22 07:39:52', '2026-06-13 04:23:13'),
+(7, 'Material & Execution Consultation', 'material-execution-consultation', NULL, '<p>Guidance is provided in selecting finishes, textures, and workspace materials that balance durability, aesthetics, functionality, and budget.</p>', '<ul><li>Lawn Care &amp; Mowing</li><li>Landscape Design</li><li>Plant Nursery Supply</li><li>Irrigation Systems</li><li>Seasonal Planting</li></ul>', 1, 'uploads/services/construction-support.webp', 'uploads/services/icons/construction-support-icon.webp', NULL, 0, 1, '2026-05-22 07:40:56', '2026-06-13 06:14:57');
 
 -- --------------------------------------------------------
 

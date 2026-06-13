@@ -1177,10 +1177,33 @@
                             </ul>
                         </li>
 
-
-
-
                         <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-arrow-in-right"></i>
+                                <p>
+                                    why Choose Us Cards
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.create', ['slug' => 'why-choose-us-card']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.index', ['slug' => 'why-choose-us-card']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {{-- <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-box-arrow-in-right"></i>
                                 <p>
@@ -1204,10 +1227,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-
-
-
+                        </li> --}}
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -1235,7 +1255,60 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item">
+
+                         <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-arrow-in-right"></i>
+                                <p>
+                                    Industries we serve
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.create', ['slug' => 'industries']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.index', ['slug' => 'industries']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                         <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-box-arrow-in-right"></i>
+                                <p>
+                                    Our Process
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.create', ['slug' => 'our-process']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Create</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.page.index', ['slug' => 'our-process']) }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>List</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {{-- <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon bi bi-box-arrow-in-right"></i>
                                 <p>
@@ -1287,7 +1360,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
 
 
                         <li class="nav-item">

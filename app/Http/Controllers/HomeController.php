@@ -80,10 +80,22 @@ class HomeController extends Controller
             $counters = Post::where('post_category_id', $category->id)->get();
         }
 
-        $category = PostCategory::where('slug', 'why-choose-us')->first();
-        $whychooseus = collect();
+        $category = PostCategory::where('slug', 'industries')->first();
+        $industries = collect();
         if ($category) {
-            $whychooseus = Post::where('post_category_id', $category->id)->first();
+            $industries = Post::where('post_category_id', $category->id)->get();
+        }
+
+        $category = PostCategory::where('slug', 'our-process')->first();
+        $ourprocess = collect();
+        if ($category) {
+            $ourprocess = Post::where('post_category_id', $category->id)->get();
+        }
+
+        $category = PostCategory::where('slug', 'why-choose-us-card')->first();
+        $whyChooseUsCards = [];
+        if ($category) {
+            $whyChooseUsCards = Post::where('post_category_id', $category->id)->get();
         }
 
         $category = PostCategory::where('slug', 'why-choose-us-title')->first();
@@ -92,17 +104,17 @@ class HomeController extends Controller
             $whychooseustitle = Post::where('post_category_id', $category->id)->first();
         }
 
-        $category = PostCategory::where('slug', 'testimonials')->first();
-        $testimonials = collect();
-        if ($category) {
-            $testimonials = Post::where('post_category_id', $category->id)->get();
-        }
+        // $category = PostCategory::where('slug', 'testimonials')->first();
+        // $testimonials = collect();
+        // if ($category) {
+        //     $testimonials = Post::where('post_category_id', $category->id)->get();
+        // }
 
-        $category = PostCategory::where('slug', 'testimonials-title')->first();
-        $testimonialstitle = [];
-        if ($category) {
-            $testimonialstitle = Post::where('post_category_id', $category->id)->first();
-        }
+        // $category = PostCategory::where('slug', 'testimonials-title')->first();
+        // $testimonialstitle = [];
+        // if ($category) {
+        //     $testimonialstitle = Post::where('post_category_id', $category->id)->first();
+        // }
 
         $category = PostCategory::where('slug', 'our-expertise')->first();
         $ourExpertise = collect();
@@ -155,8 +167,10 @@ class HomeController extends Controller
             'about_us' => $about_us,
             'features' => $features,
             'counters' => $counters,
-            'testimonials' => $testimonials,
-            'testimonialstitle' => $testimonialstitle,
+            'industries' => $industries,
+            'ourprocess' => $ourprocess,
+            // 'testimonials' => $testimonials,
+            // 'testimonialstitle' => $testimonialstitle,
             'seo' => $seo,
             'ourExpertise' => $ourExpertise,
             'features' => $features,
@@ -165,7 +179,7 @@ class HomeController extends Controller
             'services' => $services,
             'featured_work_title' => $featured_work_title,
             'featured_work' => $featured_work,
-            'whychooseus' => $whychooseus,
+            'whyChooseUsCards' => $whyChooseUsCards,
             'whychooseustitle' => $whychooseustitle,
             'contactContent' => $contactContent,
             'serviceContent' => $serviceContent,
@@ -332,9 +346,25 @@ class HomeController extends Controller
             $aboutBanner = Post::where('post_category_id', $category->id)->first();
         }
 
+        $category = PostCategory::where('slug', 'cta')->first();
+        $cta = [];
+        if ($category) {
+            $cta = Post::where('post_category_id', $category->id)->first();
+        }
+
         $members = Member::limit(10)->get();
 
-        return view('about', ['homebanner' => $homebanner,  'counters' => $counters, 'ourStoryTitle' => $ourStoryTitle, 'ourStory' => $ourStory, 'ourValueTitle' => $ourValueTitle, 'ourValues' => $ourValues, 'members' => $members, 'memberTitle' => $memberTitle, 'aboutBanner' => $aboutBanner]);
+        return view('about', ['homebanner' => $homebanner,
+        'counters' => $counters,
+        'ourStoryTitle' => $ourStoryTitle,
+        'ourStory' => $ourStory,
+        'ourValueTitle' => $ourValueTitle,
+        'ourValues' => $ourValues,
+        'members' => $members,
+        'memberTitle' => $memberTitle,
+        'aboutBanner' => $aboutBanner,
+        'cta' => $cta,
+        ]);
     }
 
     public function service()
@@ -362,12 +392,25 @@ class HomeController extends Controller
             $serviceBanner = Post::where('post_category_id', $category->id)->first();
         }
 
+        $category = PostCategory::where('slug', 'cta')->first();
+        $cta = [];
+        if ($category) {
+            $cta = Post::where('post_category_id', $category->id)->first();
+        }
+
+        $category = PostCategory::where('slug', 'why-choose-us-card')->first();
+        $whyChooseUsCards = [];
+        if ($category) {
+            $whyChooseUsCards = Post::where('post_category_id', $category->id)->get();
+        }
         return view('services', [
             'services' => $services,
             'serviceContent' => $serviceContent,
             'whyChooseUs' => $whyChooseUs,
             'whyChooseUsCards' => $whyChooseUsCards,
             'serviceBanner' => $serviceBanner,
+            'cta'=> $cta,
+            'whyChooseUsCards' => $whyChooseUsCards,
         ]);
     }
 
