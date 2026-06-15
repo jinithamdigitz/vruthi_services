@@ -403,6 +403,12 @@ class HomeController extends Controller
         if ($category) {
             $whyChooseUsCards = Post::where('post_category_id', $category->id)->get();
         }
+
+        $category = PostCategory::where('slug', 'why-choose-us-title')->first();
+        $whychooseustitle = collect();
+        if ($category) {
+            $whychooseustitle = Post::where('post_category_id', $category->id)->first();
+        }
         return view('services', [
             'services' => $services,
             'serviceContent' => $serviceContent,
@@ -411,6 +417,7 @@ class HomeController extends Controller
             'serviceBanner' => $serviceBanner,
             'cta'=> $cta,
             'whyChooseUsCards' => $whyChooseUsCards,
+            'whychooseustitle' => $whychooseustitle,
         ]);
     }
 

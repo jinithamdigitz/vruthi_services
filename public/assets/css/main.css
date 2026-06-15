@@ -3424,25 +3424,44 @@ clip-path: polygon(
 }
 
 /* Teal icon badge */
+/* ============================================================
+   SERVICES PORTFOLIO ICONS
+   ============================================================ */
+
 .services-portfolio__icon-wrap {
-    width: 54px;
-    height: 54px;
-    border-radius: var(--radius-md);
-    background: var(--grad-primary);
+    width: 82px;
+    height: 82px;
+    border-radius: 18px;
+
+     background: linear-gradient(
+        135deg,
+        #075f7f 0%,
+        #0d7a6e 40%,
+        #19b7a6 100%
+    );
+
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.1rem;
-    box-shadow: 0 6px 18px rgba(13, 122, 110, 0.28);
-    flex-shrink: 0;
+
+    box-shadow:
+        0 12px 25px rgba(0, 0, 0, 0.08),
+        0 6px 18px rgba(25, 183, 166, 0.15);
+
+    margin-bottom: 1rem;
 }
 
+.services-portfolio__icon-wrap img {
+    width: 42px;
+    height: 42px;
+    filter: brightness(0) invert(1);
+}
+
+/* Bootstrap Icon Support */
 .services-portfolio__icon-wrap i {
+    font-size: 2rem;
     color: #ffffff;
-    font-size: 1.6rem;
-    line-height: 1;
 }
-
 /* Service name */
 .services-portfolio__service-title {
     font-size: 1.35rem;

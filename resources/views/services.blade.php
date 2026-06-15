@@ -1,7 +1,7 @@
 {{-- ============================================================
      VRUDHI OUTSOURCING — Services Page
      Extends: layouts/main.blade.php
-     Sections: services-hero, services-portfolio, services-why-us
+     Routes: home.services (index) | frontend.service.detail (detail)
      ============================================================ --}}
 
 @extends('layouts.main')
@@ -51,8 +51,8 @@
 
 
     {{-- ============================================================
-     SECTION 2 : SERVICE PORTFOLIO (all 7 services)
-     Alternating image-left / image-right layout matching reference
+     SECTION 2 : SERVICE PORTFOLIO (Dynamic from $services)
+     Alternating image-left / image-right layout based on $loop->index
      ============================================================ --}}
     <section class="services-portfolio">
         <div class="container">
@@ -66,362 +66,224 @@
                 </div>
             </div>
 
-            {{-- ── SERVICE 01 : House Keeping & Upkeep Maintenance ── --}}
-            {{-- Layout: image-left | number+info-centre | features-right --}}
-            <div class="services-portfolio__row row g-0 align-items-stretch reveal">
+            {{-- Loop through services dynamically --}}
+            @forelse ($services as $index => $service)
+                @php
+                    // Only show active services
+                    if (!$service->is_active) {
+                        continue;
+                    }
 
-                {{-- Image (left) --}}
-                <div class="col-lg-3 col-md-4">
-                    <div class="services-portfolio__img-wrap services-portfolio__img-wrap--left">
-                        <img src="{{ asset('img/services/housekeeping.jpg') }}" alt="House Keeping & Upkeep Maintenance"
-                            class="services-portfolio__img">
-                    </div>
-                </div>
+                    // Determine layout: even index (0,2,4) = image-left, odd index (1,3,5) = image-right
+                    $isEven = $index % 2 == 0;
+                    // Service number with leading zero (01, 02, 03...)
+                    $serviceNumber = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
 
-                {{-- Centre: number, icon, title, description --}}
-                <div class="col-lg-5 col-md-4">
-                    <div class="services-portfolio__info">
-                        <span class="services-portfolio__number">01</span>
-                        <div class="services-portfolio__icon-wrap">
-                            <i class="bi bi-bucket-fill"></i>
+                    // Parse features from JSON or newline separated
+                    $features = [];
+                    if ($service->features) {
+                        // Check if features is JSON
+                        $decoded = json_decode($service->features, true);
+                        if (is_array($decoded)) {
+                            $features = $decoded;
+                        } else {
+                            // Split by newline
+                            $features = explode("\n", trim($service->features));
+                        }
+                    }
+
+                    // Get icon class from icon_image or use default
+                    $iconClass = $service->icon_image ?: 'bi bi-star-fill';
+
+                    // Get description (short_description or truncated body)
+                    $description = $service->short_description;
+                    if (!$description && $service->body) {
+                        $description = Str::limit(strip_tags($service->body), 120);
+                    }
+                    if (!$description) {
+                        $description = 'Professional facility management services tailored to your needs.';
+                    }
+                @endphp
+
+                {{-- Service Row --}}
+                <div
+                    class="services-portfolio__row {{ $isEven ? '' : 'services-portfolio__row--alt' }} row g-0 align-items-stretch reveal">
+
+                    @if ($isEven)
+                        {{-- LAYOUT: Image Left | Info Centre | Features Right --}}
+
+                        {{-- Image Column (Left) --}}
+                        <div class="col-lg-3 col-md-4">
+                            <div class="services-portfolio__img-wrap services-portfolio__img-wrap--left">
+                                @if ($service->image)
+                                    <img src="{{ asset($service->image) }}" alt="{{ $service->title }}"
+                                        class="services-portfolio__img">
+                                @else
+                                    <img src="{{ asset('img/services/placeholder.jpg') }}" alt="{{ $service->title }}"
+                                        class="services-portfolio__img">
+                                @endif
+                            </div>
                         </div>
-                        <h3 class="services-portfolio__service-title">
-                            House Keeping &amp;<br>Upkeep Maintenance
-                        </h3>
-                        <p class="services-portfolio__service-desc">
-                            We provide professional cleaning and maintenance services that ensure
-                            hygienic, safe and well-maintained environments for every facility.
-                        </p>
-                    </div>
-                </div>
 
-                {{-- Features list (right) --}}
-                <div class="col-lg-4 col-md-4">
-                    <div class="services-portfolio__features">
-                        <ul class="services-portfolio__feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i> Daily Cleaning Services</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Floor &amp; Carpet Care</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Washroom Hygiene</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Waste Management</li>
-                            <li><i class="bi bi-check-circle-fill"></i> General Maintenance</li>
-                        </ul>
-                        <a href="{{ url('/services/housekeeping') }}" class="btn-outline-brand services-portfolio__cta">
-                            Explore More <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-            </div>{{-- /.services-portfolio__row --}}
-
-
-            {{-- ── SERVICE 02 : Security Guarding Service ── --}}
-            {{-- Layout: features-left | number+info-centre | image-right --}}
-            <div class="services-portfolio__row services-portfolio__row--alt row g-0 align-items-stretch reveal">
-
-                {{-- Features list (left) --}}
-                <div class="col-lg-4 col-md-4 order-md-1 order-3">
-                    <div class="services-portfolio__features services-portfolio__features--left">
-                        <ul class="services-portfolio__feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i> Manned Guarding</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Access Control</li>
-                            <li><i class="bi bi-check-circle-fill"></i> CCTV Monitoring</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Event Security</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Emergency Response</li>
-                        </ul>
-                    </div>
-                </div>
-
-                {{-- Centre: number, icon, title, description --}}
-                <div class="col-lg-5 col-md-4 order-md-2 order-1">
-                    <div class="services-portfolio__info">
-                        <span class="services-portfolio__number">02</span>
-                        <div class="services-portfolio__icon-wrap">
-                            <i class="bi bi-shield-check"></i>
+                        {{-- Info Column (Centre) --}}
+                        <div class="col-lg-5 col-md-4">
+                            <div class="services-portfolio__info">
+                                <span class="services-portfolio__number">{{ $serviceNumber }}</span>
+                                <div class="services-portfolio__icon-wrap">
+                                    @if (str_contains($iconClass, 'bi') || str_contains($iconClass, 'fa'))
+                                        <i class="{{ $iconClass }}"></i>
+                                    @else
+                                        <img src="{{ asset($iconClass) }}" alt="{{ $service->title }}"
+                                            style="width: 40px; height: 40px; object-fit: contain;">
+                                    @endif
+                                </div>
+                                <h3 class="services-portfolio__service-title">
+                                    {!! nl2br(e($service->title)) !!}
+                                </h3>
+                                <p class="services-portfolio__service-desc">
+                                    {{ $description }}
+                                </p>
+                            </div>
                         </div>
-                        <h3 class="services-portfolio__service-title">
-                            Security Guarding<br>Service
-                        </h3>
-                        <p class="services-portfolio__service-desc">
-                            Trained and vigilant security professionals to ensure the safety of your
-                            people, assets and premises round the clock.
-                        </p>
-                    </div>
-                </div>
 
-                {{-- Image (right) --}}
-                <div class="col-lg-3 col-md-4 order-md-3 order-2">
-                    <div class="services-portfolio__img-wrap services-portfolio__img-wrap--right">
-                        <img src="{{ asset('img/services/security.jpg') }}" alt="Security Guarding Service"
-                            class="services-portfolio__img">
-                    </div>
-                </div>
+                        {{-- Features Column (Right) --}}
+                        <div class="col-lg-4 col-md-4">
+                            <div class="services-portfolio__features">
+                                @if ($service->features)
+                                    @php
+                                        // Add tick icon to each list item
+                                        $featuresWithTick = preg_replace(
+                                            '/<li>(.*?)<\/li>/',
+                                            '<li><i class="bi bi-check-circle-fill"></i> $1</li>',
+                                            $service->features,
+                                        );
+                                    @endphp
+                                    <div class="services-portfolio__feature-list">
+                                        {!! $featuresWithTick !!}
+                                    </div>
+                                @endif
 
-            </div>{{-- /.services-portfolio__row --}}
-
-
-            {{-- ── SERVICE 03 : Care Taker Services ── --}}
-            {{-- Layout: image-left | number+info-centre | features-right --}}
-            <div class="services-portfolio__row row g-0 align-items-stretch reveal">
-
-                <div class="col-lg-3 col-md-4">
-                    <div class="services-portfolio__img-wrap services-portfolio__img-wrap--left">
-                        <img src="{{ asset('img/services/caretaker.jpg') }}" alt="Care Taker Services"
-                            class="services-portfolio__img">
-                    </div>
-                </div>
-
-                <div class="col-lg-5 col-md-4">
-                    <div class="services-portfolio__info">
-                        <span class="services-portfolio__number">03</span>
-                        <div class="services-portfolio__icon-wrap">
-                            <i class="bi bi-person-gear"></i>
+                                <a href="{{ route('frontend.service.detail', $service->slug) }}"
+                                    class="btn-outline-brand services-portfolio__cta">
+                                    Explore More <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
-                        <h3 class="services-portfolio__service-title">
-                            Care Taker<br>Services
-                        </h3>
-                        <p class="services-portfolio__service-desc">
-                            Reliable caretaker services for residential, commercial and industrial
-                            properties with a focus on attention and responsibility.
-                        </p>
-                    </div>
-                </div>
+                    @else
+                        {{-- LAYOUT: Features Left | Info Centre | Image Right (Alternating) --}}
 
-                <div class="col-lg-4 col-md-4">
-                    <div class="services-portfolio__features">
-                        <ul class="services-portfolio__feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i> Building Supervision</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Visitor Management</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Utility Management</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Vendor Coordination</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Routine Inspections</li>
-                        </ul>
-                        <a href="{{ url('/services/caretaker') }}" class="btn-outline-brand services-portfolio__cta">
-                            Explore More <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-            </div>{{-- /.services-portfolio__row --}}
-
-
-            {{-- ── SERVICE 04 : HR Outsourcing / Payroll Management ── --}}
-            {{-- Layout: features-left | number+info-centre | image-right --}}
-            <div class="services-portfolio__row services-portfolio__row--alt row g-0 align-items-stretch reveal">
-
-                <div class="col-lg-4 col-md-4 order-md-1 order-3">
-                    <div class="services-portfolio__features services-portfolio__features--left">
-                        <ul class="services-portfolio__feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i> Payroll Processing</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Statutory Compliance</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Recruitment Support</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Employee Management</li>
-                            <li><i class="bi bi-check-circle-fill"></i> HR Policy &amp; Advisory</li>
-                        </ul>
-                        <a href="{{ url('/services/hr-outsourcing') }}" class="btn-outline-brand services-portfolio__cta">
-                            Explore More <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-5 col-md-4 order-md-2 order-1">
-                    <div class="services-portfolio__info">
-                        <span class="services-portfolio__number">04</span>
-                        <div class="services-portfolio__icon-wrap">
-                            <i class="bi bi-people-fill"></i>
+                        {{-- Features Column (Left) --}}
+                        <div class="col-lg-4 col-md-4 order-md-1 order-3">
+                            <div class="services-portfolio__features services-portfolio__features--left">
+                                <ul class="services-portfolio__feature-list">
+                                    @forelse($features as $feature)
+                                        @if (trim($feature))
+                                            <li><i class="bi bi-check-circle-fill"></i> {!! $feature !!}</li>
+                                        @endif
+                                    @empty
+                                        <li><i class="bi bi-check-circle-fill"></i> Quality Service Guarantee</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> Professional Team</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> 24/7 Support Available</li>
+                                        <li><i class="bi bi-check-circle-fill"></i> Industry Best Practices</li>
+                                    @endforelse
+                                </ul>
+                                <a href="{{ route('frontend.service.detail', $service->slug) }}"
+                                    class="btn-outline-brand services-portfolio__cta">
+                                    Explore More <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
-                        <h3 class="services-portfolio__service-title">
-                            HR Outsourcing /<br>Payroll Management
-                        </h3>
-                        <p class="services-portfolio__service-desc">
-                            End-to-end HR and payroll solutions to streamline your workforce
-                            management and ensure compliance with complete accuracy.
-                        </p>
-                    </div>
-                </div>
 
-                <div class="col-lg-3 col-md-4 order-md-3 order-2">
-                    <div class="services-portfolio__img-wrap services-portfolio__img-wrap--right">
-                        <img src="{{ asset('img/services/hr-outsourcing.jpg') }}"
-                            alt="HR Outsourcing & Payroll Management" class="services-portfolio__img">
-                    </div>
-                </div>
-
-            </div>{{-- /.services-portfolio__row --}}
-
-
-            {{-- ── SERVICE 05 : Pest Control Services ── --}}
-            {{-- Layout: image-left | number+info-centre | features-right --}}
-            <div class="services-portfolio__row row g-0 align-items-stretch reveal">
-
-                <div class="col-lg-3 col-md-4">
-                    <div class="services-portfolio__img-wrap services-portfolio__img-wrap--left">
-                        <img src="{{ asset('img/services/pest-control.jpg') }}" alt="Pest Control Services"
-                            class="services-portfolio__img">
-                    </div>
-                </div>
-
-                <div class="col-lg-5 col-md-4">
-                    <div class="services-portfolio__info">
-                        <span class="services-portfolio__number">05</span>
-                        <div class="services-portfolio__icon-wrap">
-                            <i class="bi bi-bug-fill"></i>
+                        {{-- Info Column (Centre) --}}
+                        <div class="col-lg-5 col-md-4 order-md-2 order-1">
+                            <div class="services-portfolio__info">
+                                <span class="services-portfolio__number">{{ $serviceNumber }}</span>
+                                <div class="services-portfolio__icon-wrap">
+                                    @if (str_contains($iconClass, 'bi') || str_contains($iconClass, 'fa'))
+                                        <i class="{{ $iconClass }}"></i>
+                                    @else
+                                       <img src="{{ asset($iconClass) }}"
+     alt="{{ $service->title }}"
+     class="services-portfolio__icon-img">
+                                    @endif
+                                </div>
+                                <h3 class="services-portfolio__service-title">
+                                    {!! nl2br(e($service->title)) !!}
+                                </h3>
+                                <p class="services-portfolio__service-desc">
+                                    {{ $description }}
+                                </p>
+                            </div>
                         </div>
-                        <h3 class="services-portfolio__service-title">
-                            Pest Control<br>Services
-                        </h3>
-                        <p class="services-portfolio__service-desc">
-                            Safe, effective and eco-friendly pest control solutions to protect your
-                            premises from pests and ensure a healthy environment.
-                        </p>
-                    </div>
-                </div>
 
-                <div class="col-lg-4 col-md-4">
-                    <div class="services-portfolio__features">
-                        <ul class="services-portfolio__feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i> General Disinfestation</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Termite Control</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Rodent Control</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Cockroach Control</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Preventive Treatments</li>
-                        </ul>
-                        <a href="{{ url('/services/pest-control') }}" class="btn-outline-brand services-portfolio__cta">
-                            Explore More <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-            </div>{{-- /.services-portfolio__row --}}
-
-
-            {{-- ── SERVICE 06 : MEP / Preventive / Conditional Maintenance ── --}}
-            {{-- Layout: features-left | number+info-centre | image-right --}}
-            <div class="services-portfolio__row services-portfolio__row--alt row g-0 align-items-stretch reveal">
-
-                <div class="col-lg-4 col-md-4 order-md-1 order-3">
-                    <div class="services-portfolio__features services-portfolio__features--left">
-                        <ul class="services-portfolio__feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i> Electrical Maintenance</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Plumbing &amp; Pipework</li>
-                            <li><i class="bi bi-check-circle-fill"></i> HVAC Servicing</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Preventive Schedules</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Breakdown Response</li>
-                        </ul>
-                        <a href="{{ url('/services/mep-maintenance') }}"
-                            class="btn-outline-brand services-portfolio__cta">
-                            Explore More <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-5 col-md-4 order-md-2 order-1">
-                    <div class="services-portfolio__info">
-                        <span class="services-portfolio__number">06</span>
-                        <div class="services-portfolio__icon-wrap">
-                            <i class="bi bi-tools"></i>
+                        {{-- Image Column (Right) --}}
+                        <div class="col-lg-3 col-md-4 order-md-3 order-2">
+                            <div class="services-portfolio__img-wrap services-portfolio__img-wrap--right">
+                                @if ($service->image)
+                                    <img src="{{ asset($service->image) }}" alt="{{ $service->title }}"
+                                        class="services-portfolio__img">
+                                @else
+                                    <img src="{{ asset('img/services/placeholder.jpg') }}" alt="{{ $service->title }}"
+                                        class="services-portfolio__img">
+                                @endif
+                            </div>
                         </div>
-                        <h3 class="services-portfolio__service-title">
-                            MEP / Preventive /<br>Conditional Maintenance
-                        </h3>
-                        <p class="services-portfolio__service-desc">
-                            Comprehensive mechanical, electrical and plumbing maintenance with
-                            scheduled preventive and reactive services to maximise uptime.
-                        </p>
+                    @endif
+
+                </div>{{-- /.services-portfolio__row --}}
+            @empty
+                {{-- No services found --}}
+                <div class="row">
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-tools display-1 text-muted"></i>
+                        <h3 class="mt-3">Services Coming Soon</h3>
+                        <p class="text-muted">We are currently updating our service offerings. Please check back later.</p>
                     </div>
                 </div>
-
-                <div class="col-lg-3 col-md-4 order-md-3 order-2">
-                    <div class="services-portfolio__img-wrap services-portfolio__img-wrap--right">
-                        <img src="{{ asset('img/services/mep-maintenance.jpg') }}" alt="MEP Preventive Maintenance"
-                            class="services-portfolio__img">
-                    </div>
-                </div>
-
-            </div>{{-- /.services-portfolio__row --}}
-
-
-            {{-- ── SERVICE 07 : Horticulture Services ── --}}
-            {{-- Layout: image-left | number+info-centre | features-right --}}
-            <div class="services-portfolio__row row g-0 align-items-stretch reveal">
-
-                <div class="col-lg-3 col-md-4">
-                    <div class="services-portfolio__img-wrap services-portfolio__img-wrap--left">
-                        <img src="{{ asset('img/services/horticulture.jpg') }}" alt="Horticulture Services"
-                            class="services-portfolio__img">
-                    </div>
-                </div>
-
-                <div class="col-lg-5 col-md-4">
-                    <div class="services-portfolio__info">
-                        <span class="services-portfolio__number">07</span>
-                        <div class="services-portfolio__icon-wrap">
-                            <i class="bi bi-tree-fill"></i>
-                        </div>
-                        <h3 class="services-portfolio__service-title">
-                            Horticulture<br>Services
-                        </h3>
-                        <p class="services-portfolio__service-desc">
-                            Professional landscaping and horticulture solutions to create beautiful,
-                            green and sustainable outdoor environments for every property.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4">
-                    <div class="services-portfolio__features">
-                        <ul class="services-portfolio__feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i> Lawn Care &amp; Mowing</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Landscape Design</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Plant Nursery Supply</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Irrigation Systems</li>
-                            <li><i class="bi bi-check-circle-fill"></i> Seasonal Planting</li>
-                        </ul>
-                        <a href="{{ url('/services/horticulture') }}" class="btn-outline-brand services-portfolio__cta">
-                            Explore More <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-            </div>{{-- /.services-portfolio__row --}}
+            @endforelse
 
         </div>{{-- /.container --}}
     </section>{{-- /.services-portfolio --}}
 
 
     {{-- ============================================================
-     SECTION 3 : WHY PARTNER WITH US
+     SECTION 3 : WHY PARTNER WITH US (Dynamic from $whyChooseUsCards)
      ============================================================ --}}
-    <section class="services-why-us">
-        <div class="container">
+    @if (isset($whyChooseUsCards) && $whyChooseUsCards->count())
+        <section class="services-why-us">
+            <div class="container">
 
-            <div class="row justify-content-center mb-5">
-                <div class="col-12 text-center">
-                    <span class="section-label services-why-us__eyebrow">Why Partner With Us</span>
-                    <h2 class="services-why-us__title mt-1">Adding Value Beyond Services</h2>
-                    <div class="section-divider mx-auto mt-2"></div>
-                </div>
-            </div>
-
-            <div class="row g-4 justify-content-center">
-                @foreach ($whyChooseUsCards as $index => $card)
-                    <div class="col-sm-6 col-lg-3 reveal reveal-delay-{{ $index + 1 }}">
-                        <div class="home-about__card h-100">
-
-                            <div class="icon-wrap">
-                                <img src="{{ asset($card->image) }}" alt="{{ $card->title }}"
-                                    class="home-about__icon-img">
-                            </div>
-
-                            <h4>{{ $card->title }}</h4>
-
-                            <p>{!! $card->body !!}</p>
-
-                        </div>
+                <div class="row justify-content-center mb-5">
+                    <div class="col-12 text-center">
+                        <span class="section-label services-why-us__eyebrow">{{ $whychooseustitle->title }}</span>
+                        <div class="section-divider mx-auto mt-2"></div>
                     </div>
-                @endforeach
+                </div>
 
-            </div>{{-- /.row --}}
-        </div>{{-- /.container --}}
-    </section>{{-- /.services-why-us --}}
+                <div class="row g-4 justify-content-center">
+                    @foreach ($whyChooseUsCards as $index => $card)
+                        <div class="col-sm-6 col-lg-3 reveal reveal-delay-{{ min($index + 1, 5) }}">
+                            <div class="home-about__card h-100">
+
+                                <div class="icon-wrap">
+                                    @if ($card->image)
+                                        <img src="{{ asset($card->image) }}" alt="{{ $card->title }}"
+                                            class="home-about__icon-img">
+                                    @else
+                                        <i class="bi bi-star-fill" style="font-size: 2rem; color: #0d7a6e;"></i>
+                                    @endif
+                                </div>
+
+                                <h4>{{ $card->title }}</h4>
+
+                                <p>{{ Str::limit(strip_tags($card->body), 100) }}</p>
+
+                            </div>
+                        </div>
+                    @endforeach
+                </div>{{-- /.row --}}
+            </div>{{-- /.container --}}
+        </section>{{-- /.services-why-us --}}
+    @endif
 
 @endsection

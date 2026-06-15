@@ -96,13 +96,10 @@
                         <a class="nav-link" href="{{ route('home.services') }}">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="industries.html">Industries</a>
+                        <a class="nav-link" href="industries.html">Blogs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="careers.html">Careers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gallery.html">Gallery</a>
+                        <a class="nav-link" href="careers.html">Projects</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact Us</a>

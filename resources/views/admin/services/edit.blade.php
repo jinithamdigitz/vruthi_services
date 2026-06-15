@@ -120,9 +120,9 @@
                                       id="features"
                                       class="form-control @error('features') is-invalid @enderror"
                                       rows="6"
-                                      placeholder="Enter service features (one per line)&#10;Example:&#10;✓ 24/7 Customer Support&#10;✓ Free Consultation&#10;✓ 100% Satisfaction Guarantee">{{ old('features', $service->features) }}</textarea>
+                                      placeholder="Enter service features">{{ old('features', $service->features) }}</textarea>
                             <small class="form-text text-muted">
-                                <i class="fas fa-list-ul"></i> Enter each feature on a new line. These will be displayed as a bullet list on the frontend.
+                                <i class="fas fa-list-ul"></i> Enter features manually as needed.
                             </small>
                             @error('features')
                                 <span class="invalid-feedback">{{ $message }}</span>
@@ -200,7 +200,7 @@
                                    class="form-control @error('keyword') is-invalid @enderror" 
                                    placeholder="Enter SEO keywords (comma separated)"
                                    value="{{ old('keyword', $service->keyword) }}">
-                            <small class="form-text text-muted">Keywords for SEO optimization (comma separated). Example: "facility management, security services, housekeeping"</small>
+                            <small class="form-text text-muted">Keywords for SEO optimization (comma separated).</small>
                             @error('keyword')
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
@@ -272,15 +272,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let bodyEditor = null;
     let featuresEditor = null;
     
-    // Store original values
-    let originalBodyValue = bodyTextarea.value;
-    let originalFeaturesValue = featuresTextarea.value;
-    
     function enableBodyEditor() {
         if (!bodyEditor && bodyTextarea) {
-            // Store current plain text value
-            originalBodyValue = bodyTextarea.value;
-            
             ClassicEditor
                 .create(bodyTextarea, {
                     toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'insertTable', 'undo', 'redo'],
@@ -295,10 +288,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(editor => {
                     bodyEditor = editor;
-                    // Set the content if there was HTML content
-                    if (originalBodyValue && originalBodyValue.includes('<')) {
-                        editor.setData(originalBodyValue);
-                    }
                 })
                 .catch(error => {
                     console.error('CKEditor body error:', error);
@@ -308,19 +297,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
     function enableFeaturesEditor() {
         if (!featuresEditor && featuresTextarea) {
-            // Store current plain text value
-            originalFeaturesValue = featuresTextarea.value;
-            
             ClassicEditor
                 .create(featuresTextarea, {
                     toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'undo', 'redo'],
                 })
                 .then(editor => {
                     featuresEditor = editor;
-                    // Set the content if there was HTML content
-                    if (originalFeaturesValue && originalFeaturesValue.includes('<')) {
-                        editor.setData(originalFeaturesValue);
-                    }
                 })
                 .catch(error => {
                     console.error('CKEditor features error:', error);
@@ -330,23 +312,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
     function disableBodyEditor() {
         if (bodyEditor) {
-            // Get HTML content from editor
             let htmlContent = bodyEditor.getData();
-            
-            // Convert HTML to plain text for XSS safety
             let plainText = htmlContent
-                .replace(/<p[^>]*>/gi, '')
-                .replace(/<\/p>/gi, '\n')
-                .replace(/<br\s*\/?>/gi, '\n')
                 .replace(/<[^>]*>/g, '')
                 .replace(/&nbsp;/g, ' ')
-                .replace(/&amp;/g, '&')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                .replace(/&quot;/g, '"')
-                .replace(/&#39;/g, "'")
-                .replace(/[ \t]+/g, ' ')
-                .replace(/\n\s*\n/g, '\n\n')
+                .replace(/<\/p>/gi, '\n')
+                .replace(/<br\s*\/?>/gi, '\n')
                 .trim();
             
             bodyEditor.destroy()
@@ -362,21 +333,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
     function disableFeaturesEditor() {
         if (featuresEditor) {
-            // Get HTML content from editor
             let htmlContent = featuresEditor.getData();
-            
-            // Convert HTML to plain text
             let plainText = htmlContent
-                .replace(/<p[^>]*>/gi, '')
-                .replace(/<\/p>/gi, '\n')
-                .replace(/<br\s*\/?>/gi, '\n')
-                .replace(/<li[^>]*>/gi, '• ')
-                .replace(/<\/li>/gi, '\n')
                 .replace(/<[^>]*>/g, '')
                 .replace(/&nbsp;/g, ' ')
-                .replace(/&amp;/g, '&')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
+                .replace(/<\/p>/gi, '\n')
+                .replace(/<br\s*\/?>/gi, '\n')
                 .trim();
             
             featuresEditor.destroy()
@@ -392,13 +354,11 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Initialize based on checkbox state
     if (checkbox && checkbox.checked) {
-        // Hide textareas and show editors
         bodyTextarea.style.display = 'none';
         featuresTextarea.style.display = 'none';
         enableBodyEditor();
         enableFeaturesEditor();
     } else {
-        // Show textareas
         bodyTextarea.style.display = 'block';
         featuresTextarea.style.display = 'block';
     }
@@ -406,16 +366,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle checkbox change
     if (checkbox) {
         checkbox.addEventListener('change', function (e) {
-            console.log('Checkbox changed to:', this.checked);
-            
             if (this.checked) {
-                // Switch to CKEditor mode
                 bodyTextarea.style.display = 'none';
                 featuresTextarea.style.display = 'none';
                 enableBodyEditor();
                 enableFeaturesEditor();
             } else {
-                // Switch to plain text mode
                 disableBodyEditor();
                 disableFeaturesEditor();
                 bodyTextarea.style.display = 'block';
