@@ -392,19 +392,81 @@ class ServiceController extends Controller
     /**
      * Display the specified service by slug (FRONTEND)
      */
-    public function showBySlug($slug)
-    {
-        $service = Service::where('slug', $slug)
-            ->where('is_active', true)
-            ->firstOrFail();
-        
-        // Decode features if stored as JSON
-        if ($service->features && $this->isJson($service->features)) {
-            $service->features_array = json_decode($service->features, true);
-        }
-        
-        return view('services.show', compact('service'));
+ /**
+ * Display the specified service by slug (FRONTEND)
+ */
+public function showBySlug($slug)
+{
+    $service = Service::where('slug', $slug)
+        ->where('is_active', true)
+        ->firstOrFail();
+
+    // Parse features
+    if ($service->features && $this->isJson($service->features)) {
+        $service->features_array = json_decode($service->features, true);
+    } else {
+        $service->features_array = $service->features ? explode("\n", trim($service->features)) : [];
     }
+
+    // Get why choose us cards from Post model
+    $category = \App\Models\PostCategory::where('slug', 'why-choose-us-card')->first();
+    $whyChooseUsCards = [];
+    if ($category) {
+        $whyChooseUsCards = \App\Models\Post::where('post_category_id', $category->id)->get();
+    }
+
+    // Get why choose us title
+    $category = \App\Models\PostCategory::where('slug', 'why-choose-us-title')->first();
+    $whychooseustitle = collect();
+    if ($category) {
+        $whychooseustitle = \App\Models\Post::where('post_category_id', $category->id)->first();
+    }
+
+    // Get our process
+    $category = \App\Models\PostCategory::where('slug', 'our-process')->first();
+    $ourprocess = collect();
+    if ($category) {
+        $ourprocess = \App\Models\Post::where('post_category_id', $category->id)->get();
+    }
+
+    // Get industries
+    $category = \App\Models\PostCategory::where('slug', 'industries')->first();
+    $industries = collect();
+    if ($category) {
+        $industries = \App\Models\Post::where('post_category_id', $category->id)->get();
+    }
+
+    // Get counters
+    $category = \App\Models\PostCategory::where('slug', 'counter')->first();
+    $counters = collect();
+    if ($category) {
+        $counters = \App\Models\Post::where('post_category_id', $category->id)->get();
+    }
+
+    $category = \App\Models\PostCategory::where('slug', 'cta')->first();
+    $cta = collect();
+    if ($category) {
+        $cta = \App\Models\Post::where('post_category_id', $category->id)->first();
+    }
+
+    // Get other services
+    $otherServices = Service::where('id', '!=', $service->id)
+        ->where('is_active', true)
+        ->orderBy('sort_order', 'asc')
+        ->limit(4)
+        ->get();
+
+    return view('servicedetails', compact(
+        'service',
+        'whyChooseUsCards',
+        'whychooseustitle',
+        'ourprocess',
+        'industries',
+        'counters',
+        'otherServices',
+        'cta'
+    ));
+}
 
     /**
      * Get all active services for frontend (FRONTEND)

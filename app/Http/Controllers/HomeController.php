@@ -421,6 +421,8 @@ class HomeController extends Controller
         ]);
     }
 
+    
+
     public function portfolio()
     {
         $categories = PortfolioCategory::with('portfolios')->get();
