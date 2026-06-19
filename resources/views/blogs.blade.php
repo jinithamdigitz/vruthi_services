@@ -1,136 +1,213 @@
 @extends('layouts.main')
 
 @section('content')
-
 @section('hero_title')
-Blogs
+    Blogs
 @endsection
 
 @section('hero_text')
-Latest solar trends and energy knowledge
+    Latest solar trends and energy knowledge
 @endsection
 
-<!-- ===== BLOG SECTION ===== -->
-<div class="blog-container">
+<section class="blogs-hero">
 
-    <!-- Search -->
-    <div class="search-wrapper">
-        <form method="GET" action="{{ route('home.blogs') }}" class="search-box" id="searchForm">
-            <i class="fas fa-search"></i>
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search articles..."
-                autocomplete="off" id="searchInput">
-            @if(request('search'))
-                <a href="{{ route('home.blogs') }}" class="clear-search" id="clearSearch">
-                    <i class="fas fa-times"></i>
-                </a>
-            @endif
-            <button type="submit" style="display: none;">Search</button>
-        </form>
+    <div class="blogs-hero__bg-overlay"></div>
+    <div class="blogs-hero__wave-shape"></div>
+
+    <div class="container">
+
+        <div class="blogs-hero__content">
+
+            <div class="blogs-hero__left reveal reveal-left">
+
+                <nav class="blogs-hero__breadcrumb">
+                    <a href="{{ url('/') }}">Home</a>
+                    <i class="bi bi-chevron-right"></i>
+                    <span>Blogs</span>
+                </nav>
+
+                <h1 class="blogs-hero__title">
+                    Insights & Industry Updates
+                </h1>
+
+                <p class="blogs-hero__tagline">
+                    Knowledge Hub
+                </p>
+
+                <p class="blogs-hero__desc">
+                    Explore expert insights, industry trends, workforce strategies,
+                    outsourcing solutions and facility management updates from
+                    Vrudhi Outsourcing.
+                </p>
+
+                <div class="blogs-hero__rule"></div>
+
+            </div>
+
+            <div class="blogs-hero__right reveal reveal-right">
+
+                <img src="{{ asset('img/blogs/blogs-hero.png') }}"
+                     alt="Blogs"
+                     class="blogs-hero__img">
+
+            </div>
+
+        </div>
+
     </div>
 
-    <!-- Search Result Info -->
-    @if(request('search'))
-        <div class="search-info">
-            <p>Showing results for: <strong>"{{ request('search') }}"</strong> 
-                <a href="{{ route('home.blogs') }}" class="clear-results">Clear search</a>
-            </p>
-            <p>Found {{ $blogs->total() }} result(s)</p>
-        </div>
-    @endif
+</section>
 
-    <!-- Two-column layout -->
-    <div class="blog-layout">
 
-        <!-- LEFT: Blog Cards -->
-        <div>
-            @if($blogs->count() > 0)
-                <div class="blog-grid">
-                    @foreach ($blogs as $blog)
-                        <div class="blog-card wow fadeInUp" data-wow-delay=".4s">
-                            <div class="blog-img-box">
-                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}">
-                            </div>
-                            <div class="blog-content">
-                                <div class="blog-date">{{ $blog->created_at->format('F d, Y') }}</div>
-                                <h3 class="blog-title">{{ $blog->title }}</h3>
-                                @if($blog->excerpt)
-                                    <p class="blog-excerpt">{{ Str::limit($blog->excerpt, 100) }}</p>
-                                @endif
-                                <div class="blog-footer">
-                                    <a href="{{ route('dynamic.slug', $blog->slug) }}" class="read-more">
-                                        Read More
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+<section class="blogs-page">
+    <div class="container">
 
-                <!-- Pagination -->
-                @if ($blogs->hasPages())
-                    <ul class="styled-pagination text-center">
-                        {{-- Previous --}}
-                        @if ($blogs->onFirstPage())
-                            <li class="disabled"><span>&laquo;</span></li>
-                        @else
-                            <li><a href="{{ $blogs->previousPageUrl() }}">&laquo;</a></li>
-                        @endif
-
-                        {{-- Page Numbers --}}
-                        @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
-                            <li class="{{ $blogs->currentPage() == $page ? 'active' : '' }}">
-                                <a href="{{ $url }}">{{ $page }}</a>
-                            </li>
-                        @endforeach
-
-                        {{-- Next --}}
-                        @if ($blogs->hasMorePages())
-                            <li><a href="{{ $blogs->nextPageUrl() }}">&raquo;</a></li>
-                        @else
-                            <li class="disabled"><span>&raquo;</span></li>
-                        @endif
-                    </ul>
-                @endif
-            @else
-                <div class="no-results">
-                    <i class="fas fa-search"></i>
-                    <h3>No articles found</h3>
-                    <p>We couldn't find any articles matching "<strong>{{ request('search') }}</strong>"</p>
-                    <a href="{{ route('home.blogs') }}" class="btn-back">View all articles</a>
-                </div>
-            @endif
+        {{-- Heading --}}
+        <div class="row justify-content-center text-center mb-5">
+            <div class="col-lg-8">
+                <span class="section-label">Latest Insights</span>
+                <h2 class="blogs-page__title">Knowledge Hub & Industry Updates</h2>
+                <div class="section-divider mx-auto"></div>
+            </div>
         </div>
 
-        <!-- RIGHT: Popular Articles Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-title">Popular Articles</div>
+        {{-- Search --}}
+        <div class="blogs-search reveal">
+            <form>
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="Search articles, insights and updates...">
+            </form>
+        </div>
 
-            @forelse($latestBlogs as $index => $latestBlog)
-                <div class="popular-card">
-                    <img src="{{ asset($latestBlog->image) }}" alt="{{ $latestBlog->title }}" class="popular-img"
-                        onerror="this.src='https://via.placeholder.com/90x80?text=No+Image'">
-                    <div class="popular-info">
-                        <p class="popular-title">
-                            <a href="{{ route('dynamic.slug', $latestBlog->slug) }}"
-                                style="text-decoration: none; color: inherit;">
-                                {{ Str::limit($latestBlog->title, 45) }}
-                            </a>
+        {{-- Featured Blog --}}
+        <div class="blogs-featured reveal">
+            <div class="row g-0 align-items-center">
+                <div class="col-lg-6">
+                    <img src="{{ asset('img/blogs/blog-1.jpg') }}" alt="">
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="blogs-featured__content">
+                        <span class="blogs-badge">Featured Article</span>
+
+                        <h3>
+                            Transforming Workforce Management Through Strategic Outsourcing
+                        </h3>
+
+                        <p>
+                            Discover how modern outsourcing solutions help businesses
+                            improve efficiency, reduce operational costs and scale faster.
                         </p>
-                        <div class="popular-meta">
-                            <span><i class="fas fa-calendar-alt"></i> {{ $latestBlog->created_at->format('M d, Y') }}</span>
+
+                        <a href="#" class="btn-outline-brand">
+                            Read Article
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5 g-5">
+
+            {{-- Blogs --}}
+            <div class="col-lg-8">
+
+                <div class="row g-4">
+
+                    @for ($i = 1; $i <= 6; $i++)
+                        <div class="col-md-6 reveal">
+                            <article class="blog-card-v2">
+
+                                <div class="blog-card-v2__image">
+                                    <img src="{{ asset('img/blogs/blog-' . $i . '.jpg') }}" alt="">
+                                </div>
+
+                                <div class="blog-card-v2__body">
+
+                                    <div class="blog-card-v2__meta">
+                                        <span>
+                                            <i class="bi bi-calendar3"></i>
+                                            June 2026
+                                        </span>
+                                    </div>
+
+                                    <h4>
+                                        Facility Management Trends Every Business Should Know
+                                    </h4>
+
+                                    <p>
+                                        Explore the latest facility management practices
+                                        helping organizations stay productive and efficient.
+                                    </p>
+
+                                    <a href="#">
+                                        Read More
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+
+                                </div>
+
+                            </article>
                         </div>
-                    </div>
+                    @endfor
+
                 </div>
-            @empty
-                <div class="popular-card">
-                    <div class="popular-info">
-                        <p class="popular-title">No latest blogs found.</p>
-                    </div>
+
+                {{-- Pagination --}}
+                <div class="blogs-pagination">
+                    <a href="#">1</a>
+                    <a href="#" class="active">2</a>
+                    <a href="#">3</a>
+                    <a href="#">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
                 </div>
-            @endforelse
-        </aside>
+
+            </div>
+
+            {{-- Sidebar --}}
+            <div class="col-lg-4">
+
+                <div class="blogs-sidebar">
+
+                    <div class="blogs-sidebar__card">
+                        <h4>Popular Articles</h4>
+
+                        @for ($i = 1; $i <= 4; $i++)
+                            <a href="#" class="blogs-popular">
+
+                                <img src="{{ asset('img/blogs/blog-' . $i . '.jpg') }}" alt="">
+
+                                <div>
+                                    <h6>
+                                        Strategic Workforce Solutions for Growing Businesses
+                                    </h6>
+
+                                    <span>June 2026</span>
+                                </div>
+
+                            </a>
+                        @endfor
+                    </div>
+
+                    <div class="blogs-sidebar__cta">
+                        <h4>Stay Updated</h4>
+                        <p>
+                            Get the latest industry insights delivered directly to your inbox.
+                        </p>
+
+                        <a href="#" class="btn-brand">
+                            Subscribe Now
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-</div>
-
-
+</section>
 @endsection

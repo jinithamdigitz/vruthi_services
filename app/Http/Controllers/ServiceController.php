@@ -464,7 +464,7 @@ public function showBySlug($slug)
         'industries',
         'counters',
         'otherServices',
-        'cta'
+        'cta',
     ));
 }
 

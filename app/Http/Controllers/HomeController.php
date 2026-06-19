@@ -352,6 +352,42 @@ class HomeController extends Controller
             $cta = Post::where('post_category_id', $category->id)->first();
         }
 
+         $category = PostCategory::where('slug', 'about-us-title')->first();
+        $aboutUSTitle = [];
+        if ($category) {
+            $aboutUSTitle = Post::where('post_category_id', $category->id)->first();
+        }
+
+        $category = PostCategory::where('slug', 'why-choose-us-card')->first();
+        $whyChooseUsCards = [];
+        if ($category) {
+            $whyChooseUsCards = Post::where('post_category_id', $category->id)->get();
+        }
+
+         $category = PostCategory::where('slug', 'why-choose-us-2')->first();
+        $whyChooseUs = [];
+        if ($category) {
+            $whyChooseUs = Post::where('post_category_id', $category->id)->first();
+        }
+
+        $category = PostCategory::where('slug', 'our-values-2')->first();
+        $ourvalues = [];
+        if ($category) {
+            $ourvalues = Post::where('post_category_id', $category->id)->first();
+        }
+
+        $category = PostCategory::where('slug', 'vision-mission')->first();
+        $visionmission = [];
+        if ($category) {
+            $visionmission = Post::where('post_category_id', $category->id)->get();
+        }
+
+        $category = PostCategory::where('slug', 'leadership-card')->first();
+        $leadershipcard = [];
+        if ($category) {
+            $leadershipcard = Post::where('post_category_id', $category->id)->first();
+        }
+
         $members = Member::limit(10)->get();
 
         return view('about', ['homebanner' => $homebanner,
@@ -364,6 +400,12 @@ class HomeController extends Controller
         'memberTitle' => $memberTitle,
         'aboutBanner' => $aboutBanner,
         'cta' => $cta,
+        'aboutUSTitle'=> $aboutUSTitle,
+        'whyChooseUsCards' => $whyChooseUsCards,
+        'whyChooseUs' => $whyChooseUs,
+        'ourvalues'=> $ourvalues,
+        'visionmission'=> $visionmission,
+        'leadershipcard'=> $leadershipcard,
         ]);
     }
 
@@ -659,6 +701,11 @@ class HomeController extends Controller
 
         return $seo;
     }
+
+    public function blogs()
+{
+    return view('blogs');
+}
 
     /**
      * Get footer services

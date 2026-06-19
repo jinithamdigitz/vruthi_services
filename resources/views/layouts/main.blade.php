@@ -67,7 +67,7 @@
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand navbar-logo" href="index.html">
-                <img src="{{ $logo->image }}" alt="Vrudhi Outsourcing Services Pvt. Ltd." />
+                <img src="{{ asset($logo->image) }}" alt="Vrudhi Outsourcing Services Pvt. Ltd." />
             </a>
 
             <!-- Mobile Toggle -->
@@ -96,7 +96,7 @@
                         <a class="nav-link" href="{{ route('home.services') }}">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="industries.html">Blogs</a>
+                        <a class="nav-link" href="{{ route('home.blogs') }}">Blogs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="careers.html">Projects</a>
@@ -159,7 +159,7 @@
         <div class="container">
             <div class="row g-4 g-lg-5">
                 <div class="col-lg-4 col-md-6">
-                    <div class="site-footer__logo"><img src="{{ $logo->image }}"
+                    <div class="site-footer__logo"><img src="{{ asset($logo->image) }}"
                             alt="Vrudhi Outsourcing Services Pvt. Ltd." /></div>
                     <p class="site-footer__desc">Delivering reliable, efficient and sustainable facility management
                         solutions across India &amp; Middle East since 2007.</p>

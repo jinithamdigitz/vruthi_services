@@ -202,9 +202,8 @@
                                     @if (str_contains($iconClass, 'bi') || str_contains($iconClass, 'fa'))
                                         <i class="{{ $iconClass }}"></i>
                                     @else
-                                       <img src="{{ asset($iconClass) }}"
-     alt="{{ $service->title }}"
-     class="services-portfolio__icon-img">
+                                        <img src="{{ asset($iconClass) }}" alt="{{ $service->title }}"
+                                            class="services-portfolio__icon-img">
                                     @endif
                                 </div>
                                 <h3 class="services-portfolio__service-title">
