@@ -257,8 +257,8 @@
 
             <div class="row justify-content-center text-center mb-5">
                 <div class="col-lg-8 reveal">
-                    <div class="section-title-unified">OUR MILESTONES</div>
-                    <h2 class="mt-3">A Journey Of Growth &amp; Trust</h2>
+                    <div class="section-title-unified">{{ $ourStoryTitle->title }}</div>
+                    <h2 class="mt-3">{{ $ourStoryTitle->body }}</h2>
                 </div>
             </div>
 
@@ -266,95 +266,25 @@
 
                 <!-- Timeline Line -->
 
+                @forelse ($timelines as $index => $timeline)
+                    <!-- Item {{ $index + 1 }} -->
+                    <div class="about-timeline__item">
+                        <div class="about-timeline__year">{{ $timeline->year }}</div>
 
-                <!-- Item 1 -->
-                <div class="about-timeline__item">
-                    <div class="about-timeline__year">2007</div>
-
-                    <div class="about-timeline__icon-wrap">
-                        <i class="bi bi-rocket-takeoff"></i>
+                        <div class="about-timeline__icon-wrap">
+                            <i class="bi {{ $timeline->icon }}"></i>
+                        </div>
+                        <div class="about-timeline__card">
+                            <strong>{{ $timeline->title }}</strong>
+                            <span>{{ $timeline->description }}</span>
+                        </div>
                     </div>
-                    <div class="about-timeline__card">
-                        <strong>Company</strong>
-                        <span>Established</span>
+                @empty
+                    <!-- Fallback: No timeline entries found -->
+                    <div class="text-center py-5">
+                        <p>No timeline entries available.</p>
                     </div>
-                </div>
-
-                <!-- Item 2 -->
-                <div class="about-timeline__item">
-                    <div class="about-timeline__year">2010</div>
-
-                    <div class="about-timeline__icon-wrap">
-                        <i class="bi bi-buildings"></i>
-                    </div>
-                    <div class="about-timeline__card">
-                        <strong>Expanded Operations</strong>
-                        <span>Across North India</span>
-                    </div>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="about-timeline__item">
-                    <div class="about-timeline__year">2013</div>
-
-                    <div class="about-timeline__icon-wrap">
-                        <i class="bi bi-people-fill"></i>
-                    </div>
-                    <div class="about-timeline__card">
-                        <strong>500+ Clients</strong>
-                        <span>Onboarded</span>
-                    </div>
-                </div>
-
-                <!-- Item 4 -->
-                <div class="about-timeline__item">
-                    <div class="about-timeline__year">2016</div>
-
-                    <div class="about-timeline__icon-wrap">
-                        <i class="bi bi-globe2"></i>
-                    </div>
-                    <div class="about-timeline__card">
-                        <strong>Entered</strong>
-                        <span>Middle East Market</span>
-                    </div>
-                </div>
-
-                <!-- Item 5 -->
-                <div class="about-timeline__item">
-                    <div class="about-timeline__year">2019</div>
-
-                    <div class="about-timeline__icon-wrap">
-                        <i class="bi bi-person-badge"></i>
-                    </div>
-                    <div class="about-timeline__card">
-                        <strong>10,000+</strong>
-                        <span>Workforce Strength</span>
-                    </div>
-                </div>
-
-                <!-- Item 6 -->
-                <div class="about-timeline__item">
-                    <div class="about-timeline__year">2022</div>
-                    <div class="about-timeline__icon-wrap">
-                        <i class="bi bi-patch-check"></i>
-                    </div>
-                    <div class="about-timeline__card">
-                        <strong>ISO Certified</strong>
-                        <span>Processes</span>
-                    </div>
-                </div>
-
-                <!-- Item 7 -->
-                <div class="about-timeline__item">
-                    <div class="about-timeline__year">2024+</div>
-                    <div class="about-timeline__icon-wrap">
-                        <i class="bi bi-graph-up-arrow"></i>
-                    </div>
-                    <div class="about-timeline__card">
-                        <strong>Continuing Growth,</strong>
-                        <span>Delivering Excellence.</span>
-                    </div>
-                </div>
+                @endforelse
 
             </div>
 
@@ -371,71 +301,28 @@
 
             <div class="row justify-content-center text-center mb-5">
                 <div class="col-lg-8 reveal">
-                    <div class="section-title-unified">CERTIFICATIONS &amp; RECOGNITIONS</div>
+                    <div class="section-title-unified">{{ $ourValueTitle->title }}</div>
                 </div>
             </div>
 
             <div class="row g-4 justify-content-center reveal">
 
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="about-certifications__card">
-                        <div class="about-certifications__badge-wrap">
-                            <i class="bi bi-patch-check"></i>
+                @forelse ($certifications as $certification)
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="about-certifications__card">
+                            <div class="about-certifications__badge-wrap">
+                                <i class="bi {{ $certification->icon }}"></i>
+                            </div>
+                            <div class="about-certifications__title">{{ $certification->title }}</div>
+                            <div class="about-certifications__sub">{{ $certification->subtitle }}</div>
                         </div>
-                        <div class="about-certifications__title">ISO 9001:2015</div>
-                        <div class="about-certifications__sub">Quality Management System</div>
                     </div>
-                </div>
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <p>No certifications available.</p>
+                    </div>
+                @endforelse
 
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="about-certifications__card">
-                        <div class="about-certifications__badge-wrap">
-                            <i class="bi bi-shield-check"></i>
-                        </div>
-                        <div class="about-certifications__title">ISO 14001:2015</div>
-                        <div class="about-certifications__sub">Environmental Management</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="about-certifications__card">
-                        <div class="about-certifications__badge-wrap">
-                            <i class="bi bi-file-earmark-check"></i>
-                        </div>
-                        <div class="about-certifications__title">ISO 401:2018</div>
-                        <div class="about-certifications__sub">Occupational Safety Management</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="about-certifications__card">
-                        <div class="about-certifications__badge-wrap">
-                            <i class="bi bi-award"></i>
-                        </div>
-                        <div class="about-certifications__title">MSME</div>
-                        <div class="about-certifications__sub">Registered Company</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="about-certifications__card">
-                        <div class="about-certifications__badge-wrap">
-                            <i class="bi bi-star"></i>
-                        </div>
-                        <div class="about-certifications__title">Startup India</div>
-                        <div class="about-certifications__sub">Recognized Entity</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="about-certifications__card">
-                        <div class="about-certifications__badge-wrap">
-                            <i class="bi bi-building-check"></i>
-                        </div>
-                        <div class="about-certifications__title">GeM</div>
-                        <div class="about-certifications__sub">Government &amp; Marketplace</div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

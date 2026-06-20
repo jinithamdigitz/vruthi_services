@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 13, 2026 at 11:51 AM
+-- Generation Time: Jun 19, 2026 at 12:19 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.1.31
 
@@ -581,7 +581,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   UNIQUE KEY `posts_slug_unique` (`slug`),
   KEY `posts_post_category_id_foreign` (`post_category_id`),
   KEY `posts_user_id_foreign` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `posts`
@@ -624,7 +624,7 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (276, 'Sustainability', 'sustainability', '<p>We design and deliver responsible solutions for a better tomorrow.</p>', 0, 'posts/sustainability.webp', NULL, 71, 1, 0, '2026-05-21 07:40:34', '2026-05-28 05:30:05', NULL, NULL),
 (277, 'Meet Our Leadership', 'meet-our-leadership', '<p>“ARCHITECTURE SHOULD SPEAK OF ITS TIME AND PLACE, BUT YEARN FOR TIMELESSNESS.” – FRANK GEHRY<br><br><i><strong>At Outline Developers, we create commercial spaces that are shaped around modern work culture, operational efficiency, and contemporary design thinking. Every project is approached with attention to detail, functionality, and the long-term value a workspace brings to a business.</strong></i></p>', 1, NULL, NULL, 72, 1, 0, '2026-05-22 00:49:24', '2026-06-03 00:40:06', NULL, NULL),
 (278, 'Comprehensive Services', 'comprehensive-services', '<p>Thoughtful commercial spaces are built through a balance of planning, functionality, design precision, and execution. Every project is approached with careful attention to operational needs, workspace experience, visual identity, and long-term practicality to deliver environments that feel modern, efficient, and purposeful.</p>', 1, NULL, NULL, 73, 1, 0, '2026-05-23 00:15:07', '2026-06-02 23:49:51', NULL, NULL),
-(279, 'More Than Design. We Deliver Value.', 'more-than-design-we-deliver-value', '<p>Our integrated approach ensures every project is handled with precision, transparency, and a commitment to excellence.</p>', 0, NULL, NULL, 74, 1, 0, '2026-05-23 00:16:11', '2026-05-23 00:16:11', NULL, NULL),
+(279, 'Experience.Expertise. Commitment.', 'experienceexpertise-commitment', '<ul><li>Customized solutions tailored to client needs</li><li>Trained, verified and well-equipped workforce</li><li>Strong operational network across India &amp; Middle East</li><li>Advanced technology and quality control systems</li><li>24x7 support and quick response mechanism</li></ul>', 1, NULL, NULL, 74, 1, 0, '2026-05-23 00:16:11', '2026-06-17 01:29:39', NULL, NULL),
 (280, 'Trained Workforce', 'trained-workforce', '<p>Skilled, verified and well-trained professionals ensuring reliable service delivery.</p>', 1, 'posts/client-focused.webp', NULL, 75, 1, 0, '2026-05-23 00:25:30', '2026-06-13 00:51:27', NULL, NULL),
 (281, 'Innovative Approach', 'innovative-approach', '<p>We continuously adapt to evolving market trends, providing innovative solutions.</p>', 1, 'posts/innovative-approach.webp', NULL, 75, 1, 0, '2026-05-23 00:27:12', '2026-06-13 01:02:49', NULL, NULL),
 (282, 'Quality & Integrity', 'quality-integrity', '<p>We uphold the highest standards of quality with integrity in everything we do.</p>', 1, 'posts/quality-assurance.webp', NULL, 75, 1, 0, '2026-05-23 00:27:51', '2026-06-13 04:21:25', NULL, NULL),
@@ -654,7 +654,11 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (311, 'Plan', 'plan', '<p>We design a customized solution</p>', 1, 'posts/plan.webp', NULL, 88, 1, 0, '2026-06-13 01:56:42', '2026-06-13 01:56:42', NULL, NULL),
 (312, 'Execute', 'execute', 'We deploy trained resources', 0, 'posts/execute.webp', NULL, 88, 1, 0, '2026-06-13 01:57:20', '2026-06-13 01:57:20', NULL, NULL),
 (313, 'Monitor', 'monitor', '<p>We ensure quality &amp; compliance</p>', 1, 'posts/monitor.webp', NULL, 88, 1, 0, '2026-06-13 01:58:15', '2026-06-13 01:58:15', NULL, NULL),
-(314, 'Improve', 'improve', 'We continuously improve for better results', 0, 'posts/improve.webp', NULL, 88, 1, 0, '2026-06-13 01:58:48', '2026-06-13 01:58:48', NULL, NULL);
+(314, 'Improve', 'improve', 'We continuously improve for better results', 0, 'posts/improve.webp', NULL, 88, 1, 0, '2026-06-13 01:58:48', '2026-06-13 01:58:48', NULL, NULL),
+(315, 'OUR MISSION', 'our-mission', 'To provide sustainable, scalable and value-based facility management services by leveraging technology, best practices and a highly dedicated workforce, ensuring delight for our clients and a positive impact on the environment.', 0, 'posts/our-mission.webp', NULL, 89, 1, 0, '2026-06-17 01:01:00', '2026-06-17 01:01:00', NULL, NULL),
+(316, 'OUR VISION', 'our-vision', 'To be the most trusted and preferred facility management partner in India and the Middle East, recognized for our people, processes, innovation and commitment to creating better, cleaner and safer spaces.', 0, 'posts/our-vision.webp', NULL, 89, 1, 0, '2026-06-17 01:01:37', '2026-06-17 01:01:37', NULL, NULL),
+(317, 'OUR VALUES', 'our-values-2', '<h2><strong>The Principles That Drive Everything We Do</strong></h2><p>Our core values define who we are and how we work with our clients, partners and communities.</p>', 1, NULL, NULL, 90, 1, 0, '2026-06-17 01:05:35', '2026-06-17 01:05:35', NULL, NULL),
+(318, 'LEADERSHIP THAT INSPIRES', 'leadership-that-inspires', 'Our leadership team brings deep industry knowledge and a passion for excellence. With a people-first approach, we empower our teams and build lasting partnerships with our clients.', 0, 'posts/leadership-that-inspires.webp', NULL, 91, 1, 0, '2026-06-17 01:43:37', '2026-06-17 01:43:37', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -671,7 +675,7 @@ CREATE TABLE IF NOT EXISTS `post_categories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `post_categories_slug_unique` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `post_categories`
@@ -755,7 +759,10 @@ INSERT INTO `post_categories` (`id`, `name`, `slug`, `created_at`, `updated_at`)
 (85, 'contact content', 'contact-content', '2026-06-03 00:57:06', '2026-06-03 00:57:06'),
 (86, 'clients', 'clients', '2026-06-12 04:35:45', '2026-06-12 04:35:45'),
 (87, 'industries', 'industries', '2026-06-13 01:32:06', '2026-06-13 01:32:06'),
-(88, 'Our Process', 'our-process', '2026-06-13 01:33:13', '2026-06-13 01:33:13');
+(88, 'Our Process', 'our-process', '2026-06-13 01:33:13', '2026-06-13 01:33:13'),
+(89, 'vision mission', 'vision-mission', '2026-06-17 00:50:56', '2026-06-17 00:50:56'),
+(90, 'our values', 'our-values-2', '2026-06-17 00:51:06', '2026-06-17 00:51:06'),
+(91, 'leadership card', 'leadership-card', '2026-06-17 01:40:14', '2026-06-17 01:40:14');
 
 -- --------------------------------------------------------
 
@@ -1088,7 +1095,7 @@ INSERT INTO `services` (`id`, `title`, `slug`, `short_description`, `body`, `fea
 (3, 'Workspace & Branding Integration', 'workspace-branding-integration', NULL, 'Brand identity, workplace culture, and visual consistency are incorporated into interiors to create cohesive and engaging commercial environments.', NULL, 0, 'uploads/services/bim-services.webp', 'uploads/services/icons/bim-services-icon.webp', NULL, 0, 1, '2026-05-18 04:18:43', '2026-06-03 00:04:56'),
 (4, 'Project Management', 'project-management-outline', NULL, 'Every stage of execution is managed through structured coordination, quality control, timeline supervision, and streamlined project delivery.', NULL, 0, 'uploads/services/project-management.webp', 'uploads/services/icons/project-management-icon.webp', NULL, 0, 1, '2026-05-18 04:19:10', '2026-06-03 00:03:06'),
 (6, 'Planning', 'planning', NULL, 'project begins with detailed planning and space understanding to ensure smooth coordination, efficient execution, and functional outcomes.', NULL, 0, 'uploads/services/space-planning.webp', 'uploads/services/icons/space-planning-icon.webp', NULL, 0, 1, '2026-05-22 07:39:52', '2026-06-13 04:23:13'),
-(7, 'Material & Execution Consultation', 'material-execution-consultation', NULL, '<p>Guidance is provided in selecting finishes, textures, and workspace materials that balance durability, aesthetics, functionality, and budget.</p>', '<ul><li>Lawn Care &amp; Mowing</li><li>Landscape Design</li><li>Plant Nursery Supply</li><li>Irrigation Systems</li><li>Seasonal Planting</li></ul>', 1, 'uploads/services/construction-support.webp', 'uploads/services/icons/construction-support-icon.webp', NULL, 0, 1, '2026-05-22 07:40:56', '2026-06-13 06:14:57');
+(7, 'Material & Execution Consultation', 'material-execution-consultation', NULL, '<p>Guidance is provided in selecting finishes, textures, and workspace materials that balance durability, aesthetics, functionality, and budget.</p>', '<ul><li>Lawn Care &amp; Mowing</li><li>Landscape Design</li><li>Plant Nursery</li><li>&nbsp;Supply Irrigation Systems&nbsp;</li><li>Seasonal Planting</li></ul>', 1, 'uploads/services/construction-support.webp', 'uploads/services/icons/construction-support-icon.webp', NULL, 0, 1, '2026-05-22 07:40:56', '2026-06-15 03:23:35');
 
 -- --------------------------------------------------------
 

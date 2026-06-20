@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Certification;
 use App\Models\Faculty;
 use App\Models\Member;
 use App\Models\Portfolio;
@@ -11,6 +12,7 @@ use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\SeoParameter;
 use App\Models\Service;
+use App\Models\Timeline;
 
 class HomeController extends Controller
 {
@@ -333,7 +335,7 @@ class HomeController extends Controller
         $category = PostCategory::where('slug', 'our-values')->first();
         $ourValues = [];
         if ($category) {
-            $ourValues = Post::where('post_category_id', $category->id)->get();
+            $ourValues = Post::where('post_category_id', $category->id)->first();
         }
         $category = PostCategory::where('slug', 'member-title')->first();
         $memberTitle = [];
@@ -388,7 +390,23 @@ class HomeController extends Controller
             $leadershipcard = Post::where('post_category_id', $category->id)->first();
         }
 
-        $members = Member::limit(10)->get();
+        try {
+            $members = Member::limit(10)->get();
+        } catch (\Exception $e) {
+            $members = collect();
+        }
+        
+        try {
+            $timelines = Timeline::orderBy('sort_order')->get();
+        } catch (\Exception $e) {
+            $timelines = collect();
+        }
+
+        try {
+            $certifications = Certification::orderBy('sort_order')->get();
+        } catch (\Exception $e) {
+            $certifications = collect();
+        }
 
         return view('about', ['homebanner' => $homebanner,
         'counters' => $counters,
@@ -401,11 +419,13 @@ class HomeController extends Controller
         'aboutBanner' => $aboutBanner,
         'cta' => $cta,
         'aboutUSTitle'=> $aboutUSTitle,
+        'certifications' => $certifications,
         'whyChooseUsCards' => $whyChooseUsCards,
         'whyChooseUs' => $whyChooseUs,
         'ourvalues'=> $ourvalues,
         'visionmission'=> $visionmission,
         'leadershipcard'=> $leadershipcard,
+        'timelines' => $timelines,
         ]);
     }
 

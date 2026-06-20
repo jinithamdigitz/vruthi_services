@@ -112,8 +112,12 @@ class AppServiceProvider extends ServiceProvider
         });
         // Services for footer - USING SERVICE MODEL
         View::composer('*', function ($view) {
-            $globalServices = Service::orderBy('id', 'desc')->get();  // ← CHANGED THIS
-            $view->with('globalServices', $globalServices);
+            try {
+                $globalServices = Service::orderBy('id', 'desc')->get();
+                $view->with('globalServices', $globalServices);
+            } catch (\Exception $e) {
+                $view->with('globalServices', collect());
+            }
         });
         View::composer('*', function ($view) {
             $category = PostCategory::where('slug', 'footer-content')->first();
