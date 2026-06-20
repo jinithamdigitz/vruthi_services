@@ -41,6 +41,7 @@ use App\Http\Controllers\ProjectCategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ScrapRequestController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\Admin\ServiceBenefitController;
 use App\Http\Controllers\SolarCalculatorController;
 use App\Models\OurProduct;
 use App\Models\Post;
@@ -257,7 +258,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // ============ BACKEND (ADMIN) ROUTES ============
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    // Admin Services Routes
+    
+    // =============================================
+    // ADMIN SERVICE ROUTES
+    // =============================================
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
     Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
     Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
@@ -265,6 +269,29 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
     Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+
+    // =============================================
+    // SERVICE BENEFITS ROUTES (Nested under services)
+    // =============================================
+    Route::prefix('services/{service}/benefits')->name('services.benefits.')->group(function () {
+        // Store benefits from service form
+        Route::post('/', [ServiceBenefitController::class, 'store'])->name('store');
+        
+        // Update benefits from service form
+        Route::put('/', [ServiceBenefitController::class, 'store'])->name('update');
+        
+        // Get benefits (AJAX)
+        Route::get('/get', [ServiceBenefitController::class, 'getBenefits'])->name('get');
+        
+        // Delete single benefit
+        Route::delete('/{benefit}', [ServiceBenefitController::class, 'destroy'])->name('destroy');
+        
+        // Toggle benefit status (active/inactive)
+        Route::patch('/{benefit}/toggle-status', [ServiceBenefitController::class, 'toggleStatus'])->name('toggle-status');
+        
+        // Update benefit order (for drag-and-drop)
+        Route::post('/update-order', [ServiceBenefitController::class, 'updateOrder'])->name('update-order');
+    });
 });
 
 // ============ FRONTEND ROUTES ============

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Service extends Model
 {
@@ -33,4 +34,18 @@ class Service extends Model
         'show_html' => 'boolean',
         'is_active' => 'boolean',
     ];
+   public function benefits(): HasMany
+    {
+        return $this->hasMany(ServiceBenefit::class);
+    }
+
+    /**
+     * Get only active benefits for this service
+     */
+    public function activeBenefits(): HasMany
+    {
+        return $this->hasMany(ServiceBenefit::class)->where('is_active', true);
+    }
+
+    
 }

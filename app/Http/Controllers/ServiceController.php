@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\ServiceBenefit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 class ServiceController extends Controller
 {
@@ -16,7 +19,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::orderBy('sort_order', 'asc')->orderBy('id', 'desc')->paginate(10);
+        $services = Service::with('benefits')->orderBy('sort_order', 'asc')->orderBy('id', 'desc')->paginate(10);
         return view('admin.services.index', compact('services'));
     }
 
@@ -76,23 +79,15 @@ class ServiceController extends Controller
         }
 
         if (!$allowHtml) {
-            // Strip all HTML tags and escape special characters
             return htmlspecialchars(strip_tags($content), ENT_QUOTES, 'UTF-8');
         }
 
-        // Allow safe HTML tags and attributes
         $allowedTags = '<p><br><strong><b><em><i><u><ul><ol><li><h1><h2><h3><h4><h5><h6><span><div><a><img><table><tr><td><th><thead><tbody><blockquote><pre><code>';
         
-        // Strip disallowed tags
         $clean = strip_tags($content, $allowedTags);
-        
-        // Remove dangerous attributes like onerror, onload, etc.
         $clean = preg_replace('/\s(on\w+)\s*=\s*(["\']?)[^"\'>]*\2/i', '', $clean);
-        
-        // Remove javascript: protocol
         $clean = preg_replace('/javascript\s*:/i', '', $clean);
         
-        // Escape any remaining unsafe characters
         return $clean;
     }
 
@@ -106,7 +101,6 @@ class ServiceController extends Controller
         }
 
         if (is_array($features)) {
-            // If features is an array, sanitize each item
             $processed = [];
             foreach ($features as $feature) {
                 $processed[] = $this->sanitizeHtml($feature, $showHtml);
@@ -114,8 +108,58 @@ class ServiceController extends Controller
             return json_encode($processed);
         }
 
-        // If features is a string (from CKEditor)
         return $this->sanitizeHtml($features, $showHtml);
+    }
+
+    /**
+     * Save benefits for a service
+     */
+    private function saveBenefits(Request $request, Service $service)
+    {
+        // Delete existing benefits if updating
+        if ($request->has('_method') && $request->_method == 'PUT') {
+            $oldBenefits = $service->benefits;
+            foreach ($oldBenefits as $oldBenefit) {
+                if ($oldBenefit->image && file_exists(public_path('uploads/' . $oldBenefit->image))) {
+                    File::delete(public_path('uploads/' . $oldBenefit->image));
+                }
+                $oldBenefit->delete();
+            }
+        }
+
+        // Store new benefits
+        if ($request->has('benefit_title')) {
+            $titles = $request->benefit_title;
+            $statuses = $request->benefit_status ?? [];
+            $images = $request->file('benefit_image') ?? [];
+
+            foreach ($titles as $index => $title) {
+                if (empty(trim($title))) {
+                    continue;
+                }
+
+                try {
+                    $benefit = new ServiceBenefit();
+                    $benefit->service_id = $service->id;
+                    $benefit->title = trim($title);
+                    $benefit->is_active = isset($statuses[$index]) ? (bool)$statuses[$index] : true;
+
+                    // Handle image upload
+                    if (isset($images[$index]) && $images[$index] instanceof \Illuminate\Http\UploadedFile && $images[$index]->isValid()) {
+                        $image = $images[$index];
+                        $imageName = time() . '_benefit_' . $index . '_' . $image->getClientOriginalName();
+                        $image->move(public_path('uploads'), $imageName);
+                        $benefit->image = $imageName;
+                    }
+
+                    $benefit->save();
+                    
+                } catch (\Exception $e) {
+                    Log::error('Error saving benefit: ' . $e->getMessage());
+                    continue;
+                }
+            }
+        }
     }
 
     /**
@@ -135,12 +179,17 @@ class ServiceController extends Controller
             'keyword' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
+            // Benefits validation
+            'benefit_title' => 'nullable|array',
+            'benefit_title.*' => 'nullable|string|max:255',
+            'benefit_image' => 'nullable|array',
+            'benefit_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'benefit_status' => 'nullable|array',
+            'benefit_status.*' => 'nullable|boolean'
         ]);
 
         $service = new Service();
         $service->title = $request->title;
-        
-        // Handle short description
         $service->short_description = $this->sanitizeHtml($request->short_description, false);
         
         // Handle unique slug
@@ -158,16 +207,10 @@ class ServiceController extends Controller
         }
         $service->slug = $slug;
         
-        // Handle show_html flag (determines if HTML is allowed in body/features)
         $showHtml = $request->has('show_html') && $request->show_html == 1;
         $service->show_html = $showHtml;
-        
-        // Sanitize body based on show_html flag
         $service->body = $this->sanitizeHtml($request->body, $showHtml);
-        
-        // Sanitize features based on show_html flag
         $service->features = $this->processFeatures($request->features, $showHtml);
-        
         $service->keyword = $this->sanitizeHtml($request->keyword, false);
         $service->sort_order = $request->sort_order ?? 0;
         $service->is_active = $request->has('is_active') ? $request->is_active : true;
@@ -211,10 +254,13 @@ class ServiceController extends Controller
 
         $service->save();
 
-        Log::info('Service created', ['id' => $service->id, 'title' => $service->title]);
+        // Save benefits
+        $this->saveBenefits($request, $service);
+
+        Log::info('Service created', ['id' => $service->id, 'title' => $service->title, 'benefits' => $service->benefits->count()]);
 
         return redirect()->route('admin.services.index')
-            ->with('success', 'Service created successfully.');
+            ->with('success', 'Service created successfully with ' . $service->benefits->count() . ' benefits.');
     }
 
     /**
@@ -222,7 +268,7 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-        $service = Service::findOrFail($id);
+        $service = Service::with('benefits')->findOrFail($id);
         return view('admin.services.show', compact('service'));
     }
 
@@ -231,9 +277,8 @@ class ServiceController extends Controller
      */
     public function edit($id)
     {
-        $service = Service::findOrFail($id);
+        $service = Service::with('benefits')->findOrFail($id);
         
-        // Decode features if stored as JSON
         if ($service->features && $this->isJson($service->features)) {
             $service->features_array = json_decode($service->features, true);
         }
@@ -270,12 +315,17 @@ class ServiceController extends Controller
             'keyword' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
+            // Benefits validation
+            'benefit_title' => 'nullable|array',
+            'benefit_title.*' => 'nullable|string|max:255',
+            'benefit_image' => 'nullable|array',
+            'benefit_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'benefit_status' => 'nullable|array',
+            'benefit_status.*' => 'nullable|boolean'
         ]);
 
         $service = Service::findOrFail($id);
         $service->title = $request->title;
-        
-        // Handle short description
         $service->short_description = $this->sanitizeHtml($request->short_description, false);
         
         // Handle unique slug for update
@@ -295,23 +345,16 @@ class ServiceController extends Controller
             $service->slug = $slug;
         }
         
-        // Handle show_html flag
         $showHtml = $request->has('show_html') && $request->show_html == 1;
         $service->show_html = $showHtml;
-        
-        // Sanitize body based on show_html flag
         $service->body = $this->sanitizeHtml($request->body, $showHtml);
-        
-        // Sanitize features based on show_html flag
         $service->features = $this->processFeatures($request->features, $showHtml);
-        
         $service->keyword = $this->sanitizeHtml($request->keyword, false);
         $service->sort_order = $request->sort_order ?? 0;
         $service->is_active = $request->has('is_active') ? $request->is_active : true;
 
         // Handle main image upload
         if ($request->hasFile('image')) {
-            // Delete old image
             if ($service->image && file_exists(public_path($service->image))) {
                 unlink(public_path($service->image));
             }
@@ -326,7 +369,6 @@ class ServiceController extends Controller
 
         // Handle icon image upload
         if ($request->hasFile('icon_image')) {
-            // Delete old icon
             if ($service->icon_image && file_exists(public_path($service->icon_image))) {
                 unlink(public_path($service->icon_image));
             }
@@ -358,10 +400,83 @@ class ServiceController extends Controller
 
         $service->save();
 
-        Log::info('Service updated', ['id' => $service->id, 'title' => $service->title]);
+        // Handle benefits deletion
+        if ($request->has('deleted_benefit_ids')) {
+            $deletedIds = $request->deleted_benefit_ids;
+            foreach ($deletedIds as $benefitId) {
+                $benefit = ServiceBenefit::find($benefitId);
+                if ($benefit && $benefit->service_id == $service->id) {
+                    if ($benefit->image && file_exists(public_path('uploads/' . $benefit->image))) {
+                        File::delete(public_path('uploads/' . $benefit->image));
+                    }
+                    $benefit->delete();
+                }
+            }
+        }
+
+        // Update or create benefits
+        if ($request->has('benefit_title')) {
+            $titles = $request->benefit_title;
+            $statuses = $request->benefit_status ?? [];
+            $images = $request->file('benefit_image') ?? [];
+            $existingIds = $request->benefit_id ?? [];
+
+            foreach ($titles as $index => $title) {
+                if (empty(trim($title))) {
+                    continue;
+                }
+
+                try {
+                    $benefitId = isset($existingIds[$index]) ? $existingIds[$index] : null;
+                    
+                    if ($benefitId) {
+                        // Update existing benefit
+                        $benefit = ServiceBenefit::find($benefitId);
+                        if ($benefit && $benefit->service_id == $service->id) {
+                            $benefit->title = trim($title);
+                            $benefit->is_active = isset($statuses[$index]) ? (bool)$statuses[$index] : true;
+
+                            // Handle image update
+                            if (isset($images[$index]) && $images[$index] instanceof \Illuminate\Http\UploadedFile && $images[$index]->isValid()) {
+                                if ($benefit->image && file_exists(public_path('uploads/' . $benefit->image))) {
+                                    File::delete(public_path('uploads/' . $benefit->image));
+                                }
+                                $image = $images[$index];
+                                $imageName = time() . '_benefit_' . $index . '_' . $image->getClientOriginalName();
+                                $image->move(public_path('uploads'), $imageName);
+                                $benefit->image = $imageName;
+                            }
+
+                            $benefit->save();
+                        }
+                    } else {
+                        // Create new benefit
+                        $benefit = new ServiceBenefit();
+                        $benefit->service_id = $service->id;
+                        $benefit->title = trim($title);
+                        $benefit->is_active = isset($statuses[$index]) ? (bool)$statuses[$index] : true;
+
+                        if (isset($images[$index]) && $images[$index] instanceof \Illuminate\Http\UploadedFile && $images[$index]->isValid()) {
+                            $image = $images[$index];
+                            $imageName = time() . '_benefit_' . $index . '_' . $image->getClientOriginalName();
+                            $image->move(public_path('uploads'), $imageName);
+                            $benefit->image = $imageName;
+                        }
+
+                        $benefit->save();
+                    }
+                    
+                } catch (\Exception $e) {
+                    Log::error('Error saving benefit: ' . $e->getMessage());
+                    continue;
+                }
+            }
+        }
+
+        Log::info('Service updated', ['id' => $service->id, 'title' => $service->title, 'benefits' => $service->benefits->count()]);
 
         return redirect()->route('admin.services.index')
-            ->with('success', 'Service updated successfully.');
+            ->with('success', 'Service updated successfully with ' . $service->benefits->count() . ' benefits.');
     }
 
     /**
@@ -369,7 +484,7 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        $service = Service::findOrFail($id);
+        $service = Service::with('benefits')->findOrFail($id);
         
         // Delete main image
         if ($service->image && file_exists(public_path($service->image))) {
@@ -381,99 +496,114 @@ class ServiceController extends Controller
             unlink(public_path($service->icon_image));
         }
         
+        // Delete benefit images and benefits
+        foreach ($service->benefits as $benefit) {
+            if ($benefit->image && file_exists(public_path('uploads/' . $benefit->image))) {
+                File::delete(public_path('uploads/' . $benefit->image));
+            }
+            $benefit->delete();
+        }
+        
         $service->delete();
 
         Log::info('Service deleted', ['id' => $id, 'title' => $service->title]);
 
         return redirect()->route('admin.services.index')
-            ->with('success', 'Service deleted successfully.');
+            ->with('success', 'Service and its benefits deleted successfully.');
     }
 
     /**
      * Display the specified service by slug (FRONTEND)
      */
- /**
- * Display the specified service by slug (FRONTEND)
- */
-public function showBySlug($slug)
-{
-    $service = Service::where('slug', $slug)
-        ->where('is_active', true)
-        ->firstOrFail();
+    public function showBySlug($slug)
+    {
+        $service = Service::with('activeBenefits')
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
 
-    // Parse features
-    if ($service->features && $this->isJson($service->features)) {
-        $service->features_array = json_decode($service->features, true);
-    } else {
-        $service->features_array = $service->features ? explode("\n", trim($service->features)) : [];
+        if ($service->features && $this->isJson($service->features)) {
+            $service->features_array = json_decode($service->features, true);
+        } else {
+            $service->features_array = $service->features ? explode("\n", trim($service->features)) : [];
+        }
+
+        // Get why choose us cards from Post model
+        $category = \App\Models\PostCategory::where('slug', 'why-choose-us-card')->first();
+        $whyChooseUsCards = [];
+        if ($category) {
+            $whyChooseUsCards = \App\Models\Post::where('post_category_id', $category->id)->get();
+        }
+
+        $category = \App\Models\PostCategory::where('slug', 'why-choose-us-title')->first();
+        $whychooseustitle = collect();
+        if ($category) {
+            $whychooseustitle = \App\Models\Post::where('post_category_id', $category->id)->first();
+        }
+
+        $category = \App\Models\PostCategory::where('slug', 'our-process')->first();
+        $ourprocess = collect();
+        if ($category) {
+            $ourprocess = \App\Models\Post::where('post_category_id', $category->id)->get();
+        }
+
+        $category = \App\Models\PostCategory::where('slug', 'industries')->first();
+        $industries = collect();
+        if ($category) {
+            $industries = \App\Models\Post::where('post_category_id', $category->id)->get();
+        }
+
+        $category = \App\Models\PostCategory::where('slug', 'counter')->first();
+        $counters = collect();
+        if ($category) {
+            $counters = \App\Models\Post::where('post_category_id', $category->id)->get();
+        }
+
+        $category = \App\Models\PostCategory::where('slug', 'cta')->first();
+        $cta = collect();
+        if ($category) {
+            $cta = \App\Models\Post::where('post_category_id', $category->id)->first();
+        }
+
+        $otherServices = Service::where('id', '!=', $service->id)
+            ->where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->limit(4)
+            ->get();
+
+        $category = \App\Models\PostCategory::where('slug', 'sd-contact-sidebar')->first();
+        $sdcta = collect();
+        if ($category) {
+            $sdcta = \App\Models\Post::where('post_category_id', $category->id)->first();
+        }
+
+        $category = \App\Models\PostCategory::where('slug', 'testimonials')->first();
+        $testimonials = collect();
+        if ($category) {
+            $testimonials = \App\Models\Post::where('post_category_id', $category->id)->get();
+        }
+
+        return view('servicedetails', compact(
+            'service',
+            'whyChooseUsCards',
+            'whychooseustitle',
+            'ourprocess',
+            'industries',
+            'counters',
+            'otherServices',
+            'cta',
+            'sdcta',
+            'testimonials',
+        ));
     }
-
-    // Get why choose us cards from Post model
-    $category = \App\Models\PostCategory::where('slug', 'why-choose-us-card')->first();
-    $whyChooseUsCards = [];
-    if ($category) {
-        $whyChooseUsCards = \App\Models\Post::where('post_category_id', $category->id)->get();
-    }
-
-    // Get why choose us title
-    $category = \App\Models\PostCategory::where('slug', 'why-choose-us-title')->first();
-    $whychooseustitle = collect();
-    if ($category) {
-        $whychooseustitle = \App\Models\Post::where('post_category_id', $category->id)->first();
-    }
-
-    // Get our process
-    $category = \App\Models\PostCategory::where('slug', 'our-process')->first();
-    $ourprocess = collect();
-    if ($category) {
-        $ourprocess = \App\Models\Post::where('post_category_id', $category->id)->get();
-    }
-
-    // Get industries
-    $category = \App\Models\PostCategory::where('slug', 'industries')->first();
-    $industries = collect();
-    if ($category) {
-        $industries = \App\Models\Post::where('post_category_id', $category->id)->get();
-    }
-
-    // Get counters
-    $category = \App\Models\PostCategory::where('slug', 'counter')->first();
-    $counters = collect();
-    if ($category) {
-        $counters = \App\Models\Post::where('post_category_id', $category->id)->get();
-    }
-
-    $category = \App\Models\PostCategory::where('slug', 'cta')->first();
-    $cta = collect();
-    if ($category) {
-        $cta = \App\Models\Post::where('post_category_id', $category->id)->first();
-    }
-
-    // Get other services
-    $otherServices = Service::where('id', '!=', $service->id)
-        ->where('is_active', true)
-        ->orderBy('sort_order', 'asc')
-        ->limit(4)
-        ->get();
-
-    return view('servicedetails', compact(
-        'service',
-        'whyChooseUsCards',
-        'whychooseustitle',
-        'ourprocess',
-        'industries',
-        'counters',
-        'otherServices',
-        'cta',
-    ));
-}
 
     /**
      * Get all active services for frontend (FRONTEND)
      */
     public function frontendIndex()
     {
-        $services = Service::where('is_active', true)
+        $services = Service::with('activeBenefits')
+            ->where('is_active', true)
             ->orderBy('sort_order', 'asc')
             ->orderBy('id', 'asc')
             ->get();

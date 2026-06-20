@@ -16,7 +16,6 @@
             }
         }
 
-        // Fallback static features
         $staticFeatures = [
             'Daily Cleaning Services',
             'Waste Collection & Disposal',
@@ -127,24 +126,24 @@
                         @endif
 
                         {{-- Scope of Services --}}
-                        @if(!empty($service->features))
-    <div class="sd-scope mt-5">
-        <span class="section-label">Scope Of Services</span>
-        <div class="section-divider section-divider--left"></div>
+                        @if (!empty($service->features))
+                            <div class="sd-scope mt-5">
+                                <span class="section-label">Scope Of Services</span>
+                                <div class="section-divider section-divider--left"></div>
 
-        @php
-            $featuresWithTick = preg_replace(
-                '/<li>(.*?)<\/li>/',
-                '<li><i class="bi bi-check-circle-fill"></i> $1</li>',
-                $service->features
-            );
-        @endphp
+                                @php
+                                    $featuresWithTick = preg_replace(
+                                        '/<li>(.*?)<\/li>/',
+                                        '<li><i class="bi bi-check-circle-fill"></i> $1</li>',
+                                        $service->features,
+                                    );
+                                @endphp
 
-        <div class="sd-scope-list mt-4">
-            {!! $featuresWithTick !!}
-        </div>
-    </div>
-@endif
+                                <div class="sd-scope-list mt-4">
+                                    {!! $featuresWithTick !!}
+                                </div>
+                            </div>
+                        @endif
 
                         {{-- ============================================================
                          WHAT YOU GET (Benefits) - MOVED HERE BELOW SCOPE
@@ -220,11 +219,21 @@
                                     <i class="bi bi-headset"></i>
                                 </div>
                                 <div class="sd-contact__text">
-                                    <span class="sd-contact__label">Need Immediate Assistance?</span>
-                                    <span class="sd-contact__sub">Talk to our experts now.</span>
-                                    <a href="tel:+911204567890" class="sd-contact__phone">
-                                        <i class="bi bi-telephone-fill"></i> +91 120 456 7890
+
+                                    <span class="sd-contact__label">
+                                        {{ $sdcta->title }}
+                                    </span>
+
+                                    <span class="sd-contact__sub">
+                                        {!! $sdcta->body !!}
+                                    </span>
+
+                                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $globalPhone) }}"
+                                        class="sd-contact__phone">
+                                        <i class="bi bi-telephone-fill"></i>
+                                        {{ $globalPhone }}
                                     </a>
+
                                 </div>
                             </div>
                         </div>
@@ -241,7 +250,7 @@
     ============================================================ --}}
     <section class="home-process" id="home-process">
         <div class="container">
-            <div class="row justify-content-center text-center mb-5">
+            <div class="row justify-content-center text-center mb-3">
                 <div class="col-lg-6">
                     <h2 class="section-title-unified">Our Process</h2>
                 </div>
@@ -302,121 +311,78 @@
     </section>
     <!-- /home-industries -->
 
-     {{-- ============================================================
+    {{-- ============================================================
          SECTION 9 : CLIENTS TESTIMONIALS
     ============================================================ --}}
-<section class="sd-client-stats">
-    <div class="container">
+    <section class="sd-client-stats">
+        <div class="container">
 
-        <div class="row g-0 align-items-center">
+            <div class="row g-0 align-items-center">
 
-            {{-- LEFT : STATIC CLIENT TESTIMONIAL --}}
-            <div class="col-lg-4">
-    <div class="sd-client-stats__testimonial">
+                {{-- LEFT : STATIC CLIENT TESTIMONIAL --}}
+                <div class="col-lg-4">
+                    <div class="sd-client-stats__testimonial">
 
-        <span class="section-label">What Our Clients Say</span>
+                        <span class="section-label">What Our Clients Say</span>
 
-        <div id="clientTestimonialCarousel"
-             class="carousel slide"
-             data-bs-ride="carousel"
-             data-bs-interval="4000">
-
-            <div class="carousel-inner">
-
-                <div class="carousel-item active">
-                    <div class="sd-testimonial-mini">
-                        <p>
-                            VOSPL has maintained the highest standards of cleanliness
-                            and upkeep in our premises. Their team is professional,
-                            reliable and always responsive.
-                        </p>
-                        <strong>
-                            – Facility Manager, IT Park, Noida
-                        </strong>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <div class="sd-testimonial-mini">
-                        <p>
-                            Exceptional service quality and a dedicated team that
-                            understands our operational requirements. Their support
-                            has been outstanding throughout our partnership.
-                        </p>
-                        <strong>
-                            – Operations Head, Corporate Park, Gurugram
-                        </strong>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <div class="sd-testimonial-mini">
-                        <p>
-                            We have been partnering with VOSPL for several years.
-                            Their consistency, professionalism and commitment to
-                            excellence have exceeded expectations.
-                        </p>
-                        <strong>
-                            – Admin Director, Healthcare Facility, Delhi
-                        </strong>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="sd-client-stats__dots">
-                <button type="button"
-                        data-bs-target="#clientTestimonialCarousel"
-                        data-bs-slide-to="0"
-                        class="active"></button>
-
-                <button type="button"
-                        data-bs-target="#clientTestimonialCarousel"
-                        data-bs-slide-to="1"></button>
-
-                <button type="button"
-                        data-bs-target="#clientTestimonialCarousel"
-                        data-bs-slide-to="2"></button>
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-            {{-- RIGHT : COUNTERS FROM DB --}}
-            <div class="col-lg-8">
-
-                <div class="row g-0">
-
-                    @foreach($counters as $counter)
-                        <div class="col-lg-3 col-md-6">
-
-                            <div class="sd-client-stats__counter">
-
-                                @if($counter->image)
-                                    <img src="{{ asset($counter->image) }}"
-                                         alt="{{ $counter->title }}"
-                                         class="sd-client-stats__icon">
-                                @endif
-
-                                <h4>{{ $counter->title }}</h4>
-
-                                <span>{!! strip_tags($counter->body) !!}</span>
-
+                        <div id="clientTestimonialCarousel" class="carousel slide" data-bs-ride="carousel"
+                            data-bs-interval="4000">
+                            <div class="carousel-inner">
+                                @foreach ($testimonials as $index => $testimonial)
+                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                        <div class="sd-testimonial-mini">
+                                            <p>{!! $testimonial->body !!}</p>
+                                            <strong>{{ $testimonial->title }}</strong>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
 
+                            <div class="sd-client-stats__dots">
+                                @foreach ($testimonials as $index => $testimonial)
+                                    <button type="button" data-bs-target="#clientTestimonialCarousel"
+                                        data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}"
+                                        aria-label="Slide {{ $index + 1 }}">
+                                    </button>
+                                @endforeach
+                            </div>
                         </div>
-                    @endforeach
+
+                    </div>
+                </div>
+
+                {{-- RIGHT : COUNTERS FROM DB --}}
+                <div class="col-lg-8">
+
+                    <div class="row g-0">
+
+                        @foreach ($counters as $counter)
+                            <div class="col-lg-3 col-md-6">
+
+                                <div class="sd-client-stats__counter">
+
+                                    @if ($counter->image)
+                                        <img src="{{ asset($counter->image) }}" alt="{{ $counter->title }}"
+                                            class="sd-client-stats__icon">
+                                    @endif
+
+                                    <h4>{{ $counter->title }}</h4>
+
+                                    <span>{!! strip_tags($counter->body) !!}</span>
+
+                                </div>
+
+                            </div>
+                        @endforeach
+
+                    </div>
 
                 </div>
 
             </div>
 
         </div>
-
-    </div>
-</section>
+    </section>
 
     {{-- ============================================================
          SECTION 9 : OTHER SERVICES
@@ -424,17 +390,16 @@
     @if (isset($otherServices) && $otherServices->count() > 0)
         <section class="sd-other">
             <div class="container">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <span class="section-label">Other Services</span>
-                        <h2 class="mt-2">Explore Our Other Services</h2>
+                <div class="row justify-content-center text-center mb-5">
+                    <div class="col-lg-6">
+                        <h2 class="mt-2">Other Services</h2>
                         <div class="section-divider mx-auto"></div>
                     </div>
                 </div>
 
-                <div class="row g-4 mt-4">
+                <div class="row g-3 justify-content-center mt-3">
                     @foreach ($otherServices as $otherService)
-                        <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+                        <div class="col-xl-3 col-lg-4 col-md-6">
                             <div class="sd-other__card reveal w-100">
                                 @if ($otherService->image)
                                     <img src="{{ asset($otherService->image) }}" alt="{{ $otherService->title }}"
