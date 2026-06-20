@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminScrapRequestController;
 use App\Http\Controllers\Admin\CareerJobController;
+use App\Http\Controllers\Admin\CertificationController;
 use App\Http\Controllers\Admin\CustomCssController;
 use App\Http\Controllers\Admin\CustomJavascriptController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SeoParameterController;
 use App\Http\Controllers\Admin\SolarCalculatorAdminController;
+use App\Http\Controllers\Admin\TimelineController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Auth\LoginController;
@@ -114,6 +116,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/reports', [ProfileController::class, 'reports'])->name('profile.reports');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('timelines', TimelineController::class);
+        Route::post('timelines/update-order', [TimelineController::class, 'updateOrder'])->name('timelines.update-order');
+        Route::resource('certifications', CertificationController::class);
+        Route::post('certifications/update-order', [CertificationController::class, 'updateOrder'])->name('certifications.update-order');
+    });
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
