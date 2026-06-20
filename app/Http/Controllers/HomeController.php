@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use App\Models\Course;
 use App\Models\Certification;
 use App\Models\Faculty;
@@ -723,9 +724,38 @@ class HomeController extends Controller
     }
 
     public function blogs()
-{
-    return view('blogs');
-}
+    {
+        try {
+            $latestBlog = Blog::orderBy('created_at', 'desc')->first();
+            $blogs = Blog::orderBy('sort_order')->paginate(4);
+            $popularBlogs = Blog::inRandomOrder()->limit(4)->get();
+        } catch (\Exception $e) {
+            $latestBlog = null;
+            $blogs = collect();
+            $popularBlogs = collect();
+        }
+
+        return view('blogs', [
+            'latestBlog' => $latestBlog,
+            'blogs' => $blogs,
+            'popularBlogs' => $popularBlogs,
+        ]);
+    }
+
+    public function blogDetail($slug)
+    {
+        try {
+            $blog = Blog::where('slug', $slug)->firstOrFail();
+            $latestBlogs = Blog::orderBy('created_at', 'desc')->limit(4)->get();
+        } catch (\Exception $e) {
+            return abort(404);
+        }
+
+        return view('blogdetails', [
+            'blog' => $blog,
+            'latestBlogs' => $latestBlogs,
+        ]);
+    }
 
     /**
      * Get footer services

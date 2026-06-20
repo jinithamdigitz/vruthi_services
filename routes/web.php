@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminScrapRequestController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CareerJobController;
 use App\Http\Controllers\Admin\CertificationController;
 use App\Http\Controllers\Admin\CustomCssController;
@@ -122,6 +123,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('timelines/update-order', [TimelineController::class, 'updateOrder'])->name('timelines.update-order');
         Route::resource('certifications', CertificationController::class);
         Route::post('certifications/update-order', [CertificationController::class, 'updateOrder'])->name('certifications.update-order');
+        Route::resource('blogs', BlogController::class);
+        Route::post('blogs/update-order', [BlogController::class, 'updateOrder'])->name('blogs.update-order');
     });
 });
 
@@ -317,14 +320,31 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 // ============ DYNAMIC SLUG ROUTE - MUST BE LAST ============
 Route::get('/{slug}', function ($slug) {
-    $product = OurProduct::where('slug', $slug)->first();
-    if ($product) {
-        return app(HomeController::class)->productDetails($slug);
+    try {
+        $product = OurProduct::where('slug', $slug)->first();
+        if ($product) {
+            return app(HomeController::class)->productDetails($slug);
+        }
+    } catch (\Exception $e) {
+        // Table doesn't exist, continue to next check
     }
 
-    $blog = Post::where('slug', $slug)->first();
-    if ($blog) {
-        return app(HomeController::class)->blogDetails($slug);
+    try {
+        $post = Post::where('slug', $slug)->first();
+        if ($post) {
+            return app(HomeController::class)->blogDetails($slug);
+        }
+    } catch (\Exception $e) {
+        // Table doesn't exist, continue to next check
+    }
+
+    try {
+        $blog = \App\Models\Blog::where('slug', $slug)->first();
+        if ($blog) {
+            return app(HomeController::class)->blogDetail($slug);
+        }
+    } catch (\Exception $e) {
+        // Table doesn't exist, continue to 404
     }
 
     abort(404);
