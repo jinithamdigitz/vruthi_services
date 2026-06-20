@@ -1484,7 +1484,9 @@ img {
    HOME PROCESS SECTION
    ============================================================ */
 .home-process {
-  padding: 70px 0;
+  
+  padding-top: 60px;
+  padding-bottom: 50px;
   background: #fff;
 }
 
@@ -3997,6 +3999,11 @@ clip-path: polygon(
     color:var(--clr-primary);
 }
 
+.sd-client-stats{
+    padding-top: 20px !important;
+    margin-top: 0 !important;
+}
+
 .sd-client-stats__dots{
     margin-top:15px;
     display:flex;
@@ -4411,66 +4418,7 @@ clip-path: polygon(
     margin: 0;
 }
 
-/* ── Service Process ─────────────────────────────────────── */
-.sd-process {
-    padding: 80px 0;
-    background: #ffffff;
-}
 
-.sd-process__item {
-    text-align: center;
-    padding: 10px 12px;
-}
-
-.sd-process__num {
-    width: 58px;
-    height: 58px;
-    margin: 0 auto 16px;
-    background: var(--grad-primary, linear-gradient(135deg, #0d7a6e, #0b5d76));
-    color: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 800;
-}
-
-.sd-process__img-wrap {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 16px;
-}
-
-.sd-process__img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.sd-process__item h4 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--clr-text-primary, #1a2e35);
-}
-
-.sd-process__item p {
-    font-size: 0.85rem;
-    color: var(--clr-text-muted, #8a9baa);
-    line-height: 1.6;
-    margin: 0;
-}
-
-.sd-process__arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--clr-primary, #0d7a6e);
-    font-size: 1.1rem;
-    padding-top: 20px;
-    gap: 0;
-}
 
 /* ── Industries We Serve ─────────────────────────────────── */
 .sd-industries {
@@ -4705,104 +4653,148 @@ clip-path: polygon(
     flex-shrink: 0;
 }
 
-/* ── Stats (reuse home-stats, just add spacing) ──────────── */
-.sd-stats {
-    /* inherits home-stats background and padding */
-}
 
 /* ── Other Services ──────────────────────────────────────── */
-.sd-other {
-    padding: 80px 0;
-    background: #f8f9fc;
+/* ==========================================================
+   RELATED SERVICES
+========================================================== */
+
+.sd-other{
+    padding: 70px 0;
+    background: linear-gradient(180deg,#ffffff 0%,#f8fcfc 100%);
 }
 
-.sd-other__card {
+.sd-other__heading{
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--clr-primary, #0d7a6e);
     text-align: center;
-    padding: 26px 20px 22px;
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 2px 14px rgba(0,0,0,0.06);
-    border: 1px solid #eef2f6;
-    transition: all 0.3s ease;
+    margin-bottom: 40px;
+    letter-spacing: -0.5px;
+}
+
+.sd-other__card{
+    position: relative;
+    background: #fff;
+    border: 1px solid #e8f0f0;
+    border-radius: 18px;
+    overflow: hidden;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    min-height: 280px;
+    transition: all .35s ease;
+    box-shadow: 0 6px 24px rgba(0,0,0,.05);
 }
 
-.sd-other__card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 28px rgba(0,0,0,0.1);
+.sd-other__card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:4px;
+    background: linear-gradient(90deg,#0d7a6e,#19b7a6);
+    transform: scaleX(0);
+    transition: .35s ease;
 }
 
-.sd-other__icon {
+.sd-other__card:hover::before{
+    transform: scaleX(1);
+}
+
+.sd-other__card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(13,122,110,.12);
+    border-color: #cce7e3;
+}
+
+.sd-other__icon{
     width: 100%;
-    max-width: 160px;
-    height: auto;
-    max-height: 130px;
-    object-fit: contain;
-    margin-bottom: 14px;
+    height: 180px;
+    object-fit: cover;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
-.sd-other__card > i {
-    font-size: 2.2rem;
-    color: var(--clr-primary, #0d7a6e);
-    margin-bottom: 12px;
-}
-
-.sd-other__title {
-    font-size: 0.93rem;
+.sd-other__title{
+    font-size: 1.15rem;
     font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--clr-text-primary, #1a2e35);
-    line-height: 1.3;
-    min-height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: #17324a;
+    line-height: 1.4;
+    margin: 20px 18px 10px;
+    min-height: 54px;
 }
 
-.sd-other__desc {
-    font-size: 0.8rem;
-    color: var(--clr-text-muted, #8a9baa);
-    margin-bottom: 12px;
-    line-height: 1.5;
+.sd-other__desc{
+    font-size: .92rem;
+    color: #667788;
+    line-height: 1.7;
+    margin: 0 18px 20px;
     flex-grow: 1;
-    display: flex;
-    align-items: center;
 }
 
-.sd-other__btn {
+.sd-other__btn{
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px 18px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: 999px;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 18px 22px;
+    padding: 11px 22px;
+    border-radius: 50px;
     background: transparent;
-    color: #0b5d76;
-    border: 1.5px solid #0b5d76;
-    transition: all 0.3s ease;
+    border: 2px solid #0d7a6e;
+    color: #0d7a6e;
+    font-size: .85rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: .5px;
     text-decoration: none;
-    margin-top: auto;
+    transition: .3s ease;
 }
 
-.sd-other__btn:hover {
-    background: #0b5d76;
-    color: #ffffff;
-    transform: translateY(-2px);
+.sd-other__btn:hover{
+    background: #0d7a6e;
+    color: #fff;
 }
 
-.sd-other__btn i {
-    font-size: 0.72rem;
+.sd-other__btn i{
+    transition: .3s ease;
 }
 
+.sd-other__btn:hover i{
+    transform: translateX(4px);
+}
+
+/* Responsive */
+
+@media (max-width: 991px){
+
+    .sd-other{
+        padding: 50px 0;
+    }
+
+    .sd-other__heading{
+        font-size: 2rem;
+    }
+
+    .sd-other__icon{
+        height: 160px;
+    }
+}
+
+@media (max-width: 767px){
+
+    .sd-other__heading{
+        font-size: 1.75rem;
+    }
+
+    .sd-other__icon{
+        height: 140px;
+    }
+
+    .sd-other__title{
+        min-height: auto;
+    }
+}
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 991.98px) {
     .sd-hero__content {

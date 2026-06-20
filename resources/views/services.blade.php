@@ -280,9 +280,9 @@
                             </div>
                         </div>
                     @endforeach
-                </div>{{-- /.row --}}
-            </div>{{-- /.container --}}
-        </section>{{-- /.services-why-us --}}
+                </div>
+            </div>
+        </section>
     @endif
 
 @endsection
