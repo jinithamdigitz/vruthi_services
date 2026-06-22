@@ -382,5 +382,6 @@
     .list-group-item i {
         width: 24px;
     }
+    
 </style>
 @endpush

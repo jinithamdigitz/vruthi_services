@@ -10,6 +10,58 @@ Blog Details
 Read our latest insights and expert opinions
 @endsection
 
+<!-- ============================================================
+     BLOG DETAILS HERO SECTION
+============================================================ -->
+<section class="blogs-hero">
+
+    <div class="blogs-hero__bg-overlay"></div>
+    <div class="blogs-hero__wave-shape"></div>
+
+    <div class="container">
+
+        <div class="blogs-hero__content">
+
+            <div class="blogs-hero__left reveal reveal-left">
+
+                <nav class="blogs-hero__breadcrumb">
+                    <a href="{{ url('/') }}">Home</a>
+                    <i class="bi bi-chevron-right"></i>
+                    <a href="{{ route('home.blogs') }}">Blogs</a>
+                    <i class="bi bi-chevron-right"></i>
+                    <span>{{ $blog->title }}</span>
+                </nav>
+
+                <h1 class="blogs-hero__title">
+                    {{ $blog->title }}
+                </h1>
+
+                
+
+
+
+            </div>
+
+            <div class="blogs-hero__right reveal reveal-right">
+
+                @if($blog->featured_image)
+                    <img src="{{ asset($blog->featured_image) }}"
+                         alt="{{ $blog->title }}"
+                         class="blogs-hero__img">
+                @else
+                    <img src="{{ asset('img/blogs/blogs-hero.png') }}"
+                         alt="Blog Details"
+                         class="blogs-hero__img">
+                @endif
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
 <!-- ===== BLOG DETAILS SECTION ===== -->
 <div class="blog-details-container">
     <div class="blog-details-layout">

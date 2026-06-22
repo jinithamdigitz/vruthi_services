@@ -785,7 +785,7 @@ document.querySelector('input[name="icon_image"]').addEventListener('change', fu
     }
 });
 
-// Auto-generate slug from title
+
 document.querySelector('input[name="title"]').addEventListener('keyup', function() {
     const slugInput = document.querySelector('input[name="slug"]');
     if (slugInput && slugInput.value === '') {

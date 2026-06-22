@@ -256,6 +256,7 @@ if (typeof toastr !== 'undefined') {
         transition: all 0.2s ease;
     }
     
+    
     .badge {
         font-size: 10px;
         padding: 3px 6px;

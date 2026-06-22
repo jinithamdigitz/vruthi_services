@@ -99,7 +99,7 @@
                         <a class="nav-link" href="{{ route('home.blogs') }}">Blogs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="careers.html">Projects</a>
+                        <a class="nav-link" href="{{ route('home.portfolio') }}">Projects</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact Us</a>

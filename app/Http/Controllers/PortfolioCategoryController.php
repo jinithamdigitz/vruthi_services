@@ -11,14 +11,18 @@ class PortfolioCategoryController extends Controller
 {
     public function index()
     {
-        $categories = PortfolioCategory::orderBy('id', 'desc')->paginate(10);
+        $categories = PortfolioCategory::withCount('portfolios')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
         return view('admin.portfolio-categories.index', compact('categories'));
     }
+
     /**
      * Display the specified portfolio category.
      */
     public function show(PortfolioCategory $portfolioCategory)
     {
+        $portfolioCategory->load('portfolios');
         return view('admin.portfolio-categories.show', compact('portfolioCategory'));
     }
 
@@ -26,7 +30,6 @@ class PortfolioCategoryController extends Controller
     {
         return view('admin.portfolio-categories.create');
     }
-
 
     public function store(Request $request)
     {
@@ -46,7 +49,6 @@ class PortfolioCategoryController extends Controller
         }
 
         $category->keywords = $request->keywords;
-
         $category->save();
 
         return redirect()->route('admin.portfolio-categories.index')
@@ -75,7 +77,6 @@ class PortfolioCategoryController extends Controller
         }
 
         $portfolioCategory->keywords = $request->keywords;
-
         $portfolioCategory->save();
 
         return redirect()->route('admin.portfolio-categories.index')
@@ -84,14 +85,45 @@ class PortfolioCategoryController extends Controller
 
     public function destroy(PortfolioCategory $portfolioCategory)
     {
-        if ($portfolioCategory->portfolios()->count() > 0) {
+        try {
+            $categoryName = $portfolioCategory->name;
+            $portfolioCount = $portfolioCategory->portfolios()->count();
+            
+            // Delete all associated portfolios with their images
+            if ($portfolioCount > 0) {
+                foreach ($portfolioCategory->portfolios as $portfolio) {
+                    // Delete portfolio image if exists
+                    if ($portfolio->image && file_exists(public_path($portfolio->image))) {
+                        unlink(public_path($portfolio->image));
+                    }
+                    $portfolio->delete();
+                }
+            }
+            
+            // Delete the category
+            $portfolioCategory->delete();
+
             return redirect()->route('admin.portfolio-categories.index')
-                ->with('error', 'Cannot delete category. It has associated portfolios.');
+                ->with('success', "Category '{$categoryName}' and its {$portfolioCount} associated portfolio(s) deleted successfully.");
+                
+        } catch (\Exception $e) {
+            return redirect()->route('admin.portfolio-categories.index')
+                ->with('error', 'Error deleting category: ' . $e->getMessage());
         }
+    }
 
-        $portfolioCategory->delete();
+    /**
+     * Toggle category status (AJAX)
+     */
+    public function toggleStatus(PortfolioCategory $portfolioCategory)
+    {
+        $portfolioCategory->is_active = !$portfolioCategory->is_active;
+        $portfolioCategory->save();
 
-        return redirect()->route('admin.portfolio-categories.index')
-            ->with('success', 'Category deleted successfully.');
+        return response()->json([
+            'success' => true,
+            'is_active' => $portfolioCategory->is_active,
+            'message' => 'Status updated successfully.'
+        ]);
     }
 }

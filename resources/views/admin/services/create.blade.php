@@ -545,7 +545,7 @@ document.addEventListener('change', function(e) {
     }
 });
 
-// Auto-generate slug from title
+
 document.getElementById('title').addEventListener('keyup', function() {
     const slugInput = document.getElementById('slug');
     if (slugInput.value === '') {

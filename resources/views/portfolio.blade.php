@@ -9,31 +9,53 @@
 {{-- ══════════════════════════════════════
      HERO - DYNAMIC (PORTFOLIO PAGE) - USING COMMON HERO
 ══════════════════════════════════════ --}}
-<section class="page-hero">
-    <div class="page-hero__bg" style="background-image: url('{{ asset($portfolioBanner->image) }}');"></div>
-    <div class="page-hero__overlay"></div>
-    <div class="container page-hero__content">
-        <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
-            <a href="{{ route('home.index') }}">Home</a>
-            <span class="page-hero__breadcrumb-sep">›</span>
-            <span class="current">Portfolio</span>
-        </nav>
+<section class="portfolio-hero">
 
-        @php
-        $titleParts = explode('|', $portfolioBanner->title);
-        $firstLine = trim($titleParts[0]);
-        $secondLine = trim($titleParts[1]);
-        @endphp
-        <h1 class="page-hero__title">
-            {{ $firstLine }}
-            <span class="accent">{{ $secondLine }}</span>
-        </h1>
+    <div class="portfolio-hero__bg-overlay"></div>
+    <div class="portfolio-hero__wave-shape"></div>
 
-        <p class="page-hero__desc">
-            {!! strip_tags($portfolioBanner->body) !!}
-        </p>
+    <div class="container">
+
+        <div class="portfolio-hero__content">
+
+            <div class="portfolio-hero__left reveal reveal-left">
+
+                <nav class="portfolio-hero__breadcrumb">
+                    <a href="{{ url('/') }}">Home</a>
+                    <i class="bi bi-chevron-right"></i>
+                    <span>Portfolio</span>
+                </nav>
+
+                <h1 class="portfolio-hero__title">
+                    Our <span class="accent">Portfolio</span>
+                </h1>
+
+                <p class="portfolio-hero__tagline">
+                    Service Showcase
+                </p>
+
+                <p class="portfolio-hero__desc">
+                    Explore our completed projects across various service categories. 
+                    From housekeeping to facility management, see how we deliver 
+                    excellence and transform spaces.
+                </p>
+
+                <div class="portfolio-hero__rule"></div>
+
+            </div>
+
+            <div class="portfolio-hero__right reveal reveal-right">
+
+                <img src="{{ asset('img/portfolio/portfolio-hero.png') }}"
+                     alt="Portfolio"
+                     class="portfolio-hero__img">
+
+            </div>
+
+        </div>
 
     </div>
+
 </section>
 
 {{-- ══════════════════════════════════════
@@ -107,13 +129,6 @@
                     {{-- Footer --}}
                     <div class="pf-pg__card-footer">
                         <span class="pf-pg__card-cat">{{ $portfolio->category->name }}</span>
-                        <a href="{{ route('home.portfolio') }}" class="pf-pg__read-more">
-                            View Project
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </a>
                     </div>
 
                 </article>

@@ -576,6 +576,7 @@ class ServiceController extends Controller
         if ($category) {
             $sdcta = \App\Models\Post::where('post_category_id', $category->id)->first();
         }
+        
 
         $category = \App\Models\PostCategory::where('slug', 'testimonials')->first();
         $testimonials = collect();

@@ -22,7 +22,7 @@
             'Floor & Carpet Care',
             'Public Area & Common Area Maintenance',
             'Washroom Hygiene Management',
-            'Pest Control & Disinfection',
+            'Pest Control & Disinfectent',
         ];
 
         $displayFeatures = count($features) > 0 ? $features : $staticFeatures;
