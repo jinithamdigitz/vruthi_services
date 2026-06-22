@@ -16,20 +16,27 @@ Read our latest insights and expert opinions
 
         <!-- LEFT: MAIN CONTENT -->
         <div class="main-content">
+            <!-- Title & Date (Above Image) -->
+            <div class="article-header">
+                <h1 class="article-title">{{ $blog->title }}</h1>
+                <div class="article-date-simple">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>{{ $blog->created_at->format('F d, Y') }}</span>
+                </div>
+            </div>
+
+            <!-- Article Image Card -->
             <div class="article-card">
                 @if($blog->image)
                     <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" class="article-cover"
                         onerror="this.style.display='none'" />
                 @endif
-                <div class="article-body">
-                    <div class="article-meta">
-                        <span class="post-date"><i class="fas fa-calendar-alt"></i> {{ $blog->created_at->format('F d, Y') }}</span>
-                        <span class="post-category"><i class="fas fa-tag"></i> {{ $blog->category->name ?? 'Blog' }}</span>
-                    </div>
+            </div>
 
-                    <div class="article-content">
-                        {!! $blog->body !!}
-                    </div>
+            <!-- Article Content (Below Image) -->
+            <div class="article-body">
+                <div class="article-content">
+                    {!! $blog->body !!}
                 </div>
             </div>
         </div>
@@ -43,12 +50,11 @@ Read our latest insights and expert opinions
                 @forelse($latestBlogs as $index => $latestBlog)
                     <div class="popular-card">
                         <img src="{{ asset($latestBlog->image) }}" alt="{{ $latestBlog->title }}" class="popular-img"
-                            onerror="this.src='https://via.placeholder.com/90x80?text=No+Image'">
+                            onerror="this.style.backgroundColor='#e5e7eb'; this.style.display='none'">
                         <div class="popular-info">
                             <p class="popular-title">
-                                <a href="{{ route('dynamic.slug', $latestBlog->slug) }}"
-                                    style="text-decoration: none; color: inherit;">
-                                    {{ Str::limit($latestBlog->title, 45) }}
+                                <a href="{{ route('dynamic.slug', $latestBlog->slug) }}">
+                                    {{ $latestBlog->title }}
                                 </a>
                             </p>
                             <div class="popular-meta">

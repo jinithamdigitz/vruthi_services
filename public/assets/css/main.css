@@ -5345,3 +5345,528 @@ clip-path: polygon(
     background:#0d7a6e;
     color:#fff;
 }
+
+
+/* ============================================================
+   BLOG DETAILS PAGE STYLES
+   ============================================================ */
+
+/* ── Container & Layout ───────────────────────────────────── */
+.blog-details-container {
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8fafb 0%, #f1f5f8 100%);
+    min-height: calc(100vh - 400px);
+}
+
+.blog-details-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+/* ── Main Content Area ────────────────────────────────────── */
+.main-content {
+    width: 100%;
+}
+
+.article-card {
+    background: transparent;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    margin: 0 1.5rem;
+}
+
+.article-card:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Article Cover Image */
+.article-cover {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+    background: #f0f0f0;
+    border-radius: 16px;
+}
+
+/* Article Header (Title & Date) */
+.article-header {
+    margin-bottom: 2.5rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+/* Article Title */
+.article-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--clr-gray-900, #111827);
+    line-height: 1.25;
+    margin: 0 0 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+/* Simple Date Display */
+.article-date-simple {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--clr-gray-600, #6b7280);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.article-date-simple i {
+    color: var(--clr-primary);
+    font-size: 1.1rem;
+}
+
+/* Article Body */
+.article-body {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* ── Article Content ──────────────────────────────────────── */
+.article-content {
+    color: var(--clr-gray-700, #374151);
+    line-height: 1.8;
+    font-size: 1rem;
+    padding: 2.5rem 0;
+}
+
+.article-content p {
+    margin-bottom: 1.5rem;
+}
+
+.article-content h2 {
+    font-size: 1.75rem;
+    color: var(--clr-gray-900, #111827);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.article-content h3 {
+    font-size: 1.35rem;
+    color: var(--clr-gray-800, #1f2937);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.article-content ul,
+.article-content ol {
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.article-content li {
+    margin-bottom: 0.75rem;
+    line-height: 1.8;
+}
+
+.article-content strong {
+    color: var(--clr-gray-900, #111827);
+    font-weight: 700;
+}
+
+.article-content a {
+    color: var(--clr-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.article-content a:hover {
+    color: var(--clr-primary-light, #1fb6a6);
+    text-decoration: underline;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────── */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: sticky;
+    top: 100px;
+}
+
+/* ── Sidebar Widget ───────────────────────────────────────── */
+.sidebar-widget {
+    background: var(--clr-white);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease;
+}
+
+.sidebar-widget:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--clr-gray-900, #111827);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--clr-primary);
+    display: inline-block;
+}
+
+/* ── Popular Articles Cards ───────────────────────────────── */
+.popular-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.popular-card:hover {
+    transform: translateX(4px);
+}
+
+.popular-card:last-child {
+    border-bottom: none;
+}
+
+.popular-img {
+    width: 90px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.popular-card:hover .popular-img {
+    transform: scale(1.05);
+}
+
+.popular-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+}
+
+.popular-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--clr-gray-900, #111827);
+    line-height: 1.4;
+}
+
+.popular-title a {
+    color: var(--clr-gray-900, #111827);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.popular-title a:hover {
+    color: var(--clr-primary);
+}
+
+.popular-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--clr-gray-600, #6b7280);
+    margin-top: 0.5rem;
+}
+
+.popular-meta i {
+    color: var(--clr-primary);
+    font-size: 0.8rem;
+}
+
+/* ── CTA Card ─────────────────────────────────────────────── */
+.cta-card {
+    background: linear-gradient(135deg, var(--clr-primary) 0%, var(--clr-primary-light, #1fb6a6) 100%);
+    border-radius: 12px;
+    padding: 2rem;
+    color: var(--clr-white);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(26, 167, 156, 0.3);
+}
+
+.cta-card i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+    opacity: 0.95;
+}
+
+.cta-card h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--clr-white);
+}
+
+.cta-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    opacity: 0.95;
+    color: var(--clr-white);
+}
+
+.cta-card a {
+    display: inline-block;
+    background: var(--clr-white);
+    color: var(--clr-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.cta-card a:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: scale(1.05);
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
+
+/* Tablet */
+@media (max-width: 991.98px) {
+    .blog-details-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .sidebar {
+        grid-column: 1;
+        position: static;
+        flex-direction: row;
+        gap: 2rem;
+    }
+
+    .sidebar-widget,
+    .cta-card {
+        flex: 1;
+    }
+
+    .article-body {
+        padding: 2rem 0;
+        margin-top: 1.5rem;
+    }
+
+    .article-cover {
+        height: 300px;
+        object-fit: cover;
+    }
+
+    .article-title {
+        font-size: 2.1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+    .blog-details-container {
+        padding: 2rem 0;
+    }
+
+    .article-body {
+        padding: 1.5rem 0;
+        margin-top: 1.25rem;
+    }
+
+    .article-cover {
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .article-title {
+        font-size: 1.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .article-date-simple {
+        font-size: 0.95rem;
+    }
+
+    .article-meta {
+        gap: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+    }
+
+    .article-title {
+        font-size: 1.65rem;
+        margin-bottom: 1rem;
+    }
+
+    .article-content {
+        font-size: 0.95rem;
+    }
+
+    .article-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .article-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .sidebar {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .sidebar-widget,
+    .cta-card {
+        flex: none;
+    }
+
+    .sidebar-widget {
+        padding: 1.5rem;
+    }
+
+    .sidebar-title {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .popular-card {
+        padding: 0.75rem 0;
+    }
+
+    .popular-img {
+        width: 80px;
+        height: 70px;
+    }
+
+    .popular-title {
+        font-size: 0.9rem;
+    }
+
+    .cta-card {
+        padding: 1.5rem;
+    }
+
+    .cta-card h4 {
+        font-size: 1.1rem;
+    }
+
+    .cta-card p {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 575.98px) {
+    .blog-details-container {
+        padding: 1.5rem 0;
+    }
+
+    .article-body {
+        padding: 1rem 0;
+        margin-top: 1rem;
+    }
+
+    .article-cover {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .article-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .article-date-simple {
+        font-size: 0.9rem;
+    }
+
+    .article-meta {
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .post-date,
+    .post-category {
+        font-size: 0.9rem;
+    }
+
+    .article-content {
+        font-size: 0.9rem;
+    }
+
+    .article-content h2 {
+        font-size: 1.35rem;
+        margin-top: 1.5rem;
+    }
+
+    .article-title {
+        font-size: 1.35rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .article-content h3 {
+        font-size: 1.1rem;
+        margin-top: 1rem;
+    }
+
+    .sidebar-title {
+        font-size: 1rem;
+    }
+
+    .popular-img {
+        width: 70px;
+        height: 60px;
+    }
+
+    .popular-title {
+        font-size: 0.85rem;
+    }
+
+    .popular-meta {
+        font-size: 0.8rem;
+    }
+
+    .cta-card i {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .cta-card h4 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .cta-card p {
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .cta-card a {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.9rem;
+    }
+}

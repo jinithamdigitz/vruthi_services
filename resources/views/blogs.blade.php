@@ -83,26 +83,32 @@
         <div class="blogs-featured reveal">
             <div class="row g-0 align-items-center">
                 <div class="col-lg-6">
-                    <img src="{{ asset('img/blogs/blog-1.jpg') }}" alt="">
+                    @if ($latestBlog && $latestBlog->image)
+                        <img src="{{ asset($latestBlog->image) }}" alt="{{ $latestBlog->title }}">
+                    @else
+                        <img src="{{ asset('img/blogs/blog-1.jpg') }}" alt="Featured">
+                    @endif
                 </div>
 
                 <div class="col-lg-6">
                     <div class="blogs-featured__content">
-                        <span class="blogs-badge">Featured Article</span>
-
+                        <span class="blogs-badge">Latest Article</span>
+                        <br>
+                        <br>
                         <h3>
-                            Transforming Workforce Management Through Strategic Outsourcing
+                            {{ $latestBlog->title ?? 'Latest Blog Article' }}
                         </h3>
 
                         <p>
-                            Discover how modern outsourcing solutions help businesses
-                            improve efficiency, reduce operational costs and scale faster.
+                            {{ Str::limit($latestBlog->body ?? 'Discover our latest insights and updates.', 150) }}
                         </p>
 
-                        <a href="#" class="btn-outline-brand">
-                            Read Article
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
+                        @if ($latestBlog)
+                            <a href="{{ route('dynamic.slug', $latestBlog->slug) }}" class="btn-outline-brand">
+                                Read Article
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -115,12 +121,16 @@
 
                 <div class="row g-4">
 
-                    @for ($i = 1; $i <= 6; $i++)
+                    @forelse ($blogs as $index => $blog)
                         <div class="col-md-6 reveal">
                             <article class="blog-card-v2">
 
                                 <div class="blog-card-v2__image">
-                                    <img src="{{ asset('img/blogs/blog-' . $i . '.jpg') }}" alt="">
+                                    @if ($blog->image)
+                                        <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}">
+                                    @else
+                                        <img src="{{ asset('img/blogs/blog-' . ($index % 6 + 1) . '.jpg') }}" alt="{{ $blog->title }}">
+                                    @endif
                                 </div>
 
                                 <div class="blog-card-v2__body">
@@ -128,20 +138,19 @@
                                     <div class="blog-card-v2__meta">
                                         <span>
                                             <i class="bi bi-calendar3"></i>
-                                            June 2026
+                                            {{ $blog->created_at->format('F Y') }}
                                         </span>
                                     </div>
 
                                     <h4>
-                                        Facility Management Trends Every Business Should Know
+                                        {{ $blog->title }}
                                     </h4>
 
                                     <p>
-                                        Explore the latest facility management practices
-                                        helping organizations stay productive and efficient.
+                                        {{ Str::limit($blog->body, 100) }}
                                     </p>
 
-                                    <a href="#">
+                                    <a href="{{ route('dynamic.slug', $blog->slug) }}">
                                         Read More
                                         <i class="bi bi-arrow-right"></i>
                                     </a>
@@ -150,18 +159,43 @@
 
                             </article>
                         </div>
-                    @endfor
+                    @empty
+                        <div class="col-12 text-center py-5">
+                            <p>No blogs available.</p>
+                        </div>
+                    @endforelse
 
                 </div>
 
                 {{-- Pagination --}}
                 <div class="blogs-pagination">
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">
-                        <i class="bi bi-chevron-right"></i>
-                    </a>
+                    @if ($blogs->onFirstPage())
+                        <span class="disabled" style="opacity: 0.5; cursor: not-allowed;">
+                            <i class="bi bi-chevron-left"></i>
+                        </span>
+                    @else
+                        <a href="{{ $blogs->previousPageUrl() }}">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    @endif
+
+                    @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
+                        @if ($page == $blogs->currentPage())
+                            <a href="#" class="active">{{ $page }}</a>
+                        @else
+                            <a href="{{ $url }}">{{ $page }}</a>
+                        @endif
+                    @endforeach
+
+                    @if ($blogs->hasMorePages())
+                        <a href="{{ $blogs->nextPageUrl() }}">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    @else
+                        <span class="disabled" style="opacity: 0.5; cursor: not-allowed;">
+                            <i class="bi bi-chevron-right"></i>
+                        </span>
+                    @endif
                 </div>
 
             </div>
@@ -174,21 +208,27 @@
                     <div class="blogs-sidebar__card">
                         <h4>Popular Articles</h4>
 
-                        @for ($i = 1; $i <= 4; $i++)
-                            <a href="#" class="blogs-popular">
+                        @forelse ($popularBlogs as $popBlog)
+                            <a href="{{ route('dynamic.slug', $popBlog->slug) }}" class="blogs-popular">
 
-                                <img src="{{ asset('img/blogs/blog-' . $i . '.jpg') }}" alt="">
+                                @if ($popBlog->image)
+                                    <img src="{{ asset($popBlog->image) }}" alt="{{ $popBlog->title }}">
+                                @else
+                                    <img src="{{ asset('img/blogs/blog-1.jpg') }}" alt="{{ $popBlog->title }}">
+                                @endif
 
                                 <div>
                                     <h6>
-                                        Strategic Workforce Solutions for Growing Businesses
+                                        {{ Str::limit($popBlog->title, 50) }}
                                     </h6>
 
-                                    <span>June 2026</span>
+                                    <span>{{ $popBlog->created_at->format('M d, Y') }}</span>
                                 </div>
 
                             </a>
-                        @endfor
+                        @empty
+                            <p class="text-muted">No popular blogs available.</p>
+                        @endforelse
                     </div>
 
                     <div class="blogs-sidebar__cta">
