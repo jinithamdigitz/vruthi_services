@@ -65,7 +65,10 @@ class TimelineSeeder extends Seeder
         ];
 
         foreach ($timelines as $timeline) {
-            Timeline::create($timeline);
-        }
+    Timeline::updateOrCreate(
+        ['year' => $timeline['year']],
+        $timeline
+    );
+}
     }
 }

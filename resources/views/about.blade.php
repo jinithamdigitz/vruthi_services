@@ -258,7 +258,6 @@
             <div class="row justify-content-center text-center mb-5">
                 <div class="col-lg-8 reveal">
                     <div class="section-title-unified">{{ $ourStoryTitle->title }}</div>
-                    <h2 class="mt-3">{{ $ourStoryTitle->body }}</h2>
                 </div>
             </div>
 
