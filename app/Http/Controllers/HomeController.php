@@ -333,11 +333,6 @@ class HomeController extends Controller
         if ($category) {
             $ourValueTitle = Post::where('post_category_id', $category->id)->first();
         }
-        $category = PostCategory::where('slug', 'our-values')->first();
-        $ourValues = [];
-        if ($category) {
-            $ourValues = Post::where('post_category_id', $category->id)->first();
-        }
         $category = PostCategory::where('slug', 'member-title')->first();
         $memberTitle = [];
         if ($category) {
@@ -414,7 +409,6 @@ class HomeController extends Controller
         'ourStoryTitle' => $ourStoryTitle,
         'ourStory' => $ourStory,
         'ourValueTitle' => $ourValueTitle,
-        'ourValues' => $ourValues,
         'members' => $members,
         'memberTitle' => $memberTitle,
         'aboutBanner' => $aboutBanner,
@@ -751,9 +745,16 @@ class HomeController extends Controller
             return abort(404);
         }
 
+        $category = \App\Models\PostCategory::where('slug', 'sd-contact-sidebar')->first();
+        $sdcta = collect();
+        if ($category) {
+            $sdcta = \App\Models\Post::where('post_category_id', $category->id)->first();
+        }
+
         return view('blogdetails', [
             'blog' => $blog,
             'latestBlogs' => $latestBlogs,
+            'sdcta' => $sdcta,
         ]);
     }
 

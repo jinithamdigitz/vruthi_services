@@ -63,74 +63,119 @@ Read our latest insights and expert opinions
 </section>
 
 <!-- ===== BLOG DETAILS SECTION ===== -->
-<div class="blog-details-container">
-    <div class="blog-details-layout">
+<section class="blog-details-section">
+    <div class="container">
 
-        <!-- LEFT: MAIN CONTENT -->
-        <div class="main-content">
-            <!-- Title & Date (Above Image) -->
-            <div class="article-header">
-                <h1 class="article-title">{{ $blog->title }}</h1>
-                <div class="article-date-simple">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>{{ $blog->created_at->format('F d, Y') }}</span>
+        <div class="blog-details-layout">
+
+            <!-- LEFT: MAIN CONTENT -->
+            <div class="main-content">
+
+                <!-- Article Header -->
+                <div class="article-header reveal">
+                    <h1 class="article-title">
+                        {{ $blog->title }}
+                    </h1>
+
+                    <div class="article-date-simple">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>{{ $blog->created_at->format('F d, Y') }}</span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Article Image Card -->
-            <div class="article-card">
+                <!-- Featured Image -->
                 @if($blog->image)
-                    <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" class="article-cover"
-                        onerror="this.style.display='none'" />
-                @endif
-            </div>
-
-            <!-- Article Content (Below Image) -->
-            <div class="article-body">
-                <div class="article-content">
-                    {!! $blog->body !!}
+                <div class="article-card reveal">
+                    <img src="{{ asset($blog->image) }}"
+                         alt="{{ $blog->title }}"
+                         class="article-cover">
                 </div>
+                @endif
+
+                <!-- Blog Content -->
+                <div class="article-body reveal">
+                    <div class="article-content">
+                        {!! $blog->body !!}
+                    </div>
+                </div>
+
             </div>
-        </div>
 
-        <!-- RIGHT: SIDEBAR WITH POPULAR ARTICLES -->
-        <aside class="sidebar">
-            <!-- Popular Articles Widget -->
-            <div class="sidebar-widget">
-                <div class="sidebar-title">Popular Articles</div>
+            <!-- RIGHT SIDEBAR -->
+            <aside class="sidebar">
 
-                @forelse($latestBlogs as $index => $latestBlog)
-                    <div class="popular-card">
-                        <img src="{{ asset($latestBlog->image) }}" alt="{{ $latestBlog->title }}" class="popular-img"
-                            onerror="this.style.backgroundColor='#e5e7eb'; this.style.display='none'">
-                        <div class="popular-info">
-                            <p class="popular-title">
-                                <a href="{{ route('dynamic.slug', $latestBlog->slug) }}">
-                                    {{ $latestBlog->title }}
-                                </a>
-                            </p>
-                            <div class="popular-meta">
-                                <span><i class="fas fa-calendar-alt"></i> {{ $latestBlog->created_at->format('M d, Y') }}</span>
+                <!-- Popular Articles -->
+                <div class="sidebar-widget reveal">
+
+                    <h4 class="sidebar-title">
+                        Popular Articles
+                    </h4>
+
+                    @forelse($latestBlogs as $latestBlog)
+
+                        <div class="popular-card">
+
+                            @if($latestBlog->image)
+                                <img src="{{ asset($latestBlog->image) }}"
+                                     alt="{{ $latestBlog->title }}"
+                                     class="popular-img">
+                            @endif
+
+                            <div class="popular-info">
+
+                                <h5 class="popular-title">
+                                    <a href="{{ route('dynamic.slug', $latestBlog->slug) }}">
+                                        {{ $latestBlog->title }}
+                                    </a>
+                                </h5>
+
+                                <div class="popular-meta">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ $latestBlog->created_at->format('M d, Y') }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @empty
+
+                        <p>No popular articles available.</p>
+
+                    @endforelse
+
+                </div>
+
+                <!-- CTA Card -->
+                <div class="sd-contact reveal">
+                            <div class="sd-contact__inner">
+                                <div class="sd-contact__icon-wrap">
+                                    <i class="bi bi-headset"></i>
+                                </div>
+                                <div class="sd-contact__text">
+
+                                    <span class="sd-contact__label">
+                                        {{ $sdcta->title }}
+                                    </span>
+
+                                    <span class="sd-contact__sub">
+                                        {!! $sdcta->body !!}
+                                    </span>
+
+                                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $globalPhone) }}"
+                                        class="sd-contact__phone">
+                                        <i class="bi bi-telephone-fill"></i>
+                                        {{ $globalPhone }}
+                                    </a>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @empty
-                    <div class="popular-card">
-                        <div class="popular-info">
-                            <p class="popular-title">No popular blogs found.</p>
-                        </div>
-                    </div>
-                @endforelse
-            </div>
 
-            <!-- CTA Card -->
-            <div class="cta-card">
-                <i class="fas fa-solar-panel"></i>
-                <h4>Ready to Go Solar?</h4>
-                <p>Get a free assessment and custom quote from our experts today.</p>
-                <a href="{{ route('contact') }}">Get Free Quote</a>
-            </div>
-        </aside>
+            </aside>
+
+        </div>
+
     </div>
-</div>
+</section>
 @endsection

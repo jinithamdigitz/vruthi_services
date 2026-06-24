@@ -5,8 +5,8 @@
 @section('content')
 
     <!-- ============================================================
-                 SECTION 1: ABOUT HERO BANNER (STATIC)
-                 ============================================================ -->
+                     SECTION 1: ABOUT HERO BANNER (STATIC)
+                     ============================================================ -->
     <section class="about-hero" id="about-hero">
         <div class="about-hero__bg-overlay"></div>
         <div class="about-hero__wave-shape"></div>
@@ -34,7 +34,6 @@
                         in the Facility Management industry with an outstanding reputation for
                         quality and integrity throughout India &amp; part of Middle East.
                     </p>
-
                 </div>
 
                 <!-- Right: Building Image -->
@@ -47,72 +46,11 @@
         </div>
     </section>
     <!-- /about-hero -->
-
-
-    <!-- ============================================================
-                 SECTION 2: COMPANY OVERVIEW
-                 ============================================================ -->
-    <section class="about-overview" id="about-overview">
-        <div class="container">
-            <div class="row align-items-center g-4 g-lg-5">
-
-                <!-- Left: Content -->
-                <div class="col-lg-4 reveal reveal-left">
-                    <div class="about-overview__content">
-
-                        <div class="section-label">{{ $aboutUSTitle->title }}</div>
-
-                        <p>
-                            {!! $aboutUSTitle->body !!}
-                        </p>
-
-
-                        <a href="#about-timeline" class="btn-banner mt-3">
-                            OUR JOURNEY
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-
-                    </div>
-                </div>
-
-                <!-- Right: Stats -->
-                <div class="col-lg-8 reveal">
-                    <div class="about-overview__stats">
-
-                        @foreach ($counters as $index => $counter)
-                            <div class="col-6 col-md-3">
-                                <div class="home-stats__item text-center">
-                                    <div class="home-stats__icon">
-                                        <img src="{{ asset($counter->image) }}" alt="{{ $counter->title }}"
-                                            class="home-stats__icon-img">
-                                    </div>
-
-                                    @if (!empty($counter->title))
-                                        <div class="home-stats__number">
-                                            {{ $counter->title }}
-                                        </div>
-                                    @endif
-
-                                    <div class="home-stats__label">
-                                        {!! $counter->body !!}
-                                    </div>
-
-                                </div>
-                            </div>
-                        @endforeach
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-    <!-- /about-overview -->
-
+ 
 
     <!-- ============================================================
-                 SECTION 3: OUR VALUES
-                 ============================================================ -->
+                     SECTION 3: OUR VALUES
+                     ============================================================ -->
     <section class="about-values" id="about-values">
         <div class="container">
             <div class="row align-items-center g-4 g-lg-5">
@@ -135,10 +73,9 @@
                         @foreach ($whyChooseUsCards as $index => $card)
                             <div class="about-values__item reveal reveal-delay-{{ $index + 1 }}">
                                 <div class="about-values__icon">
-                                     @if (!empty($card->image))
-        <img src="{{ asset($card->image) }}"
-             alt="{{ $card->title }}"
-             class="about-values__icon-img">
+                                    @if (!empty($card->image))
+                                        <img src="{{ asset($card->image) }}" alt="{{ $card->title }}"
+                                            class="about-values__icon-img">
                                     @else
                                         <i class="bi bi-shield-check"></i>
                                     @endif
@@ -158,8 +95,8 @@
 
 
     <!-- ============================================================
-                 SECTION 4: MISSION & VISION
-                 ============================================================ -->
+                     SECTION 4: MISSION & VISION
+                     ============================================================ -->
     <section class="about-mv" id="about-mv">
         <div class="container">
             <div class="about-mv__card reveal">
@@ -195,8 +132,8 @@
 
 
     <!-- ============================================================
-                 SECTION 5: WHY WE ARE DIFFERENT
-                 ============================================================ -->
+                     SECTION 5: WHY WE ARE DIFFERENT
+                     ============================================================ -->
     <section class="about-difference" id="about-difference">
         <div class="container">
             <div class="row align-items-stretch g-0">
@@ -236,10 +173,7 @@
                         <p>
                             {{ $leadershipcard->body }}
                         </p>
-                        <a href="#about-leadership" class="btn-banner w-100 justify-content-center mt-3">
-                            MEET OUR LEADERSHIP
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
+
                     </div>
                 </div>
 
@@ -250,8 +184,8 @@
 
 
     <!-- ============================================================
-                 SECTION 6: OUR MILESTONES / TIMELINE
-                 ============================================================ -->
+                     SECTION 6: OUR MILESTONES / TIMELINE
+                     ============================================================ -->
     <section class="about-timeline" id="about-timeline">
         <div class="container">
 
@@ -293,8 +227,8 @@
 
 
     <!-- ============================================================
-                 SECTION 7: CERTIFICATIONS & RECOGNITIONS
-                 ============================================================ -->
+                     SECTION 7: CERTIFICATIONS & RECOGNITIONS
+                     ============================================================ -->
     <section class="about-certifications" id="about-certifications">
         <div class="container">
 

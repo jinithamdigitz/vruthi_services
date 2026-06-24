@@ -82,8 +82,8 @@
     </div>
 </div>
 
-{{-- ══════════════════════════════════════
-     MASONRY GRID
+{{-- ════════════════════════════════════
+    MASONRY GRID
 ══════════════════════════════════════ --}}
 <section class="pf-pg__grid-section">
     <div class="container">
@@ -123,7 +123,7 @@
                     <div class="pf-pg__card-body">
                         <p class="pf-pg__card-location">{{ $portfolio->location }}</p>
                         <h3 class="pf-pg__card-title">{{ $portfolio->title }}</h3>
-                        <p class="pf-pg__card-text">{{ Str::limit($portfolio->body, 120) }}</p>
+                        <p class="pf-pg__card-text">{{ Str::limit($portfolio->body, 150) }}</p>
                     </div>
 
                     {{-- Footer --}}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Models\Service;
 use Illuminate\Support\Facades\Validator;
 use App\Models\PostCategory;
 use App\Models\Post;
@@ -18,8 +19,12 @@ class ContactController extends Controller
         // Get contact banner
         $category = PostCategory::where('slug', 'contact-banner')->first();
         $contactBanner = $category ? Post::where('post_category_id', $category->id)->first() : null;
+        $services = Service::where('is_active', 1)
+            ->orderBy('title')
+            ->get();
 
-        return view('contact', compact('contactBanner'));
+
+        return view('contact', compact('contactBanner','services'));
     }
 
     /**
@@ -33,7 +38,7 @@ class ContactController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'project_type' => 'nullable|string|max:255',
-            'message' => 'required|string|min:10',
+            'message' => 'required|string',
         ]);
 
         if ($validator->fails()) {

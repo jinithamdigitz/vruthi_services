@@ -27,15 +27,21 @@
     <div class="topbar">
         <div class="container">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+
                 <!-- Left: Contact Info -->
                 <div class="topbar__contact d-flex align-items-center flex-wrap gap-3">
                     <span>
                         <i class="bi bi-telephone-fill me-1"></i>
-                        <a href="tel:+911204567890">+91 120 456 7890</a>
+                        <a href="tel:{{ $contact->phone ?? '+911204567890' }}">
+                            {{ $contact->phone ?? '+91 120 456 7890' }}
+                        </a>
                     </span>
+
                     <span>
                         <i class="bi bi-envelope-fill me-1"></i>
-                        <a href="mailto:info@vrudhioutsource.com">info@vrudhioutsource.com</a>
+                        <a href="mailto:{{ $contact->email ?? 'info@vrudhioutsource.com' }}">
+                            {{ $contact->email ?? 'info@vrudhioutsource.com' }}
+                        </a>
                     </span>
                 </div>
 
@@ -43,18 +49,19 @@
                 <div class="d-flex align-items-center gap-2">
                     <span class="topbar__follow-label">Follow Us:</span>
                     <div class="topbar__social">
-                        <a href="javascript:void(0)" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="javascript:void(0)" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                        <a href="javascript:void(0)" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
-                        <a href="javascript:void(0)" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="javascript:void(0)" aria-label="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="javascript:void(0)" aria-label="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <a href="javascript:void(0)" aria-label="Instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
                     </div>
                 </div>
 
-                <!-- Right: Location -->
-                <div class="topbar__location d-none d-md-flex align-items-center gap-2">
-                    <i class="bi bi-geo-alt-fill"></i>
-                    <span>PAN India &nbsp;|&nbsp; Middle East</span>
-                </div>
+
             </div>
         </div>
     </div>
@@ -102,12 +109,12 @@
                         <a class="nav-link" href="{{ route('home.portfolio') }}">Projects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
+                        <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                     </li>
                 </ul>
 
                 <!-- CTA Button -->
-                <a href="contact.html" class="btn-banner">
+                <a href="{{ route('contact') }}" class="btn-banner">
                     GET A QUOTE
                     <i class="bi bi-arrow-right"></i>
                 </a>
@@ -122,35 +129,35 @@
      SECTION 10: HOME CTA BAND SECTION
      ============================================================ -->
     <section class="home-cta-band" id="home-cta-band">
-    <div class="container">
-        <div class="row align-items-center gy-4">
+        <div class="container">
+            <div class="row align-items-center gy-4">
 
-            <div class="col-lg-8 reveal reveal-left">
+                <div class="col-lg-8 reveal reveal-left">
 
-                @if(!empty($cta->title))
-                    <h2 class="mb-2 text-white">
-                        {{ $cta->title }}
-                    </h2>
-                @endif
+                    @if (!empty($cta->title))
+                        <h2 class="mb-2 text-white">
+                            {{ $cta->title }}
+                        </h2>
+                    @endif
 
-                @if(!empty($cta->body))
-                    <p class="mb-0 text-white-75">
-                        {!! $cta->body !!}
-                    </p>
-                @endif
+                    @if (!empty($cta->body))
+                        <p class="mb-0 text-white-75">
+                            {!! $cta->body !!}
+                        </p>
+                    @endif
+
+                </div>
+
+                <div class="col-lg-4 text-lg-end reveal reveal-right">
+                    <a href="{{ route('contact') }}" class="btn-outline-light">
+                        Get In Touch
+                        <i class="bi bi-arrow-right-short"></i>
+                    </a>
+                </div>
 
             </div>
-
-            <div class="col-lg-4 text-lg-end reveal reveal-right">
-                <a href="{{ route('contact') }}" class="btn-outline-light">
-                    Get In Touch
-                    <i class="bi bi-arrow-right-short"></i>
-                </a>
-            </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- ============================================================
      SECTION 11: SITE FOOTER
@@ -158,70 +165,137 @@
     <footer class="site-footer" id="site-footer">
         <div class="container">
             <div class="row g-4 g-lg-5">
+
+                <!-- Company Info -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="site-footer__logo"><img src="{{ asset($logo->image) }}"
-                            alt="Vrudhi Outsourcing Services Pvt. Ltd." /></div>
-                    <p class="site-footer__desc">Delivering reliable, efficient and sustainable facility management
-                        solutions across India &amp; Middle East since 2007.</p>
+
+                    <div class="site-footer__logo">
+                        @if ($logo)
+                            <img src="{{ asset($logo->image) }}" alt="Logo">
+                        @endif
+                    </div>
+
+                    <div class="site-footer__desc">
+                        {!! $footerContent->body !!}
+                    </div>
+
                     <div class="site-footer__social">
-                        <a href="javascript:void(0)" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="javascript:void(0)" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
-                        <a href="javascript:void(0)" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                        <a href="javascript:void(0)" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        @foreach ($globalSocialIcons as $social)
+                            <a href="{{ $social->body ?? '#' }}" target="_blank">
+                                {!! $social->title !!}
+                            </a>
+                        @endforeach
                     </div>
                 </div>
+
+                <!-- Quick Links -->
                 <div class="col-lg-2 col-md-6 col-sm-6">
+
                     <h5>Quick Links</h5>
+
                     <ul class="site-footer__links">
-                        <li><a href="home.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="industries.html">Industries</a></li>
-                        <li><a href="careers.html">Careers</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="{{ route('home.index') }}">Home</a></li>
+                        <li><a href="{{ route('home.about') }}">About Us</a></li>
+                        <li><a href="{{ route('home.services') }}">Services</a></li>
+                        <li><a href="{{ route('home.portfolio') }}">Projects</a></li>
+                        <li><a href="{{ route('home.blogs') }}">Blogs</a></li>
+                        <li><a href="{{ route('contact') }}">Contact Us</a></li>
                     </ul>
+
                 </div>
+
+                <!-- Services -->
                 <div class="col-lg-3 col-md-6 col-sm-6">
+
                     <h5>Services</h5>
+
                     <ul class="site-footer__links">
-                        <li><a href="javascript:void(0)">House Keeping &amp; Upkeep Maintenance</a></li>
-                        <li><a href="javascript:void(0)">Security Guarding Service</a></li>
-                        <li><a href="javascript:void(0)">Care Taker Services</a></li>
-                        <li><a href="javascript:void(0)">HR Outsourcing / Payroll Management</a></li>
-                        <li><a href="javascript:void(0)">Pest Control</a></li>
+
+                        @forelse($globalServices->take(6) as $service)
+                            <li>
+                                <a href="{{ route('frontend.service.detail', $service->slug) }}">
+                                    {{ $service->title }}
+                                </a>
+                            </li>
+
+                        @empty
+
+                            <li>
+                                <a href="javascript:void(0)">
+                                    No Services Available
+                                </a>
+                            </li>
+                        @endforelse
+
                     </ul>
+
                 </div>
+
+                <!-- Contact -->
                 <div class="col-lg-3 col-md-6">
+
                     <h5>Contact Us</h5>
-                    <div class="site-footer__contact-item">
-                        <div class="icon"><i class="bi bi-geo-alt-fill"></i></div><span>8-123, Sector-63,
-                            Noida,<br />Uttar Pradesh – 201301, India</span>
-                    </div>
-                    <div class="site-footer__contact-item">
-                        <div class="icon"><i class="bi bi-telephone-fill"></i></div><a href="tel:+911204567890">+91
-                            120 456 7890</a>
-                    </div>
-                    <div class="site-footer__contact-item">
-                        <div class="icon"><i class="bi bi-envelope-fill"></i></div><a
-                            href="mailto:info@vrudhioutsource.com">info@vrudhioutsource.com</a>
-                    </div>
-                    <div class="site-footer__contact-item">
-                        <div class="icon"><i class="bi bi-globe"></i></div><a
-                            href="https://www.vrudhioutsource.com" target="_blank"
-                            rel="noopener noreferrer">www.vrudhioutsource.com</a>
-                    </div>
+
+                    @if ($globalAddress)
+                        <div class="site-footer__contact-item">
+                            <div class="icon">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </div>
+
+                            <span>
+                                {{ $globalAddress->title }}
+                            </span>
+                        </div>
+                    @endif
+
+                    @if ($globalPhone)
+                        <div class="site-footer__contact-item">
+                            <div class="icon">
+                                <i class="bi bi-telephone-fill"></i>
+                            </div>
+
+                            <a href="tel:{{ preg_replace('/[^0-9+]/', '', $globalPhone) }}">
+                                {{ $globalPhone }}
+                            </a>
+                        </div>
+                    @endif
+
+                    @if ($globalEmails->count())
+                        <div class="site-footer__contact-item">
+                            <div class="icon">
+                                <i class="bi bi-envelope-fill"></i>
+                            </div>
+
+                            <a href="mailto:{{ $globalEmails->first()->title }}">
+                                {{ $globalEmails->first()->title }}
+                            </a>
+                        </div>
+                    @endif
+
                 </div>
+
             </div>
         </div>
+
         <div class="site-footer__bottom">
             <div class="container">
+
                 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-                    <p>&copy; 2024 VRUDHI OUTSOURCING SERVICES PVT. LTD. All Rights Reserved.</p>
-                    <div class="d-flex gap-3"><a href="javascript:void(0)">Privacy Policy</a><span
-                            class="footer-separator">|</span><a href="javascript:void(0)">Terms &amp; Conditions</a>
+
+                    <p>
+                        &copy; {{ date('Y') }}
+                        VRUDHI OUTSOURCING SERVICES PVT. LTD.
+                        All Rights Reserved.
+                    </p>
+
+                    <div class="d-flex gap-3">
+                        <a href="javascript:void(0)">Privacy Policy</a>
+                        <span class="footer-separator">|</span>
+                        <a href="javascript:void(0)">Terms & Conditions</a>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </footer>

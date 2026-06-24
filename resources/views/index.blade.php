@@ -3,8 +3,8 @@
 @section('content')
 
     <!-- ============================================================
-                SECTION 3: HOME HERO SECTION — DYNAMIC SLIDER
-    ============================================================ -->
+                    SECTION 3: HOME HERO SECTION — DYNAMIC SLIDER
+        ============================================================ -->
     @if ($homebanner->count())
         <section class="home-hero" id="home-hero">
 
@@ -46,9 +46,7 @@
                                         <!-- Left Content -->
                                         <div class="col-lg-6 col-xl-5">
 
-                                            <div class="home-hero__eyebrow">
-                                                We Manage, You Focus
-                                            </div>
+                                         
 
                                             <h1 class="home-hero__title">
 
@@ -133,8 +131,8 @@
     @endif
 
     <!-- ============================================================
-                    SECTION 4: HOME ABOUT SECTION
-    ============================================================ -->
+                        SECTION 4: HOME ABOUT SECTION
+        ============================================================ -->
     <section class="home-about" id="home-about">
         <div class="container">
             <div class="row align-items-center g-5">
@@ -176,8 +174,8 @@
     <!-- /home-about -->
 
     <!-- ============================================================
-                SECTION 5: HOME SERVICES SECTION
-    ============================================================ -->
+                    SECTION 5: HOME SERVICES SECTION
+        ============================================================ -->
     <section class="home-services" id="home-services">
         <div class="container">
             <div class="row justify-content-center text-center mb-5">
@@ -250,7 +248,7 @@
 
             <div class="row justify-content-center mt-5">
                 <div class="col-auto reveal">
-                    <a href="services.html" class="btn-primary-brand">View All Services <i
+                    <a href="{{ route('home.services') }}" class="btn-primary-brand">View All Services <i
                             class="bi bi-arrow-right-short fs-5"></i></a>
                 </div>
             </div>
@@ -259,8 +257,8 @@
     <!-- /home-services -->
 
     <!-- ============================================================
-            SECTION 6: HOME STATS / WHY CHOOSE US SECTION
-    ============================================================ -->
+                SECTION 6: HOME STATS / WHY CHOOSE US SECTION
+        ============================================================ -->
     <section class="home-stats" id="home-stats">
         <div class="container">
             <div class="row align-items-center g-4">
@@ -268,7 +266,7 @@
                     <span
                         class="section-label section-label--light reveal reveal-left">{{ $whychooseustitle->title }}</span>
                     <h2 class="mb-3 reveal reveal-left reveal-delay-1 text-white">{!! $whychooseustitle->body !!}</h2>
-                    <a href="about.html"
+                    <a href="{{ route('home.about') }}"
                         class="btn-outline-light mt-3 d-inline-flex reveal reveal-left reveal-delay-3">Partner With Us <i
                             class="bi bi-arrow-right-short fs-5"></i></a>
                 </div>
@@ -306,8 +304,8 @@
     <!-- /home-stats -->
 
     <!-- ============================================================
-                    SECTION 7: HOME INDUSTRIES SECTION
-    ============================================================ -->
+                        SECTION 7: HOME INDUSTRIES SECTION
+        ============================================================ -->
     <section class="home-industries" id="home-industries">
         <div class="container">
             <div class="row justify-content-center text-center mb-4">
@@ -338,8 +336,8 @@
     <!-- /home-industries -->
 
     <!-- ============================================================
-                    SECTION 8: HOME PROCESS SECTION
-    ============================================================ -->
+                        SECTION 8: HOME PROCESS SECTION
+        ============================================================ -->
     <section class="home-process" id="home-process">
         <div class="container">
             <div class="row justify-content-center text-center mb-5">
@@ -373,8 +371,8 @@
     <!-- /home-process -->
 
     <!-- =======================================================
-            SECTION 9: HOME CLIENTS SECTION
-    ============================================================ -->
+                SECTION 9: HOME CLIENTS SECTION
+        ============================================================ -->
     <section class="home-clients" id="home-clients">
         <div class="container">
 

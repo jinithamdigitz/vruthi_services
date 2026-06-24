@@ -1,139 +1,141 @@
 @extends('layouts.main')
 
-@section('title', 'Contact Us — Outline Architects')
+@section('title', 'Contact Us — Vrudhi Outsourcing Services Pvt. Ltd.')
 
 @section('content')
 
-{{-- HERO - DYNAMIC (CONTACT PAGE) - USING COMMON HERO --}}
-<section class="page-hero">
-    <div class="page-hero__bg" style="background-image: url('{{ asset($contactBanner->image) }}');"></div>
-    <div class="page-hero__overlay"></div>
-    <div class="container page-hero__content">
-        <nav class="page-hero__breadcrumb" aria-label="breadcrumb">
-            <a href="{{ route('home.index') }}">Home</a>
-            <span class="page-hero__breadcrumb-sep">›</span>
-            <span class="current">Contact</span>
-        </nav>
+{{-- HERO - DYNAMIC (CONTACT PAGE) --}}
+<section class="blogs-hero">
 
-        @php
-        $titleParts = explode('|', $contactBanner->title);
-        $firstLine = trim($titleParts[0]);
-        $secondLine = isset($titleParts[1]) ? trim($titleParts[1]) : '';
-        $thirdLine = isset($titleParts[2]) ? trim($titleParts[2]) : '';
-        @endphp
-        <h1 class="page-hero__title">
-            {{ $firstLine }}
-            @if($secondLine)
-            <span class="accent">{{ $secondLine }}</span>
-            @endif
-            @if($thirdLine)
-            <span class="accent">{{ $thirdLine }}</span>
-            @endif
-        </h1>
+    <div class="blogs-hero__bg-overlay"></div>
+    <div class="blogs-hero__wave-shape"></div>
 
-        <p class="page-hero__desc">
-            {!! strip_tags($contactBanner->body) !!}
-        </p>
+    <div class="container">
+
+        <div class="blogs-hero__content">
+
+            <div class="blogs-hero__left reveal reveal-left">
+
+                <nav class="blogs-hero__breadcrumb">
+                    <a href="{{ url('/') }}">Home</a>
+                    <i class="bi bi-chevron-right"></i>
+                    <span>Contact Us</span>
+                </nav>
+
+                <h1 class="blogs-hero__title">
+                    Get In Touch With Us
+                </h1>
+
+                <p class="blogs-hero__tagline">
+                    Let's Connect
+                </p>
+
+                <p class="blogs-hero__desc">
+                    Have questions about our services? Our team is ready to assist you with
+                    customized solutions tailored to your requirements.
+                </p>
+
+                <div class="blogs-hero__rule"></div>
+
+            </div>
+
+            <div class="blogs-hero__right reveal reveal-right">
+
+                <img src="{{ asset('img/contact/contact-hero.png') }}"
+                     alt="Contact Us"
+                     class="blogs-hero__img">
+
+            </div>
+
+        </div>
 
     </div>
+
 </section>
 
 {{-- CONTACT SECTION --}}
-<section class="ct-pg__section">
+<section class="contact-section">
     <div class="container">
         <div class="row g-4">
 
-            {{-- Left Panel - Full Black --}}
+            {{-- Left Panel - Contact Information --}}
             <div class="col-lg-5">
-                <div class="ct-pg__left-panel">
-                    <h3 class="ct-pg__left-title">Contact Information</h3>
+                <div class="contact-panel contact-panel--left">
+                    <h3 class="contact-panel__title">Contact Information</h3>
+                    <p class="contact-panel__subtitle">We'd love to hear from you</p>
 
                     {{-- Address Section --}}
-                    <div class="ct-pg__info-item">
-                        <div class="ct-pg__info-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
+                    <div class="contact-info-item">
+                        <div class="contact-info-item__icon">
+                            <i class="bi bi-geo-alt"></i>
                         </div>
                         <div>
-                            <p class="ct-pg__info-label">Visit Us</p>
+                            <p class="contact-info-item__label">Visit Us</p>
                             @if($globalAddresses && $globalAddresses->count() > 0)
-                            @foreach($globalAddresses as $address)
-                            <p class="ct-pg__info-text">
-                                {{ $address->title }}
-                            </p>
-                            @endforeach
+                                @foreach($globalAddresses as $address)
+                                    <p class="contact-info-item__text">{{ $address->title }}</p>
+                                @endforeach
                             @else
-                            <p class="ct-pg__info-text">
-                                7th Floor, Inspire Tower, Baker Road,<br>
-                                Pune – 411045<br>
-                                Maharashtra, India
-                            </p>
+                                <p class="contact-info-item__text">
+                                    7th Floor, Inspire Tower, Baker Road,<br>
+                                    Pune – 411045, Maharashtra, India
+                                </p>
                             @endif
                         </div>
                     </div>
 
                     {{-- Phone Section --}}
-                    <div class="ct-pg__info-item">
-                        <div class="ct-pg__info-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 1.18 2 2 0 013.98 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" />
-                            </svg>
+                    <div class="contact-info-item">
+                        <div class="contact-info-item__icon">
+                            <i class="bi bi-telephone"></i>
                         </div>
                         <div>
-                            <p class="ct-pg__info-label">Call Us</p>
+                            <p class="contact-info-item__label">Call Us</p>
                             @if($globalPhones && $globalPhones->count() > 0)
-                            @foreach($globalPhones as $phoneItem)
-                            <p class="ct-pg__info-text">
-                                <a href="tel:{{ $phoneItem->title }}">{{ $phoneItem->title }}</a>
-                            </p>
-                            @endforeach
+                                @foreach($globalPhones as $phoneItem)
+                                    <p class="contact-info-item__text">
+                                        <a href="tel:{{ $phoneItem->title }}">{{ $phoneItem->title }}</a>
+                                    </p>
+                                @endforeach
                             @else
-                            <p class="ct-pg__info-text">
-                                <a href="tel:+919876543210">+91 98765 43210</a>
-                            </p>
+                                <p class="contact-info-item__text">
+                                    <a href="tel:+919876543210">+91 98765 43210</a>
+                                </p>
                             @endif
                         </div>
                     </div>
 
                     {{-- Email Section --}}
-                    <div class="ct-pg__info-item">
-                        <div class="ct-pg__info-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                <polyline points="22,6 12,13 2,6" />
-                            </svg>
+                    <div class="contact-info-item">
+                        <div class="contact-info-item__icon">
+                            <i class="bi bi-envelope"></i>
                         </div>
                         <div>
-                            <p class="ct-pg__info-label">Email Us</p>
+                            <p class="contact-info-item__label">Email Us</p>
                             @if($globalEmails && $globalEmails->count() > 0)
-                            @foreach($globalEmails as $emailItem)
-                            <p class="ct-pg__info-text">
-                                <a href="mailto:{{ $emailItem->title }}">{{ $emailItem->title }}</a>
-                            </p>
-                            @endforeach
+                                @foreach($globalEmails as $emailItem)
+                                    <p class="contact-info-item__text">
+                                        <a href="mailto:{{ $emailItem->title }}">{{ $emailItem->title }}</a>
+                                    </p>
+                                @endforeach
                             @else
-                            <p class="ct-pg__info-text">
-                                <a href="mailto:info@outlinearchitects.com">info@outlinearchitects.com</a>
-                            </p>
+                                <p class="contact-info-item__text">
+                                    <a href="mailto:info@vrudhi.com">info@vrudhi.com</a>
+                                </p>
                             @endif
                         </div>
                     </div>
 
                     {{-- Working Hours Section --}}
-                    <div class="ct-pg__info-item">
-                        <div class="ct-pg__info-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
+                    <div class="contact-info-item">
+                        <div class="contact-info-item__icon">
+                            <i class="bi bi-clock"></i>
                         </div>
                         <div>
-                            <p class="ct-pg__info-label">Working Hours</p>
-                            <p class="ct-pg__info-text">
-                                {{ $globalTimings ?? 'Mon – Sat: 9:00 AM – 6:00 PM' }}<br>
-                                Sunday: Closed
+                            <p class="contact-info-item__label">Working Hours</p>
+                            <p class="contact-info-item__text">
+                                {{ $globalTimings }}<br>
+                             
                             </p>
                         </div>
                     </div>
@@ -141,81 +143,87 @@
                 </div>
             </div>
 
-            {{-- Right Panel - White with Orange --}}
+            {{-- Right Panel - Contact Form --}}
             <div class="col-lg-7">
-                <div class="ct-pg__right-panel">
-                    <h3 class="ct-pg__right-title">Send us a Message</h3>
-                    <span class="ct-pg__right-subtitle">We'd love to hear from you</span>
+                <div class="contact-panel contact-panel--right">
+                    <h3 class="contact-panel__title">Send us a Message</h3>
+                    <span class="contact-panel__subtitle">We'd love to hear from you</span>
 
-                    <form id="ct-contact-form" method="POST" action="{{ route('contact.submit') }}" novalidate>
+                    <form id="contact-form" method="POST" action="{{ route('contact.submit') }}" novalidate>
                         @csrf
 
-                        <div class="ct-pg__form-row">
-                            <div class="ct-pg__form-group">
-                                <label for="ct_name" class="ct-pg__form-label">Your Name</label>
-                                <input type="text" id="ct_name" name="name" class="ct-pg__form-control" placeholder="Your Name *" required autocomplete="name" value="{{ old('name') }}">
+                        <div class="contact-form__row">
+                            <div class="contact-form__group">
+                                <label for="contact_name" class="contact-form__label">Your Name</label>
+                                <input type="text" id="contact_name" name="name" class="contact-form__control" placeholder="Your Name *" required autocomplete="name" value="{{ old('name') }}">
                                 @error('name')
-                                <small class="text-danger">{{ $message }}</small>
+                                    <small class="contact-form__error">{{ $message }}</small>
                                 @enderror
                             </div>
-                            <div class="ct-pg__form-group">
-                                <label for="ct_email" class="ct-pg__form-label">Your Email</label>
-                                <input type="email" id="ct_email" name="email" class="ct-pg__form-control" placeholder="Your Email *" required autocomplete="email" value="{{ old('email') }}">
+                            <div class="contact-form__group">
+                                <label for="contact_email" class="contact-form__label">Your Email</label>
+                                <input type="email" id="contact_email" name="email" class="contact-form__control" placeholder="Your Email *" required autocomplete="email" value="{{ old('email') }}">
                                 @error('email')
-                                <small class="text-danger">{{ $message }}</small>
+                                    <small class="contact-form__error">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
 
-                        <div class="ct-pg__form-group">
-                            <label for="ct_phone" class="ct-pg__form-label">Phone Number</label>
-                            <input type="tel" id="ct_phone" name="phone" class="ct-pg__form-control" placeholder="Phone Number" autocomplete="tel" value="{{ old('phone') }}">
+                        <div class="contact-form__group">
+                            <label for="contact_phone" class="contact-form__label">Phone Number</label>
+                            <input type="tel" id="contact_phone" name="phone" class="contact-form__control" placeholder="Phone Number" autocomplete="tel" value="{{ old('phone') }}">
                             @error('phone')
-                            <small class="text-danger">{{ $message }}</small>
+                                <small class="contact-form__error">{{ $message }}</small>
                             @enderror
                         </div>
 
-                        <div class="ct-pg__form-group">
-                            <label for="ct_project_type" class="ct-pg__form-label">Project Type</label>
-                            <input type="text" id="ct_project_type" name="project_type" class="ct-pg__form-control" placeholder="Project Type (e.g., Residential, Commercial)" value="{{ old('project_type') }}">
-                            @error('project_type')
-                            <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                        <div class="contact-form__group">
+                            <label for="contact_project_type" class="contact-form__label">
+                                Service Type
+                            </label>
+
+                            <select id="contact_project_type"
+                                    name="project_type"
+                                    class="contact-form__control">
+
+                                <option value="">Select Service</option>
+
+                                @foreach($services as $service)
+                                    <option value="{{ $service->title }}"
+                                        {{ old('project_type') == $service->title ? 'selected' : '' }}>
+                                        {{ $service->title }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+
                         </div>
 
-                        <div class="ct-pg__form-group">
-                            <label for="ct_message" class="ct-pg__form-label">Your Message</label>
-                            <textarea id="ct_message" name="message" class="ct-pg__form-control" placeholder="Your Message *" required rows="5">{{ old('message') }}</textarea>
+
+                        <div class="contact-form__group">
+                            <label for="contact_message" class="contact-form__label">Additional Requirements(if any)</label>
+                            <textarea id="contact_message" name="message" class="contact-form__control" placeholder="Your Message *" required rows="5">{{ old('message') }}</textarea>
                             @error('message')
-                            <small class="text-danger">{{ $message }}</small>
+                                <small class="contact-form__error">{{ $message }}</small>
                             @enderror
                         </div>
 
-                        <button type="submit" class="ct-pg__submit-btn">
+                        <button type="submit" class="contact-form__submit">
                             <span>Send Message</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="5" y1="12" x2="19" y2="12" />
-                                <polyline points="12 5 19 12 12 19" />
-                            </svg>
+                            <i class="bi bi-arrow-right"></i>
                         </button>
 
                         @if(session('success'))
-                        <div class="ct-pg__form-feedback ct-pg__form-feedback--success" style="display:flex;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                                <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                            {{ session('success') }}
-                        </div>
+                            <div class="contact-form__feedback contact-form__feedback--success" style="display:flex;">
+                                <i class="bi bi-check-circle"></i>
+                                {{ session('success') }}
+                            </div>
                         @endif
                         @if(session('error'))
-                        <div class="ct-pg__form-feedback ct-pg__form-feedback--error" style="display:flex;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                                <circle cx="12" cy="12" r="10" />
-                                <line x1="12" y1="8" x2="12" y2="12" />
-                                <line x1="12" y1="16" x2="12.01" y2="16" />
-                            </svg>
-                            {{ session('error') }}
-                        </div>
+                            <div class="contact-form__feedback contact-form__feedback--error" style="display:flex;">
+                                <i class="bi bi-exclamation-circle"></i>
+                                {{ session('error') }}
+                            </div>
                         @endif
                     </form>
                 </div>
@@ -225,16 +233,16 @@
     </div>
 </section>
 
-{{-- MAP STRIP with dynamic address from database --}}
-<div class="ct-pg__map-strip">
+{{-- MAP STRIP --}}
+<div class="contact-map">
     @php
-    $mapAddress = '';
-    if($globalAddresses && $globalAddresses->count() > 0) {
-    $addressText = $globalAddresses->first()->title;
-    $mapAddress = urlencode($addressText);
-    } else {
-    $mapAddress = urlencode('7th Floor, Inspire Tower, Baker Road, Pune 411045 Maharashtra India');
-    }
+        $mapAddress = '';
+        if($globalAddresses && $globalAddresses->count() > 0) {
+            $addressText = $globalAddresses->first()->title;
+            $mapAddress = urlencode($addressText);
+        } else {
+            $mapAddress = urlencode('7th Floor, Inspire Tower, Baker Road, Pune 411045 Maharashtra India');
+        }
     @endphp
     <iframe
         src="https://www.google.com/maps?q={{ $mapAddress }}&output=embed"
@@ -245,10 +253,8 @@
 </div>
 
 {{-- Scroll-to-top button --}}
-<button class="ct-pg__scroll-top" id="ct-scroll-top" aria-label="Back to top">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <polyline points="18 15 12 9 6 15" />
-    </svg>
+<button class="contact-scroll-top" id="contact-scroll-top" aria-label="Back to top">
+    <i class="bi bi-chevron-up"></i>
 </button>
 
 @endsection
@@ -257,28 +263,37 @@
     (function() {
         'use strict';
 
-        const scrollBtn = document.getElementById('ct-scroll-top');
+        // Scroll to top button
+        const scrollBtn = document.getElementById('contact-scroll-top');
         if (scrollBtn) {
             window.addEventListener('scroll', function() {
                 scrollBtn.classList.toggle('visible', window.scrollY > 320);
-            }, {
-                passive: true
-            });
+            }, { passive: true });
             scrollBtn.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
 
-        document.querySelectorAll('.ct-pg__form-control').forEach(function(el) {
+        // Form input focus effects
+        document.querySelectorAll('.contact-form__control').forEach(function(el) {
             el.addEventListener('focus', function() {
-                el.closest('.ct-pg__form-group')?.classList.add('focused');
+                this.closest('.contact-form__group')?.classList.add('focused');
             });
             el.addEventListener('blur', function() {
-                el.closest('.ct-pg__form-group')?.classList.remove('focused');
+                this.closest('.contact-form__group')?.classList.remove('focused');
             });
         });
+
+        // Auto-dismiss form feedback after 5 seconds
+        const feedback = document.querySelector('.contact-form__feedback');
+        if (feedback && feedback.style.display === 'flex') {
+            setTimeout(function() {
+                feedback.style.opacity = '0';
+                feedback.style.transition = 'opacity 0.5s ease';
+                setTimeout(function() {
+                    feedback.style.display = 'none';
+                }, 500);
+            }, 5000);
+        }
     })();
 </script>

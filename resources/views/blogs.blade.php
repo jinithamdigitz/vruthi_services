@@ -237,9 +237,9 @@
                             Get the latest industry insights delivered directly to your inbox.
                         </p>
 
-                        <a href="#" class="btn-brand">
-                            Subscribe Now
-                        </a>
+                       <a href="{{ route('contact') }}" class="btn-outline-brand">
+    Connect Now
+</a>
                     </div>
 
                 </div>
