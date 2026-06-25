@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 19, 2026 at 12:19 PM
+-- Generation Time: Jun 25, 2026 at 09:46 AM
 -- Server version: 9.1.0
--- PHP Version: 8.1.31
+-- PHP Version: 8.4.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `vrudhi`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blogs`
+--
+
+DROP TABLE IF EXISTS `blogs`;
+CREATE TABLE IF NOT EXISTS `blogs` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `body` longtext COLLATE utf8mb4_unicode_ci,
+  `sort_order` int NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `blogs_slug_unique` (`slug`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `blogs`
+--
+
+INSERT INTO `blogs` (`id`, `title`, `slug`, `image`, `body`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'Smart Building Technology', 'smart-building-technology', 'uploads/blogs/1782129154_smart-building-technology.jpg', 'IoT sensors and AI-powered systems are revolutionizing facility management. From automated lighting to predictive maintenance, smart buildings are reducing costs and improving occupant comfort. Vrudhi is at the forefront of implementing these technologies for our clients.', 1, '2026-06-22 06:22:34', '2026-06-22 06:22:34');
 
 -- --------------------------------------------------------
 
@@ -83,6 +110,36 @@ INSERT INTO `career_jobs` (`id`, `title`, `slug`, `department`, `location`, `emp
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `certifications`
+--
+
+DROP TABLE IF EXISTS `certifications`;
+CREATE TABLE IF NOT EXISTS `certifications` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtitle` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `icon` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'bi-circle-fill',
+  `sort_order` int NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `certifications`
+--
+
+INSERT INTO `certifications` (`id`, `title`, `subtitle`, `icon`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'ISO 9001:2015', 'Quality Management System', 'bi-patch-check', 1, '2026-06-20 06:56:09', '2026-06-20 06:56:09'),
+(2, 'ISO 14001:2015', 'Environmental Management', 'bi-shield-check', 2, '2026-06-20 06:56:09', '2026-06-20 06:56:09'),
+(3, 'ISO 401:2018', 'Occupational Safety Management', 'bi-file-earmark-check', 3, '2026-06-20 06:56:09', '2026-06-20 06:56:09'),
+(4, 'MSME', 'Registered Company', 'bi-award', 4, '2026-06-20 06:56:09', '2026-06-20 06:56:09'),
+(5, 'Startup India', 'Recognized Entity', 'bi-star', 5, '2026-06-20 06:56:09', '2026-06-20 06:56:09'),
+(6, 'GeM', 'Government & Marketplace', 'bi-building-check', 6, '2026-06-20 06:56:09', '2026-06-20 06:56:09');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `common_seo_parameters`
 --
 
@@ -127,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `contacts`
@@ -135,7 +192,12 @@ CREATE TABLE IF NOT EXISTS `contacts` (
 
 INSERT INTO `contacts` (`id`, `name`, `email`, `phone`, `project_type`, `message`, `is_read`, `created_at`, `updated_at`) VALUES
 (1, 'cilfa', 'cilfamdigitz@gmail.com', '9878678767', 'abc', 'abcefghifklmop', 0, '2026-05-18 07:49:21', '2026-05-18 07:49:21'),
-(2, 'Cilfa Vj', 'cilfamdigitz@gmail.com', '6787875645', 'abc', 'jhgfdshgftdszxcv', 1, '2026-05-27 00:17:29', '2026-06-02 05:55:39');
+(2, 'Cilfa Vj', 'cilfamdigitz@gmail.com', '6787875645', 'abc', 'jhgfdshgftdszxcv', 1, '2026-05-27 00:17:29', '2026-06-02 05:55:39'),
+(3, 'Nakshatra Furnishings', 'jinithamdigitz02@gmail.com', '9567777801', 'Planning', 'ecurity', 0, '2026-06-24 02:56:14', '2026-06-24 02:56:14'),
+(4, 'Nakshatra Furnishings', 'jinithamdigitz02@gmail.com', 'rtdfg', 'Material & Execution Consultation', 'tyfghv', 0, '2026-06-24 02:58:13', '2026-06-24 02:58:13'),
+(5, 'cta about', 'admin@gmail.com', '7687654567', 'Interior Design', 'designing', 0, '2026-06-25 01:57:19', '2026-06-25 01:57:19'),
+(6, 'Eduardo456X', 'admin@gmail.com', '4365454735', 'Workspace & Branding Integration', 'ewbhjfda', 0, '2026-06-25 02:00:06', '2026-06-25 02:00:06'),
+(7, 'gyvhbjn', 'admin@gmail.com', '86434389', 'Project Management', 'ctfvghb', 0, '2026-06-25 02:02:24', '2026-06-25 02:02:24');
 
 -- --------------------------------------------------------
 
@@ -179,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `custom_javascripts` (
 --
 
 INSERT INTO `custom_javascripts` (`id`, `content_script`, `created_at`, `updated_at`) VALUES
-(1, 'const cursorRing = document.createElement(\'div\');\r\n\r\ncursorRing.style.cssText = `\r\n    position: fixed;\r\n    width: 12px;\r\n    height: 12px;\r\n    border: 1px solid #dc2626;\r\n    border-radius: 50%;\r\n    background: transparent;\r\n    pointer-events: none;\r\n    z-index: 99999;\r\n    transform: translate(-50%, -50%);\r\n    transition: width .2s ease, height .2s ease;\r\n`;\r\n\r\ndocument.body.appendChild(cursorRing);\r\n\r\nlet mouseX = 0;\r\nlet mouseY = 0;\r\nlet ringX = 0;\r\nlet ringY = 0;\r\n\r\ndocument.addEventListener(\'mousemove\', (e) => {\r\n    mouseX = e.clientX;\r\n    mouseY = e.clientY;\r\n});\r\n\r\nfunction animate() {\r\n    ringX += (mouseX - ringX) * 0.25;\r\n    ringY += (mouseY - ringY) * 0.25;\r\n\r\n    cursorRing.style.left = ringX + \'px\';\r\n    cursorRing.style.top = ringY + \'px\';\r\n\r\n    requestAnimationFrame(animate);\r\n}\r\n\r\nanimate();\r\n\r\ndocument.querySelectorAll(\'a, button\').forEach(el => {\r\n    el.addEventListener(\'mouseenter\', () => {\r\n        cursorRing.style.width = \'18px\';\r\n        cursorRing.style.height = \'18px\';\r\n    });\r\n\r\n    el.addEventListener(\'mouseleave\', () => {\r\n        cursorRing.style.width = \'12px\';\r\n        cursorRing.style.height = \'12px\';\r\n    });\r\n});', '2026-05-29 06:21:21', '2026-05-29 06:32:21');
+(1, 'const cursorRing = document.createElement(\'div\');\r\n\r\ncursorRing.style.cssText = `\r\n    position: fixed;\r\n    width: 16px;\r\n    height: 16px;\r\n    border: 2px solid #0d7a6e;\r\n    border-radius: 50%;\r\n    background: rgba(13, 122, 110, 0.08);\r\n    backdrop-filter: blur(2px);\r\n    pointer-events: none;\r\n    z-index: 99999;\r\n    transform: translate(-50%, -50%);\r\n    transition: width .25s ease,\r\n                height .25s ease,\r\n                background .25s ease,\r\n                border-color .25s ease;\r\n`;\r\n\r\ndocument.body.appendChild(cursorRing);\r\n\r\nlet mouseX = 0;\r\nlet mouseY = 0;\r\nlet ringX = 0;\r\nlet ringY = 0;\r\n\r\ndocument.addEventListener(\'mousemove\', (e) => {\r\n    mouseX = e.clientX;\r\n    mouseY = e.clientY;\r\n});\r\n\r\nfunction animateCursor() {\r\n    ringX += (mouseX - ringX) * 0.18;\r\n    ringY += (mouseY - ringY) * 0.18;\r\n\r\n    cursorRing.style.left = ringX + \'px\';\r\n    cursorRing.style.top = ringY + \'px\';\r\n\r\n    requestAnimationFrame(animateCursor);\r\n}\r\n\r\nanimateCursor();\r\n\r\ndocument.querySelectorAll(\r\n    \'a, button, .btn-banner, .btn-outline-light, .nav-link, .service-card, .portfolio-card\'\r\n).forEach(el => {\r\n\r\n    el.addEventListener(\'mouseenter\', () => {\r\n        cursorRing.style.width = \'32px\';\r\n        cursorRing.style.height = \'32px\';\r\n        cursorRing.style.background = \'rgba(13,122,110,.15)\';\r\n        cursorRing.style.borderColor = \'#14a8a5\';\r\n    });\r\n\r\n    el.addEventListener(\'mouseleave\', () => {\r\n        cursorRing.style.width = \'16px\';\r\n        cursorRing.style.height = \'16px\';\r\n        cursorRing.style.background = \'rgba(13,122,110,.08)\';\r\n        cursorRing.style.borderColor = \'#0d7a6e\';\r\n    });\r\n\r\n});', '2026-05-29 06:21:21', '2026-06-24 06:43:45');
 
 -- --------------------------------------------------------
 
@@ -368,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -435,7 +497,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (58, '2026_06_01_093520_add_show_html_to_posts_table', 33),
 (59, '2026_06_01_115558_add_show_html_to_services_table', 34),
 (60, '2026_06_01_115637_add_show_html_to_portfolios_table', 35),
-(61, '2026_06_13_104815_alter_services_table_add_new_fields', 36);
+(61, '2026_06_13_104815_alter_services_table_add_new_fields', 36),
+(63, '2026_06_20_065004_create_service_benefits_table', 37),
+(64, '2024_06_20_create_certifications_table', 38),
+(65, '2024_06_20_create_timelines_table', 39),
+(66, '2024_06_20_create_blogs_table', 40);
 
 -- --------------------------------------------------------
 
@@ -514,17 +580,16 @@ CREATE TABLE IF NOT EXISTS `portfolios` (
 --
 
 INSERT INTO `portfolios` (`id`, `portfolio_category_id`, `title`, `slug`, `body`, `show_html`, `image`, `location`, `keywords`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Corporate Offices', 'corporate-offices', 'Modern and innovative office space designed for productivity, collaboration, and a professional corporate environment by Outline Architects', 0, 'uploads/portfolios/techcorp-offices.webp', 'Pune, India', NULL, '2026-05-23 04:44:59', '2026-06-02 23:29:04'),
-(2, 1, 'Commercial Interiors', 'commercial-interiors', 'A modern workspace crafted to inspire innovation, collaboration, and productivity with smart design solutions by Outline Architects.', 0, 'uploads/portfolios/innovate-workspace.webp', 'Bangalore, India', NULL, '2026-05-23 04:48:44', '2026-06-02 23:29:39'),
-(3, 2, 'Collaborative Workspaces', 'collaborative-workspaces', 'A luxurious residence designed with elegance, comfort, and timeless architectural excellence by Outline Architects.', 0, 'uploads/portfolios/premium-residence.webp', 'Hyderabad, India', NULL, '2026-05-23 04:50:20', '2026-06-02 23:30:58'),
-(4, 3, 'Branded Environments', 'branded-environments', 'An immersive experience center designed to showcase innovation, creativity, and interactive architectural excellence by Outline Architects.', 0, 'uploads/portfolios/project-experience-center.webp', 'Delhi, India', NULL, '2026-05-23 04:52:24', '2026-06-02 23:31:16'),
-(5, 5, 'Modular Office Concepts', 'industrial-facility', 'A modern industrial facility designed for efficiency, functionality, and sustainable operational excellence by Outline Architects.', 0, 'uploads/portfolios/industrial-facility.webp', 'Chakan, Pune', NULL, '2026-05-23 04:53:31', '2026-06-02 23:31:31'),
-(6, 2, 'Workspace Renovations', 'workspace-renovations', 'A contemporary residence crafted with modern aesthetics, comfort, and functional living spaces by Outline Architects.', 0, 'uploads/portfolios/modern-residence.webp', 'Lonavala, India', NULL, '2026-05-23 04:54:41', '2026-06-02 23:31:56'),
-(7, 4, 'Executive Cabins', 'executive-cabins', 'A dynamic learning space designed to encourage creativity, collaboration, and an inspiring educational environment by Outline Architects.', 0, 'uploads/portfolios/learning-commons.webp', 'Bangalore, India', NULL, '2026-05-23 04:55:47', '2026-06-02 23:33:05'),
-(8, 5, 'Reception Areas', 'reception-areas', 'Creative Studios at Outline Architects is where ideas become innovative design.', 0, 'uploads/portfolios/creative-studios.webp', 'Bangalore, India', NULL, '2026-05-23 04:57:43', '2026-06-02 23:33:32'),
-(9, 2, 'Meeting Spaces', 'meeting-spaces', 'The Urban Hotel by Outline Architects is a contemporary hospitality space designed for comfort, style, and a vibrant city experience.', 0, 'uploads/portfolios/the-urban-hotel.webp', 'Goa, India', NULL, '2026-05-23 05:01:38', '2026-06-02 23:33:57'),
-(10, 5, 'Retail Interiors', 'retail-interiors', 'Corporate Headquarters by Outline Architects is a modern workspace designed for efficiency, identity, and executive excellence.', 0, 'uploads/portfolios/corporate-headquarters.webp', 'Mumbai, India', NULL, '2026-05-23 05:03:01', '2026-06-02 23:34:20'),
-(12, 1, 'Modern Business Environments', 'modern-business-environments', 'Modern Business Environments that create the best in the industry', 0, 'uploads/portfolios/modern-business-environments.webp', 'Hyderabad, India', NULL, '2026-06-02 23:35:53', '2026-06-02 23:43:56');
+(1, 1, 'Residential Caretaking Services', 'residential-caretaking-services', 'Delivered reliable home care services, helping individuals with personal needs, household tasks, and routine assistance.', 0, 'uploads/portfolios/residential-caretaking-services.webp', 'Pune, India', NULL, '2026-05-23 04:44:59', '2026-06-24 01:50:55'),
+(2, 1, 'Patient Recovery Care Support', 'patient-recovery-care-support', 'Supported patient recovery through personal care, mobility assistance, medication management, and daily health monitoring.', 0, 'uploads/portfolios/patient-recovery-care-support.webp', 'Bangalore, India', NULL, '2026-05-23 04:48:44', '2026-06-24 01:50:25'),
+(3, 2, 'Commercial Office Pest Management', 'commercial-office-pest-management', 'Delivered comprehensive pest control services for a commercial office facility, eliminating infestations and implementing preventive measures to maintain a safe, hygienic, and productive working environment for employees and visitors.', 0, 'uploads/portfolios/commercial-office-pest-management.webp', 'Hyderabad, India', NULL, '2026-05-23 04:50:20', '2026-06-23 00:27:36'),
+(4, 3, 'Corporate Office Housekeeping Services', 'corporate-office-housekeeping-services', 'Comprehensive housekeeping and upkeep services for a 50,000 sq ft corporate office. Our team of 25 trained professionals provides daily and window cleaning, washroom hygiene management, and waste disposal services.', 0, 'uploads/portfolios/corporate-office-housekeeping-services.webp', 'Delhi, India', NULL, '2026-05-23 04:52:24', '2026-06-24 01:45:50'),
+(5, 5, 'Residential Security Protection', 'residential-security-protection', 'A modern industrial facility designed for efficiency, functionality, and sustainable operational excellence by Outline Architects.', 0, 'uploads/portfolios/residential-security-protection.webp', 'Chakan, Pune', NULL, '2026-05-23 04:53:31', '2026-06-24 01:57:26'),
+(6, 2, 'Residential Termite Protection', 'residential-termite-protection', 'Successfully completed termite treatment for a residential property through detailed inspection, targeted solutions, and long-term prevention strategies, protecting the structure from damage while ensuring homeowner safety and peace of mind.', 0, 'uploads/portfolios/residential-termite-protection.webp', 'Lonavala, India', NULL, '2026-05-23 04:54:41', '2026-06-24 01:46:16'),
+(8, 5, 'Event Security Management', 'event-security-management', 'Creative Studios at Outline Architects is where ideas become innovative design.', 0, 'uploads/portfolios/event-security-management.webp', 'Bangalore, India', NULL, '2026-05-23 04:57:43', '2026-06-24 01:57:54'),
+(9, 2, 'Restaurant Pest Prevention Program', 'restaurant-pest-prevention-program', 'Implemented a customized pest management program for a restaurant, addressing insects and flies while maintaining food safety standards.', 0, 'uploads/portfolios/restaurant-pest-prevention-program.webp', 'Goa, India', NULL, '2026-05-23 05:01:38', '2026-06-24 01:54:47'),
+(10, 5, 'Commercial Security Guard Services', 'commercial-security-guard-services', 'Provided trained security personnel for commercial premises, ensuring safety, access control, surveillance, and incident prevention.', 0, 'uploads/portfolios/commercial-security-guard-services.webp', 'Mumbai, India', NULL, '2026-05-23 05:03:01', '2026-06-24 01:53:29'),
+(12, 1, 'Elderly Home Care Assistance', 'elderly-home-care-assistance', 'Provided compassionate care for seniors, assisting with daily activities, medication reminders and companionship.', 0, 'uploads/portfolios/elderly-home-care-assistance.webp', 'Hyderabad, India', NULL, '2026-06-02 23:35:53', '2026-06-24 01:55:28');
 
 -- --------------------------------------------------------
 
@@ -549,11 +614,10 @@ CREATE TABLE IF NOT EXISTS `portfolio_categories` (
 --
 
 INSERT INTO `portfolio_categories` (`id`, `name`, `slug`, `keywords`, `created_at`, `updated_at`) VALUES
-(1, 'COMMERCIAL', 'commercial', NULL, '2026-05-23 04:22:41', '2026-05-23 04:22:41'),
-(2, 'RESIDENTIAL', 'residential', NULL, '2026-05-23 04:23:37', '2026-05-23 04:23:37'),
-(3, 'HOSPITALITY', 'hospitality', NULL, '2026-05-23 04:24:16', '2026-05-23 04:24:16'),
-(4, 'INSTITUTIONAL', 'institutional', NULL, '2026-05-23 04:25:23', '2026-05-23 04:25:23'),
-(5, 'INDUSTRIAL', 'industrial', NULL, '2026-05-23 04:25:50', '2026-05-23 04:25:50');
+(1, 'Care Taker Services', 'commercial', NULL, '2026-05-23 04:22:41', '2026-06-22 07:02:21'),
+(2, 'Pest Control Services', 'residential', NULL, '2026-05-23 04:23:37', '2026-06-22 07:03:13'),
+(3, 'Housekeeping & Upkeep Maintenance', 'hospitality', NULL, '2026-05-23 04:24:16', '2026-06-22 07:00:22'),
+(5, 'Security Guarding Services', 'industrial', NULL, '2026-05-23 04:25:50', '2026-06-22 07:01:36');
 
 -- --------------------------------------------------------
 
@@ -581,7 +645,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   UNIQUE KEY `posts_slug_unique` (`slug`),
   KEY `posts_post_category_id_foreign` (`post_category_id`),
   KEY `posts_user_id_foreign` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `posts`
@@ -606,16 +670,13 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (258, '100+', '100', '<p><strong>Happy Clients</strong></p>', 1, 'posts/150.webp', NULL, 4, 1, 0, '2026-05-18 06:46:36', '2026-06-13 00:21:23', NULL, NULL),
 (259, 'Pan India', 'pan-india', '<p><strong>&amp; Middle East Presence</strong></p>', 1, 'posts/35.webp', NULL, 4, 1, 0, '2026-05-18 06:47:02', '2026-06-13 00:20:01', NULL, NULL),
 (260, 'Clients Love Sharing', 'clients-love-sharing', '<h2><strong>What Our Clients</strong><br><strong>Say About Us</strong></h2>', 0, NULL, NULL, 63, 1, 0, '2026-05-18 06:51:54', '2026-05-18 06:51:54', NULL, NULL),
-(261, 'Outline Architects transformed our workspace into a modern, collaborative environment. Their attention to detail and professionalism is exceptional.', 'outline-architects-transformed-our-workspace-into-a-modern-collaborative-environment-their-attention-to-detail-and-professionalism-is-exceptional', '<p><strong>Rohit Sharma</strong></p><p>CEO, TechCorp Solutions</p>', 0, 'posts/outline-architects-transformed-our-workspace-into-a-modern-collaborative-environment-their-attention-to-detail-and-professionalism-is-exceptional.webp', NULL, 8, 1, 0, '2026-05-18 06:52:34', '2026-05-28 05:30:03', NULL, NULL),
-(262, 'A highly creative and professional team. They delivered our project on time with outstanding quality and commitment to excellence.', 'a-highly-creative-and-professional-team-they-delivered-our-project-on-time-with-outstanding-quality-and-commitment-to-excellence', '<p><strong>Anita Verma</strong></p><p>Director, Innovate Pvt. Ltd.</p>', 0, 'posts/a-highly-creative-and-professional-team-they-delivered-our-project-on-time-with-outstanding-quality-and-commitment-to-excellence.webp', NULL, 8, 1, 0, '2026-05-18 06:53:36', '2026-05-28 05:30:03', NULL, NULL),
-(263, 'From planning to execution, the experience was seamless. Our new office truly reflects our brand and boosts team morale every day.', 'from-planning-to-execution-the-experience-was-seamless-our-new-office-truly-reflects-our-brand-and-boosts-team-morale-every-day', '<p><strong>Karan Mehta</strong></p><p>Founder, Creative Studio</p>', 0, 'posts/from-planning-to-execution-the-experience-was-seamless-our-new-office-truly-reflects-our-brand-and-boosts-team-morale-every-day.webp', NULL, 8, 1, 0, '2026-05-18 06:54:13', '2026-05-28 05:30:03', NULL, NULL),
 (264, 'Let\'s Build a Better, Cleaner & Safer Tomorrow Together', 'lets-build-a-better-cleaner-safer-tomorrow-together', '<p>Partner with VRUDHI OUTSOURCING SERVICES PVT. LTD. for all your facility management needs.</p>', 1, 'posts/lets-discuss-your-project.webp', NULL, 64, 1, 0, '2026-05-18 07:09:08', '2026-06-12 04:29:22', NULL, NULL),
-(265, '+91 9446114488', '91-9446114488', NULL, 0, NULL, NULL, 10, 1, 0, '2026-05-18 07:35:08', '2026-06-03 00:51:41', NULL, NULL),
-(266, 'info@outlinespace.com', 'info-at-outlinespacecom', NULL, 0, NULL, NULL, 11, 1, 0, '2026-05-18 07:35:46', '2026-05-18 07:35:46', NULL, NULL),
-(267, '7th Floor, Inspire Tower, Baker Road, Pune – 411045 Maharashtra, India', '7th-floor-inspire-tower-baker-road-pune-411045-maharashtra-india', NULL, 0, NULL, NULL, 12, 1, 0, '2026-05-18 07:36:09', '2026-05-18 07:36:09', NULL, NULL),
+(265, '+91- 484 2809694', '91-484-2809694', NULL, 0, NULL, NULL, 10, 1, 0, '2026-05-18 07:35:08', '2026-06-20 04:13:30', NULL, NULL),
+(266, 'vrudhioutsourcing@gmail.com', 'vrudhioutsourcing-at-gmailcom', NULL, 0, NULL, NULL, 11, 1, 0, '2026-05-18 07:35:46', '2026-06-24 02:18:26', NULL, NULL),
+(267, 'Vrudhi Outsourcing Services P. Ltd., Sangamam By Lane III, Padivattom, Edappally, Kochi, Kerala 682024', 'vrudhi-outsourcing-services-p-ltd-sangamam-by-lane-iii-padivattom-edappally-kochi-kerala-682024', NULL, 0, NULL, NULL, 12, 1, 0, '2026-05-18 07:36:09', '2026-06-24 02:17:24', NULL, NULL),
 (268, 'Mon–Sat: 09:00 AM – 07:00 PM', 'mon-sat-0900-am-0700-pm', NULL, 0, NULL, NULL, 66, 1, 0, '2026-05-18 07:59:07', '2026-05-18 07:59:07', NULL, NULL),
-(269, 'Our Story', 'our-story', '<p><strong>Our Promise</strong></p><p>To deliver innovative, sustainable, and functional spaces that elevate businesses and inspire people.</p>', 0, NULL, NULL, 67, 1, 0, '2026-05-21 05:55:20', '2026-05-21 05:55:20', NULL, NULL),
-(270, 'Built on Vision. Driven by Purpose.', 'built-on-vision-driven-by-purpose', '<p>Founded with a vision to redefine the way spaces are conceived and delivered, Outline Architects brings together creativity, technical expertise, and a client-centric approach to every project.</p><p>From workplace and commercial interiors to large-scale project management, we partner with our clients from concept to completion — ensuring every detail reflects purpose, quality, and innovation.</p>', 0, 'posts/built-on-vision-driven-by-purpose.webp', NULL, 68, 1, 0, '2026-05-21 06:04:37', '2026-05-28 05:30:05', NULL, NULL),
+(269, 'Our Journey', 'our-journey', '<p><strong>Our Promise</strong></p><p>To deliver innovative, sustainable, and functional spaces that elevate businesses and inspire people.</p>', 1, NULL, NULL, 67, 1, 0, '2026-05-21 05:55:20', '2026-06-20 07:00:04', NULL, NULL),
+(270, 'Built on Vision. Driven by Purpose.', 'built-on-vision-driven-by-purpose', '<p>Founded with a vision to redefine the way spaces are conceived and delivered, Outline Architects brings together creativity, technical expertise, and a client-centric approach to every project.</p><p>From workplace and commercial interiors to large-scale project management, we partner with our clients from concept to completion — ensuring every detail reflects purpose, quality, and innovation.</p>', 1, 'posts/built-on-vision-driven-by-purpose.webp', NULL, 68, 1, 0, '2026-05-21 06:04:37', '2026-06-20 06:57:01', NULL, NULL),
 (271, 'Our Values', 'our-values', '<h2><strong>The Principles That Guide Us</strong></h2>', 0, NULL, NULL, 70, 1, 0, '2026-05-21 06:58:56', '2026-05-21 06:58:56', NULL, NULL),
 (272, 'Integrity', 'integrity', '<p>We build trust through transparency, honesty, and ethical practices.</p>', 0, 'posts/integrity.webp', NULL, 71, 1, 0, '2026-05-21 07:38:23', '2026-05-28 05:30:05', NULL, NULL),
 (273, 'Innovation', 'innovation', '<p>We embrace creativity and new ideas to drive better solutions.</p>', 0, 'posts/innovation.webp', NULL, 71, 1, 0, '2026-05-21 07:38:51', '2026-05-28 05:30:05', NULL, NULL),
@@ -629,17 +690,17 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (281, 'Innovative Approach', 'innovative-approach', '<p>We continuously adapt to evolving market trends, providing innovative solutions.</p>', 1, 'posts/innovative-approach.webp', NULL, 75, 1, 0, '2026-05-23 00:27:12', '2026-06-13 01:02:49', NULL, NULL),
 (282, 'Quality & Integrity', 'quality-integrity', '<p>We uphold the highest standards of quality with integrity in everything we do.</p>', 1, 'posts/quality-assurance.webp', NULL, 75, 1, 0, '2026-05-23 00:27:51', '2026-06-13 04:21:25', NULL, NULL),
 (283, 'Customer First', 'customer-first', '<p>We believe in building long-term relationships through trust and timely delivery.</p>', 1, 'posts/on-time-delivery.webp', NULL, 75, 1, 0, '2026-05-23 00:28:21', '2026-06-13 01:03:48', NULL, NULL),
-(284, 'Our Services|Design. Plan. Deliver.', 'our-servicesdesign-plan-deliver', '<p>From concept to completion, we provide end-to-end architecture and project management solutions tailored to your vision and goals.</p>', 0, 'posts/our-servicesdesign-plan-deliver.webp', NULL, 76, 1, 0, '2026-05-23 00:35:13', '2026-05-28 05:30:06', NULL, NULL),
-(285, 'Our Work. | Built on Trust.', 'our-work-built-on-trust', '<p>Explore a curated selection of projects that reflect our passion for design, attention to detail, and commitment to delivering exceptional spaces.</p><p><br>&nbsp;</p>', 0, 'posts/our-work-built-on-trust.webp', NULL, 77, 1, 0, '2026-05-23 07:22:03', '2026-05-28 05:30:07', NULL, NULL),
-(286, 'Designing Spaces. | Inspiring Impact.', 'designing-spaces-inspiring-impact', '<p>Outline Architects is a multidisciplinary design firm passionate about creating innovative, functional, and sustainable spaces that elevate experiences and drive business success.</p>', 0, 'posts/designing-spaces-inspiring-impact.webp', NULL, 78, 1, 0, '2026-05-23 08:04:45', '2026-05-28 05:30:07', NULL, NULL),
-(287, 'Let\'s Build | Something Great |  Together.', 'lets-build-something-great-together', '<p>Have a project in mind? We\'d love to hear from you. Reach out to our team and let\'s create spaces that inspire.</p><p>&nbsp;</p><p><br>&nbsp;</p>', 0, 'posts/lets-build-something-great-together.webp', NULL, 80, 1, 0, '2026-05-27 01:09:37', '2026-05-28 05:30:08', NULL, NULL),
+(284, 'Comprehensive Solutions. | One Trusted Partner.', 'comprehensive-solutions-one-trusted-partner', 'From housekeeping to security, HR outsourcing to pest control, we provide end-to-end facility management services tailored to meet your unique business needs.', 0, 'posts/comprehensive-solutions-one-trusted-partner.webp', NULL, 76, 1, 0, '2026-05-23 00:35:13', '2026-06-25 01:22:37', NULL, NULL),
+(285, 'Transforming Spaces. | Creating Impact.', 'transforming-spaces-creating-impact', 'Explore our portfolio of successful projects across industries, showcasing our commitment to quality, innovation, and client satisfaction.', 0, 'posts/transforming-spaces-creating-impact.webp', NULL, 77, 1, 0, '2026-05-23 07:22:03', '2026-06-25 01:23:29', NULL, NULL),
+(286, 'Delivering Excellence. | Every Day.', 'delivering-excellence-every-day', 'Vrudhi Outsourcing Services was established with a vision to offer sustainable, scalable and value-based facility management services keeping customer and environment sensitivities specific to India.', 0, 'posts/delivering-excellence-every-day.webp', NULL, 78, 1, 0, '2026-05-23 08:04:45', '2026-06-25 01:11:24', NULL, NULL),
+(287, 'Get in Touch. | Let\'s Connect.', 'get-in-touch-lets-connect', 'Have questions or need assistance? Reach out to us and our team will get back to you promptly.', 0, 'posts/get-in-touch-lets-connect.webp', NULL, 80, 1, 0, '2026-05-27 01:09:37', '2026-06-25 01:42:59', NULL, NULL),
 (288, 'Build Your |  Future With Us.', 'build-your-future-with-us', '<p>We’re always looking for talented and motivated individuals who share our passion for design and excellence. Let’s build inspiring spaces together.</p><p>&nbsp;</p>', 0, 'posts/build-your-future-with-us.webp', NULL, 81, 1, 0, '2026-05-28 00:29:04', '2026-05-28 05:30:08', NULL, NULL),
 (289, 'Career Growth', 'career-growth', '<p>Grow your skills with exciting projects, hands-on experience, and continuous learning opportunities.</p>', 0, 'posts/career-growth.webp', NULL, 82, 1, 0, '2026-05-28 01:08:46', '2026-05-28 05:30:08', NULL, NULL),
 (290, 'Creative Work Culture', 'creative-work-culture', '<p>Work in a collaborative environment where creativity, innovation, and fresh ideas are always encouraged.</p>', 0, 'posts/creative-work-culture.webp', NULL, 82, 1, 0, '2026-05-28 01:09:54', '2026-05-28 05:30:08', NULL, NULL),
 (291, 'Inspiring Projects', 'inspiring-projects', '<p>Be part of impactful architectural and interior projects that shape modern and functional spaces.</p>', 0, 'posts/inspiring-projects.webp', NULL, 82, 1, 0, '2026-05-28 01:10:30', '2026-05-28 05:30:08', NULL, NULL),
 (292, 'Supportive Team', 'supportive-team', '<p>Join a passionate and friendly team that values teamwork, respect, and professional growth.</p>', 0, 'posts/supportive-team.webp', NULL, 82, 1, 0, '2026-05-28 01:11:11', '2026-05-28 05:30:08', NULL, NULL),
 (293, 'Vrudhi outsourcing logo', 'vrudhi-outsourcing-logo', '<p>outlinearchitects</p>', 0, 'posts/vrudhi-outsourcing-logo.webp', NULL, 14, 1, 0, '2026-05-28 01:44:38', '2026-06-12 03:13:58', NULL, NULL),
-(294, 'We design and deliver innovative office and commercial interiors with creativity, precision and passion.', 'we-design-and-deliver-innovative-office-and-commercial-interiors-with-creativity-precision-and-passion', '<p>Stay connected with us on social media for updates, project showcases and design inspiration.</p>', 0, NULL, NULL, 83, 1, 0, '2026-05-28 01:56:38', '2026-05-28 01:56:38', NULL, NULL),
+(294, 'We design and deliver innovative office and commercial interiors with creativity, precision and passion.', 'we-design-and-deliver-innovative-office-and-commercial-interiors-with-creativity-precision-and-passion', '<p>Delivering reliable, efficient and sustainable facility management solutions across India and the Middle East.</p>', 1, NULL, NULL, 83, 1, 0, '2026-05-28 01:56:38', '2026-06-24 02:47:47', NULL, NULL),
 (300, 'Outline architect', 'outline-architect', NULL, 0, 'posts/outline-architect.webp', NULL, 84, 1, 0, '2026-06-02 08:37:33', '2026-06-02 08:37:33', NULL, NULL),
 (301, 'Get In Touch', 'get-in-touch', 'We\'d Love To Hear From You', 0, NULL, NULL, 85, 1, 0, '2026-06-03 01:00:05', '2026-06-03 01:00:05', NULL, NULL),
 (302, 'Trusted Security. Expert Guarding. Every Day.', 'trusted-security-expert-guarding-every-day', 'Our trained security professionals and modern surveillance systems ensure your premises stay safe, protected and fully compliant around the clock.', 0, 'posts/trusted-security-expert-guarding-every-day.webp', NULL, 56, 1, 0, '2026-06-12 03:41:50', '2026-06-12 03:42:04', NULL, NULL),
@@ -658,7 +719,15 @@ INSERT INTO `posts` (`id`, `title`, `slug`, `body`, `show_html`, `image`, `video
 (315, 'OUR MISSION', 'our-mission', 'To provide sustainable, scalable and value-based facility management services by leveraging technology, best practices and a highly dedicated workforce, ensuring delight for our clients and a positive impact on the environment.', 0, 'posts/our-mission.webp', NULL, 89, 1, 0, '2026-06-17 01:01:00', '2026-06-17 01:01:00', NULL, NULL),
 (316, 'OUR VISION', 'our-vision', 'To be the most trusted and preferred facility management partner in India and the Middle East, recognized for our people, processes, innovation and commitment to creating better, cleaner and safer spaces.', 0, 'posts/our-vision.webp', NULL, 89, 1, 0, '2026-06-17 01:01:37', '2026-06-17 01:01:37', NULL, NULL),
 (317, 'OUR VALUES', 'our-values-2', '<h2><strong>The Principles That Drive Everything We Do</strong></h2><p>Our core values define who we are and how we work with our clients, partners and communities.</p>', 1, NULL, NULL, 90, 1, 0, '2026-06-17 01:05:35', '2026-06-17 01:05:35', NULL, NULL),
-(318, 'LEADERSHIP THAT INSPIRES', 'leadership-that-inspires', 'Our leadership team brings deep industry knowledge and a passion for excellence. With a people-first approach, we empower our teams and build lasting partnerships with our clients.', 0, 'posts/leadership-that-inspires.webp', NULL, 91, 1, 0, '2026-06-17 01:43:37', '2026-06-17 01:43:37', NULL, NULL);
+(318, 'LEADERSHIP THAT INSPIRES', 'leadership-that-inspires', 'Our leadership team brings deep industry knowledge and a passion for excellence. With a people-first approach, we empower our teams and build lasting partnerships with our clients.', 0, 'posts/leadership-that-inspires.webp', NULL, 91, 1, 0, '2026-06-17 01:43:37', '2026-06-17 01:43:37', NULL, NULL),
+(319, 'Need Immediate Assistance?', 'need-immediate-assistance', 'Talk to our experts now', 0, NULL, NULL, 92, 1, 0, '2026-06-20 04:19:33', '2026-06-20 04:19:33', NULL, NULL),
+(320, 'Admin Director, Healthcare Facility, Delhi', 'admin-director-healthcare-facility-delhi', 'We have been partnering with VOSPL for several years. Their consistency, professionalism and commitment to excellence have exceeded expectations.', 0, NULL, NULL, 8, 1, 0, '2026-06-20 06:03:52', '2026-06-20 06:03:52', NULL, NULL),
+(321, 'Facility Manager, IT Park, Noida', 'facility-manager-it-park-noida', 'VOSPL has maintained the highest standards of cleanliness and upkeep in our premises. Their team is professional, reliable and always responsive.', 0, NULL, NULL, 8, 1, 0, '2026-06-20 06:04:17', '2026-06-20 06:04:17', NULL, NULL),
+(322, 'Operations Head, Corporate Park, Gurugram', 'operations-head-corporate-park-gurugram', 'Exceptional service quality and a dedicated team that understands our operational requirements. Their support has been outstanding throughout our partnership.', 0, NULL, NULL, 8, 1, 0, '2026-06-20 06:06:06', '2026-06-20 06:06:06', NULL, NULL),
+(323, 'Stay Informed with Expert Insights', 'stay-informed-with-expert-insights', 'Explore expert insights, industry trends, workforce strategies, outsourcing solutions and facility management updates from Vrudhi Outsourcing.', 0, 'posts/insights-updates-knowledge-hub.webp', NULL, 93, 1, 0, '2026-06-25 02:11:03', '2026-06-25 02:25:38', NULL, NULL),
+(324, 'Latest Insights', 'latest-insights', 'Knowledge Hub & Industry Updates', 0, NULL, NULL, 94, 1, 0, '2026-06-25 02:32:03', '2026-06-25 02:32:03', NULL, NULL),
+(325, 'Thought Leadership | Industry Perspectives', 'thought-leadership-industry-perspectives', 'Explore expert views on facility management, workforce optimization, and outsourcing strategies for business growth.', 0, 'posts/thought-leadership-industry-perspectives.webp', NULL, 95, 1, 0, '2026-06-25 03:55:29', '2026-06-25 03:55:29', NULL, NULL),
+(326, 'Expert Solutions | Exceptional Service', 'expert-solutions-exceptional-service', 'Discover tailored service solutions that combine expertise and reliability with seamless facility management and outsourcing services.', 0, 'posts/expert-solutions-exceptional-service.webp', NULL, 96, 1, 0, '2026-06-25 04:04:14', '2026-06-25 04:04:14', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -675,7 +744,7 @@ CREATE TABLE IF NOT EXISTS `post_categories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `post_categories_slug_unique` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `post_categories`
@@ -762,7 +831,12 @@ INSERT INTO `post_categories` (`id`, `name`, `slug`, `created_at`, `updated_at`)
 (88, 'Our Process', 'our-process', '2026-06-13 01:33:13', '2026-06-13 01:33:13'),
 (89, 'vision mission', 'vision-mission', '2026-06-17 00:50:56', '2026-06-17 00:50:56'),
 (90, 'our values', 'our-values-2', '2026-06-17 00:51:06', '2026-06-17 00:51:06'),
-(91, 'leadership card', 'leadership-card', '2026-06-17 01:40:14', '2026-06-17 01:40:14');
+(91, 'leadership card', 'leadership-card', '2026-06-17 01:40:14', '2026-06-17 01:40:14'),
+(92, 'sd contact sidebar', 'sd-contact-sidebar', '2026-06-20 04:15:41', '2026-06-20 04:15:41'),
+(93, 'blog banner', 'blog-banner', '2026-06-25 02:08:07', '2026-06-25 02:08:07'),
+(94, 'blog title', 'blog-title', '2026-06-25 02:27:02', '2026-06-25 02:27:02'),
+(95, 'blog detail banner', 'blog-detail-banner', '2026-06-25 03:50:50', '2026-06-25 03:50:50'),
+(96, 'service detail banner', 'service-detail-banner', '2026-06-25 03:51:08', '2026-06-25 03:51:08');
 
 -- --------------------------------------------------------
 
@@ -833,7 +907,7 @@ CREATE TABLE IF NOT EXISTS `role_routes` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `role_routes_role_id_route_name_unique` (`role_id`,`route_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2118 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `role_routes`
@@ -1026,7 +1100,8 @@ INSERT INTO `role_routes` (`id`, `role_id`, `route_name`, `created_at`, `updated
 (2113, 1, 'support.submit', '2026-03-19 00:13:37', '2026-03-19 00:13:37'),
 (2114, 1, 'termsandconditions', '2026-03-19 00:13:37', '2026-03-19 00:13:37'),
 (2115, 1, 'volunteer.register', '2026-03-19 00:13:37', '2026-03-19 00:13:37'),
-(2116, 1, 'volunteer.register.form', '2026-03-19 00:13:37', '2026-03-19 00:13:37');
+(2116, 1, 'volunteer.register.form', '2026-03-19 00:13:37', '2026-03-19 00:13:37'),
+(2117, 1, 'reports.index', '2026-06-20 06:48:30', '2026-06-20 06:48:30');
 
 -- --------------------------------------------------------
 
@@ -1053,11 +1128,11 @@ CREATE TABLE IF NOT EXISTS `seo_parameters` (
 
 INSERT INTO `seo_parameters` (`id`, `route_name`, `title`, `meta_title`, `meta_description`, `og_image`, `created_at`, `updated_at`) VALUES
 (1, '/', NULL, 'Designing Spaces. Inspiring Business.', 'We create innovative office and commercial interiors that elevate experiences and reflect your brand.', 'seo-images/mAqNsxSdghpYi2LlQGrkzG3SLxIh7IPjubZhijW2.jpg', '2026-03-18 03:14:46', '2026-06-01 08:12:07'),
-(2, '/about-us', NULL, 'Designing Spaces. Inspiring Impact.', 'Outline Architects is a multidisciplinary design firm passionate about creating innovative, functional, and sustainable spaces that elevate experiences and drive business success.', 'seo-images/YXars70aJtxc2r1LdFlMDIe4xvMnLf5AmA8c6GTk.webp', '2026-06-01 07:58:21', '2026-06-01 07:58:21'),
+(2, '/about-us', NULL, 'Designing Spaces. Inspiring Impact.', 'Multidisciplinary design firm passionate about creating innovative, functional, and sustainable spaces that elevate experiences and drive business success.', 'seo-images/YXars70aJtxc2r1LdFlMDIe4xvMnLf5AmA8c6GTk.webp', '2026-06-01 07:58:21', '2026-06-25 04:13:37'),
 (3, '/services', NULL, 'Home / Services Our Services Design. Plan. Deliver.', 'From concept to completion, we provide end-to-end architecture and project management solutions tailored to your vision and goals.', NULL, '2026-06-01 08:12:45', '2026-06-01 08:12:45'),
 (4, '/portfolio', NULL, 'Our Work. Built on Trust.', 'Explore a curated selection of projects that reflect our passion for design, attention to detail, and commitment to delivering exceptional spaces.', NULL, '2026-06-01 08:13:42', '2026-06-01 08:13:42'),
-(5, '/careers', NULL, 'Build Your Future With Us.', NULL, NULL, '2026-06-01 08:14:36', '2026-06-01 08:14:36'),
-(6, '/contact', NULL, 'Let\'s Build Something Great Together.', 'Have a project in mind? We\'d love to hear from you. Reach out to our team and let\'s create spaces that inspire.', NULL, '2026-06-01 08:15:08', '2026-06-01 08:15:08');
+(5, '/blogs', NULL, 'Build Your Future With Us.', 'Stay informed with expert articles on facility management, housekeeping, security services, manpower outsourcing, pest control, and business support solutions.', 'seo-images/LjxVvTocL4tRrdwmwOeqQ5gZL6OPvHN5IMN97RTb.jpg', '2026-06-01 08:14:36', '2026-06-25 04:14:10'),
+(6, '/contact-us', NULL, 'Let\'s Build Something Great Together.', 'Have a project in mind? We\'d love to hear from you. Reach out to our team and let\'s create spaces that inspire.', NULL, '2026-06-01 08:15:08', '2026-06-25 04:13:58');
 
 -- --------------------------------------------------------
 
@@ -1095,7 +1170,36 @@ INSERT INTO `services` (`id`, `title`, `slug`, `short_description`, `body`, `fea
 (3, 'Workspace & Branding Integration', 'workspace-branding-integration', NULL, 'Brand identity, workplace culture, and visual consistency are incorporated into interiors to create cohesive and engaging commercial environments.', NULL, 0, 'uploads/services/bim-services.webp', 'uploads/services/icons/bim-services-icon.webp', NULL, 0, 1, '2026-05-18 04:18:43', '2026-06-03 00:04:56'),
 (4, 'Project Management', 'project-management-outline', NULL, 'Every stage of execution is managed through structured coordination, quality control, timeline supervision, and streamlined project delivery.', NULL, 0, 'uploads/services/project-management.webp', 'uploads/services/icons/project-management-icon.webp', NULL, 0, 1, '2026-05-18 04:19:10', '2026-06-03 00:03:06'),
 (6, 'Planning', 'planning', NULL, 'project begins with detailed planning and space understanding to ensure smooth coordination, efficient execution, and functional outcomes.', NULL, 0, 'uploads/services/space-planning.webp', 'uploads/services/icons/space-planning-icon.webp', NULL, 0, 1, '2026-05-22 07:39:52', '2026-06-13 04:23:13'),
-(7, 'Material & Execution Consultation', 'material-execution-consultation', NULL, '<p>Guidance is provided in selecting finishes, textures, and workspace materials that balance durability, aesthetics, functionality, and budget.</p>', '<ul><li>Lawn Care &amp; Mowing</li><li>Landscape Design</li><li>Plant Nursery</li><li>&nbsp;Supply Irrigation Systems&nbsp;</li><li>Seasonal Planting</li></ul>', 1, 'uploads/services/construction-support.webp', 'uploads/services/icons/construction-support-icon.webp', NULL, 0, 1, '2026-05-22 07:40:56', '2026-06-15 03:23:35');
+(7, 'Material & Execution Consultation', 'material-execution-consultation', NULL, '<p>Guidance is provided in selecting finishes, textures, and workspace materials that balance durability, aesthetics, functionality, and budget.</p>', '<ul><li>Lawn Care &amp; Mowing</li><li>Landscape Design</li><li>Plant Nursery</li><li>&nbsp;Supply Irrigation Systems&nbsp;</li><li>Seasonal Planting</li></ul>', 1, 'uploads/services/construction-support.webp', 'uploads/services/icons/construction-support-icon.webp', NULL, 0, 1, '2026-05-22 07:40:56', '2026-06-20 03:23:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_benefits`
+--
+
+DROP TABLE IF EXISTS `service_benefits`;
+CREATE TABLE IF NOT EXISTS `service_benefits` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `service_id` bigint UNSIGNED NOT NULL,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `service_benefits_service_id_index` (`service_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `service_benefits`
+--
+
+INSERT INTO `service_benefits` (`id`, `service_id`, `title`, `image`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 7, 'Hygiene and clean environment', NULL, 1, '2026-06-20 02:06:21', '2026-06-20 03:11:20'),
+(2, 7, 'Reduced health risks', NULL, 1, '2026-06-20 03:11:20', '2026-06-20 03:11:20'),
+(3, 7, 'Improved employee productivity', NULL, 1, '2026-06-20 03:11:20', '2026-06-20 03:11:20'),
+(4, 7, 'Well maintained assets', NULL, 1, '2026-06-20 03:11:20', '2026-06-20 03:11:20');
 
 -- --------------------------------------------------------
 
@@ -1153,6 +1257,38 @@ INSERT INTO `support_messages` (`id`, `name`, `email`, `phone`, `subject`, `mess
 (2, 'Mohammed shafi MC', 'mshafimcw@gmail.com', '08078334928', 'Partnership Inquiry', 'cbb fggdf gsdgdg', 'new', NULL, '2025-11-20 16:54:21', '2025-11-20 16:54:21'),
 (3, 'B', 'bhavyanandakumar@gmail.com', 'test', 'test', 'testing testing testing testing testing testing testing testing', 'new', NULL, '2025-11-24 09:53:15', '2025-11-24 09:53:15'),
 (4, 'Mohammed shafi MC', 'iamshafimc@gmail.com', '7025012220', 'General Inquiry', 'uggu  jhihi hi', 'new', NULL, '2025-11-26 20:53:42', '2025-11-26 20:53:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `timelines`
+--
+
+DROP TABLE IF EXISTS `timelines`;
+CREATE TABLE IF NOT EXISTS `timelines` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `year` year DEFAULT NULL,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `icon` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'bi-circle-fill',
+  `sort_order` int NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `timelines`
+--
+
+INSERT INTO `timelines` (`id`, `year`, `title`, `description`, `icon`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, '2007', 'Company', 'Established', 'bi-rocket-takeoff', 1, '2026-06-20 06:54:50', '2026-06-20 06:54:50'),
+(2, '2010', 'Expanded Operations', 'Across North India', 'bi-buildings', 2, '2026-06-20 06:54:50', '2026-06-20 06:54:50'),
+(3, '2013', '500+ Clients', 'Onboarded', 'bi-people-fill', 3, '2026-06-20 06:54:50', '2026-06-20 06:54:50'),
+(4, '2016', 'Entered', 'Middle East Market', 'bi-globe2', 4, '2026-06-20 06:54:50', '2026-06-20 06:54:50'),
+(5, '2019', '10,000+', 'Workforce Strength', 'bi-person-badge', 5, '2026-06-20 06:54:50', '2026-06-20 06:54:50'),
+(6, '2022', 'ISO Certified', 'Processes', 'bi-patch-check', 6, '2026-06-20 06:54:50', '2026-06-20 06:54:50'),
+(7, '2024', 'Continuing Growth,', 'Delivering Excellence.', 'bi-graph-up-arrow', 7, '2026-06-20 06:54:50', '2026-06-20 06:54:50');
 
 -- --------------------------------------------------------
 
@@ -1237,7 +1373,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -1245,7 +1381,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `profile_image`, `location`, `description`, `cover_image`, `role_id`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Shafi MC', 'iamshafimc@gmail.com', NULL, '$2y$12$i0ogXuIXO2FTrpyNZHj4P.H2.6TM1hBK65cabPD8E2BqUw7S1IO6.', 'uploads/profiles/1763338952_profile_user.jpg', 'Trivandrum', NULL, NULL, 1, 'T8Lhmfyw9F7IqlOhT7Pvk5ZZM3Y5Wc2zyckAZV0dR5Y3O9eCF4lgBpRAdtiL', NULL, '2025-11-20 22:00:57'),
-(2, 'Admin Enved', 'envedonline@gmail.com', NULL, '$2y$12$GOfEwSR1zKYh.tdp50IFMuSNh2T4/qV3o.Jd5vwEgw6JcVyZbnzW6', NULL, NULL, NULL, NULL, 1, NULL, '2025-11-21 20:50:20', '2025-11-21 20:50:20');
+(2, 'Admin Enved', 'envedonline@gmail.com', NULL, '$2y$12$GOfEwSR1zKYh.tdp50IFMuSNh2T4/qV3o.Jd5vwEgw6JcVyZbnzW6', NULL, NULL, NULL, NULL, 1, NULL, '2025-11-21 20:50:20', '2025-11-21 20:50:20'),
+(3, 'Admin', 'admin@example.com', '2026-06-20 06:48:31', '$2y$12$GOPAPATgY.KoNrOSsj.T1OGy0RMqXXLqnd6/BR29J/RKuuUEAYIwe', NULL, NULL, NULL, NULL, 1, 'bEu5Kg6O49', '2026-06-20 06:48:31', '2026-06-20 06:48:31'),
+(4, 'Normal User', 'user@example.com', '2026-06-20 06:48:31', '$2y$12$FgYFR8Xd9RjYvT2L.2ZCh./AheW8rbAhNMUDOluZ5Ko7pBtOnrBDi', NULL, NULL, NULL, NULL, 2, '0mze2LAqdk', '2026-06-20 06:48:31', '2026-06-20 06:48:31');
 
 -- --------------------------------------------------------
 
