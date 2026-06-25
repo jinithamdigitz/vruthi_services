@@ -5,8 +5,8 @@
 @section('content')
 
     <!-- ============================================================
-                     SECTION 1: ABOUT HERO BANNER (STATIC)
-                     ============================================================ -->
+            SECTION 1: ABOUT HERO BANNER (STATIC)
+    ============================================================ -->
     <section class="about-hero" id="about-hero">
         <div class="about-hero__bg-overlay"></div>
         <div class="about-hero__wave-shape"></div>
@@ -23,22 +23,20 @@
                         <span>About Us</span>
                     </nav>
 
-                    <h1 class="about-hero__title">About Us</h1>
+                    
 
                     <div class="about-hero__tagline">
-                        Delivering Excellence. Every Day.
+                        {{ $aboutBanner->title }}
                     </div>
 
                     <p class="about-hero__desc">
-                        VRUDHI OUTSOURCING SERVICES PVT. LTD. is a leading service provider
-                        in the Facility Management industry with an outstanding reputation for
-                        quality and integrity throughout India &amp; part of Middle East.
+                        {{ $aboutBanner->body }}
                     </p>
                 </div>
 
                 <!-- Right: Building Image -->
                 <div class="about-hero__right reveal reveal-right">
-                    <img src="assets/images/about-image.png" alt="Vrudhi Corporate Office Building"
+                    <img src="{{ asset($aboutBanner->image) }}" alt="Vrudhi Corporate Office Building"
                         class="about-hero__building-img" />
                 </div>
 
@@ -87,13 +85,10 @@
 
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
     <!-- /about-values -->
-
-
     <!-- ============================================================
                      SECTION 4: MISSION & VISION
                      ============================================================ -->

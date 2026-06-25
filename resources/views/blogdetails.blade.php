@@ -32,27 +32,20 @@ Read our latest insights and expert opinions
                     <span>{{ $blog->title }}</span>
                 </nav>
 
-                <h1 class="blogs-hero__title">
-                    {{ $blog->title }}
-                </h1>
+                <p class="blogs-hero__tagline">
+                    {{ $blogDetailBanner->title }}
+                </p>
 
-                
-
-
-
+                <p class="blogs-hero__desc">
+                    {{ $blogDetailBanner->body }}
+                </p>
             </div>
 
             <div class="blogs-hero__right reveal reveal-right">
 
-                @if($blog->featured_image)
-                    <img src="{{ asset($blog->featured_image) }}"
-                         alt="{{ $blog->title }}"
-                         class="blogs-hero__img">
-                @else
-                    <img src="{{ asset('img/blogs/blogs-hero.png') }}"
+                    <img src="{{ $blogDetailBanner->image }}"
                          alt="Blog Details"
                          class="blogs-hero__img">
-                @endif
 
             </div>
 

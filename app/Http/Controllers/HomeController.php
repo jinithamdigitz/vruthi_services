@@ -729,10 +729,23 @@ class HomeController extends Controller
             $popularBlogs = collect();
         }
 
+        $category = PostCategory::where('slug', 'blog-banner')->first();
+        $blogBanner = [];
+        if ($category) {
+            $blogBanner = Post::where('post_category_id', $category->id)->first();
+        }
+
+        $category = PostCategory::where('slug', 'blog-title')->first();
+        $blogTitle = [];
+        if ($category) {
+            $blogTitle = Post::where('post_category_id', $category->id)->first();
+        }
         return view('blogs', [
             'latestBlog' => $latestBlog,
             'blogs' => $blogs,
             'popularBlogs' => $popularBlogs,
+            'blogBanner' => $blogBanner,
+            'blogTitle' => $blogTitle,
         ]);
     }
 
@@ -751,10 +764,17 @@ class HomeController extends Controller
             $sdcta = \App\Models\Post::where('post_category_id', $category->id)->first();
         }
 
+        $category = PostCategory::where('slug', 'blog-detail-banner')->first();
+        $blogDetailBanner = [];
+        if ($category) {
+            $blogDetailBanner = Post::where('post_category_id', $category->id)->first();
+        }
+
         return view('blogdetails', [
             'blog' => $blog,
             'latestBlogs' => $latestBlogs,
             'sdcta' => $sdcta,
+            'blogDetailBanner' => $blogDetailBanner,
         ]);
     }
 

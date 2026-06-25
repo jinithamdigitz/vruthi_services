@@ -47,18 +47,15 @@ class SeoParameterController extends Controller
     public function edit($id)
     {
         $seoParameter = SeoParameter::findOrFail($id);
-        $routes = [
-            '/' => 'Home',
-            '/about' => 'About Us',
-            '/services' => 'Services',
-            '/portfolio' => 'Portfolio',
-            '/blogs' => 'Blogs',
-            '/contact' => 'Contact',
-            '/programs' => 'Programs',
-            '/events' => 'Events',
-            '/projects' => 'Projects',
-            '/facilities' => 'Facilities',
-        ];
+        
+            $routes = [
+    '/' => 'Home',
+    '/about-us' => 'About Us',
+    '/services' => 'Services',
+    '/portfolio' => 'Projects',
+    '/blogs' => 'Blogs',
+    '/contact-us' => 'Contact Us',
+];
 
         return view('admin.seo.edit', compact('seoParameter', 'routes'));
     }

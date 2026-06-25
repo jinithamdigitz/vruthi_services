@@ -26,18 +26,13 @@
                     <span>Portfolio</span>
                 </nav>
 
-                <h1 class="portfolio-hero__title">
-                    Our <span class="accent">Portfolio</span>
-                </h1>
 
                 <p class="portfolio-hero__tagline">
-                    Service Showcase
+                    {{ $portfolioBanner->title }}
                 </p>
 
                 <p class="portfolio-hero__desc">
-                    Explore our completed projects across various service categories. 
-                    From housekeeping to facility management, see how we deliver 
-                    excellence and transform spaces.
+                    {{ $portfolioBanner->body }}
                 </p>
 
                 <div class="portfolio-hero__rule"></div>
@@ -46,7 +41,7 @@
 
             <div class="portfolio-hero__right reveal reveal-right">
 
-                <img src="{{ asset('img/portfolio/portfolio-hero.png') }}"
+                <img src="{{ $portfolioBanner->image }}"
                      alt="Portfolio"
                      class="portfolio-hero__img">
 

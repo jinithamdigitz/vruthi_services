@@ -69,11 +69,11 @@
                         <span>{{ $service->title }}</span>
                     </nav>
 
-                    <h1 class="sd-hero__title">{{ $service->title }}</h1>
+                  
 
-                    <p class="sd-hero__tagline">{{ $tagline }}</p>
+                    <p class="sd-hero__tagline">{{ $servicedetailbanner->title }}</p>
 
-                    <p class="sd-hero__desc">{{ $description }}</p>
+                    <p class="sd-hero__desc">{{ $servicedetailbanner->body }}</p>
 
                     <div class="sd-hero__actions">
                         <a href="#enquiry" class="btn-primary-brand">
@@ -84,10 +84,8 @@
 
                 <div class="sd-hero__right reveal reveal-right">
                     @if ($service->image)
-                        <img src="{{ asset($service->image) }}" alt="{{ $service->title }}" class="sd-hero__img">
-                    @else
-                        <img src="{{ asset('img/services/placeholder.jpg') }}" alt="{{ $service->title }}"
-                            class="sd-hero__img">
+                        <img src="{{ asset($servicedetailbanner->image) }}" alt="{{ $servicedetailbanner->title }}" class="sd-hero__img">
+                   
                     @endif
                 </div>
 
@@ -115,13 +113,6 @@
                                 @else
                                     {!! nl2br(e($service->body)) !!}
                                 @endif
-                            </div>
-                        @else
-                            <div class="sd-overview__body">
-                                <p>We provide professional housekeeping and maintenance services tailored to meet the unique
-                                    needs of your facility. From routine cleaning to preventive maintenance, our trained
-                                    staff and advanced tools help maintain the highest standards of cleanliness and hygiene.
-                                </p>
                             </div>
                         @endif
 
@@ -174,26 +165,33 @@
                             <h3>Request a Quote</h3>
                             <p>Fill in the form and our team will get back to you.</p>
 
-                            <form action="#" method="POST">
+                            <form action="{{ route('contact.submit') }}" method="POST">
                                 @csrf
-                                <input type="text" name="name" placeholder="Full Name *" required>
-                                <input type="email" name="email" placeholder="Email Address *" required>
-                                <input type="tel" name="phone" placeholder="Phone Number *" required>
+                                <input type="text" name="name" placeholder="Full Name *" required
+                                    value="{{ old('name') }}">
+                                <input type="email" name="email" placeholder="Email Address *" required
+                                    value="{{ old('email') }}">
+                                <input type="tel" name="phone" placeholder="Phone Number *" required
+                                    value="{{ old('phone') }}">
 
-                                <select name="service">
+                                <select name="project_type">
                                     <option value="" disabled selected>Select Service *</option>
                                     @if (isset($service->title))
-                                        <option value="{{ $service->slug ?? $service->title }}" selected>
-                                            {{ $service->title }}</option>
+                                        <option value="{{ $service->title }}" selected>
+                                            {{ $service->title }}
+                                        </option>
                                     @endif
                                     @if (isset($otherServices) && $otherServices->count() > 0)
                                         @foreach ($otherServices as $svc)
-                                            <option value="{{ $svc->slug }}">{{ $svc->title }}</option>
+                                            <option value="{{ $svc->title }}"
+                                                {{ old('project_type') == $svc->title ? 'selected' : '' }}>
+                                                {{ $svc->title }}
+                                            </option>
                                         @endforeach
                                     @endif
                                 </select>
 
-                                <textarea rows="4" name="message" placeholder="Your Message *" required></textarea>
+                                <textarea rows="4" name="message" placeholder="Additional Requirements (if any)" required>{{ old('message') }}</textarea>
 
                                 <div class="sd-form__captcha">
                                     <div class="g-recaptcha"
@@ -209,6 +207,18 @@
                                 <button type="submit" class="btn-primary-brand w-100 mt-2">
                                     SUBMIT ENQUIRY <i class="bi bi-arrow-right"></i>
                                 </button>
+                                @if(session('success'))
+                            <div class="contact-form__feedback contact-form__feedback--success" style="display:flex;">
+                                <i class="bi bi-check-circle"></i>
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if(session('error'))
+                            <div class="contact-form__feedback contact-form__feedback--error" style="display:flex;">
+                                <i class="bi bi-exclamation-circle"></i>
+                                {{ session('error') }}
+                            </div>
+                        @endif
                             </form>
                         </div>
 

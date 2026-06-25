@@ -30,25 +30,23 @@
                         <span>Services</span>
                     </nav>
 
-                    <h1 class="services-hero__title">Our Services</h1>
-                    <p class="services-hero__tagline">Comprehensive Facility Management Solutions</p>
+
+                    <p class="services-hero__tagline">{{ $serviceBanner->title }}</p>
                     <p class="services-hero__desc">
-                        We deliver integrated and innovative services that help organisations focus on their
-                        core business while we manage their facilities efficiently and effectively.
+                        {{ $serviceBanner->body }}
                     </p>
                     <div class="services-hero__rule"></div>
                 </div>
 
                 {{-- Right: hero image --}}
                 <div class="services-hero__right reveal reveal-right">
-                    <img src="{{ asset('img/services/services-hero.png') }}" alt="Vrudhi facility management team"
+                    <img src="{{ $serviceBanner->image }}" alt="Vrudhi facility management team"
                         class="services-hero__img" width="680" height="420">
                 </div>
 
             </div>
         </div>
     </section>
-
 
     {{-- ============================================================
      SECTION 2 : SERVICE PORTFOLIO (Dynamic from $services)

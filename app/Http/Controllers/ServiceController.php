@@ -584,6 +584,12 @@ class ServiceController extends Controller
             $testimonials = \App\Models\Post::where('post_category_id', $category->id)->get();
         }
 
+        $category = \App\Models\PostCategory::where('slug', 'service-detail-banner')->first();
+        $servicedetailbanner = collect();
+        if ($category) {
+            $servicedetailbanner = \App\Models\Post::where('post_category_id', $category->id)->first();
+        }
+
         return view('servicedetails', compact(
             'service',
             'whyChooseUsCards',
@@ -595,6 +601,7 @@ class ServiceController extends Controller
             'cta',
             'sdcta',
             'testimonials',
+            'servicedetailbanner',
         ));
     }
 

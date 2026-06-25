@@ -2,11 +2,48 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-        content="Vrudhi Outsourcing Services Pvt. Ltd. — A leading facility management company in India & Middle East. Housekeeping, Security, HR Outsourcing, Pest Control and more." />
-    <title>Vrudhi Outsourcing Services Pvt. Ltd.</title>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+    {{ $seo?->meta_title ?? 'Vrudhi Outsourcing Services Pvt. Ltd.' }}
+</title>
+
+<meta name="description"
+      content="{{ $seo?->meta_description ?? 'Vrudhi Outsourcing Services Pvt. Ltd.' }}">
+
+<meta name="keywords"
+      content="{{ $seo?->title ?? '' }}">
+
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="{{ url()->current() }}">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title"
+      content="{{ $seo?->meta_title ?? 'Vrudhi Outsourcing Services Pvt. Ltd.' }}">
+<meta property="og:description"
+      content="{{ $seo?->meta_description ?? '' }}">
+<meta property="og:url"
+      content="{{ url()->current() }}">
+
+@if(!empty($seo?->og_image))
+<meta property="og:image"
+      content="{{ asset('storage/'.$seo->og_image) }}">
+@endif
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title"
+      content="{{ $seo?->meta_title  }}">
+<meta name="twitter:description"
+      content="{{ $seo?->meta_description }}">
+
+@if(!empty($seo?->og_image))
+<meta name="twitter:image"
+      content="{{ asset('storage/'.$seo->og_image) }}">
+@endif
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -18,6 +55,12 @@
         rel="stylesheet" />
     <!-- Main CSS (External) -->
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+
+    @if (!empty($customCss?->content_css))
+        <style>
+            {!! $customCss->content_css !!}
+        </style>
+    @endif
 </head>
 
 <body>
@@ -73,8 +116,8 @@
     <nav class="navbar navbar-main navbar-expand-lg" id="mainNav">
         <div class="container">
             <!-- Logo -->
-            <a class="navbar-brand navbar-logo" href="index.html">
-                <img src="{{ asset($logo->image) }}" alt="Vrudhi Outsourcing Services Pvt. Ltd." />
+            <a class="navbar-brand navbar-logo" href="{{ route('home.index') }}">
+                <img src="{{ asset($logo->image) }}" alt="Vrudhi Outsourcing Services Pvt. Ltd.">
             </a>
 
             <!-- Mobile Toggle -->
@@ -169,11 +212,11 @@
                 <!-- Company Info -->
                 <div class="col-lg-4 col-md-6">
 
-                    <div class="site-footer__logo">
+                    <a href="{{ route('home.index') }}" class="site-footer__logo">
                         @if ($logo)
                             <img src="{{ asset($logo->image) }}" alt="Logo">
                         @endif
-                    </div>
+                    </a>
 
                     <div class="site-footer__desc">
                         {!! $footerContent->body !!}
@@ -502,6 +545,13 @@
             }
         })();
     </script>
+
+    @if (!empty($customJs?->content_script))
+        <script>
+            {!! $customJs->content_script !!}
+        </script>
+    @endif
+
 </body>
 
 </html>

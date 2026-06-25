@@ -5,10 +5,6 @@
     Blogs
 @endsection
 
-@section('hero_text')
-    Latest solar trends and energy knowledge
-@endsection
-
 <section class="blogs-hero">
 
     <div class="blogs-hero__bg-overlay"></div>
@@ -26,18 +22,12 @@
                     <span>Blogs</span>
                 </nav>
 
-                <h1 class="blogs-hero__title">
-                    Insights & Industry Updates
-                </h1>
-
                 <p class="blogs-hero__tagline">
-                    Knowledge Hub
+                    {{ $blogBanner->title }}
                 </p>
 
                 <p class="blogs-hero__desc">
-                    Explore expert insights, industry trends, workforce strategies,
-                    outsourcing solutions and facility management updates from
-                    Vrudhi Outsourcing.
+                    {{ $blogBanner->body }}
                 </p>
 
                 <div class="blogs-hero__rule"></div>
@@ -46,7 +36,7 @@
 
             <div class="blogs-hero__right reveal reveal-right">
 
-                <img src="{{ asset('img/blogs/blogs-hero.png') }}"
+                <img src="{{ $blogBanner->image }}"
                      alt="Blogs"
                      class="blogs-hero__img">
 
@@ -58,15 +48,14 @@
 
 </section>
 
-
 <section class="blogs-page">
     <div class="container">
 
         {{-- Heading --}}
         <div class="row justify-content-center text-center mb-5">
             <div class="col-lg-8">
-                <span class="section-label">Latest Insights</span>
-                <h2 class="blogs-page__title">Knowledge Hub & Industry Updates</h2>
+                <span class="section-label">{{ $blogTitle->title }}</span>
+                <h2 class="blogs-page__title">{{ $blogTitle->body}}</h2>
                 <div class="section-divider mx-auto"></div>
             </div>
         </div>

@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Service;
+use App\Models\CustomCss;
+use App\Models\CustomJavascript;
+use App\Models\SeoParameter;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -126,15 +130,25 @@ class AppServiceProvider extends ServiceProvider
         });
         // Global CTA Section
        // Global CTA Section
+        View::composer('*', function ($view) {
+            $category = PostCategory::where('slug', 'cta')->first();
+            $cta = null;
+
+            if ($category) {
+                $cta = Post::where('post_category_id', $category->id)->first();
+            }
+
+            $view->with('cta', $cta);
+        });
+
+   
 View::composer('*', function ($view) {
-    $category = PostCategory::where('slug', 'cta')->first();
-    $cta = null;
 
-    if ($category) {
-        $cta = Post::where('post_category_id', $category->id)->first();
-    }
+    $currentPath = request()->getPathInfo();
 
-    $view->with('cta', $cta);
+    $seo = SeoParameter::where('route_name', $currentPath)->first();
+
+    $view->with('seo', $seo);
 });
     }
 }
